@@ -305,10 +305,10 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 			  </tr>              
 			  <tr>
 			    <td>Repository</td>
-				<td>linked data structure of Named Revisions. 
-				This can be viewed as a Graph Store in the sense of SPARQL UPDATE, 
-				where the "current Graph Store content" is the Dataset of the (Named) Revision that is "valid" at the current time.
-				Each node of the structure has one connector that points to the previous node of the list, except for the initial node.
+				<td>sequence of Named RDF Datasets, together with a default RDF Dataset. 
+				@@@ Put this into an ed-note: An iterator over a Repository can be viewed as an 
+				annotated Graph Store (Graph Store is used here in the sense of SPARQL UPDATE), 
+				where the "current Graph Store content" is the Named Dataset that the iterator points to at the current time.
 				</td>
 			  </tr>              
 			  <tr>
@@ -317,13 +317,14 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				</td>
 			  </tr>
 			  <tr>
-			    <td>Revision</td>
-				<td>ordered pair of [creation time (Unix), RDF Dataset] 
+			    <td>revision (of a Repository)</td>
+				<td>relationship between the Repository and each of the elements in its sequence of Named RDF Datsets. 
 				</td>
 			  </tr>              
 			  <tr>
-			    <td>Named Revision</td>
-				<td>ordered pair [n, R] of a string s that is the Revision identifier, and Revision R.
+			    <td>Named RDF Dataset</td>
+				<td>ordered pair [n, R] of a @@@string s: this breaks the pattern of using IRIs for names### 
+				that is the name of the RDF Dataset, and RDF Dataset D.
 				</td>
 			  </tr>
 			  <tr>
@@ -334,18 +335,30 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				</td>
 			  </tr>
 			  <tr>
-			    <td>Multirevision</td>
-				<td>ordered pair [t, B] of creation time (Unix) t, and RDF Databag B 
-				</td>
-			  </tr>              
-			  <tr>
-			    <td>Named Multirevision</td>
-				<td>ordered pair [n, M] of a string s that is the Multirevision identifier, and Multirevision M.
+			    <td>Named RDF Databag</td>
+				<td>ordered pair [n, B] of a @@@string s: this breaks the pattern of using IRIs for names### 
+				that is the name of the RDF Databag, and RDF Databag B.
 				</td>
 			  </tr>
 		      <tr>
 			    <td>Multirepository</td>
-				<td>linked list of Named Multirevisions. 
+				<td>like a Repository, but with RDF Databags instead of RDF Datasets.
+				@@@ (move to a note) Explanation: The purpose of the additional types which incorporate cardinality is to 
+				accommodate a representation of an arbitrary RDF Stream with a "cumulative" strategy 
+				(just making this name up on the spot). This strategy is what I am using in the current experimental repository, 
+				 where each new timestamped graph of the stream is inserted into the repository that holds its representation, 
+				 and never deleted. 
+				 The cardinality is needed for the case when the same triple, or quad, appears in more than one element of 
+				 the stream, which is allowed in the most general RDF stream. This strategy was the best match to the 
+				 visibility mapping where the default is persistence (if no value is given for run length, then it is 
+				 assumed to be present from then on, and never deleted).
+				 
+				 An alternative strategy would be to use a  "noncumulataive" strategy, where the repository is "cleared" 
+				 (without deleting the history) when a new stream element arrives, and the new stream element becomes the 
+				 repository content. 
+				 The visibility map that is the best match to this case is where the default is a runlength of 1. 
+				 This strategy would not need the additional types with cardinality, making the abstract data model more parsimonious.
+				@@@
 				</td>
 			  </tr>              
 			  <tr>
@@ -363,7 +376,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
       </section>
 	 </section>
 
-<p class="ednote">Ignore after this point- the maerial below is just copied from the RDF stream document for convenient reference.</p> 
+<p class="ednote">Ignore after this point- the material below is just copied from the RDF stream document for convenient reference.</p> 
 
 	  <section id="def-timestamp-predicate">
           <h4>Timestamp Predicates</h4>
