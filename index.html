@@ -272,12 +272,39 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
       <section id="new-datatypes">
         <h3>New Datatypes</h3>
         <p>The following new datatypes are defined in order to support the signature definitions of new algebra operators:</p>
+		<section id="def-named-dataset">
+          <h4>Named RDF Dataset</h4>
+		  <p>A <dfn data-lt="Named RDF Dataset|Named RDF Datasets">Named RDF Dataset</dfn> is an ordered pair [n, D] of an IRI n 
+		  that is the </a>RDF Dataset</a> name, and <a>RDF Dataset</a> D.
+		  </p>	
+		</section>
+		<section id="def-repository">
+          <h4>Repository</h4>
+		  <p>A <dfn data-lt="Repository|Repositories">Repository</dfn> is a 
+		  structure composed a distinguished RDF Dataset, called the default Dataset,
+		  and a sequence (possibly infinite or bi-infinite) of Named RDF Datasets.</a>.
+		  </p>	
+		  <p class="ednote">An iterator over a Repository can be viewed as an 
+				annotated Graph Store (Graph Store is used here in the sense of SPARQL UPDATE), 
+				where the "current Graph Store content" is the Named Dataset to which the iterator points at the current time.
+		  </p>
+		  <p class="ednote">The intended semantics of a <a>Repository</a> is a structure of annotated 
+		  triples and quads on a fixed 
+		  <a>RDF Surface (sensu Pat Hayes)</a>.
+		  </p>
+		</section>
+		<section id="def-named-repository">
+          <h4>Named Repository</h4>
+		  <p>A <dfn data-lt="Named Repository|Named Repositories">Named Repository</dfn> is an ordered pair [n, R] of an IRI n 
+		  that is the <a>Repository</a> name, and <a>Repository</a> R.
+		  </p>	
+		</section>
 		<section id="def-store">
           <h4>Store</h4>
 		  <p>A <dfn data-lt="Store|Stores">Store</dfn> is a structure compsed of a distinguished Repository and zero or more of <a>Named Repositories</a> and R is a repository
 		  called the default <a>Repository</a> of the Store.
 		  </p>
-		  <p class="ednote">The intended semantics of a <a>Store</a> is a structure of 
+		  <p class="ednote">The intended semantics of a <a>Store</a> is a structure of annotated
 		  triples and quads on a fixed 
 		  <a>RDF Surface (sensu Pat Hayes)</a>.
 		  </p>
@@ -289,12 +316,14 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		</section>
 		<section id="def-named-store">
           <h4>Named Store</h4>
-		  <p>A <dfn data-lt="Named Store|Named Stores">Named Store</dfn> is a ordered pair [n, S] of an IRI n that is the Store name, and Store S.</a>.
+		  <p>A <dfn data-lt="Named Store|Named Stores">Named Store</dfn> is an ordered pair [n, S] of an IRI n that is the 
+		  <a>Store</a> name, and <a>Store</a> S.
 		  </p>	
 		  <p class="ednote">Do we need this type?
 		  </p>
 		</section>
-		<section id="def-term">
+		<!--
+		<section id="def-term-segment">
           <h4>Term Segment</h4>
 		  <p>The <dfn data-lt="Term Segment|Term Segments">Term Segment</dfn> (of a Store) is the mutable (write-only) set of 
 		       the RDF Terms known at a given time to appear 
@@ -307,7 +336,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  <p class="ednote">Do we need this term?it appears to be connected with the iterator over the history of a Repository,
 		  which does not appear to be relevant for the abstract data model.
 		</p>		  
-		</section>
+		</section>-->
 		<!--
 		<section id="def-term">
           <h4>The Term</h4>
@@ -316,10 +345,16 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  <p class="ednote">The intended semantics of a <a>the term</a> is (semantics)
 		  </p>
 		</section>
-		-->
+		<section id="def-property">
+          <h4>the property</h4>
+		  <p>A <dfn data-lt="the property|the properties">Store</dfn> (of a domain type) is a (range type) where (requirements)</a>.
+		  </p>	
+		  <p class="ednote">This property is a subproperty of @@@
+		  </p>
+		</section>		-->
 		<div style="text-align: left;">
 			  <table class="thinborder" style="margin-left: auto; margin-right: auto;">
-            <caption id="namespace-table"><a href="#namespace-table">Table 2</a>: New datatypes defined in this specification</caption> <!-- Table 1-->
+            <caption id="namespace-table"><a href="#namespace-table">Table 2</a>: New datatypes considered for this specification but probably not needed</caption> <!-- Table 1-->
             <tbody>
 			  <tr>
 			    <td><a><b>Name</b></a></td>
@@ -339,7 +374,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 			    <td>Named Store</td>
 				<td>ordered pair [n, S] of an IRI n that is the Store name, and Store S.
 				</td>
-			  </tr>              
+			  </tr>   -->           
 			  <tr>
 			    <td>Term Segment (of a Store)</td>
 				<td>mutable (write-only) set of the RDF Terms known at a given time to appear 
@@ -347,7 +382,8 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				(i.e includes terms that might not currently appear in any statement in the current Revision of any 
 				Repository currently in the Store)
 				</td>
-			  </tr> -->              
+			  </tr>      
+<!--			  
 			  <tr>
 			    <td>Repository</td>
 				<td>sequence of Named RDF Datasets, together with a default RDF Dataset. 
@@ -360,18 +396,16 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 			    <td>Named Repository</td>
 				<td>ordered pair [n, R] of an IRI n that is the Repository name, and Repository R.
 				</td>
-			  </tr>
+			  </tr>-->
 			  <tr>
-			    <td>revision (of a Repository)</td>
-				<td>relationship between the Repository and each of the elements in its sequence of Named RDF Datsets. 
+			    <td>version (of a Repository)</td>
+				<td>relationship between the Repository and each of the elements in its sequence of Named RDF Datsets.
+                    A subproperty of prov:specializationOf. The "versionOf" relationship can be inferred from a prov:specializationOf, 
+					together with participation in a
+                    prov:wasRevisionOf relationship with another specialization of the same Repository.
+                    Therefore it is not necessary to mint this subproperty. 					
 				</td>
 			  </tr>              
-			  <tr>
-			    <td>Named RDF Dataset</td>
-				<td>ordered pair [n, R] of a @@@string s: this breaks the pattern of using IRIs for names### 
-				that is the name of the RDF Dataset, and RDF Dataset D.
-				</td>
-			  </tr>
 			  <tr>
 			    <td>RDF Databag</td>
 				<td>structure consisting of an RDF Dataset D and a cardinality mapping
