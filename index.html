@@ -271,9 +271,21 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
       </section>
       <section id="new-datatypes">
         <h3>New Datatypes</h3>
-        <p>The following datatypes are defined in order to support the signature definitions of new algebra operators:</p>
-        <div style="text-align: left;">
-          <table class="thinborder" style="margin-left: auto; margin-right: auto;">
+        <p>The following new datatypes are defined in order to support the signature definitions of new algebra operators:</p>
+		<section id="def-store">
+          <h4>Store</h4>
+		  <p>A <dfn data-lt="Store|Stores">Store</dfn> is a set of <a>Named Repositories</a> and a default <a>Repository</a>.
+		  </p>
+		  <p class="ednote">The intended semantics of a <a>Store</a> is a structure of 
+		  triples and quads on a fixed 
+		  <a>RDF Surface (sensu Pat Hayes)</a>.
+				This <a>Surface</a> contains all the <a>RDF Terms</a> that (ever) appear in the <a>Store</a>'s <a>Term Segment</a>. 
+				Every <a>Store</a> has an open world assumption in that at any point in time we may not know all the 
+				<a>Repositories</a> in it or all the <a>RDF Terms</a> in it.
+		  </p>
+		</section>
+			<div style="text-align: left;">
+			  <table class="thinborder" style="margin-left: auto; margin-right: auto;">
             <caption id="namespace-table"><a href="#namespace-table">Table 2</a>: New datatypes defined in this specification</caption> <!-- Table 1-->
             <tbody>
 			  <tr>
@@ -281,7 +293,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				<td><b>Definition</b>
 				</td>
 			  </tr>
-			  <tr>
+			  <!-- <tr>
 			    <td>Store</td>
 				<td>structure on a fixed RDF Surface (sensu Pat Hayes).
 				This Surface contains all the RDF Terms that (ever) appear in the Term Segment. 
@@ -289,7 +301,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				Every Store has an open world assumption in that at any point in time we may not know all the 
 				Repositories in it and all the Terms in it.
 				</td>
-			  </tr>              
+			  </tr> -->              
 			  <tr>
 			    <td>Named Store</td>
 				<td>ordered pair [n, S] of an IRI n that is the Store name, and Store S.
