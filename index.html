@@ -274,17 +274,50 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
         <p>The following new datatypes are defined in order to support the signature definitions of new algebra operators:</p>
 		<section id="def-store">
           <h4>Store</h4>
-		  <p>A <dfn data-lt="Store|Stores">Store</dfn> is a set of <a>Named Repositories</a> and a default <a>Repository</a>.
+		  <p>A <dfn data-lt="Store|Stores">Store</dfn> is a structure compsed of a distinguished Repository and zero or more of <a>Named Repositories</a> and R is a repository
+		  called the default <a>Repository</a> of the Store.
 		  </p>
 		  <p class="ednote">The intended semantics of a <a>Store</a> is a structure of 
 		  triples and quads on a fixed 
 		  <a>RDF Surface (sensu Pat Hayes)</a>.
+		  </p>
+		  <p class="ednote">
 				This <a>Surface</a> contains all the <a>RDF Terms</a> that (ever) appear in the <a>Store</a>'s <a>Term Segment</a>. 
 				Every <a>Store</a> has an open world assumption in that at any point in time we may not know all the 
 				<a>Repositories</a> in it or all the <a>RDF Terms</a> in it.
 		  </p>
 		</section>
-			<div style="text-align: left;">
+		<section id="def-named-store">
+          <h4>Named Store</h4>
+		  <p>A <dfn data-lt="Named Store|Named Stores">Named Store</dfn> is a ordered pair [n, S] of an IRI n that is the Store name, and Store S.</a>.
+		  </p>	
+		  <p class="ednote">Do we need this type?
+		  </p>
+		</section>
+		<section id="def-term">
+          <h4>Term Segment</h4>
+		  <p>The <dfn data-lt="Term Segment|Term Segments">Term Segment</dfn> (of a Store) is the mutable (write-only) set of 
+		       the RDF Terms known at a given time to appear 
+				or have appeared in the Named Repositories of the Store 
+				</a>.
+		  </p>	
+		  <p class="ednote">The Term Segment includes terms that might not currently appear in any statement in the current Revision of any 
+				Repository in the Store.
+		  </p>
+		  <p class="ednote">Do we need this term?it appears to be connected with the iterator over the history of a Repository,
+		  which does not appear to be relevant for the abstract data model.
+		</p>		  
+		</section>
+		<!--
+		<section id="def-term">
+          <h4>The Term</h4>
+		  <p>A <dfn data-lt="the term|the terms">Store</dfn> is a (supertype) where (specialization)</a>.
+		  </p>	
+		  <p class="ednote">The intended semantics of a <a>the term</a> is (semantics)
+		  </p>
+		</section>
+		-->
+		<div style="text-align: left;">
 			  <table class="thinborder" style="margin-left: auto; margin-right: auto;">
             <caption id="namespace-table"><a href="#namespace-table">Table 2</a>: New datatypes defined in this specification</caption> <!-- Table 1-->
             <tbody>
@@ -301,7 +334,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				Every Store has an open world assumption in that at any point in time we may not know all the 
 				Repositories in it and all the Terms in it.
 				</td>
-			  </tr> -->              
+			  </tr>              
 			  <tr>
 			    <td>Named Store</td>
 				<td>ordered pair [n, S] of an IRI n that is the Store name, and Store S.
@@ -314,7 +347,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				(i.e includes terms that might not currently appear in any statement in the current Revision of any 
 				Repository currently in the Store)
 				</td>
-			  </tr>              
+			  </tr> -->              
 			  <tr>
 			    <td>Repository</td>
 				<td>sequence of Named RDF Datasets, together with a default RDF Dataset. 
