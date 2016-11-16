@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <title>Extension of the SPARQL Abstract Data Model for RDF Stream Processing</title>
@@ -192,7 +192,7 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 		minimize ambiguity of semantics.
 		Constraints are:
 		<ol>
-		  <li>The Sample aggregation operator is not allowed either explicitly or implicitly.
+		  <li>The Sample aggregation operator is not allowed either explicitly or implicitly.</li>
 		</ol>
 	  </section>
 	 </section>
@@ -247,12 +247,23 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				</td>
 			  </tr>
 			  <tr>
+			    <td>expression</td>
+				<td><b>Reference</b></td> 
+				<td><b>Definition</b>
+				</td>
+			  </tr>
+			  <tr>
 			    <td>Graph Pattern</td>
 				<td><b>Reference</b></td> 
 				<td><b>Definition</b>
 				</td>
 			  </tr>              
-            </tbody></table>
+			  <tr>
+			    <td>Query</td>
+				<td><b>Reference</b></td> 
+				<td><b>Definition</b>
+				</td>
+			  </tr>            </tbody></table>
         </div>
 		
 		<p class="ednote">
@@ -275,14 +286,14 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		<section id="def-named-dataset">
           <h4>Named RDF Dataset</h4>
 		  <p>A <dfn data-lt="Named RDF Dataset|Named RDF Datasets">Named RDF Dataset</dfn> is an ordered pair [n, D] of an IRI n 
-		  that is the </a>RDF Dataset</a> name, and <a>RDF Dataset</a> D.
+		  that is the <a>RDF Dataset</a> name, and <a>RDF Dataset</a> D.
 		  </p>	
 		</section>
 		<section id="def-repository">
           <h4>Repository</h4>
 		  <p>A <dfn data-lt="Repository|Repositories">Repository</dfn> is a 
 		  structure composed a distinguished RDF Dataset, called the default Dataset,
-		  and a sequence (possibly infinite or bi-infinite) of Named RDF Datasets.</a>.
+		  and a sequence (possibly infinite or bi-infinite) of Named RDF Datasets.
 		  </p>	
 		  <p class="ednote">An iterator over a Repository can be viewed as an 
 				annotated Graph Store (Graph Store is used here in the sense of SPARQL UPDATE), 
@@ -301,7 +312,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		</section>
 		<section id="def-store">
           <h4>Store</h4>
-		  <p>A <dfn data-lt="Store|Stores">Store</dfn> is a structure compsed of a distinguished Repository and zero or more of <a>Named Repositories</a> and R is a repository
+		  <p>A <dfn data-lt="Store|Stores">Store</dfn> is a structure composed of a distinguished Repository and zero or more of <a>Named Repositories</a> and R is a repository
 		  called the default <a>Repository</a> of the Store.
 		  </p>
 		  <p class="ednote">The intended semantics of a <a>Store</a> is a structure of annotated
@@ -453,9 +464,94 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 			</tbody></table>
         </div>
       </section>
-	 </section>
+	</section>
 
-<p class="ednote">Ignore after this point- the material below is just copied from the RDF stream document for convenient reference.</p> 
+	<section id="algebra-syntax">
+		<h2>Abstract Algebra Syntax</h2>
+		<section id="def-existing-update-opcreate">
+          <h4>OpCreate</h4>
+		  <p><dfn>OpCreate</dfn> is defined in [sparql11-update] as an Update Operation with the following signature:</p>
+		  <ul>
+		    <li>On the domain RDF Dataset x IRI, the range is RDF Dataset.</li>
+		  </ul>
+		  <p>The semantics of <a>Operator</a> is defined in [sparql11-update] as follows.</p> 
+		  <p>Let GS = {DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and graphNames(GS) = { iri<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
+		  <p>OpCreate(GS, iri) = GS union {(iri, {})} if iri not in graphNames(GS); 
+		  otherwise, OpCreate(GS, iri) = GS</p>
+		  <p>
+		  where DG and G<sub>i</sub> are graphs, iri and iri<sub>i</sub> are IRIs.
+		  </p>
+		  <p>The OpCreate operation modifies an existing RDF Dataset by adding 
+		  an empty named graph to it with a specified IRI as name, 
+		  provided it does not already contain a named graph of the specified name. 
+		  </p>
+		  <p class="ednote">Options for extending Update Operations to the Store/Repository model are:
+		  </p>
+		  <ol>
+		    <li>Follow the functional approach by defining functions that act on the "state" of a Store, producing a new state.
+			This state then presumably becomes the current state of the mutable Store, but the mutability of a Store is
+			not addressed explicitly.
+			</li>
+			<li>Handle the mutability of Stores explicitly by defining mutator methods on Store "objects".
+			</li>
+		  </ol>
+		  <p>Here is what the second option would look like:
+          </p>
+		  <p>
+		  The corresponding "create" operation for <a>Stores</a> is a setter operation on the mutable Store object.
+		  </p>
+		  <p><dfn>Store.create(self, iri)</dfn> has domain Store x IRI and is void.
+		  </p>
+		  <p class="ednote">The intended semantics of Store.create is to have the side-effect of 
+             constructing a new Named Repository object with name iri whose initial content is empty, 
+			 that is owned by the Store self.		  
+		  </p>
+		  <p class="ednote">We must defined the meaning of the "initial content of a (Named) Repository is empty" somewhere,
+		  probably as a note to the definition of (Named) Repository.
+		  </p>
+		  <p class="ednote">Is "owned" the property term to use for the relationship between a Named Repository and
+		  its parent Store?
+		  </p>
+		</section>
+		<!--
+		<section id="def-existing-update-operator">
+          <h4>Operator</h4>
+		  <p><dfn>Operator</dfn> is defined in [sparql11-update] as a (supertype) with the following signatures:</p>
+		  <ul>
+		    <li>On the domain X x Y, the range is Z.</li>
+			<li>On the domain X x U, the range is V.</li>
+		  </ul>	
+		  <p class="ednote">The semantics of <a>Operator</a> is defined in [sparql11-update] to be (semantics)
+		  </p>
+    	</section>
+		<section id="def-extension-of-existing-update-operator">
+          <h4>Operator</h4>
+		  <p><dfn>Operator</dfn> is defined in [sparql11-update] as a (supertype) with the following signatures:</p>
+		  <ul>
+		    <li>On the domain X x Y, the range is Z.</li>
+			<li>On the domain X x U, the range is V.</li>
+		  </ul>
+		  <p>We extend the syntax of Operator to include the following additional signatures:</p>
+		  <ul>
+		    <li>On the domain X x Y, the range is Z.</li>
+			<li>On the domain X x U, the range is V.</li>
+		  </ul>
+		  <p class="ednote">The semantics of <a>Operator</a> is defined in [sparql11-update] to be (semantics)
+		  </p>
+		  <p class="ednote">The intended semantics of <a>Operator</a> on the extended signature is (semantics)
+		  </p>
+		</section>
+		<section id="def-new-operator">
+          <h4>Operator</h4>
+		  <p>A <dfn>Operator</dfn> is a (supertype) where (specialization)</a>.
+		  </p>	
+		  <p class="ednote">The intended semantics of <a>Operator</a> is (semantics)
+		  </p>
+		</section>
+		-->
+	</section>
+	
+	<p class="ednote">Ignore after this point- the material below is just copied from the RDF stream document for convenient reference.</p> 
 
 	  <section id="def-timestamp-predicate">
           <h4>Timestamp Predicates</h4>
