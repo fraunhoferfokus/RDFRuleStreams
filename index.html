@@ -488,13 +488,35 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  <p class="ednote">Options for extending Update Operations to the Store/Repository model are:
 		  </p>
 		  <ol>
-		    <li>Follow the functional approach by defining functions that act on the "state" of a Store, producing a new state.
+		    <li>Follow the functional approach by defining functions that act on the "state" of a Store, 
+			(defined in terms of the Repositories, named or default, that it owns), 
+			producing a new state.
 			This state then presumably becomes the current state of the mutable Store, but the mutability of a Store is
 			not addressed explicitly.
+			However, the mutability of Repositories is explicitly addressed.
 			</li>
 			<li>Handle the mutability of Stores explicitly by defining mutator methods on Store "objects".
 			</li>
+			<li>Take a full-blown functional approach by hiding all mutability.
+			The "state" of a Store is then not expressed in terms of Repositories, but in terms of the "states"
+			of its Repositories.
+			The state of a Repository is an RDF Dataset.
+			</li>
 		  </ol>
+		  <p>Here is what the first option would look like:
+          </p>
+		  <p>We extend the syntax of OpCreate to include the following additional signature:</p>
+		  <ul>
+		    <li>On the domain StoreState x IRI, the range is StoreState.</li>
+		  </ul>
+		  <p>The semantics of <a>OpCreate</a> on the domain extension is defined as follows.</p> 
+		  <p>Let SS = {DR} union {NR<sub>i</sub> | 1 ≤ i ≤ n} and repositoryNames(SS) = { name(NR<sub>i</sub>) | 1 ≤ i ≤ n}, then</p>
+		  <p>OpCreate(SS, iri) = SS union { NamedRepository(iri, R0)} if iri not in repositoryNames(SS); 
+		  otherwise, OpCreate(SS, iri) = SS</p>
+		  <p>
+		  where DR is a repository, NR<sub>i</sub> are named repositories, iri is an IRI, and 
+		  R0 is the "empty repository".
+		  </p>		  
 		  <p>Here is what the second option would look like:
           </p>
 		  <p>
