@@ -481,9 +481,13 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  <p>
 		  where DG and G<sub>i</sub> are graphs, iri and iri<sub>i</sub> are IRIs.
 		  </p>
-		  <p>The OpCreate operation modifies an existing RDF Dataset by adding 
+		  <p>The OpCreate operation constructs a new RDF Dataset from an existing RDF Dataset by adding 
 		  an empty named graph to it with a specified IRI as name, 
-		  provided it does not already contain a named graph of the specified name. 
+		  provided it does not already contain a named graph of the specified name.
+          Note that OpCreate is functional in that it does not actually "change" the input RDF Dataset.
+          Update operations are used to define a Graph Store as a state machine, where the state of a Graph Store
+          is an RDF Dataset, and Update Operations take the current state of a Graph Store as input,
+          generating a new RDF Dataset which then is taken as the new state of the Graph Store.		  
 		  </p>
 		  <p class="ednote">Options for extending Update Operations to the Store/Repository model are:
 		  </p>
@@ -491,16 +495,17 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		    <li>Follow the functional approach by defining functions that act on the "state" of a Store, 
 			(defined in terms of the Repositories, named or default, that it owns), 
 			producing a new state.
-			This state then presumably becomes the current state of the mutable Store, but the mutability of a Store is
-			not addressed explicitly.
-			However, the mutability of Repositories is explicitly addressed.
+			This state then presumably becomes the current state of the mutable Store, just like in the SPARQL UPDATE spec,
+			but the mutability of a Store is not addressed explicitly.
+			However, the mutability of Repositories is explicitly addressed, 
+			these being the objects that make up the state of a Store.
 			</li>
 			<li>Handle the mutability of Stores explicitly by defining mutator methods on Store "objects".
 			</li>
 			<li>Take a full-blown functional approach by hiding all mutability.
 			The "state" of a Store is then not expressed in terms of Repositories, but in terms of the "states"
 			of its Repositories.
-			The state of a Repository is an RDF Dataset.
+			The state of a Repository is an RDF Dataset, in parallel to the state of a Graph Store being an RDF graph.
 			</li>
 		  </ol>
 		  <p>Here is what the first option would look like:
@@ -520,11 +525,11 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  <p>Here is what the second option would look like:
           </p>
 		  <p>
-		  The corresponding "create" operation for <a>Stores</a> is a setter operation on the mutable Store object.
+		  The corresponding "create" operation for <a>Stores</a> is a mutator operation on the mutable Store object.
 		  </p>
 		  <p><dfn>Store.create(self, iri)</dfn> has domain Store x IRI and is void.
 		  </p>
-		  <p class="ednote">The intended semantics of Store.create is to have the side-effect of 
+		  <p class="ednote">The semantics of Store.create is to have the side-effect of 
              constructing a new Named Repository object with name iri whose initial content is empty, 
 			 that is owned by the Store self.		  
 		  </p>
@@ -534,6 +539,20 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  <p class="ednote">Is "owned" the property term to use for the relationship between a Named Repository and
 		  its parent Store?
 		  </p>
+		  <p>Here is what the third option would look like:
+          </p>
+		  <p>We extend the syntax of OpCreate to include the following additional signature:</p>
+		  <ul>
+		    <li>On the domain StoreState x IRI, the range is StoreState.</li>
+		  </ul>
+		  <p>The semantics of <a>OpCreate</a> on the domain extension is defined as follows.</p> 
+		  <p>Let SS = {DD} union {(iri<sub>i</sub>, D<sub>i</sub>) | 1 ≤ i ≤ n} and 
+		  repositoryNames(SS) = { iri<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
+		  <p>OpCreate(SS, iri) = SS union { (iri, {})} if iri not in repositoryNames(SS); 
+		  otherwise, OpCreate(SS, iri) = SS</p>
+		  <p>
+		  where DD and D<sub>i</sub> are RDF Datasets, iri and iri<sub>i</sub> are IRIs.
+		  </p>		  
 		</section>
 		<!--
 		<section id="def-existing-update-operator">
