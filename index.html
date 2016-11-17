@@ -283,40 +283,74 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
       <section id="new-datatypes">
         <h3>New Datatypes</h3>
         <p>The following new datatypes are defined in order to support the signature definitions of new algebra operators:</p>
+		<section id="def-kth-order-dataset">
+          <h4>k-th order RDF Dataset</h4>
+		  <p>A <dfn data-lt="k-th Order RDF Dataset|k-th Order RDF Datasets">k-th Order RDF Dataset</dfn> 
+		  is defined inductively as follows.
+          </p>
+		  <p> A Zeroth Order RDF Dataset is an RDF Graph.
+		  </p>
+		  <p>For k = 0, 1, ... , a (k+1)-th Order RDF Dataset is composed of a distinguished k-th Order RDF Dataset, called the default dataset, 
+		  and a set of named k-th Order RDF Datasets.
+		  The names of the k-th Order Datasets are unique within the k+1-th Order Dataset.		  
+		  </p>	
+		</section>
 		<section id="def-named-dataset">
-          <h4>Named RDF Dataset</h4>
-		  <p>A <dfn data-lt="Named RDF Dataset|Named RDF Datasets">Named RDF Dataset</dfn> is an ordered pair [n, D] of an IRI n 
-		  that is the <a>RDF Dataset</a> name, and <a>RDF Dataset</a> D.
+          <h4>Named k-th order  RDF Dataset</h4>
+		  <p>A <dfn data-lt="Named k-th Order RDF Dataset|Named k-th Order RDF Datasets">Named k-th Order RDF Dataset</dfn> 
+		  is an ordered pair [n, D] of an IRI or blank node n 
+		  that is the <a>k-th Order RDF Dataset</a> name, and <a>k-th Order RDF Dataset</a> D.
 		  </p>	
 		</section>
 		<section id="def-repository">
-          <h4>Repository</h4>
-		  <p>A <dfn data-lt="Repository|Repositories">Repository</dfn> is a 
-		  structure composed a distinguished RDF Dataset, called the default Dataset,
-		  and a sequence (possibly infinite or bi-infinite) of Named RDF Datasets.
+          <h4>Repositories</h4>
+		  <p>A <dfn data-lt="k-th Order RDF Repository|k-th Order RDF Repositories">k-th Order RDF Repository</dfn> is a 
+		  structure composed a distinguished <a>k-th Order RDF Dataset</a>, called the default Dataset,
+		  and a sequence (possibly infinite or bi-infinite) of <a>Named k-th Order RDF Datasets</a>, called the history
+		  of the Repository. 
+		  Each Dataset of the sequence is called a version of the Repository,
+		  and is related to the Repository by the 
+		  <a href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#specializationOf">prov:specializationOf</a>
+		  property.
+		  Each version revises the previous version
+		  of the sequence, and is related to it by the 
+		  <a href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#wasRevisionOf">prov:wasRevisionOf</a>
+		  property.
 		  </p>	
-		  <p class="ednote">An iterator over a Repository can be viewed as an 
-				annotated Graph Store (Graph Store is used here in the sense of SPARQL UPDATE), 
-				where the "current Graph Store content" is the Named Dataset to which the iterator points at the current time.
+		  <p class="ednote">A first-order RDF Repository is similar to a Graph Store, but with the additional structure
+		  that every version is named (albeit the name may be a blank node).
+		  <p class="ednote">
+		  Where Update Operations are conceived as functional specifications for 
+		  modifying the current state of a Graph Store,
+		  for a Repository these operations play the role of helper functions used in the "lazy" construction of the
+		  Repository.
 		  </p>
-		  <p class="ednote">The intended semantics of a <a>Repository</a> is a structure of annotated 
+          </p>
+		  <p class="ednote">A real-time iterator over a first-Order Repository can be viewed as an 
+				annotated Graph Store (Graph Store is used here in the sense of SPARQL UPDATE), 
+				where the "current Graph Store content" is the Named RDF Dataset to which the iterator points at the current time.
+		  </p>
+		  <p class="ednote">The intended semantics of a <a>k-th Order RDF Repository</a> is a structure of annotated 
 		  triples and quads on a fixed 
 		  <a>RDF Surface (sensu Pat Hayes)</a>.
 		  </p>
 		</section>
 		<section id="def-named-repository">
           <h4>Named Repository</h4>
-		  <p>A <dfn data-lt="Named Repository|Named Repositories">Named Repository</dfn> is an ordered pair [n, R] of an IRI n 
-		  that is the <a>Repository</a> name, and <a>Repository</a> R.
+		  <p>A <dfn data-lt="Named Repository|Named Repositories">Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of 
+		  an IRI or blank node n 
+		  that is the <a>Repository</a> name, and <a>k-th Order RDF Repository</a> R.
 		  </p>	
 		</section>
 		<section id="def-store">
-          <h4>Store</h4>
-		  <p>A <dfn data-lt="Store|Stores">Store</dfn> is a structure composed of a distinguished Repository and zero or more of <a>Named Repositories</a> and R is a repository
-		  called the default <a>Repository</a> of the Store.
+          <h4>k-th Order RDF Store</h4>
+		  <p>A <dfn data-lt="k-th Order RDF Store|k-th Order RDF Stores">k-th Order RDF Store</dfn> is a 
+		  structure composed of a distinguished k-th Order RDF Repository, called the default Repository, and 
+		  zero or more of <a>Named k-th Order RDF Repositories</a>. 
+		  Repository names are unique within the Store.
 		  </p>
-		  <p class="ednote">The intended semantics of a <a>Store</a> is a structure of annotated
-		  triples and quads on a fixed 
+		  <p class="ednote">The intended semantics of a <a>k-th Order RDF Store</a> is a structure of annotated
+		  RDF triples and quads on a fixed 
 		  <a>RDF Surface (sensu Pat Hayes)</a>.
 		  </p>
 		  <p class="ednote">
@@ -325,7 +359,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				<a>Repositories</a> in it or all the <a>RDF Terms</a> in it.
 		  </p>
 		</section>
-		<section id="def-named-store">
+		<!--		<section id="def-named-store">
           <h4>Named Store</h4>
 		  <p>A <dfn data-lt="Named Store|Named Stores">Named Store</dfn> is an ordered pair [n, S] of an IRI n that is the 
 		  <a>Store</a> name, and <a>Store</a> S.
@@ -333,7 +367,6 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  <p class="ednote">Do we need this type?
 		  </p>
 		</section>
-		<!--
 		<section id="def-term-segment">
           <h4>Term Segment</h4>
 		  <p>The <dfn data-lt="Term Segment|Term Segments">Term Segment</dfn> (of a Store) is the mutable (write-only) set of 
