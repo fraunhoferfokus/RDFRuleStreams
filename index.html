@@ -302,15 +302,15 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  The names of the k-th Order Datasets are unique within the k+1-th Order Dataset.		  
 		  </p>	
 		</section>
-		<section id="def-named-dataset">
+		<section id="def-named-kth-order-dataset">
           <h4>Named k-th order  RDF Dataset</h4>
 		  <p>A <dfn data-lt="Named k-th Order RDF Dataset|Named k-th Order RDF Datasets">Named k-th Order RDF Dataset</dfn> 
 		  is an ordered pair [n, D] of an IRI or blank node n 
 		  that is the <a>k-th Order RDF Dataset</a> name, and <a>k-th Order RDF Dataset</a> D.
 		  </p>	
 		</section>
-		<section id="def-repository">
-          <h4>Repositories</h4>
+		<section id="def-kth-order-repository">
+          <h4>k-th Order Repositories</h4>
 		  <p>A <dfn data-lt="k-th Order RDF Repository|k-th Order RDF Repositories">k-th Order RDF Repository</dfn> is a 
 		  structure composed a distinguished <a>k-th Order RDF Dataset</a>, called the default Dataset,
 		  and a sequence (possibly infinite or bi-infinite) of <a>Named k-th Order RDF Datasets</a>, called the history
@@ -342,31 +342,31 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  <a>RDF Surface (sensu Pat Hayes)</a>.
 		  </p>
 		</section>
-		<section id="def-named-repository">
-          <h4>Named Repository</h4>
-		  <p>A <dfn data-lt="Named Repository|Named Repositories">Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of 
+		<section id="def-named-kth-order-repository">
+          <h4>Named k-th Order Repository</h4>
+		  <p>A <dfn data-lt="Named k-th Order Repository|Named k-th Order Repositories">Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of 
 		  an IRI or blank node n 
 		  that is the <a>Repository</a> name, and <a>k-th Order RDF Repository</a> R.
 		  </p>	
 		</section>
-		<section id="def-store">
+		<section id="def-kth-order-store">
           <h4>k-th Order RDF Store</h4>
-		  <p>A <dfn data-lt="k-th Order RDF Store|k-th Order RDF Stores">k-th Order RDF Store</dfn> is a 
-		  structure composed of a distinguished k-th Order RDF Repository, called the default Repository, and 
-		  zero or more of <a>Named k-th Order RDF Repositories</a>. 
-		  Repository names are unique within the Store.
+		  <p>A <dfn data-lt="k-th Order RDF Store|k-th Order RDF Stores">k-th Order RDF Store</dfn> 
+		 is a k+1-th Order RDF Repository that also has a structure
+		 as being composed of a distinguished k-th Order Repository
+		 and a set of named k-th Order Repositories.
+		 The history of each member k-th Order Repository is a restriction of the Store history to that
+		 Repository.
+		 The additional structure is embodied in the version names of the member Repositories,
+		 and their association with versions of the parent Repository.
 		  </p>
-		  <p class="ednote">The intended semantics of a <a>k-th Order RDF Store</a> is a structure of annotated
-		  RDF triples and quads on a fixed 
-		  <a>RDF Surface (sensu Pat Hayes)</a>.
+		  <p class="ednote">We need to define a restriction of the history of a k+1-th Order Repository
+		  to a member k-th Order Repository.
+		  In particular, we need to take care to remove adjacent versions that have identical content.
 		  </p>
-		  <p class="ednote">
-				This <a>Surface</a> contains all the <a>RDF Terms</a> that (ever) appear in the <a>Store</a>'s <a>Term Segment</a>. 
-				Every <a>Store</a> has an open world assumption in that at any point in time we may not know all the 
-				<a>Repositories</a> in it or all the <a>RDF Terms</a> in it.
-		  </p>
-		  <p class="ednote">Alternately, we could consider a Store to be a second-order Repository,
-		  in which case there would be no need for another datatype.
+		  <p class="ednote">The intended semantics of a <a>k-th Order RDF Store</a> is derived from 
+		  that of the corresponding k+1-th Order Repository,
+		  supplemented by that of its member k-th Order Repositories.
 		  </p>
 		</section>
 		<!--		<section id="def-named-store">
