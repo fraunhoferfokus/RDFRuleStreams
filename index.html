@@ -207,7 +207,7 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
             <caption id="namespace-table"><a href="#namespace-table">Table 1</a>: Existing datatypes used in this specification</caption> <!-- Table 1-->
             <tbody>
 			  <tr>
-			    <td><a><b>Name</b></a></td>
+			    <td><a><b<>Datatype</b></a></td>
 				<td><b>Reference</b></td> 
 				<td><b>Definition</b>
 				</td>
@@ -263,7 +263,14 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				<td><b>Reference</b></td> 
 				<td><b>Definition</b>
 				</td>
-			  </tr>            </tbody></table>
+			  </tr>
+			  <tr>
+			    <td>D<sup>1</sup></td>
+				<td><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlQueryVariables">https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlQueryVariables</a></td> 
+				<td>A  is a member of the set V where V is infinite and disjoint from RDF-T.
+				</td>
+			  </tr>
+			</tbody></table>
         </div>
 		
 		<p class="ednote">
@@ -357,6 +364,9 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				This <a>Surface</a> contains all the <a>RDF Terms</a> that (ever) appear in the <a>Store</a>'s <a>Term Segment</a>. 
 				Every <a>Store</a> has an open world assumption in that at any point in time we may not know all the 
 				<a>Repositories</a> in it or all the <a>RDF Terms</a> in it.
+		  </p>
+		  <p class="ednote">Alternately, we could consider a Store to be a second-order Repository,
+		  in which case there would be no need for another datatype.
 		  </p>
 		</section>
 		<!--		<section id="def-named-store">
@@ -507,7 +517,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  <ul>
 		    <li>On the domain RDF Dataset x IRI, the range is RDF Dataset.</li>
 		  </ul>
-		  <p>The semantics of <a>Operator</a> is defined in [sparql11-update] as follows.</p> 
+		  <p>The semantics of <a>OpCreate</a> is defined in [sparql11-update] as follows.</p> 
 		  <p>Let GS = {DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and graphNames(GS) = { iri<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
 		  <p>OpCreate(GS, iri) = GS union {(iri, {})} if iri not in graphNames(GS); 
 		  otherwise, OpCreate(GS, iri) = GS</p>
@@ -518,9 +528,27 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  an empty named graph to it with a specified IRI as name, 
 		  provided it does not already contain a named graph of the specified name.
           Note that OpCreate is functional in that it does not actually "change" the input RDF Dataset.
-          Update operations are used to define a Graph Store as a state machine, where the state of a Graph Store
+          Update operations may be used to define a Graph Store as a state machine, where the state of a Graph Store
           is an RDF Dataset, and Update Operations take the current state of a Graph Store as input,
           generating a new RDF Dataset which then is taken as the new state of the Graph Store.		  
+		  </p>
+		  <p>
+		  We extend the OpCreate operation to <a>k-th Order RDF Datasets</a>.
+		  Also, the names are extended from IRIs to also allow blank node names.
+		  </p>
+		  <ul>
+		    <li>On the domain <a>k-th Order RDF Dataset</a> x I ∪ RDF-B, the range is <a>k-th Order RDF Dataset</a>.</li>
+		  </ul>
+		  <p>The extended semantics of <a>OpCreate</a> is defined as follows.</p> 
+		  <p>Let DS<sup>k+1</sup> = {DS<sup>k</sup>} ∪ 
+		  {(name<sub>i</sub>, DS<sup>k</sup><sub>i</sub>) | 1 ≤ i ≤ n} and 
+		  datasetNames(DS<sup>k+1</sup>) = { name<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
+		  <p>OpCreate(DS<sup>k+1</sup>, name) = DS<sup>k+1</sup> ∪ {(name, {})} 
+		  if name not in datasetNames(DS<sup>k+1</sup>); 
+		  otherwise, OpCreate(DS<sup>k+1</sup>, name) = DS<sup>k+1</sup></p>
+		  <p>
+		  where DS<sup>k</sup> and DS<sup>k</sup> are <a>k-th Order RDF Datasets</a>, and
+		  name and name<sub>i</sub> are IRIs or blank nodes (I ∪ RDF-B).
 		  </p>
 		  <p class="ednote">Options for extending Update Operations to the Store/Repository model are:
 		  </p>
@@ -541,8 +569,30 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 			The state of a Repository is an RDF Dataset, in parallel to the state of a Graph Store being an RDF graph.
 			</li>
 		  </ol>
+		  
 		  <p>Here is what the first option would look like:
           </p>
+		  <p>
+		  We further extend the OpCreate operation to <a>k-th Order Stores</a>.
+		  </p>
+		  <ul>
+		    <li>On the domain <a>k-th Order Store</a> x I ∪ RDF-B, the range is <a>k-th Order Store</a>.</li>
+		  </ul>
+		  <p>The extended semantics of <a>OpCreate</a> is defined as follows.</p> 
+		  <p>Let S<sup>k</sup> = {R<sup>k</sup>} ∪ 
+		  {(name<sub>i</sub>, R<sup>k</sup><sub>i</sub>) | 1 ≤ i ≤ n} and 
+		  datasetNames(R<sup>k</sup>) = { name<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
+		  <p>OpCreate(S<sup>k</sup>, name) = S<sup>k</sup> ∪ {(name, R<sup>k</sup><sub>0</sub>)} 
+		  if name not in datasetNames(S<sup>k</sup>); 
+		  otherwise, OpCreate(S<sup>k</sup>, name) = S<sup>k</sup></p>
+		  <p>
+		  where S<sup>k</sup> is a <a>k-th Order Store</a>, 
+		  R<sup>k</sup><sub>i</sub> are <a>k-th Order Repositoriess</a>, 
+		  name and name<sub>i</sub> are IRIs or blank nodes (I ∪ RDF-B)
+		  and  R<sup>k</sup><sub>0</sub> is the empty <a>k-th Order Repository</a>.
+		  </p>
+		  
+          <!--
 		  <p>We extend the syntax of OpCreate to include the following additional signature:</p>
 		  <ul>
 		    <li>On the domain StoreState x IRI, the range is StoreState.</li>
@@ -585,7 +635,8 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  otherwise, OpCreate(SS, iri) = SS</p>
 		  <p>
 		  where DD and D<sub>i</sub> are RDF Datasets, iri and iri<sub>i</sub> are IRIs.
-		  </p>		  
+		  </p>
+         -->		  
 		</section>
 		<!--
 		<section id="def-existing-update-operator">
