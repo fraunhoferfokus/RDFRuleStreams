@@ -162,29 +162,29 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
         <div style="text-align: left;">
           <table class="thinborder" style="margin-left: auto; margin-right: auto;">
             <caption id="namespace-table"><a href="#namespace-table">Table 1</a>: Prefix and Namespaces used in this specification</caption> <!-- Table 1-->
-            <tbody><tr><td><a><b>prefix</b></a></td><td><b>namespace IRI</b></td> <td><b>definition</b></td></tr>
+            <tbody><tr><td><b>prefix</b></td><td><b>namespace IRI</b></td> <td><b>definition</b></td></tr>
               
-              <tr><td><a>rsp</a></td><td><code>http://www.w3.org/ns/rsp#</code></td><td>The RSP rnamespace</td></tr>
+              <tr><td>rsp</td><td><code>http://www.w3.org/ns/rsp#</code></td><td>The RSP rnamespace</td></tr>
               
-              <tr><td><a>rdf</a></td><td><code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code></td><td>The RDF namespace [[!RDF-SCHEMA]]</td></tr>
+              <tr><td>rdf</td><td><code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code></td><td>The RDF namespace [[!RDF-SCHEMA]]</td></tr>
               
-              <tr><td><a>rdfs</a></td><td><code>http://www.w3.org/2000/01/rdf-schema#</code></td><td>The RDFS namespace [[!RDF-SCHEMA]]</td></tr>
+              <tr><td>rdfs</td><td><code>http://www.w3.org/2000/01/rdf-schema#</code></td><td>The RDFS namespace [[!RDF-SCHEMA]]</td></tr>
               
-              <tr><td><a>xsd</a></td><td><code>http://www.w3.org/2000/10/XMLSchema#</code></td><td>XML Schema Namespace [[!XMLSCHEMA11-2]]</td></tr>
+              <tr><td>xsd</td><td><code>http://www.w3.org/2000/10/XMLSchema#</code></td><td>XML Schema Namespace [[!XMLSCHEMA11-2]]</td></tr>
               
-              <tr><td><a>owl</a></td><td><code>http://www.w3.org/2002/07/owl#</code></td><td>The OWL namespace [[!OWL2-OVERVIEW]]</td></tr>
+              <tr><td>owl</td><td><code>http://www.w3.org/2002/07/owl#</code></td><td>The OWL namespace [[!OWL2-OVERVIEW]]</td></tr>
               
-              <tr><td><a>owl-time</a></td><td><code>http://www.w3.org/2006/time#</code></td><td>The OWL-TIME namespace [[OWL-TIME]]</td></tr>
+              <tr><td>owl-time</td><td><code>http://www.w3.org/2006/time#</code></td><td>The OWL-TIME namespace [[OWL-TIME]]</td></tr>
               
-              <tr><td><a>prov</a></td><td><code>http://www.w3.org/ns/prov#</code></td>
+              <tr><td>prov</td><td><code>http://www.w3.org/ns/prov#</code></td>
                 <td>The PROV namespace [[!PROV-DM]]</td></tr>
 
-              <tr><td><a>dul</a></td><td><code>http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#</code></td>
+              <tr><td>dul</td><td><code>http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#</code></td>
                 <td>The DOLCE+DnS Ultralet namespace (http://lov.okfn.org/dataset/lov/vocabs/dul) [[DUL]]</td></tr>
               
-              <tr><td><a>(others)</a></td><td>(various)</td><td>All other namespace prefixes are used in examples only. <br/> In particular, IRIs starting with "http://example.com" represent<br/> some application-dependent IRI [[!IRI]]</td></tr>
-            </tbody></table>
+              <tr><td>(others)</td><td>(various)</td><td>All other namespace prefixes are used in examples only. <br/> In particular, IRIs starting with "http://example.com" represent<br/> some application-dependent IRI [[!IRI]]</td></tr>
         </div>
+            </tbody></table>
       </section>
 	  <section id="constraints">
 	    <h3>Restrictions on SPARQL Query Language</h3>
@@ -207,63 +207,74 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
             <caption id="namespace-table"><a href="#namespace-table">Table 1</a>: Existing datatypes used in this specification</caption> <!-- Table 1-->
             <tbody>
 			  <tr>
-			    <td><a><b<>Datatype</b></a></td>
+			    <td><b<>Datatype</b></td>
 				<td><b>Reference</b></td> 
 				<td><b>Definition</b>
 				</td>
 			  </tr>
               <tr>
-			    <td>RDF-T</td>
+			    <td><dfn>RDF-T</dfn></td>
 			    <td><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlBasicTerms">https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlBasicTerms</a></td>
-				<td> Let I be the set of all IRIs.
-Let RDF-L be the set of all RDF Literals
-Let RDF-B be the set of all blank nodes in RDF graphs
-
-The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
+				<td> Let <dfn>I</dfn> be the set of all IRIs.
+					Let <dfn>RDF-L</dfn> be the set of all RDF Literals
+					Let <dfn>RDF-B</dfn> be the set of all blank nodes in RDF graphs.
+					The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				</td>
 			  </tr>              
 			  <tr>
-			    <td>V</td>
+			    <td><dfn>V</dfn></td>
 				<td><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlQueryVariables">https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlQueryVariables</a></td> 
 				<td>A query variable is a member of the set V where V is infinite and disjoint from RDF-T.
 				</td>
 			  </tr>
               <tr>
-			    <td>solution mapping</td>
+			    <td><dfn>solution mapping</dfn></td>
 			    <td><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlSolutions">https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlSolutions</a></td>
 				<td> partial function μ : V -> RDF-T
 				</td>
 			  </tr>
               <tr>
-			    <td>multiset of solution mappings</td>
+			    <td><dfn>multiset of solution mappings</dfn></td>
 				<td><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#BasicGraphPattern">https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#BasicGraphPattern</a></td>
 				<td>A multiset is an unordered collection of elements in which each element may appear more than once. It is described by a set of elements and a cardinality function giving the number of occurrences of each element from the set in the multiset.
 				</td>
 			  </tr>
               <tr>
-			    <td>sequence of solution mappings</td>
+			    <td><dfn>sequence of solution mappings</dfn></td>
 				<td><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#BasicGraphPattern">https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#BasicGraphPattern</a></td>
 				<td>A sequence is a mapping (total function) on the positive integers. 	
 				</td>
 			  </tr>
 			  <tr>
-			    <td>expression</td>
+			    <td><dfn>RDF Dataset</dfn></td>
+				<td>[[!RDF11-Concepts]]</td> 
+				<td><b>Definition</b>
+				</td>
+			  </tr>
+			  <tr>
+			    <td><dfn>expression</dfn></td>
 				<td><b>Reference</b></td> 
 				<td><b>Definition</b>
 				</td>
 			  </tr>
 			  <tr>
-			    <td>Graph Pattern</td>
+			    <td><dfn>Graph Pattern</dfn></td>
 				<td><b>Reference</b></td> 
 				<td><b>Definition</b>
 				</td>
 			  </tr>              
 			  <tr>
-			    <td>Query</td>
+			    <td><dfn>Query</dfn></td>
 				<td><b>Reference</b></td> 
 				<td><b>Definition</b>
 				</td>
 			  </tr>
+			  <tr>
+			    <td><dfn>RDF Surface (sensu Pat Hayes)</dfn></td>
+				<td><b>Reference</b></td> 
+				<td><b>Definition</b>
+				</td>
+			  </tr>			  
 			  <tr>
 			    <td>D<sup>1</sup></td>
 				<td><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlQueryVariables">https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlQueryVariables</a></td> 
@@ -292,91 +303,153 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
         <p>The following new datatypes are defined in order to support the signature definitions of new algebra operators:</p>
 		<section id="def-kth-order-dataset">
           <h4>k-th order RDF Dataset</h4>
-		  <p>A <dfn data-lt="k-th Order RDF Dataset|k-th Order RDF Datasets">k-th Order RDF Dataset</dfn> 
+		  <p>A <dfn data-lt="k-th Order RDF Dataset|k-th Order RDF Datasets|k-th Order Dataset|k-th Order Datasets">k-th Order RDF Dataset</dfn> 
 		  is defined inductively as follows.
           </p>
 		  <p> A Zeroth Order RDF Dataset is an RDF Graph.
 		  </p>
 		  <p>For k = 0, 1, ... , a (k+1)-th Order RDF Dataset is composed of a distinguished k-th Order RDF Dataset, called the default dataset, 
-		  and a set of named k-th Order RDF Datasets.
+		  and a set of <a>Named k-th Order RDF Datasets</a>.
 		  The names of the k-th Order Datasets are unique within the k+1-th Order Dataset.		  
-		  </p>	
+		  </p>
+		  <p class="ednote">
+		  To be clarified in a separate semantics section:
+		  just as there is not a single recommended semantics for RDF Datasets,
+		  it is important to be inclusive regarding possible semantics for k-th Order RDF Datasets.
+		  An important consideration is whether the component Named Datasets lie on a single
+		  <a>RDF Surface (sensu Pat Hayes)</a>, i.e. do they share blank nodes.
+		  </p>		  
 		</section>
 		<section id="def-named-kth-order-dataset">
           <h4>Named k-th order  RDF Dataset</h4>
-		  <p>A <dfn data-lt="Named k-th Order RDF Dataset|Named k-th Order RDF Datasets">Named k-th Order RDF Dataset</dfn> 
+		  <p>A <dfn data-lt="Named k-th Order RDF Dataset|Named k-th Order RDF Datasets|Named Dataset|Named Datasets|Named k-th Order Dataset|Named k-th Order Datasets"
+		  >Named k-th Order RDF Dataset</dfn> 
 		  is an ordered pair [n, D] of an IRI or blank node n 
 		  that is the <a>k-th Order RDF Dataset</a> name, and <a>k-th Order RDF Dataset</a> D.
 		  </p>	
 		</section>
-		<section id="def-kth-order-repository">
-          <h4>k-th Order Repositories</h4>
-		  <p>A <dfn data-lt="k-th Order RDF Repository|k-th Order RDF Repositories">k-th Order RDF Repository</dfn> is a 
-		  structure composed a distinguished <a>k-th Order RDF Dataset</a>, called the default Dataset,
-		  and a sequence (possibly infinite or bi-infinite) of <a>Named k-th Order RDF Datasets</a>, called the history
-		  of the Repository. 
-		  Each Dataset of the sequence is called a version of the Repository,
-		  and is related to the Repository by the 
-		  <a href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#specializationOf">prov:specializationOf</a>
-		  property.
-		  Each version revises the previous version
-		  of the sequence, and is related to it by the 
+		<section id="def-kth-order-rdf-repository">
+          <h4>k-th Order RDF Repositories</h4>
+		  <p>A <dfn data-lt="k-th Order RDF Repository|k-th Order RDF Repositories|k-th Order Repository|k-th Order Repositories|RDF Repository|RDF Repositories|repository|repositories"
+		  |k-th Order Repository|k-th Order Repositories
+		  >k-th Order RDF Repository</dfn> is 
+		  defined by cases:
+		  </p>
+		  <ol>
+		  <li>a zeroth Order RDF Repository is an RDF Graph.
+		  </li>
+		  <li>k+1-th Order RDF Repository, k = 0, 1, ...,
+		  is a k+1-th Order RDF Dataset with the additional structure of a total order 
+		  on its component set of <a>Named k-th Order RDF Datasets</a>.
+		  As such, the sequential nature of the structure of Named Datasets may be considered as a linked list,
+		  as opposed to a mapping over integers.
+		  This linked list may be finite (with unique initial and terminal elements),
+		  semi-infinite (lacking either an initial or terminal element) or 
+		  bi-infinite (lacking both initial or terminal elements).
+		  Each Dataset of the sequence is called a version of the RDF Repository.
+		  Every version that is not the initial version has a unique previous version,
+		  and we say that
+		   each such version revises the previous version.
+		  </li>
+		  </ol>
+		  <p class="ednote">To be clarified in a separate semantics section: 
+		  The intended semantics of a k-th Order RDF Repository
+		  under the simple entailment regime is that of the underlying k-th Order RDF Dataset. 
+		  That is,
+		  the order among the named datasets is forgotten in simple entailment.
+		  </p>
+		  <p class="ednote">To be clarified in a separate semantics section: Further point on
+		  the intended semantics is that an entailment regime, called 
+		  e.g. "provenance entailment regime",
+		  has additional entailments beyond those of the simple entailment regimes in that 
+		  each non-initial version is related to its previous version by the 
 		  <a href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#wasRevisionOf">prov:wasRevisionOf</a>
 		  property.
 		  </p>	
-		  <p class="ednote">A first-order RDF Repository is similar to a Graph Store, but with the additional structure
+		  <p class="ednote">A second-order RDF Repository is similar to a Graph Store, 
+		  but with the additional structure
 		  that every version is named (albeit the name may be a blank node).
+		  </p>
 		  <p class="ednote">
 		  Where Update Operations are conceived as functional specifications for 
 		  modifying the current state of a Graph Store,
-		  for a Repository these operations play the role of helper functions used in the "lazy" construction of the
-		  Repository.
-		  </p>
-          </p>
-		  <p class="ednote">A real-time iterator over a first-Order Repository can be viewed as an 
-				annotated Graph Store (Graph Store is used here in the sense of SPARQL UPDATE), 
-				where the "current Graph Store content" is the Named RDF Dataset to which the iterator points at the current time.
-		  </p>
-		  <p class="ednote">The intended semantics of a <a>k-th Order RDF Repository</a> is a structure of annotated 
-		  triples and quads on a fixed 
-		  <a>RDF Surface (sensu Pat Hayes)</a>.
+		  for a RDF Repository these operations play the role of helper functions used in the "lazy" construction of the
+		  RDF Repository.
 		  </p>
 		</section>
-		<section id="def-named-kth-order-repository">
-          <h4>Named k-th Order Repository</h4>
-		  <p>A <dfn data-lt="Named k-th Order Repository|Named k-th Order Repositories">Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of 
+		<section id="def-named-kth-order-RDF Repository">
+          <h4>Named k-th Order RDF Repository</h4>
+		  <p>A <dfn data-lt="Named k-th Order RDF Repository|Named k-th Order Repositories">Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of 
 		  an IRI or blank node n 
-		  that is the <a>Repository</a> name, and <a>k-th Order RDF Repository</a> R.
-		  </p>	
+		  that is the <a>RDF Repository</a> name, and <a>k-th Order RDF Repository</a> R.
+		  </p>
+		  <p class="ednote">		  
+		  Under the provenance entailment regime
+		  has additional entailments that 
+		  each version
+		  is related to the parent RDF Repository by the 
+		  <a href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#specializationOf">prov:specializationOf</a>
+		  property.
+          </p>		
 		</section>
 		<section id="def-kth-order-store">
           <h4>k-th Order RDF Store</h4>
-		  <p>A <dfn data-lt="k-th Order RDF Store|k-th Order RDF Stores">k-th Order RDF Store</dfn> 
-		 is a k+1-th Order RDF Repository that also has a structure
-		 as being composed of a distinguished k-th Order Repository
-		 and a set of named k-th Order Repositories.
-		 The history of each member k-th Order Repository is a restriction of the Store history to that
-		 Repository.
-		 The additional structure is embodied in the version names of the member Repositories,
-		 and their association with versions of the parent Repository.
+		  <p>A <dfn data-lt="k-th Order RDF Store|k-th Order RDF Stores|k-th Order Store|k-th Order Stores|RDF Store|RDF Stores|Store|Stores">k-th Order RDF Store</dfn>
+		  is defined by cases:
 		  </p>
-		  <p class="ednote">We need to define a restriction of the history of a k+1-th Order Repository
-		  to a member k-th Order Repository.
+		  <ol>
+		  <li>A zeroth Order RDF Store is an RDF Graph.
+		  </li>
+		  <li>For k=0, 1, ..., a k+1-th Order RDF Store
+		 is a k+1-th Order RDF Repository whose component k-th Order RDF Datasets have the additionl structure
+		 of RDF Repositories.
+		 The history of each member k-th Order RDF Repository is a restriction of the 
+		 RDF Store history to that RDF Repository.
+		 </li>
+		 </ol>
+		  <p class="ednote">We need to define a restriction of the history of a k+1-th Order RDF Repository
+		  to a member k-th Order RDF Repository.
 		  In particular, we need to take care to remove adjacent versions that have identical content.
 		  </p>
-		  <p class="ednote">The intended semantics of a <a>k-th Order RDF Store</a> is derived from 
-		  that of the corresponding k+1-th Order Repository,
-		  supplemented by that of its member k-th Order Repositories.
+		  <p class="ednote">The intended semantics, under any entailment regime,
+		  of a k+1-th Order <a>RDF Store</a> is derived from 
+		  that of the corresponding k+1-th Order RDF Repository,
+		  supplemented by that of its member k-th Order Repositories,
+		  possibly augmented (e.g. in the provenance regime) by entailments that link the two.
 		  </p>
 		</section>
-		<!--		<section id="def-named-store">
-          <h4>Named Store</h4>
-		  <p>A <dfn data-lt="Named Store|Named Stores">Named Store</dfn> is an ordered pair [n, S] of an IRI n that is the 
-		  <a>Store</a> name, and <a>Store</a> S.
+		<section id="def-kth-order-rdf-recursive-store">
+          <h4>k-th Order RDF Recursive Store</h4>
+		  <p>A <dfn data-lt="k-th Order RDF Recursive Store|k-th Order RDF Recursive Stores|k-th Order Recursive Store|k-th Order Recursive Stores|RDF Recursive Store|RDF Recursive Stores|">k-th Order RDF Recursive Store</dfn>
+		  is defined by cases:
+		  </p>
+		  <ol>
+		  <li>A zeroth Order RDF Recursive Store is an RDF Graph.
+		  </li>
+		  <li>For k=0, 1, ..., a k+1-th Order RDF Recursive Store
+		 is a k+1-th Order RDF Repository whose component k-th Order RDF Datasets have the additionl structure
+		 of RDF Recursive Stores.
+		 </li>
+		 </ol>
+		  <p class="ednote">The intended semantics, under any entailment regime,
+		  of a k+1-th Order <a>RDF Recursive Store</a> is derived from 
+		  that of the corresponding k+1-th Order RDF Store,
+		  supplemented by that of its member k-th Order RDF Store,
+		  possibly augmented (e.g. in the provenance regime) by entailments that link the two.
+		  </p>
+		</section>		  
+		<section id="def-named-rdf-recursive-store">
+          <h4>Named RDF Recursive Store</h4>
+		  <p>A <dfn data-lt="Named RDF Recursive Store|Named RDF Recursive Stores">Named RDF Recursive Store</dfn> is an ordered pair [n, S] of an IRI n that is the 
+		  <a>Store</a> name, and <a>RDF Recursive Store</a> S.
 		  </p>	
-		  <p class="ednote">Do we need this type?
+		  <p class="ednote">We do need this type for the components of Recursive Stores.
+		  Also at the top level, a Recursive Store, or even the non-recursive version, may be
+		  named. The effect is that in the provenance entailment regime there are entailments of
+		  the property prov:isSpecializationOf, which require the parent Store to have an identifier.
 		  </p>
 		</section>
+		<!--
 		<section id="def-term-segment">
           <h4>Term Segment</h4>
 		  <p>The <dfn data-lt="Term Segment|Term Segments">Term Segment</dfn> (of a Store) is the mutable (write-only) set of 
@@ -385,16 +458,16 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				</a>.
 		  </p>	
 		  <p class="ednote">The Term Segment includes terms that might not currently appear in any statement in the current Revision of any 
-				Repository in the Store.
+				RDF Repository in the Store.
 		  </p>
 		  <p class="ednote">Do we need this term?it appears to be connected with the iterator over the history of a Repository,
 		  which does not appear to be relevant for the abstract data model.
-		</p>		  
+		  </p>		  
 		</section>-->
 		<!--
 		<section id="def-term">
           <h4>The Term</h4>
-		  <p>A <dfn data-lt="the term|the terms">Store</dfn> is a (supertype) where (specialization)</a>.
+		  <p>A <dfn data-lt="the term|the terms">term</dfn> is a (supertype) where (specialization)</a>.
 		  </p>	
 		  <p class="ednote">The intended semantics of a <a>the term</a> is (semantics)
 		  </p>
@@ -411,7 +484,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
             <caption id="namespace-table"><a href="#namespace-table">Table 2</a>: New datatypes considered for this specification but probably not needed</caption> <!-- Table 1-->
             <tbody>
 			  <tr>
-			    <td><a><b>Name</b></a></td>
+			    <td><b>Name</b></td>
 				<td><b>Definition</b>
 				</td>
 			  </tr>
@@ -419,13 +492,13 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 			    <td>Store</td>
 				<td>structure on a fixed RDF Surface (sensu Pat Hayes).
 				This Surface contains all the RDF Terms that (ever) appear in the Term Segment. 
-				The structure is as a set R of Named Repositories and a default Repository. 
+				The structure is as a set R of Named Repositories and a default RDF Repository. 
 				Every Store has an open world assumption in that at any point in time we may not know all the 
 				Repositories in it and all the Terms in it.
 				</td>
 			  </tr>              
 			  <tr>
-			    <td>Named Store</td>
+			    <td>Named RDF Recursive Store</td>
 				<td>ordered pair [n, S] of an IRI n that is the Store name, and Store S.
 				</td>
 			  </tr>   -->           
@@ -434,29 +507,29 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 				<td>mutable (write-only) set of the RDF Terms known at a given time to appear 
 				or have appeared in the Named Repositories of the Store 
 				(i.e includes terms that might not currently appear in any statement in the current Revision of any 
-				Repository currently in the Store)
+				RDF Repository currently in the Store)
 				</td>
 			  </tr>      
 <!--			  
 			  <tr>
-			    <td>Repository</td>
+			    <td>RDF Repository</td>
 				<td>sequence of Named RDF Datasets, together with a default RDF Dataset. 
-				@@@ Put this into an ed-note: An iterator over a Repository can be viewed as an 
+				@@@ Put this into an ed-note: An iterator over a RDF Repository can be viewed as an 
 				annotated Graph Store (Graph Store is used here in the sense of SPARQL UPDATE), 
 				where the "current Graph Store content" is the Named Dataset to which the iterator points at the current time.
 				</td>
 			  </tr>              
 			  <tr>
-			    <td>Named Repository</td>
-				<td>ordered pair [n, R] of an IRI n that is the Repository name, and Repository R.
+			    <td>Named RDF Repository</td>
+				<td>ordered pair [n, R] of an IRI n that is the RDF Repository name, and RDF Repository R.
 				</td>
 			  </tr>-->
 			  <tr>
-			    <td>version (of a Repository)</td>
-				<td>relationship between the Repository and each of the elements in its sequence of Named RDF Datsets.
+			    <td>version (of a RDF Repository)</td>
+				<td>relationship between the RDF Repository and each of the elements in its sequence of Named RDF Datsets.
                     A subproperty of prov:specializationOf. The "versionOf" relationship can be inferred from a prov:specializationOf, 
 					together with participation in a
-                    prov:wasRevisionOf relationship with another specialization of the same Repository.
+                    prov:wasRevisionOf relationship with another specialization of the same RDF Repository.
                     Therefore it is not necessary to mint this subproperty. 					
 				</td>
 			  </tr>              
@@ -587,7 +660,7 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
 		  otherwise, OpCreate(S<sup>k</sup>, name) = S<sup>k</sup></p>
 		  <p>
 		  where S<sup>k</sup> is a <a>k-th Order Store</a>, 
-		  R<sup>k</sup><sub>i</sub> are <a>k-th Order Repositoriess</a>, 
+		  R<sup>k</sup><sub>i</sub> are <a>k-th Order Repositories</a>, 
 		  name and name<sub>i</sub> are IRIs or blank nodes (I ∪ RDF-B)
 		  and  R<sup>k</sup><sub>0</sub> is the empty <a>k-th Order Repository</a>.
 		  </p>
@@ -721,13 +794,13 @@ The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
         <h3>Timestamped Graphs</h3>
         <p>A <em>timestamped graph</em> is defined as an RDF Dataset under the RDF Dataset semantics
           that <a
-            href="http://www.w3.org/TR/2014/NOTE-rdf11-datasets-20140225/#each-named-graph-defines-its-own-context"
+            href="http://www.w3.org/TR/2014/NOTE-RDF11-datasets-20140225/#each-named-graph-defines-its-own-context"
             >"each named graph defines its own context"</a> (see <a href="#semantics"></a>) and
           where a particular triple in the default graph has been designated as the timestamp
           triple, with the following constraints:</p>
         <ol>
           <li>There is exactly one named graph pair <code>&lt;n, G></code> in the RDF Dataset (where
-              <code>G</code> is an <a href="http://www.w3.org/TR/rdf11-concepts/#section-rdf-graph"
+              <code>G</code> is an <a href="http://www.w3.org/TR/RDF11-Concepts/#section-rdf-graph"
               >RDF graph</a>, and <code>n</code> is an IRI or blank node).</li>
           <li>The timestamp triple has the form <code>&lt;n, p, t></code>, where <code>n</code> is
             defined in the previous item, and <code>p</code> is a timestamp predicate that captures
@@ -1293,7 +1366,7 @@ _:b0 {dbp:Berlin loc:hasPointTempC "12.5"^^xsd:decimal .}</code></pre>
         Phuoc, D. L., Dao-Tran, M., Parreira, J. X., &amp; Hauswirth, M.In ISWC (Vol. 7031, p. 370-388). Springer. 2011.</li>
       <li>LARS: A Logic-based Framework for Analyzing Reasoning over Streams.
         Beck, H., Dao-Tran, M., Eiter, T., Fink, M. In AAAI. 2015.</li>
-      <li>RDF 1.1: On Semantics of RDF Datasets. Zimmerman, Antoine, ed.. 2014.  <a href="http://www.w3.org/TR/2014/NOTE-rdf11-datasets-20140225">http://www.w3.org/TR/2014/NOTE-rdf11-datasets-20140225</a>.</li>
+      <li>RDF 1.1: On Semantics of RDF Datasets. Zimmerman, Antoine, ed.. 2014.  <a href="http://www.w3.org/TR/2014/NOTE-RDF11-datasets-20140225">http://www.w3.org/TR/2014/NOTE-RDF11-datasets-20140225</a>.</li>
     </ul>-->
     <blockquote>
       <p class="note">this example could be integrated to the main text body</p>
