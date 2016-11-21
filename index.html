@@ -156,9 +156,10 @@
       <h2>The Basics</h2>
       <section id="namespaces-and-prefixes">
         <h3>Namespaces and Prefixes</h3>
-        <p>@@@Do we need any new namespaces for this extension other than@@@ <code>http://www.w3.org/ns/rsp#</code>
-and we use the prefix <code>rsp</code> for this namespace. Additional prefixes used in this document are the following:
-      </p>
+        <p class="ednote">Do we need any new namespaces for this document?
+        </p>		
+        <p>Additional prefixes used in this document are the following:
+        </p>
         <div style="text-align: left;">
           <table class="thinborder" style="margin-left: auto; margin-right: auto;">
             <caption id="namespace-table"><a href="#namespace-table">Table 1</a>: Prefix and Namespaces used in this specification</caption> <!-- Table 1-->
@@ -174,7 +175,7 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
               
               <tr><td>owl</td><td><code>http://www.w3.org/2002/07/owl#</code></td><td>The OWL namespace [[!OWL2-OVERVIEW]]</td></tr>
               
-              <tr><td>owl-time</td><td><code>http://www.w3.org/2006/time#</code></td><td>The OWL-TIME namespace [[OWL-TIME]]</td></tr>
+              <tr><td>owl-time</td><td><code>http://www.w3.org/2006/time#</code></td><td>The OWL-TIME namespace [[!OWL-TIME]]</td></tr>
               
               <tr><td>prov</td><td><code>http://www.w3.org/ns/prov#</code></td>
                 <td>The PROV namespace [[!PROV-DM]]</td></tr>
@@ -311,6 +312,7 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 		  <p>For k = 0, 1, ... , a (k+1)-th Order RDF Dataset is composed of a distinguished k-th Order RDF Dataset, called the default dataset, 
 		  and a set of <a>Named k-th Order RDF Datasets</a>.
 		  The names of the k-th Order Datasets are unique within the k+1-th Order Dataset.		  
+		  The set of k-th order dataset names of a k+1-th order dataset D is denoted by datasetNames(D).
 		  </p>
 		  <p class="ednote">
 		  To be clarified in a separate semantics section:
@@ -341,15 +343,16 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 		  <li>k+1-th Order RDF Repository, k = 0, 1, ...,
 		  is a k+1-th Order RDF Dataset with the additional structure of a total order 
 		  on its component set of <a>Named k-th Order RDF Datasets</a>.
-		  As such, the sequential nature of the structure of Named Datasets may be considered as a linked list,
+		  As such, the sequential nature of the structure of Named Datasets may be considered as a linear linked data structure,
 		  as opposed to a mapping over integers.
-		  This linked list may be finite (with unique initial and terminal elements),
+		  This linked data structure may be finite (with unique initial and terminal elements),
 		  semi-infinite (lacking either an initial or terminal element) or 
 		  bi-infinite (lacking both initial or terminal elements).
-		  Each Dataset of the sequence is called a version of the RDF Repository.
+		  Each <a>k-th order dataset</a> of the sequence is called a <dfn>version</dfn> of the RDF Repository.
 		  Every version that is not the initial version has a unique previous version,
 		  and we say that
-		   each such version revises the previous version.
+		  each such version revises the previous version.
+		  The set of version names of a repository R is denoted by versionNames(R).
 		  </li>
 		  </ol>
 		  <p class="ednote">To be clarified in a separate semantics section: 
@@ -372,7 +375,7 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 		  </p>
 		  <p class="ednote">
 		  Where Update Operations are conceived as functional specifications for 
-		  modifying the current state of a Graph Store,
+		  transitions of the state of a Graph Store,
 		  for a RDF Repository these operations play the role of helper functions used in the "lazy" construction of the
 		  RDF Repository.
 		  </p>
@@ -380,6 +383,7 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 		<section id="def-named-kth-order-RDF Repository">
           <h4>Named k-th Order RDF Repository</h4>
 		  <p>A <dfn data-lt="Named k-th Order RDF Repository|Named k-th Order Repositories">Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of 
+		  
 		  an IRI or blank node n 
 		  that is the <a>RDF Repository</a> name, and <a>k-th Order RDF Repository</a> R.
 		  </p>
@@ -420,7 +424,7 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 		</section>
 		<section id="def-kth-order-rdf-recursive-store">
           <h4>k-th Order RDF Recursive Store</h4>
-		  <p>A <dfn data-lt="k-th Order RDF Recursive Store|k-th Order RDF Recursive Stores|k-th Order Recursive Store|k-th Order Recursive Stores|RDF Recursive Store|RDF Recursive Stores|">k-th Order RDF Recursive Store</dfn>
+		  <p>A <dfn data-lt="k-th Order RDF Recursive Store|k-th Order RDF Recursive Stores|k-th Order Recursive Store|k-th Order Recursive Stores|RDF Recursive Store|RDF Recursive Stores|Recursive Store|Recursive Stores">k-th Order RDF Recursive Store</dfn>
 		  is defined by cases:
 		  </p>
 		  <ol>
@@ -510,20 +514,6 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 				RDF Repository currently in the Store)
 				</td>
 			  </tr>      
-<!--			  
-			  <tr>
-			    <td>RDF Repository</td>
-				<td>sequence of Named RDF Datasets, together with a default RDF Dataset. 
-				@@@ Put this into an ed-note: An iterator over a RDF Repository can be viewed as an 
-				annotated Graph Store (Graph Store is used here in the sense of SPARQL UPDATE), 
-				where the "current Graph Store content" is the Named Dataset to which the iterator points at the current time.
-				</td>
-			  </tr>              
-			  <tr>
-			    <td>Named RDF Repository</td>
-				<td>ordered pair [n, R] of an IRI n that is the RDF Repository name, and RDF Repository R.
-				</td>
-			  </tr>-->
 			  <tr>
 			    <td>version (of a RDF Repository)</td>
 				<td>relationship between the RDF Repository and each of the elements in its sequence of Named RDF Datsets.
@@ -542,14 +532,14 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 			  </tr>
 			  <tr>
 			    <td>Named RDF Databag</td>
-				<td>ordered pair [n, B] of a @@@string s: this breaks the pattern of using IRIs for names### 
+				<td>ordered pair [n, B] of an IRI 
 				that is the name of the RDF Databag, and RDF Databag B.
 				</td>
 			  </tr>
 		      <tr>
 			    <td>Multirepository</td>
 				<td>like a Repository, but with RDF Databags instead of RDF Datasets.
-				@@@ (move to a note) Explanation: The purpose of the additional types which incorporate cardinality is to 
+				 (move to a note) Explanation: The purpose of the additional types which incorporate cardinality is to 
 				accommodate a representation of an arbitrary RDF Stream with a "cumulative" strategy 
 				(just making this name up on the spot). This strategy is what I am using in the current experimental repository, 
 				 where each new timestamped graph of the stream is inserted into the repository that holds its representation, 
@@ -564,7 +554,7 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 				 repository content. 
 				 The visibility map that is the best match to this case is where the default is a runlength of 1. 
 				 This strategy would not need the additional types with cardinality, making the abstract data model more parsimonious.
-				@@@
+				
 				</td>
 			  </tr>              
 			  <tr>
@@ -584,13 +574,121 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 
 	<section id="algebra-syntax">
 		<h2>Abstract Algebra Syntax</h2>
-		<section id="def-existing-update-opcreate">
-          <h4>OpCreate</h4>
-		  <p><dfn>OpCreate</dfn> is defined in [sparql11-update] as an Update Operation with the following signature:</p>
+		<section id="def-existing-basic-dataset-union">
+          <h4>Dataset-UNION</h4>
+		  <p><dfn>Dataset-UNION</dfn> is defined in [[!sparql11-update]] as a basic operation with the following signature:</p>
+		  <ul>
+		    <li>On the domain RDF Dataset x RDF Dataset, the range is RDF Dataset.</li>
+		  </ul>
+		  <p>The semantics of <a>Dataset-UNION</a> is defined in [[!sparql11-update]] as follows.</p> 
+		  <p>
+		    Let DS={DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and DS' = {DG'} union {(iri'<sub>j</sub>, G'<sub>j</sub>) | 1 ≤ j ≤ m} be two RDF Datasets. Let further graphNames(DS) = { iri<sub>i</sub> | 1 ≤ i ≤ n} and graphNames(DS') = {iri'<sub>j</sub> | 1 ≤ j ≤ m}. The Dataset-UNION between DS and DS' is defined as follows:
+	      </p>
+	      <p>Dataset-UNION(DS, DS') = {DG union DG'} union {(iri, G) | iri in graphNames(DS) union graphNames(DS')}</p>
+		  <p>and G defined as </p>
+		  <ul>
+			<li>G<sub>i</sub> for iri = iri<sub>i</sub> such that iri<sub>i</sub> in graphNames(DS) minus graphNames(DS')</li>
+			<li>G<sub>j</sub> for iri = iri'<sub>j</sub> such that iri<sub>j</sub> in graphNames(DS') minus graphNames(DS)</li>
+			<li>G<sub>i</sub> union G<sub>j</sub> for iri = iri<sub>i</sub> = iri'<sub>j</sub> in graphNames(DS) intersect graphNames(DS')</li>
+		  </ul>
+		  <p>where union between graphs is defined as set-union of triples in those graphs.</p>
+		  <p>The Dataset-UNION operation constructs a new RDF Dataset from two existing RDF Datasets by
+		  forming the union of the default graphs, and taking the union of the sets of named graphs, with the exception
+          that if the sets of graph names of the two datasets have a non-empty intersection, the graphs with names
+          in that intersection must be combined by set union. 		  	  
+		  </p>
+		  <p>
+		  We extend the Dataset-UNION operation to <a>k-th Order RDF Datasets</a>.
+		  Also, the names are extended from IRIs to also allow blank node names.
+		  </p>
+		  <ul>
+		    <li>On the domain <a>k-th Order RDF Dataset</a> x k'-th Order RDF Dataset, the range is max(k, k')-th Order RDF Dataset.</li>
+		  </ul>
+		  <p>The extended semantics of <a>Dataset-UNION</a> is defined by cases as follows.</p>
+          <p>In the case that both arguments are zeroth Order RDF Datasets, i.e., RDF Graphs, then the result is the union
+		     of the sets of triples in the two graphs.
+          </p>		  
+		  <p>In the case that both arguments, DSP and DSP', are k+1-th Order RDF Datasets, 
+		  let DSP = {DSC} ∪ 
+		  {(name<sub>i</sub>, DSC<sub>i</sub>) | 1 ≤ i ≤ n} and 
+		  datasetNames(DSP) = { name<sub>i</sub> | 1 ≤ i ≤ n}, and similarly for DSP',
+		  where DSC and DSC<sub>i</sub> are <a>k-th Order RDF Datasets</a>, and
+		  name and name<sub>i</sub> are IRIs or blank nodes (I ∪ RDF-B).
+		  Then</p>
+          <p>
+		    Dataset-UNION(DSP, DSP') = 
+           Dataset-UNION(DSC , DSC') ∪ {(iri, DS) | iri in datasetNames(DSP) ∪ 
+		   datasetNames(DSP')}</p>
+		  <p>and DS defined as </p>
+		  <ul>
+			<li>DSC<sub>i</sub> for iri = iri<sub>i</sub> such that iri<sub>i</sub> in datasetNames(DSP) minus datasetNames(DSP')</li>
+			<li>DSC'<sub>j</sub> for iri = iri'<sub>j</sub> such that iri<sub>j</sub> in datasetNames(DSP') minus datasetNames(DSP)</li>
+			<li>Dataset-UNION(DSC<sub>i</sub> , DSC'<sub>j</sub>) for iri = iri<sub>i</sub> = iri'<sub>j</sub> in 
+			    datasetNames(DSP) intersect datasetNames(DSP')</li>
+		  </ul>
+
+		  <p>In the case that k and k' are different, let k'' = max(k, k').
+		  Then Dataset-UNION(DS, DS') = Dataset-UNION(Dataset-ELEVATE(DS, k''), Dataset-ELEVATE(DS', k'')).
+		  </p>
+		  <p class="ednote">Define the basic operation Dataset-ELEVATE to lift a k'-th order dataset to a k-th order dataset, with k' &le; k.
+		  It will be embedded in the default dataset.
+		  The definition can be recursive, with base case of k = k' + 1, and the input dataset is the default dataset of the output, and the
+		  output contains no named datasets. When k=k', then the operation returns the original dataset.
+		  </p>
+		  <p class="ednote">
+		    It is possible to informally apply the Dataset-UNION operation to pairs of <a>repositories</a> or <a>stores</a> by first applying
+			a forgetful functor that retains all the versions but forgets the order among them.
+			However, the result is not a <a>repository</a> or <a>store</a>, but is just a dataset.
+            To truly extend the UNION operation to <a>repositories</a> and <a>stores</a> to generate new  <a>repositories</a> and <a>stores</a>,
+            it would be necessary to mint new version names and to specify how versions are ordered and combined when necessary
+			e.g. according to timestamps, but timestamps are not mandatory in our definitions 
+            There is no precedent for such definitions, since the Update spec does not define a union operation on Graph Stores.			
+		  </p>
+		  </section>
+		  <section>
+		  <h4>Other Basic Operations</h4>
+		  <p class="ednote">Similarly, the basic operations of Dataset-DIFF and Dataset can be extended to k-th order datasets.
+		  However, when working with the Dataset operation that takes a pattern as an argument, it is necessary to extend
+		  the Graph Pattern syntax to enable the specifications of the multiple names (up to k of them) needed to identify
+          some triples in a k-th order dataset. 		  
+		  </p>
+		  </section>
+		  <section id="def-existing-update-insert-data">
+          <h4>Insert Data</h4>
+		  <p><dfn>Insert Data</dfn> is defined in [[!sparql11-update]] as an Update Operation with the following signature:</p>
 		  <ul>
 		    <li>On the domain RDF Dataset x IRI, the range is RDF Dataset.</li>
 		  </ul>
-		  <p>The semantics of <a>OpCreate</a> is defined in [sparql11-update] as follows.</p> 
+		  <p>The semantics of <a>Insert Data</a> is defined in [[!sparql11-update]] as follows.</p> 
+		  <p>OpInsertData(GS, <em>QuadPattern</em>) = Dataset-UNION(GS, Dataset(<em>QuadPattern</em>,{},GS,GS))</p>
+		  <p>where {} is the empty solution mapping,</p>
+		  <p>
+		  GS is an RDF dataset, and <em>QuadPattern</em> is a ground quad pattern.
+		  </p>
+		  <p>The Insert Data operation constructs a new RDF Dataset from an existing RDF Dataset by adding 
+		  triples and quads to it as expressed in the ground <em>QuadPattern</em>.
+		  Note that Insert Data is functional in that it does not actually "change" the input RDF Dataset.
+          Update operations may be used to define a Graph Store as a state machine, where the state of a Graph Store
+          is an RDF Dataset, and Update Operations take the current state of a Graph Store as one of their input arguments,
+          generating a new RDF Dataset which then is taken as the new state of the Graph Store.		  
+		  </p>
+		  <p>
+		  We extend the Insert Data operation to <a>k-th Order RDF Datasets</a>.
+		  </p>
+		  <ul>
+		    <li>On the domain <a>k-th Order RDF Datasets</a> x Ground <a>k-th Order Patterns</a>, the range is <a>k-th Order RDF Datasets</a>.</li>
+		  </ul>
+		  <p>The extended semantics of <a>Insert Data</a> is defined as follows.</p> 
+		  <p>OpInsertData(DS, <em>k-Pattern</em>) = Dataset-UNION(DS, Dataset(<em>k-Pattern</em>,{},DS,DS))</p>
+		  <p>where {} is the empty solution mapping,</p>
+		  </section>
+		<section id="def-existing-update-opcreate">
+          <h4>OpCreate</h4>
+		  <p><dfn>OpCreate</dfn> is defined in [[!sparql11-update]] as an Update Operation with the following signature:</p>
+		  <ul>
+		    <li>On the domain RDF Dataset x IRI, the range is RDF Dataset.</li>
+		  </ul>
+		  <p>The semantics of <a>OpCreate</a> is defined in [[!sparql11-update]] as follows.</p> 
 		  <p>Let GS = {DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and graphNames(GS) = { iri<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
 		  <p>OpCreate(GS, iri) = GS union {(iri, {})} if iri not in graphNames(GS); 
 		  otherwise, OpCreate(GS, iri) = GS</p>
@@ -613,16 +711,61 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 		    <li>On the domain <a>k-th Order RDF Dataset</a> x I ∪ RDF-B, the range is <a>k-th Order RDF Dataset</a>.</li>
 		  </ul>
 		  <p>The extended semantics of <a>OpCreate</a> is defined as follows.</p> 
-		  <p>Let DS<sup>k+1</sup> = {DS<sup>k</sup>} ∪ 
-		  {(name<sub>i</sub>, DS<sup>k</sup><sub>i</sub>) | 1 ≤ i ≤ n} and 
-		  datasetNames(DS<sup>k+1</sup>) = { name<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
-		  <p>OpCreate(DS<sup>k+1</sup>, name) = DS<sup>k+1</sup> ∪ {(name, {})} 
-		  if name not in datasetNames(DS<sup>k+1</sup>); 
-		  otherwise, OpCreate(DS<sup>k+1</sup>, name) = DS<sup>k+1</sup></p>
+		  <p>Let DSP = {DSC} ∪ 
+		  {(name<sub>i</sub>, DSC<sub>i</sub>) | 1 ≤ i ≤ n} and 
+		  datasetNames(DSP) = { name<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
+		  <p>OpCreate(DSP, name) = DSP ∪ {(name, {})} 
+		  if name not in datasetNames(DSP); 
+		  otherwise, OpCreate(DSP, name) = DSP</p>
 		  <p>
-		  where DS<sup>k</sup> and DS<sup>k</sup> are <a>k-th Order RDF Datasets</a>, and
+		  where DSC and DSC are <a>k-th Order RDF Datasets</a>, and
 		  name and name<sub>i</sub> are IRIs or blank nodes (I ∪ RDF-B).
 		  </p>
+		  </section>
+		  <section id="def-new-apply-operation">
+		  <h4>Apply Operation</h4>
+		  <p class="ednote">The above extensions only allow management, e.g. creation of a new "slot", at the top level of
+		  a k-th order dataset. However, it is also useful to be able to apply operations at a deeper level within
+		  a k-th order dataset. This capability can be enabled with a generic operation, called <dfn>Apply</dfn>, which takes
+		  a k-th order dataset as first argument,
+		  an Operation specification (Operation name and tuple of arguments with a placehoder in one position) as second argument, 
+		  and an optional third argument that is an IRI or blank node.
+		  The result would be the result of applying that Operation with the appropriate (named or default) (k-1)-th order dataset 
+		  replacing the placeholder,
+		  and then substituting for the (k-1)-th order dataset with the operation result within the original k-th order dataset. 
+		  If the name is not in the set of
+		  database names, then the result would be the original dataset.
+		  </p>
+		  </section>
+		  <section>
+		  <h4>Other Update Operations</h4>
+		  <p class="ednote">Similarly, the Update Operations of SPARQL Update can be extended to k-th order datasets,
+		  making use of the extended basic operations.
+		  </p>
+		  </section>		  
+		  <section id="def-new-append-operation">
+		  <h4>Append Operation</h4>
+		  <p>Update Operations as defined in SPARQL Update, and here extended, are not directly applicable to <a>repositories</a> and <a>stores</a>.
+		  In order to enable this, we define an Append operation, 
+		  that takes as input a <a>repository</a> (with a terminal version) as first argument,
+		  an Update Operation specification as second argument and a name (IRI or blank node) as third argument.
+		  The result is a new <a>repository</a> that has an additional version, that being the result of applying
+		  the Update Operation to the terminal version of the input repository, and making that the new terminal
+		  version, using the specified name as the version name.
+		  </p>
+		  <p>The Append Operation may be extended to <a>stores</a> in the obvious fashion. However, this 
+		  only allows manipulation of the version sequence of the store.
+		  To enable direct manipulation of the version sequence of repositories within the store, we extend
+		  the <a>Apply</a> Operation, defined above for <a>k-th order datasets</a> and Update Operation specifications, 
+		  to <a>stores</a> and Append Operation specifications on repositories (only for unnested Appends).
+		  </p>
+		  <p>The Append Operation may be further extended to <a>recursive stores</a> and nested Append Operation Specifications.
+		  </p>
+		  <p>Application of an Append operation to a structure without a terminal version is an error.
+		  </p>
+		  </section>		  
+		  <!--
+		  <section>
 		  <p class="ednote">Options for extending Update Operations to the Store/Repository model are:
 		  </p>
 		  <ol>
@@ -664,7 +807,7 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 		  name and name<sub>i</sub> are IRIs or blank nodes (I ∪ RDF-B)
 		  and  R<sup>k</sup><sub>0</sub> is the empty <a>k-th Order Repository</a>.
 		  </p>
-		  
+		  -->
           <!--
 		  <p>We extend the syntax of OpCreate to include the following additional signature:</p>
 		  <ul>
@@ -709,22 +852,22 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 		  <p>
 		  where DD and D<sub>i</sub> are RDF Datasets, iri and iri<sub>i</sub> are IRIs.
 		  </p>
-         -->		  
-		</section>
+         </section>
+		-->		  
 		<!--
 		<section id="def-existing-update-operator">
           <h4>Operator</h4>
-		  <p><dfn>Operator</dfn> is defined in [sparql11-update] as a (supertype) with the following signatures:</p>
+		  <p><dfn>Operator</dfn> is defined in [[!sparql11-update]] as an Update Operation with the following signatures:</p>
 		  <ul>
 		    <li>On the domain X x Y, the range is Z.</li>
 			<li>On the domain X x U, the range is V.</li>
 		  </ul>	
-		  <p class="ednote">The semantics of <a>Operator</a> is defined in [sparql11-update] to be (semantics)
+		  <p class="ednote">The semantics of <a>Operator</a> is defined in [[!sparql11-update]] to be (semantics)
 		  </p>
     	</section>
 		<section id="def-extension-of-existing-update-operator">
           <h4>Operator</h4>
-		  <p><dfn>Operator</dfn> is defined in [sparql11-update] as a (supertype) with the following signatures:</p>
+		  <p><dfn>Operator</dfn> is defined in [[!sparql11-update]] as a (supertype) with the following signatures:</p>
 		  <ul>
 		    <li>On the domain X x Y, the range is Z.</li>
 			<li>On the domain X x U, the range is V.</li>
@@ -734,7 +877,7 @@ and we use the prefix <code>rsp</code> for this namespace. Additional prefixes u
 		    <li>On the domain X x Y, the range is Z.</li>
 			<li>On the domain X x U, the range is V.</li>
 		  </ul>
-		  <p class="ednote">The semantics of <a>Operator</a> is defined in [sparql11-update] to be (semantics)
+		  <p class="ednote">The semantics of <a>Operator</a> is defined in [[!sparql11-update]] to be (semantics)
 		  </p>
 		  <p class="ednote">The intended semantics of <a>Operator</a> on the extended signature is (semantics)
 		  </p>
