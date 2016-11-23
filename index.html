@@ -200,8 +200,13 @@
 
     <section id="datatypes">
       <h2>Datatypes</h2>
+        <p>In this section, we review the datatypes defined in other recommendations and
+		state the definitions of new datatypes that support the signature definitions of new algebra operators.s</p>
       <section id="existing-datatypes">
         <h3>Existing Datatypes</h3>
+		<p class="ednote>These definitions are being duplicated elsewhere in the document. For now, I keep this table
+		as a quick reference for all existing datatypes that we depend on.
+		</p>
         <p>We make use of the following datatypes from other specifications in the RDF and SPARQL family:</p>
         <div style="text-align: left;">
           <table class="thinborder" style="margin-left: auto; margin-right: auto;">
@@ -299,9 +304,24 @@
 				multisets with finite cardinality when order is forgotten.
 				</p>
       </section>
-      <section id="new-datatypes">
-        <h3>New Datatypes</h3>
-        <p>The following new datatypes are defined in order to support the signature definitions of new algebra operators:</p>
+	<section id="def-datasets">
+        <h3>RDF Datasets</h3>
+		<section id="def-rdf-dataset">
+		Recall the definition of RDF Dataset from [[!RDF11-Concepts]]:
+		  <p>An <dfn data-lt="RDF Dataset|RDF Datasets|Dataset|Datasets">RDF dataset</dfn> is a collection of
+      <a>RDF graphs</a>, and comprises:</p>
+
+    <ul>
+      <li>Exactly one <dfn>default graph</dfn>, being an <a>RDF graph</a>.
+        The default graph does not have a name and MAY be empty.</li>
+      <li>Zero or more <dfn def-lt="named graph|named graphs">named graphs</dfn>.
+        Each named graph is a pair consisting of an IRI or a blank node
+        (the <dfn>graph name</dfn>), and an <a>RDF graph</a>.
+        Graph names are unique within an RDF dataset.</li>
+    </ul>
+
+
+		</section>
 		<section id="def-kth-order-dataset">
           <h4>k-th order RDF Dataset</h4>
 		  <p>A <dfn data-lt="k-th Order RDF Dataset|k-th Order RDF Datasets|k-th Order Dataset|k-th Order Datasets">k-th Order RDF Dataset</dfn> 
@@ -330,6 +350,9 @@
 		  that is the <a>k-th Order RDF Dataset</a> name, and <a>k-th Order RDF Dataset</a> D.
 		  </p>	
 		</section>
+		</section>
+		<section id="def-repositories">
+          <h3>RDF Repositories</h3>
 		<section id="def-kth-order-rdf-repository">
           <h4>k-th Order RDF Repositories</h4>
 		  <p>A <dfn data-lt="k-th Order RDF Repository|k-th Order RDF Repositories|k-th Order Repository|k-th Order Repositories|RDF Repository|RDF Repositories|repository|repositories"
@@ -369,7 +392,7 @@
 		  <a href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#wasRevisionOf">prov:wasRevisionOf</a>
 		  property.
 		  </p>	
-		  <p class="ednote">A second-order RDF Repository is similar to a Graph Store, 
+		  <p class="ednote">A second-order <a>RDF Repository</a> is similar to a Graph Store, 
 		  but with the additional structure
 		  that every version is named (albeit the name may be a blank node).
 		  </p>
@@ -389,13 +412,16 @@
 		  </p>
 		  <p class="ednote">		  
 		  Under the provenance entailment regime
-		  has additional entailments that 
+		  a <a>named RDF repository</a> has additional entailments that 
 		  each version
 		  is related to the parent RDF Repository by the 
 		  <a href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#specializationOf">prov:specializationOf</a>
 		  property.
           </p>		
 		</section>
+		</section>
+		<section id="def-stores">
+          <h3>Stores</h3>
 		<section id="def-kth-order-store">
           <h4>k-th Order RDF Store</h4>
 		  <p>A <dfn data-lt="k-th Order RDF Store|k-th Order RDF Stores|k-th Order Store|k-th Order Stores|RDF Store|RDF Stores|Store|Stores">k-th Order RDF Store</dfn>
@@ -452,6 +478,7 @@
 		  named. The effect is that in the provenance entailment regime there are entailments of
 		  the property prov:isSpecializationOf, which require the parent Store to have an identifier.
 		  </p>
+		</section>
 		</section>
 		<!--
 		<section id="def-term-segment">
