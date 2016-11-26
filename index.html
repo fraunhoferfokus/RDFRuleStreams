@@ -934,6 +934,7 @@
 	of the new datatypes so that the dynamic
 	nature of the statements
 	is accessible through simple entailment.
+	<p>The following graph is denoted G<sub>FHIR</sub>.</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -941,41 +942,43 @@
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
-I	_:b1 a fhir:Observation ;
+_:b1 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b2 .
 	
-	_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 
-	_:b4 a fhir:Observation ;
+_:b4 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b5 .
 	
-	_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 
-	_:b7 a fhir:Observation ;
+_:b7 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b8 .
 	
-	_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
 	</aside>
 	<aside  class="example">
-	An RDF Stream is a sequence of RDF Datasets satisfying certain additional constraints.
+	An RDF Stream is a sequence of RDF Datasets (possibly graphs) satisfying certain additional constraints.
+	<p>The RDF Stream as a whole is denoted S<sub>FHIR</sub>.</p>
 	<p>A representation of the first element of the stream is as follows.
 	The first triple in each document is the timestamp triple.
+	This graph is denoted G<sup>1</sup><sub>FHIR</sub>.
 	</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
@@ -984,17 +987,19 @@ I	_:b1 a fhir:Observation ;
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
-I	_:b1 a fhir:Observation ;
+_:b1 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b2 .
 	
-	_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-	<p>A representation of the second element of the stream is as follows.</p>
+	<p>A representation of the second element of the stream is as follows.
+		This graph is denoted G<sup>2</sup><sub>FHIR</sub>.
+</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1003,17 +1008,19 @@ I	_:b1 a fhir:Observation ;
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
 
-	_:b4 a fhir:Observation ;
+_:b4 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b5 .
 	
-	_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-	<p>A representation of the third element of the stream is as follows.</p>
+	<p>A representation of the third element of the stream is as follows.
+		This graph is denoted G<sup>3</sup><sub>FHIR</sub>.
+</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1021,25 +1028,26 @@ I	_:b1 a fhir:Observation ;
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
-	_:b7 a fhir:Observation ;
+_:b7 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b8 .
 	
-	_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
 One possible way that this RDF Stream would be transmitted is as a sequence of RDF documents, each one containing
 an RDF graph corresponding to one element of the stream.
 	</aside>
 	<aside  class="example">
-	This data can also be represented using the <a>RDF Dataset</a> datatype.
+	This information can also be represented using the <a>RDF Dataset</a> datatype.
 	The named graph structure allows the statements of each stream element to be grouped together,
 	and also allows us to materialize, in the default graph, 
 	statements giving the order among these elements.	
-	<pre>
+		This RDF dataset is denoted D<sub>FHIR</sub>.
+<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1049,7 +1057,7 @@ an RDF graph corresponding to one element of the stream.
 _:b102 prov:wasRevisionOf _:b101.
 _:b103 prov:wasRevisionOf _:b102.
 _"b101{
-I	    _:b1 a fhir:Observation ;
+	    _:b1 a fhir:Observation ;
 		    obs:code sct:36407505 ;
 		    obs:device lr:sensor1234 ;
 		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
@@ -1088,10 +1096,13 @@ _:b103{
 	The dataset above is a static structure representing the entailment,
 	under the provenance regime,
 	of a first-order <a>Repository</a>.
+	This repository is denoted R<sub>FHIR</sub>.
 	Since repositories are dynamic entities, one form the transmission of the repository could
 	take is a sequence of documents, as shown below.
 	In this example, the default dataset of the repository is empty.
- 	<p>The first document of the sequence is as follows.</p>
+ 	<p>The first document of the sequence, representing a dataset, is as follows.
+	The dataset is denoted D<sup>1</sup><sub>FHIR</sub>.
+	</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1100,7 +1111,7 @@ _:b103{
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
 _:b101{
-I	    _:b1 a fhir:Observation ;
+	    _:b1 a fhir:Observation ;
 		    obs:code sct:36407505 ;
 		    obs:device lr:sensor1234 ;
 		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
@@ -1111,7 +1122,9 @@ I	    _:b1 a fhir:Observation ;
 		    lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 }	
 </pre>
- 	<p>The second document of the sequence is as follows.</p>
+ 	<p>The second document of the sequence is as follows.
+		The dataset is denoted D<sup>2</sup><sub>FHIR</sub>.
+</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1131,7 +1144,9 @@ _:b102{
 			lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 }
 </pre>
- 	<p>The third document of the sequence is as follows.</p>
+ 	<p>The third document of the sequence is as follows.
+		The dataset is denoted D<sup>3</sup><sub>FHIR</sub>.
+</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1162,7 +1177,8 @@ _:b103{
 	characteristics, and the time the observation report was generated
 	as the second temporal characteristic,
 	The following is a representation of this information as an RDF dataset in Trig.
-	Like the previous examples, the dynamic aspects are implicitly expressed 
+	The dataset is denoted D<sub>prov</sub>.
+	In this representation, the dytnamic aspects are implicitly expressed 
 	in timestamps,
 	but the temporal order is not directly available through simple entailment.
 	<pre>
@@ -1176,7 +1192,7 @@ _:b0
 	prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
     lr:stream lr:streamA12342015-01-01T12:00:00Zm .
 _:b0 {
-I	_:b1 a fhir:Observation ;
+	_:b1 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
@@ -1220,7 +1236,9 @@ _:b6 {
 	</aside>
 	<aside  class="example">
 	The representation as an RDF Stream takes the form of the following sequence.
-	<p>A representation of the first element of the stream is as follows.
+	The stream as a whole is denoted S<sub>prov</sub>.
+	<p>A representation of the first element of the stream in an RDF dataset as follows.
+	The dataset is denoted D<sup>1<sup><sub>prov</sub>.
 	The first triple in each document is the timestamp triple.
 	</p>
 	<pre>
@@ -1245,7 +1263,9 @@ I	_:b1 a fhir:Observation ;
 		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 }
 </pre>
-	<p>A representation of the second element of the stream is as follows.</p>
+	<p>A representation of the second element of the stream is as follows.
+		The dataset is denoted D<sup>2<sup><sub>prov</sub>.
+</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1269,7 +1289,9 @@ _:b3 {
 		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 }
 </pre>
-	<p>A representation of the third element of the stream is as follows.</p>
+	<p>A representation of the third element of the stream is as follows.
+		The dataset is denoted D<sup>3<sup><sub>prov</sub>.
+</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1303,6 +1325,7 @@ stream as a whole (<code>lr:streamA12342015-01-01T12:00:00Z</code>). This is opt
 	This additional name allows the statements of each stream element to be grouped together,
 	and also allows us to materialize, in the default (first-order) dataset, 
 	statements giving the order among these elements.	
+	The second-order dataset is denoted D2<sub>prov</sub>.
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1310,15 +1333,15 @@ stream as a whole (<code>lr:streamA12342015-01-01T12:00:00Z</code>). This is opt
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
-_:b102 prov:wasRevisionOf _:b101.
-_:b103 prov:wasRevisionOf _:b102.
+_:b202 prov:wasRevisionOf _:b201.
+_:b203 prov:wasRevisionOf _:b202.
 
-_:b101{
+_:b201{
     _:b0 
 	    prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
         lr:stream lr:streamA12342015-01-01T12:00:00Zm .
     _:b0 {
-I	    _:b1 a fhir:Observation ;
+	    _:b1 a fhir:Observation ;
 		    obs:code sct:36407505 ;
 		    obs:device lr:sensor1234 ;
 		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
@@ -1330,7 +1353,7 @@ I	    _:b1 a fhir:Observation ;
     }
 }	
 
-_:b102{
+_:b202{
 	_:b3 
 		prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
 	    lr:stream lr:streamA12342015-01-01T12:00:00Z .
@@ -1346,7 +1369,7 @@ _:b102{
 			lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 	}
 }
-_:b103{
+_:b203{
 	_:b6 
 		prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
 	    lr:stream lr:streamA12342015-01-01T12:00:00Z .
@@ -1368,12 +1391,15 @@ _:b103{
 	The second-order dataset above is a static structure representing the entailment,
 	under the provenance regime,
 	of a second-order <a>Repository</a>.
+	The repository as a whole is denoted R<sub>prov</sub>.
 	For this representation, we use the same extension of the Trig syntax to "quints"
 	as in the previous example.
 	Since repositories are dynamic entities, one form of the transmission of the repository would
-	be a sequence of documents, as shown below.
+	be a sequence of documents representing named first-order datasets, as shown below.
 	In this example, the default dataset of the repository is empty.
- 	<p>The first document of the sequence is as follows.</p>
+ 	<p>The first document of the sequence is as follows.
+		The named dataset is denoted ND<sup>1<sup><sub>prov</sub>.
+</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1381,12 +1407,12 @@ _:b103{
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
-_:b101{
+_:b201{
     _:b0 
 	    prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
         lr:stream lr:streamA12342015-01-01T12:00:00Zm .
     _:b0 {
-I	    _:b1 a fhir:Observation ;
+	    _:b1 a fhir:Observation ;
 		    obs:code sct:36407505 ;
 		    obs:device lr:sensor1234 ;
 		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
@@ -1398,7 +1424,9 @@ I	    _:b1 a fhir:Observation ;
     }
 }	
 </pre>
- 	<p>The second document of the sequence is as follows.</p>
+ 	<p>The second document of the sequence is as follows.
+			The named dataset is denoted ND<sup>2<sup><sub>prov</sub>.
+</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1406,7 +1434,7 @@ I	    _:b1 a fhir:Observation ;
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
-_:b102{
+_:b202{
 	_:b3 
 		prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
 	    lr:stream lr:streamA12342015-01-01T12:00:00Z .
@@ -1423,7 +1451,9 @@ _:b102{
 	}
 }
 </pre>
- 	<p>The third document of the sequence is as follows.</p>
+ 	<p>The third document of the sequence is as follows.
+			The named dataset is denoted ND<sup>3<sup><sub>prov</sub>.
+</p>
 	<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1431,7 +1461,7 @@ _:b102{
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
-_:b103{
+_:b203{
 	_:b6 
 		prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
 	    lr:stream lr:streamA12342015-01-01T12:00:00Z .
