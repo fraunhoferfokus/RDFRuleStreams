@@ -657,10 +657,12 @@
 		  <p>In the case that k and k' are different, let k'' = max(k, k').
 		  Then Dataset-UNION(DS, DS') = Dataset-UNION(Dataset-ELEVATE(DS, k''), Dataset-ELEVATE(DS', k'')).
 		  </p>
-		  <p class="ednote">Define the basic operation Dataset-ELEVATE to lift a k'-th order dataset to a k-th order dataset, with k' &le; k.
-		  It will be embedded in the default dataset.
+		  <p class="ednote">Define the basic operation Dataset-ELEVATE to lift a k'-th order dataset to a k-th order dataset, 
+		  with k' &le; k.
+		  In the case that k' &lt; k, then it will be embedded in the default dataset.
 		  The definition can be recursive, with base case of k = k' + 1, and the input dataset is the default dataset of the output, and the
-		  output contains no named datasets. When k=k', then the operation returns the original dataset.
+		  output contains no named datasets. 
+		  When k=k', then the operation returns the input dataset.
 		  </p>
 		  <p class="ednote">
 		    It is possible to informally apply the Dataset-UNION operation to pairs of <a>repositories</a> or <a>stores</a> by first applying
@@ -770,25 +772,26 @@
 		  making use of the extended basic operations.
 		  </p>
 		  </section>		  
-		  <section id="def-new-append-operation">
-		  <h4>Append Operation</h4>
-		  <p>Update Operations as defined in SPARQL Update, and here extended, are not directly applicable to <a>repositories</a> and <a>stores</a>.
-		  In order to enable this, we define an Append operation, 
+		  <section id="def-new-revise-operation">
+		  <h4>Revise Operation</h4>
+		  <p>Update Operations as defined in SPARQL Update, and here extended, are not directly applicable to <a>repositories</a> 
+		  and <a>stores</a>.
+		  In order to enable this, we define a Revise operation, 
 		  that takes as input a <a>repository</a> (with a terminal version) as first argument,
 		  an Update Operation specification as second argument and a name (IRI or blank node) as third argument.
 		  The result is a new <a>repository</a> that has an additional version, that being the result of applying
 		  the Update Operation to the terminal version of the input repository, and making that the new terminal
 		  version, using the specified name as the version name.
 		  </p>
-		  <p>The Append Operation may be extended to <a>stores</a> in the obvious fashion. However, this 
+		  <p>The Revise Operation may be extended to <a>stores</a> in the obvious fashion. However, this 
 		  only allows manipulation of the version sequence of the store.
 		  To enable direct manipulation of the version sequence of repositories within the store, we extend
 		  the <a>Apply</a> Operation, defined above for <a>k-th order datasets</a> and Update Operation specifications, 
-		  to <a>stores</a> and Append Operation specifications on repositories (only for unnested Appends).
+		  to <a>stores</a> and Revise Operation specifications on repositories (only for unnested Revise).
 		  </p>
-		  <p>The Append Operation may be further extended to <a>recursive stores</a> and nested Append Operation Specifications.
+		  <p>The Revise Operation may be further extended to <a>recursive stores</a> and nested Revise Operation Specifications.
 		  </p>
-		  <p>Application of an Append operation to a structure without a terminal version is an error.
+		  <p>Application of a Revise operation to a structure without a terminal version is an error.
 		  </p>
 		  </section>		  
 		  <!--
@@ -922,7 +925,7 @@
 	<h2>Examples</h2>
 	<section>
 	<h3>FHIR RDF Stream Example</h3>
-	<aside  class="example">
+	<aside  class="example" id="fhir-graph" title="FHIR Statements as RDF Graph">
 	The following is a representation of an RDF graph in Trig.
 	These statements have a dynamic aspect
 	that is implicitly expressed in timestamps
@@ -973,7 +976,7 @@ _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
 	</aside>
-	<aside  class="example">
+	<aside  class="example" id="fhir-stream" title="FHIR Statements as RDF Stream">
 	An RDF Stream is a sequence of RDF Datasets (possibly graphs) satisfying certain additional constraints.
 	<p>The RDF Stream as a whole is denoted S<sub>FHIR</sub>.</p>
 	<p>A representation of the first element of the stream is as follows.
@@ -988,9 +991,9 @@ _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
 _:b1 a fhir:Observation ;
+		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b2 .
 	
@@ -1009,9 +1012,9 @@ _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 
 
 _:b4 a fhir:Observation ;
+		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b5 .
 	
@@ -1029,9 +1032,9 @@ _:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
 _:b7 a fhir:Observation ;
+		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b8 .
 	
@@ -1041,7 +1044,7 @@ _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 One possible way that this RDF Stream would be transmitted is as a sequence of RDF documents, each one containing
 an RDF graph corresponding to one element of the stream.
 	</aside>
-	<aside  class="example">
+	<aside  class="example" id="fhir-dataset" title="FHIR Statements as RDF Dataset">
 	This information can also be represented using the <a>RDF Dataset</a> datatype.
 	The named graph structure allows the statements of each stream element to be grouped together,
 	and also allows us to materialize, in the default graph, 
@@ -1092,7 +1095,7 @@ _:b103{
 }
 </pre>
 	</aside>
-	<aside  class="example">
+	<aside  class="example" id="fhir-repository" title="FHIR Statements as a Repository">
 	The dataset above is a static structure representing the entailment,
 	under the provenance regime,
 	of a first-order <a>Repository</a>.
@@ -1170,7 +1173,7 @@ _:b103{
 	</section>
 	<section>
 	<h3>General RDF Stream Example</h3>
-	<aside  class="example">
+	<aside  class="example" id="prov-dataset" title="FHIR Provenance in an RDF Dataset">
 	We consider a more general RDF Stream example, showing a typically
 	case when sets of statements have multiple temporal characteristics.
 	In this example, we have the time of observation as one temporal
@@ -1234,7 +1237,7 @@ _:b6 {
 }
 </pre>
 	</aside>
-	<aside  class="example">
+	<aside  class="example" id="prov-stream" title="FHIR Provenance in an RDF Stream">
 	The representation as an RDF Stream takes the form of the following sequence.
 	The stream as a whole is denoted S<sub>prov</sub>.
 	<p>A representation of the first element of the stream in an RDF dataset as follows.
@@ -1319,7 +1322,7 @@ an RDF Dataset corresponding to one element of the stream.
 In this example, each element of the stream contains a triple in its default graph that provides an identifier for the
 stream as a whole (<code>lr:streamA12342015-01-01T12:00:00Z</code>). This is optional for RDF streams. 
 	</aside>
-	<aside  class="example">
+	<aside  class="example" id="prov-dataset-2" title="FHIR Provenance in a Second-Order Dataset">
 	This data can also be represented using the second-order <a>Dataset</a> datatype.
 	For this representation, we use an extension of the Trig syntax to "quints".
 	This additional name allows the statements of each stream element to be grouped together,
@@ -1387,7 +1390,7 @@ _:b203{
 }
 </pre>
 	</aside>
-	<aside  class="example">
+	<aside  class="example" id="psrov-repository" title="FHIR Provenance as a Second-Order Repository">
 	The second-order dataset above is a static structure representing the entailment,
 	under the provenance regime,
 	of a second-order <a>Repository</a>.
@@ -1480,9 +1483,47 @@ _:b203{
 </pre>
 	</aside>
 	</section>
-
-	
+    <section>
+	<h3>Patterns</h3>
+     <aside class="example" id="triple-pattern-fhir-heartrate" title="Triple Pattern for FHIR Heartrate Observation">	
+	 <p>The triple pattern below demonstrates how solution mappings might be extracted from the above data structures.
+	 This triple pattern is denoted TP<sub>FHIR-heartrate</sub>.
+	 </p>
+	<pre>
+?heartRateObservation a fhir:Observation ;
+          obs:subject ?patient ;
+          obs:effectiveDateTime ?heartRate_time ;
+          obs:code &lt;http://snomed.info/sct:36407505&gt; ; # heart rate
+          obs:valueQuantity [ fhir:Quantity.value ?heartRate;
+                              fhir:Quantity.unit 'bpm'        ] .
+</pre>
+</aside>	
 	</section>
+    <section>
+	<h3>Queries</h3>
+     <aside class="example" id="select-triple-pattern-avg-hr" title="Select Query with Triple Pattern for Average Heartrate">	
+	<pre>
+	
+SELECT (AVG(?heartRate) AS ?heartRate_base)
+
+WHERE {
+        ?heartRateObservation a fhir:Observation ;
+          obs:subject ?patient ;
+          obs:effectiveDateTime ?heartRate_time ;
+          obs:code &lt;http://snomed.info/sct:36407505&gt; ; # heart rate
+          obs:valueQuantity [ fhir:Quantity.value ?heartRate;
+                              fhir:Quantity.unit 'bpm'        ] .
+        FILTER ( ?heartRate_time &gt;= (now() - 'P30D'^^xsd:dayTimeDuration) )
+    }
+</pre>
+	</aside>
+	</section>
+    <section>
+	<h3>Abstract Algebra Examples</h3>
+     <aside class="example" id="" title="">	
+	</aside>
+	</section>
+</section>
 
 
 	<p class="ednote">Ignore after this point- the material below is just copied from the RDF stream document for convenient reference.</p> 
