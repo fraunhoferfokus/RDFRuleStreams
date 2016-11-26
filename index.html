@@ -1059,7 +1059,7 @@ an RDF graph corresponding to one element of the stream.
 
 _:b102 prov:wasRevisionOf _:b101.
 _:b103 prov:wasRevisionOf _:b102.
-_"b101{
+_:b101{
 	    _:b1 a fhir:Observation ;
 		    obs:code sct:36407505 ;
 		    obs:device lr:sensor1234 ;
@@ -1497,9 +1497,9 @@ _:b203{
 	</section>
     <section>
 	<h3>Patterns</h3>
-     <aside class="example" id="triple-pattern-fhir-heartrate" title="Triple Pattern for FHIR Heartrate Observation">	
-	 <p>The triple pattern below demonstrates how solution mappings might be extracted from the above data structures.
-	 This triple pattern is denoted TP<sub>FHIR-heartrate</sub>.
+     <aside class="example" id="bgp-fhir-heartrate" title="Basic Graph Pattern for FHIR Heartrate Observation">	
+	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings might be extracted from the above data structures.
+	 This BGP is denoted TP<sub>FHIR-heartrate</sub>.
 	 </p>
 	<pre>
 ?heartRateObservation a fhir:Observation ;
@@ -1508,6 +1508,30 @@ _:b203{
           obs:code &lt;http://snomed.info/sct:36407505&gt; ; # heart rate
           obs:valueQuantity [ fhir:Quantity.value ?heartRate;
                               fhir:Quantity.unit 'bpm'        ] .
+</pre>
+</aside>	
+     <aside class="example" id="bgp-pattern-prov-revise" title="Basic Graph Pattern for Revision Statements">	
+	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings might be extracted from the above data structures.
+	 This BGP is denoted TP<sub>revise</sub>.
+	 </p>
+	<pre>
+?version prov:wasRevisionOf ?previous.
+</pre>
+</aside>	
+     <aside class="example" id="quad-fhir-heartrate" title="QuadPattern for FHIR Heartrate Observation">	
+	 <p>The quad pattern (BGP) below will be used to demonstrate how solution mappings might be 
+	 extracted from the above data structures.
+	 This QuadPattern is denoted QP<sub>FHIR-heartrate</sub>.
+	 </p>
+	<pre>
+GRAPH ?g {
+	?heartRateObservation a fhir:Observation ;
+          obs:subject ?patient ;
+          obs:effectiveDateTime ?heartRate_time ;
+          obs:code &lt;http://snomed.info/sct:36407505&gt; ; # heart rate
+          obs:valueQuantity [ fhir:Quantity.value ?heartRate;
+                              fhir:Quantity.unit 'bpm'        ] .
+}
 </pre>
 </aside>	
 	</section>
@@ -1532,7 +1556,95 @@ WHERE {
 	</section>
     <section>
 	<h3>Abstract Algebra Examples</h3>
-     <aside class="example" id="" title="">	
+     <aside class="example" id="match-bgp" title="Matching a BGP">
+	 The Eval function has been extended to apply to higher-order datasets, repositories and stores.
+     If the pattern is a BGP, then matching will be performed only within the default component 
+	 (dataset, repository or store, as the case may be.)
+	 <p>The solution (as a multiset of solution mappings) that is obtained by applying the BGP 
+	 <a href='#bgp-pattern-prov-revise'>TP<sub>rev</sub></a> to the second-order dataset <a href='#prov-dataset-2'>D2<sub>prov</sub></a> is
+	 shown in the following table, and is denoted Ω<sub>rev</sub>.
+	 </p>
+	 <table>
+		<tr>
+			<th>?version</th>
+			<th>?previous</th>
+		</tr>
+		<tr>
+			<td>_:b202</td>
+			<td>_:b201</td>
+		</tr>
+		<tr>
+			<td>_:b203</td>
+			<td>_:b202</td>
+		</tr>
+		
+	 </table>
+	 We write
+	 <p>Eval(D2<sub>prov</sub>, TP<sub>rev</sub>) = Ω<sub>rev</sub></p>
+	 Application of the same BGP to the second-order <a>repository</a> <a href="#fhir-repository">R<sub>prov</sub></a>
+	 under the simple entailment regime
+	 results in an empty solution.
+	 <p>Eval(R<sub>prov</sub>, TP<sub>rev</sub>) = {}</p>
+	 However, the solution above is obtained under the provenance entailment regime
+	 <p>Eval-Prov(R<sub>prov</sub>, TP<sub>rev</sub>) = Ω<sub>rev</sub></p>
+	</aside>
+	<p class="ednote">OK, the extension of the eval function has not actually been defined yet.
+	<p>
+     <aside class="example" id="match-quad-pattern" title="Matching a QuadPattern">
+     If the pattern is a quad pattern, then matching will be performed according to two cases.
+	 <ul>
+	   <li>If the data structure  (dataset, repository, or store) is of first-order, then the quad pattern
+	   will be applied to named components.
+	   </li>
+	   <li>If the data structure  (dataset, repository, or store) is of order higher than first, 
+	   then the quad pattern will be applied to the default component.
+	   </li>
+	 </ul>
+	 <p>The solution that is obtained by applying the QuadPattern 
+	 <a href='#quad-fhir-heartrate'>QP<sub>FHIR-heartrate</sub></a> to 
+	 the first-order dataset <a href='#fhir-dataset'>D<sub>FHIR</sub></a> is
+	 shown in the following table, and denoted by Ω<sub>hr</sub>.
+	 </p>
+	 <table>
+		<tr>
+			<th>?g</th>
+			<th>?heartRateObservation</th>
+			<th>?patient</th>
+			<th>?heartRate_time</th>
+			<th>?heartRate</th>
+		</tr>
+		<tr>
+			<td>_:b101</td>
+			<td>_:b1</td>
+			<td>lr:patientA</td>
+			<td>"2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
+			<td>50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+		</tr>
+		<tr>
+			<td>_:b102</td>
+			<td>_:b4</td>
+			<td>lr:patientA</td>
+			<td>"2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
+			<td>53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+		</tr>
+		<tr>
+			<td>_:b103</td>
+			<td>_:b7</td>
+			<td>lr:patientA</td>
+			<td>"2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
+			<td>48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+		</tr>
+		
+	 </table>
+We write
+	 <p>Eval(D<sub>FHIR</sub>, QP<sub>FHIR-heartrate</sub>) = Ω<sub>hr</sub></p>
+
+	 When the same QuadPattern is applied to the first-order <a>repository</a> <a href="#fhir-repository">R<sub>FHIR</sub></a>
+	 we also obtain the solution above.
+	 This is because the eval function corresponds to simple entailment,
+	 and simple entailment on a repository is defined as simple entailment
+	 on the dataset obtained by forgetting the sequential order of versions.
+	 <p>Eval(R<sub>FHIR</sub>, QP<sub>FHIR-heartrate</sub>) = Ω<sub>hr</sub></p>
 	</aside>
 	</section>
 </section>
