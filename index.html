@@ -252,7 +252,7 @@
 				</td>
 			  </tr>
 			  <tr>
-			    <td>RDF Dataset</td>
+			    <td>RDF Datase</td>
 				<td>[[!RDF11-Concepts]]</td> 
 				<td><b>Definition</b>
 				</td>
@@ -405,7 +405,7 @@
 		</section>
 		<section id="def-named-kth-order-RDF Repository">
           <h4>Named k-th Order RDF Repository</h4>
-		  <p>A <dfn data-lt="Named k-th Order RDF Repository|Named k-th Order Repositories">Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of 
+		  <p>A <dfn data-lt="Named k-th Order RDF Repository|Named k-th Order RDF Repositories|Named RDF Repository|Named RDF Repositories|Named Repository|Named Repositories">Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of 
 		  
 		  an IRI or blank node n 
 		  that is the <a>RDF Repository</a> name, and <a>k-th Order RDF Repository</a> R.
@@ -918,7 +918,543 @@
 		</section>
 		-->
 	</section>
+	<section>
+	<h2>Examples</h2>
+	<section>
+	<h3>FHIR RDF Stream Example</h3>
+	<aside  class="example">
+	The following is a representation of an RDF graph in Trig.
+	These statements have a dynamic aspect
+	that is implicitly expressed in timestamps
+	of the events of type  fhir:Observations.
+	Although the statements appear in a particular order within the graph
+	representation, this order is not significant to inference.
+	In particualr, the temporal order is not directly available through simple entailment.
+	We will show how this same data could be handled within some 
+	of the new datatypes so that the dynamic
+	nature of the statements
+	is accessible through simple entailment.
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+I	_:b1 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b2 .
 	
+	_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+
+	_:b4 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b5 .
+	
+	_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+
+	_:b7 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b8 .
+	
+	_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+</pre>
+	</aside>
+	<aside  class="example">
+	An RDF Stream is a sequence of RDF Datasets satisfying certain additional constraints.
+	<p>A representation of the first element of the stream is as follows.
+	The first triple in each document is the timestamp triple.
+	</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+I	_:b1 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b2 .
+	
+	_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+</pre>
+	<p>A representation of the second element of the stream is as follows.</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+
+	_:b4 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b5 .
+	
+	_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+</pre>
+	<p>A representation of the third element of the stream is as follows.</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+	_:b7 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b8 .
+	
+	_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+</pre>
+One possible way that this RDF Stream would be transmitted is as a sequence of RDF documents, each one containing
+an RDF graph corresponding to one element of the stream.
+	</aside>
+	<aside  class="example">
+	This data can also be represented using the <a>RDF Dataset</a> datatype.
+	The named graph structure allows the statements of each stream element to be grouped together,
+	and also allows us to materialize, in the default graph, 
+	statements giving the order among these elements.	
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b102 prov:wasRevisionOf _:b101.
+_:b103 prov:wasRevisionOf _:b102.
+_"b101{
+I	    _:b1 a fhir:Observation ;
+		    obs:code sct:36407505 ;
+		    obs:device lr:sensor1234 ;
+		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		    obs:subject lr:patientA ;
+		    obs:valueQuantity _:b2 .
+	
+	    _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		    lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}	
+
+_:b102{
+		_:b4 a fhir:Observation ;
+			obs:code sct:36407505 ;
+			obs:device lr:sensor1234 ;
+			obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:subject lr:patientA ;
+			obs:valueQuantity _:b5 .
+	
+		_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+			lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}
+_:b103{
+		_:b7 a fhir:Observation ;
+			obs:code sct:36407505 ;
+			obs:device lr:sensor1234 ;
+			obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:subject lr:patientA ;
+			obs:valueQuantity _:b8 .
+	
+		_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+			lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}
+</pre>
+	</aside>
+	<aside  class="example">
+	The dataset above is a static structure representing the entailment,
+	under the provenance regime,
+	of a first-order <a>Repository</a>.
+	Since repositories are dynamic entities, one form the transmission of the repository could
+	take is a sequence of documents, as shown below.
+	In this example, the default dataset of the repository is empty.
+ 	<p>The first document of the sequence is as follows.</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b101{
+I	    _:b1 a fhir:Observation ;
+		    obs:code sct:36407505 ;
+		    obs:device lr:sensor1234 ;
+		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		    obs:subject lr:patientA ;
+		    obs:valueQuantity _:b2 .
+	
+	    _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		    lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}	
+</pre>
+ 	<p>The second document of the sequence is as follows.</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b102{
+		_:b4 a fhir:Observation ;
+			obs:code sct:36407505 ;
+			obs:device lr:sensor1234 ;
+			obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:subject lr:patientA ;
+			obs:valueQuantity _:b5 .
+	
+		_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+			lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}
+</pre>
+ 	<p>The third document of the sequence is as follows.</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b103{
+		_:b7 a fhir:Observation ;
+			obs:code sct:36407505 ;
+			obs:device lr:sensor1234 ;
+			obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:subject lr:patientA ;
+			obs:valueQuantity _:b8 .
+	
+		_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+			lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}
+</pre>
+	</aside>
+	</section>
+	<section>
+	<h3>General RDF Stream Example</h3>
+	<aside  class="example">
+	We consider a more general RDF Stream example, showing a typically
+	case when sets of statements have multiple temporal characteristics.
+	In this example, we have the time of observation as one temporal
+	characteristics, and the time the observation report was generated
+	as the second temporal characteristic,
+	The following is a representation of this information as an RDF dataset in Trig.
+	Like the previous examples, the dynamic aspects are implicitly expressed 
+	in timestamps,
+	but the temporal order is not directly available through simple entailment.
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b0 
+	prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+    lr:stream lr:streamA12342015-01-01T12:00:00Zm .
+_:b0 {
+I	_:b1 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b2 .
+	
+	_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}
+
+_:b3 
+	prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+    lr:stream lr:streamA12342015-01-01T12:00:00Z .
+_:b3 {
+	_:b4 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b5 .
+	
+	_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}
+
+_:b6 
+	prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+    lr:stream lr:streamA12342015-01-01T12:00:00Z .
+_:b6 {
+	_:b7 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b8 .
+	
+	_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}
+</pre>
+	</aside>
+	<aside  class="example">
+	The representation as an RDF Stream takes the form of the following sequence.
+	<p>A representation of the first element of the stream is as follows.
+	The first triple in each document is the timestamp triple.
+	</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b0 
+	prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+    lr:stream lr:streamA12342015-01-01T12:00:00Zm .
+_:b0 {
+I	_:b1 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b2 .
+	
+	_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}
+</pre>
+	<p>A representation of the second element of the stream is as follows.</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+
+_:b3 
+	prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+    lr:stream lr:streamA12342015-01-01T12:00:00Z .
+_:b3 {
+	_:b4 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b5 .
+	
+	_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}
+</pre>
+	<p>A representation of the third element of the stream is as follows.</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b6 
+	prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+    lr:stream lr:streamA12342015-01-01T12:00:00Z .
+_:b6 {
+	_:b7 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b8 .
+	
+	_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+}
+</pre>
+One possible way that this RDF Stream would be transmitted is as a sequence of RDF documents, each one containing
+an RDF Dataset corresponding to one element of the stream.
+In this example, each element of the stream contains a triple in its default graph that provides an identifier for the
+stream as a whole (<code>lr:streamA12342015-01-01T12:00:00Z</code>). This is optional for RDF streams. 
+	</aside>
+	<aside  class="example">
+	This data can also be represented using the second-order <a>Dataset</a> datatype.
+	For this representation, we use an extension of the Trig syntax to "quints".
+	This additional name allows the statements of each stream element to be grouped together,
+	and also allows us to materialize, in the default (first-order) dataset, 
+	statements giving the order among these elements.	
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b102 prov:wasRevisionOf _:b101.
+_:b103 prov:wasRevisionOf _:b102.
+
+_:b101{
+    _:b0 
+	    prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+        lr:stream lr:streamA12342015-01-01T12:00:00Zm .
+    _:b0 {
+I	    _:b1 a fhir:Observation ;
+		    obs:code sct:36407505 ;
+		    obs:device lr:sensor1234 ;
+		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		    obs:subject lr:patientA ;
+		    obs:valueQuantity _:b2 .
+	
+	    _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		    lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+    }
+}	
+
+_:b102{
+	_:b3 
+		prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+	    lr:stream lr:streamA12342015-01-01T12:00:00Z .
+	_:b3 {
+		_:b4 a fhir:Observation ;
+			obs:code sct:36407505 ;
+			obs:device lr:sensor1234 ;
+			obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:subject lr:patientA ;
+			obs:valueQuantity _:b5 .
+	
+		_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+			lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+	}
+}
+_:b103{
+	_:b6 
+		prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+	    lr:stream lr:streamA12342015-01-01T12:00:00Z .
+	_:b6 {
+		_:b7 a fhir:Observation ;
+			obs:code sct:36407505 ;
+			obs:device lr:sensor1234 ;
+			obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:subject lr:patientA ;
+			obs:valueQuantity _:b8 .
+	
+		_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+			lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+	}
+}
+</pre>
+	</aside>
+	<aside  class="example">
+	The second-order dataset above is a static structure representing the entailment,
+	under the provenance regime,
+	of a second-order <a>Repository</a>.
+	For this representation, we use the same extension of the Trig syntax to "quints"
+	as in the previous example.
+	Since repositories are dynamic entities, one form of the transmission of the repository would
+	be a sequence of documents, as shown below.
+	In this example, the default dataset of the repository is empty.
+ 	<p>The first document of the sequence is as follows.</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b101{
+    _:b0 
+	    prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+        lr:stream lr:streamA12342015-01-01T12:00:00Zm .
+    _:b0 {
+I	    _:b1 a fhir:Observation ;
+		    obs:code sct:36407505 ;
+		    obs:device lr:sensor1234 ;
+		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		    obs:subject lr:patientA ;
+		    obs:valueQuantity _:b2 .
+	
+	    _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		    lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+    }
+}	
+</pre>
+ 	<p>The second document of the sequence is as follows.</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b102{
+	_:b3 
+		prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+	    lr:stream lr:streamA12342015-01-01T12:00:00Z .
+	_:b3 {
+		_:b4 a fhir:Observation ;
+			obs:code sct:36407505 ;
+			obs:device lr:sensor1234 ;
+			obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:subject lr:patientA ;
+			obs:valueQuantity _:b5 .
+	
+		_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+			lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+	}
+}
+</pre>
+ 	<p>The third document of the sequence is as follows.</p>
+	<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b103{
+	_:b6 
+		prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+	    lr:stream lr:streamA12342015-01-01T12:00:00Z .
+	_:b6 {
+		_:b7 a fhir:Observation ;
+			obs:code sct:36407505 ;
+			obs:device lr:sensor1234 ;
+			obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:subject lr:patientA ;
+			obs:valueQuantity _:b8 .
+	
+		_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+			lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+	}
+}
+</pre>
+	</aside>
+	</section>
+
+	
+	</section>
+
+
 	<p class="ednote">Ignore after this point- the material below is just copied from the RDF stream document for convenient reference.</p> 
 
 	  <section id="def-timestamp-predicate">
