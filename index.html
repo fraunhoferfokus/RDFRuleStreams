@@ -1777,8 +1777,8 @@ We write
 	 <p>Ceval(R<sub>FHIR</sub>,{}, QP<sub>FHIR-heartrate</sub>) = {} ∪ [Ω<sub>i,hr</sub>]<sub>i=1, 2, 3</sub></p>
 	 <p>
 	 In the case that the first argument is an <a>RDF Stream</a>,
-	 the Ceval function takes a <a>Stream pattern</a> as second argument and a ground BGP as optional third argument.
-	 The Stream pattern is matched continuously against each element of the RDF Stream, as above,
+	 the Ceval function takes a <a>timestamped graph pattern</a> as second argument and a ground BGP as optional third argument.
+	 The timestamped graph pattern is matched continuously against each element of the RDF Stream, as above,
 	 to generate the sequential part of the <a>structured result</a>,
 	 and the ground BGP
 	 becomes the default component of the <a>structured result</a>.
@@ -1787,7 +1787,7 @@ We write
 	<p class="ednote">OK, the continuous eval function has not actually been defined yet either.
 	The description above will form the basis of that definition.
 	<p>
-	<p class="ednote">We also need to define <dfn>Stream pattern</dfn>. This is an extension of QuadPattern
+	<p class="ednote">We also need to define <dfn>timestamped graph pattern</dfn>. This is an extension of QuadPattern
 	with a new expression to indicate that a certain BGP is to be matched only against the timestamp triple.
 	</section>
 	<section>
