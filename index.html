@@ -281,12 +281,6 @@
 				<td><b>Definition</b>
 				</td>
 			  </tr>			  
-			  <tr>
-			    <td>D<sup>1</sup></td>
-				<td><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlQueryVariables">https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlQueryVariables</a></td> 
-				<td>A  is a member of the set V where V is infinite and disjoint from RDF-T.
-				</td>
-			  </tr>
 			</tbody></table>
         </div>
 		
@@ -391,7 +385,31 @@
 		  each non-initial version is related to its previous version by the 
 		  <a href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#wasRevisionOf">prov:wasRevisionOf</a>
 		  property.
+		  </p>
+		  <p class="ednote">
+		  An objective for the provenance entailment regime is that it be monotonic with respect to
+		  repository updates.
+		  From this perspective, it would also be ok to include entailment regarding the initial version.
+		  Therefore, we define a new property <code>repo:isInitialVersion</code>.
+		  Within a store, this entailment regime also includes an additional property,
+		  <code>repo:isInitialVersionOf</code>, with object being the name of the repository
+		  within the store.
+		   A new namespace (prefix "repo") needs to
+		  be defined.
+		  These properties can be used to define basic operations on dynamic
+		  data structures that extract parts of the sequence (e.g. foot, and subsequences related to that,
+		  such as the first 10 versions) that are
+          monotonic relative to update operations.
 		  </p>	
+		  <p class="ednote">For consideration: a "repository structure entailment regime"
+		  could be defined as an extension of the monotonic provenance entailment regime,
+		  relaxing the requirement for monotonicity with respect to update operations.
+		  This regime could then include entailments regarding the terminal version,
+		  using <code>repo:isTerminalVersion</code> and <code>repo:isTerminalVersionOf</code>.
+		  These properties could be used as the basis for basic operations on dynamic
+		  data structures that extract parts of the sequence, e.g. head, tail
+		  and subsequences related to these) that are nonmonotonic relative to update operations). 
+		  </p>
 		  <p class="ednote">A second-order <a>RDF Repository</a> is similar to a Graph Store, 
 		  but with the additional structure
 		  that every version is named (albeit the name may be a blank node).
@@ -401,6 +419,10 @@
 		  transitions of the state of a Graph Store,
 		  for a RDF Repository these operations play the role of helper functions used in the "lazy" construction of the
 		  RDF Repository.
+		  </p>To use a second-order repository to emulate a Graph Store, the input for query and update operations 
+		  would have to be limited to
+		  some "current version", and the default dataset would be empty.
+		  The execution of an Update operation would move the "current version pointer" to the next version.
 		  </p>
 		</section>
 		<section id="def-named-kth-order-RDF Repository">
@@ -1100,9 +1122,13 @@ _:b103{
 	under the provenance regime,
 	of a first-order <a>Repository</a>.
 	This repository is denoted R<sub>FHIR</sub>.
+	In this example, the default dataset of the repository is empty.
+	 <p>We write</p>
+	 <p>R<sub>FHIR</sub> = {} ∪ [D<sub>i,FHIR</sub>]<sub>i=1, 2, 3</sub></p>
+    <p>	 
 	Since repositories are dynamic entities, one form the transmission of the repository could
 	take is a sequence of documents, as shown below.
-	In this example, the default dataset of the repository is empty.
+	</p>
  	<p>The first document of the sequence, representing a dataset, is as follows.
 	The dataset is denoted D<sub>1, FHIR</sub>.
 	</p>
@@ -1238,9 +1264,13 @@ _:b6 {
 </pre>
 	</aside>
 	<aside  class="example" id="prov-stream" title="FHIR Provenance in an RDF Stream">
+	<p>
 	The representation as an RDF Stream takes the form of the following sequence.
 	The stream as a whole is denoted S<sub>prov</sub>.
-	<p>A representation of the first element of the stream in an RDF dataset as follows.
+	</p>
+	 <p>We write</p>
+	 <p>S<sub>prov</sub> = [D<sub>i,prov</sub>]<sub>i=1, 2, 3</sub></p>
+	<p>A representation of the first element of the stream is an RDF dataset as follows.
 	The dataset is denoted D<sub>1, prov</sub>.
 	The first triple in each document is the timestamp triple.
 	</p>
@@ -1397,15 +1427,21 @@ _:b203{
 </pre>
 	</aside>
 	<aside  class="example" id="psrov-repository" title="FHIR Provenance as a Second-Order Repository">
+	<p>
 	The second-order dataset above is a static structure representing the entailment,
 	under the provenance regime,
 	of a second-order <a>Repository</a>.
 	The repository as a whole is denoted R<sub>prov</sub>.
-	For this representation, we use the same extension of the Trig syntax to "quints"
+	In this example, the default dataset of the repository is empty.
+	</p>
+	 <p>We write</p>
+	 <p>R<sub>prov</sub> = {} ∪ [ND<sub>i,prov</sub>]<sub>i=1, 2, 3</sub></p>	
+	 <p>
+	 For this representation, we use the same extension of the Trig syntax to "quints"
 	as in the previous example.
 	Since repositories are dynamic entities, one form of the transmission of the repository would
 	be a sequence of documents representing named first-order datasets, as shown below.
-	In this example, the default dataset of the repository is empty.
+	</p>
  	<p>The first document of the sequence is as follows.
 		The named dataset is denoted ND<sub>1, prov</sub>.
 </p>
@@ -1556,6 +1592,8 @@ WHERE {
 	</section>
     <section>
 	<h3>Abstract Algebra Examples</h3>
+	<section>
+	<h4>Eval</h4>
      <aside class="example" id="match-bgp" title="Matching a BGP">
 	 The Eval function has been extended to apply to higher-order datasets, repositories and stores.
      If the pattern is a BGP, then matching will be performed only within the default component 
@@ -1647,6 +1685,128 @@ We write
 	 <p>Eval(R<sub>FHIR</sub>, QP<sub>FHIR-heartrate</sub>) = Ω<sub>hr</sub></p>
 	</aside>
 	</section>
+	<section>
+	<h4>Ceval</h4>
+	<aside class="example" id="continuous-match-bgp" title="Continuous Matching with a BGP">
+	<p>
+     A new function (Ceval) has also been defined for performing repeated (also called "continuous") matching
+	 of patterns against dynamic data structures.
+	 Continuous matching is "push-style" when the transmission is streamed;
+	 a match event is triggered by the arrival of a stream element.
+	 <p  class="ednote">To be moved to the section where Ceval is defined:
+	 Continuous matching is applicable to
+	 <a>RDF Streams</a>, <a>Repositories</a>, <a>Stores</a>, and <a>Recursive Stores</a>.
+     </p>
+	 <p class="ednote">To define the semantics of Ceval, we need a new datatype for the result, called
+	 <dfn>Structured Result</dfn>, comprised of a distinguished solution (multiset of solution mappings), 
+	 the default component of the structured result, and a
+	 totally-ordered set of solutions, the sequential component of the structured result.
+	 </p>
+	 <p class="ednote">
+	 In the case that the first argument is a <a>Repository</a>, <a>Store</a>, or <a>Recursive Store</a>,
+	 the Ceval function takes two patterns as second and third argument, with the third argument being optional.
+	 </p>
+	 <p class="ednote">
+	 The second pattern (third argument) is matched to the default component of the input data structure, 
+	 to generate the default component of the <a>structured sesult</a>.
+	 If a third argument is not provided, this is considered equivalent to the empty pattern,
+	 and the default component of the <a>structured result</a> is empty.
+	 </p>
+	 <p class="ednote">
+	 The first pattern (second argument) is matched against the union of an element of the sequence
+	 together with the default component,
+	 to generate the sequential part of the <a>structured result</a>.
+     </p>
+	 <p>The solution that is obtained by matching the QuadPattern 
+	 <a href='#quad-fhir-heartrate'>QP<sub>FHIR-heartrate</sub></a> continuously to 
+	 the first-order repository <a href="#fhir-repository">R<sub>FHIR</sub></a> is
+	 shown in the following sequence of tables, denoted by [Ω<sub>i, hr</sub>]<sub>i = 1, 2, 3</sub>.
+	 </p>
+	 <table>
+		<tr>
+			<th>?g</th>
+			<th>?heartRateObservation</th>
+			<th>?patient</th>
+			<th>?heartRate_time</th>
+			<th>?heartRate</th>
+		</tr>
+		<tr>
+			<td>_:b101</td>
+			<td>_:b1</td>
+			<td>lr:patientA</td>
+			<td>"2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
+			<td>50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+		</tr>
+	 </table>
+	 <br/><br/>
+	 <table>
+		<tr>
+			<th>?g</th>
+			<th>?heartRateObservation</th>
+			<th>?patient</th>
+			<th>?heartRate_time</th>
+			<th>?heartRate</th>
+		</tr>
+		<tr>
+			<td>_:b102</td>
+			<td>_:b4</td>
+			<td>lr:patientA</td>
+			<td>"2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
+			<td>53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+		</tr>
+	 </table>
+	 <br/><br/>
+		<table>
+		<tr>
+			<th>?g</th>
+			<th>?heartRateObservation</th>
+			<th>?patient</th>
+			<th>?heartRate_time</th>
+			<th>?heartRate</th>
+		</tr>
+		<tr>
+			<td>_:b103</td>
+			<td>_:b7</td>
+			<td>lr:patientA</td>
+			<td>"2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
+			<td>48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+		</tr>
+		
+	 </table>
+	 <p>We write</p>
+	 <p>Ceval(R<sub>FHIR</sub>,{}, QP<sub>FHIR-heartrate</sub>) = {} ∪ [Ω<sub>i,hr</sub>]<sub>i=1, 2, 3</sub></p>
+	 <p>
+	 In the case that the first argument is an <a>RDF Stream</a>,
+	 the Ceval function takes a <a>Stream pattern</a> as second argument and a ground BGP as optional third argument.
+	 The Stream pattern is matched continuously against each element of the RDF Stream, as above,
+	 to generate the sequential part of the <a>structured result</a>,
+	 and the ground BGP
+	 becomes the default component of the <a>structured result</a>.
+	 </p>
+	</aside>
+	<p class="ednote">OK, the continuous eval function has not actually been defined yet either.
+	The description above will form the basis of that definition.
+	<p>
+	<p class="ednote">We also need to define <dfn>Stream pattern</dfn>. This is an extension of QuadPattern
+	with a new expression to indicate that a certain BGP is to be matched only against the timestamp triple.
+	</section>
+	<section>
+	<h4>Dataset-UNION</h4>
+	<p>The Dataset-UNION basic operation has been extended to apply to arbitrary pairs of higher-order datasets.
+	It has also been extended to apply to pairs where one of the elements is a higher-order dataset and the other is a 
+	dynamic data structure (repository, store, recursive store). 
+	</p>
+	<p>
+	In all cases, the first step of evaluation is to elevate a static input argument as needed: to the same order (in the case of two higher-order datasets),
+	or to orders that differ by one (in the case of one dataset and one dynamic structure, where the dynamic structure
+	should be one order higher than the static dataset, which wills be unioned with the default component of the dynamic
+	data structure).
+	Then it is sufficient to consider input arguments of the requisite order.
+	The type of the result is either a dynamic structure, of the same type and order as the dynamic input,
+    or a static, higher-order dataset, with order that is the maximum of the order of the input datasets.	
+	</p>
+	</section>
+  </section>
 </section>
 
 
