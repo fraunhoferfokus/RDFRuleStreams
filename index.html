@@ -1547,17 +1547,64 @@ _:b203{
 </pre>
 </aside>	
      <aside class="example" id="bgp-pattern-prov-revise" title="Basic Graph Pattern for Revision Statements">	
-	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings might be extracted from the above data structures.
+	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings
+	 about the relative order of versions of a repository
+	 might be extracted from the above data structures
+	 using the provenance entailment regime.
 	 This BGP is denoted TP<sub>revise</sub>.
 	 </p>
 	<pre>
 ?version prov:wasRevisionOf ?previous.
 </pre>
 </aside>	
+     <aside class="example" id="bgp-pattern-prov-initial" title="Basic Graph Pattern for Initial Version Statements">	
+	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings 
+	 describing the initial version of a repository
+	 might be extracted from the above data structures
+	 using the provenance entailment regime.
+	 This BGP is denoted TP<sub>initialVersion</sub>.
+	 </p>
+	<pre>
+?version repo:isInitialVersion "true"^^&lt;http://www.w3.org/2001/XMLSchema#boolean&gt; .
+</pre>
+</aside>	
+     <aside class="example" id="bgp-pattern-prov-initial" title="Basic Graph Pattern for Initial Version Statements for Named Repositories">	
+	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings
+	 describing the initial version of a named repository
+	 might be extracted from the above data structures
+	 using the provenance entailment regime.
+	 This BGP is denoted TP<sub>initialVersionOf</sub>.
+	 </p>
+	<pre>
+?version repo:isInitialVersionOf ?repo .
+</pre>
+</aside>	
+     <aside class="example" id="bgp-pattern-prov-terminal" title="Basic Graph Pattern for Terminal Version Statements">	
+	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings 
+	 describing the terminal version of a repository
+	 might be extracted from the above data structures
+	 using the repository structure entailment regime.
+	 This BGP is denoted TP<sub>terminalVersion</sub>.
+	 </p>
+	<pre>
+?version repo:isTerminalVersion "true"^^&lt;http://www.w3.org/2001/XMLSchema#boolean&gt; .
+</pre>
+</aside>	
+     <aside class="example" id="bgp-pattern-prov-initial" title="Basic Graph Pattern for Terminal Version Statements for Named Repositories">	
+	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings
+	 describing the terminal version of a named repository
+	 might be extracted from the above data structures
+	 using the repository structure entailment regime.
+	 This BGP is denoted TP<sub>terminalVersionOf</sub>.
+	 </p>
+	<pre>
+?version repo:isTerminalVersionOf ?repo .
+</pre>
+</aside>	
      <aside class="example" id="quad-fhir-heartrate" title="QuadPattern for FHIR Heartrate Observation">	
-	 <p>The quad pattern (BGP) below will be used to demonstrate how solution mappings might be 
+	 <p>The <a>Quadpattern</a> below will be used to demonstrate how solution mappings might be 
 	 extracted from the above data structures.
-	 This QuadPattern is denoted QP<sub>FHIR-heartrate</sub>.
+	 This <a>Quadpattern</a> is denoted QP<sub>FHIR-heartrate</sub>.
 	 </p>
 	<pre>
 GRAPH ?g {
@@ -1569,7 +1616,42 @@ GRAPH ?g {
                               fhir:Quantity.unit 'bpm'        ] .
 }
 </pre>
+<p>We write</p>
+<p>QP<sub>FHIR-heartrate</sub> = Graph( ?g, TP<sub>FHIR-heartrate</sub>)
 </aside>	
+     <aside class="example" id="id-pattern-0" title="Identity Pattern for Zeroth Order">	
+	 This BGP is denoted ID<sub>0</sub>.
+	<pre>
+{?s ?p ?o.}
+</pre>
+The abstract algebra expression is
+<p> ID<sub>0</sub> = BGP(?s ?p ?o)
+</p>
+</aside>	
+</aside>	
+     <aside class="example" id="id-pattern-1" title="Identity Pattern for First Order">	
+	 This GraphPattern is denoted ID<sub>1</sub>.
+	<pre>
+{ graph ?g {?s ?p ?o} } union {?s ?p ?o}
+</pre>
+The abstract algebra expression is
+<p> ID<sub>1</sub> = Union( Graph( ?g, ID<sub>0</sub> ), ID<sub>0</sub>)
+</p>
+</aside>
+     <aside class="example" id="id-pattern-2" title="Identity Pattern for Second Order">	
+	 This DatasetPattern is denoted ID<sub>2</sub>.
+	<pre>
+	{ dataset ?d { { graph ?g {?s ?p ?o} } union {?s ?p ?o} } }    
+	 union
+	{ graph ?g {?s ?p ?o} } union {?s ?p ?o}
+</pre>
+The abstract algebra expression is
+<p> ID<sub>2</sub> = Union( Dataset( ?d, ID<sub>1</sub> ), ID<sub>1</sub>)
+</p>
+and in general
+<p> ID<sub>k+1</sub> = Union( Dataset( ?d, ID<sub>k</sub> ), ID<sub>k</sub>)
+</p>
+</aside>
 	</section>
     <section>
 	<h3>Queries</h3>
@@ -1598,7 +1680,7 @@ WHERE {
 	 The Eval function has been extended to apply to higher-order datasets, repositories and stores.
      If the pattern is a BGP, then matching will be performed only within the default component 
 	 (dataset, repository or store, as the case may be.)
-	 <p>The solution (as a multiset of solution mappings) that is obtained by applying the BGP 
+	 <p>The multiset of solution mappings that is obtained by applying the BGP 
 	 <a href='#bgp-pattern-prov-revise'>TP<sub>rev</sub></a> to the second-order dataset <a href='#prov-dataset-2'>D2<sub>prov</sub></a> is
 	 shown in the following table, and is denoted Ω<sub>rev</sub>.
 	 </p>
@@ -1621,9 +1703,9 @@ WHERE {
 	 <p>Eval(D2<sub>prov</sub>, TP<sub>rev</sub>) = Ω<sub>rev</sub></p>
 	 Application of the same BGP to the second-order <a>repository</a> <a href="#fhir-repository">R<sub>prov</sub></a>
 	 under the simple entailment regime
-	 results in an empty solution.
+	 results in an empty set of solution mappings.
 	 <p>Eval(R<sub>prov</sub>, TP<sub>rev</sub>) = {}</p>
-	 However, the solution above is obtained under the provenance entailment regime
+	 However, the solutions above are obtained under the provenance entailment regime
 	 <p>Eval-Prov(R<sub>prov</sub>, TP<sub>rev</sub>) = Ω<sub>rev</sub></p>
 	</aside>
 	<p class="ednote">OK, the extension of the eval function has not actually been defined yet.
@@ -1638,9 +1720,9 @@ WHERE {
 	   then the quad pattern will be applied to the default component.
 	   </li>
 	 </ul>
-	 <p>The solution that is obtained by applying the QuadPattern 
+	 <p>The solutions that are obtained by applying the QuadPattern 
 	 <a href='#quad-fhir-heartrate'>QP<sub>FHIR-heartrate</sub></a> to 
-	 the first-order dataset <a href='#fhir-dataset'>D<sub>FHIR</sub></a> is
+	 the first-order dataset <a href='#fhir-dataset'>D<sub>FHIR</sub></a> are
 	 shown in the following table, and denoted by Ω<sub>hr</sub>.
 	 </p>
 	 <table>
@@ -1678,7 +1760,7 @@ We write
 	 <p>Eval(D<sub>FHIR</sub>, QP<sub>FHIR-heartrate</sub>) = Ω<sub>hr</sub></p>
 
 	 When the same QuadPattern is applied to the first-order <a>repository</a> <a href="#fhir-repository">R<sub>FHIR</sub></a>
-	 we also obtain the solution above.
+	 we also obtain the solutions above.
 	 This is because the eval function corresponds to simple entailment,
 	 and simple entailment on a repository is defined as simple entailment
 	 on the dataset obtained by forgetting the sequential order of versions.
@@ -1695,29 +1777,31 @@ We write
 	 a match event is triggered by the arrival of a stream element.
 	 <p  class="ednote">To be moved to the section where Ceval is defined:
 	 Continuous matching is applicable to
-	 <a>RDF Streams</a>, <a>Repositories</a>, <a>Stores</a>, and <a>Recursive Stores</a>.
+	  <a>Repositories</a>, <a>Stores</a>, <a>Recursive Stores</a>,
+	   sequences of <a>k-th Order RDF Datasets</a>,
+	   and <dfn>RDF Dataset Streams</dfn>, 
+	   which are structures consisting of a sequence of <a>k-th Order RDF Datasets</a>
+	   and a distinguished <a>k-th Order RDF Datasets</a> called the default dataset.
      </p>
 	 <p class="ednote">To define the semantics of Ceval, we need a new datatype for the result, called
-	 <dfn>Structured Result</dfn>, comprised of a distinguished solution (multiset of solution mappings), 
+	 <dfn>Structured Result</dfn>, comprised of a distinguished multiset of solution mappings, possibly empty, 
 	 the default component of the structured result, and a
-	 totally-ordered set of solutions, the sequential component of the structured result.
+	 totally-ordered set of solutions (possibly empty, finite or infinite), the sequential component of the structured result.
 	 </p>
 	 <p class="ednote">
 	 In the case that the first argument is a <a>Repository</a>, <a>Store</a>, or <a>Recursive Store</a>,
-	 the Ceval function takes two patterns as second and third argument, with the third argument being optional.
+	 the Ceval function takes a pattern as second argument.
 	 </p>
 	 <p class="ednote">
-	 The second pattern (third argument) is matched to the default component of the input data structure, 
+	 The pattern is matched to the default component of the input data structure, 
 	 to generate the default component of the <a>structured sesult</a>.
-	 If a third argument is not provided, this is considered equivalent to the empty pattern,
-	 and the default component of the <a>structured result</a> is empty.
 	 </p>
 	 <p class="ednote">
-	 The first pattern (second argument) is matched against the union of an element of the sequence
+	 The pattern is also matched against the union of an element of the sequence
 	 together with the default component,
 	 to generate the sequential part of the <a>structured result</a>.
      </p>
-	 <p>The solution that is obtained by matching the QuadPattern 
+	 <p>The solution sequence that is obtained by matching the QuadPattern 
 	 <a href='#quad-fhir-heartrate'>QP<sub>FHIR-heartrate</sub></a> continuously to 
 	 the first-order repository <a href="#fhir-repository">R<sub>FHIR</sub></a> is
 	 shown in the following sequence of tables, denoted by [Ω<sub>i, hr</sub>]<sub>i = 1, 2, 3</sub>.
@@ -1773,37 +1857,137 @@ We write
 		</tr>
 		
 	 </table>
-	 <p>We write</p>
-	 <p>Ceval(R<sub>FHIR</sub>,{}, QP<sub>FHIR-heartrate</sub>) = {} ∪ [Ω<sub>i,hr</sub>]<sub>i=1, 2, 3</sub></p>
-	 <p>
-	 In the case that the first argument is an <a>RDF Stream</a>,
-	 the Ceval function takes a <a>timestamped graph pattern</a> as second argument and a ground BGP as optional third argument.
-	 The timestamped graph pattern is matched continuously against each element of the RDF Stream, as above,
-	 to generate the sequential part of the <a>structured result</a>,
-	 and the ground BGP
-	 becomes the default component of the <a>structured result</a>.
+	 <p>The Quadpattern QP<sub>FHIR-heartrate</sub> will yield no solutions
+	 when matched to an RDF graph. Therefore the default component of the result is empty, no matter what
+	 is in the default dataset R<sub>FHIR</sub>.
 	 </p>
-	</aside>
-	<p class="ednote">OK, the continuous eval function has not actually been defined yet either.
+	 <p>We write</p>
+	 <p>Ceval(R<sub>FHIR</sub>, QP<sub>FHIR-heartrate</sub>) = {} ∪ [Ω<sub>i,hr</sub>]<sub>i=1, 2, 3</sub></p>
+	 as well as
+	 <p>Ceval-prov(R<sub>FHIR</sub>, QP<sub>FHIR-heartrate</sub>) = {} ∪ [Ω<sub>i,hr</sub>]<sub>i=1, 2, 3</sub></p>
+	 <p class="ednote">RDF Stream remarks:
+	 Recall that inference on an RDF stream is supposed to be oblivious to which triple is the timestamp triple.
+	 The special status of timestamp triple is supposed to only be used in windowing operations. 
+	 So, a continuous query on a stream should not be able to determine which triple is the timestamp triple.
+	 However, a second-order repository that emulates an RDF stream needs to keep this information somewhere,
+	 for windowing purposes.
+	 The default dataset of the repository is the logical place for this information to be stored. 
+	 With a property "repo:hasTimestampTriple", and the RDF reification vocabulary, this
+	 information can be materialized provided there is an identifier for each stream element (and this
+	 identifier is an inherent part of the second-order repository).
+	 Queries of the repository that are supposed to emulate queries of the stream MUST not access that information.
+	 This works out OK as long as a repository is used to emulate the stream - the pattern to match against stream elements
+	 must have a second-order name (i.e. it is a quint pattern) and so will give no solutions when matched against the
+	 default first-order dataset.
+	 </p>
+	 <p class="ednote">Restrictions on the arguments of Ceval in order to emulate an unwindowed query of an RDF stream:
+	 </p>
+	 <ol>
+	 <li>It is necessary to include the (second-order) dataset name as a variable in the query, so that 
+	     the query matching is scoped to one stream element at a time. However, there needs to be a
+		 Projection applied to the solution so that the dataset name is forgotten for the <a>structured result</a>
+	 </li>
+	 <li>Since an RDF Stream does not have a default dataset, there should be no additional entailments
+	     such as those arising from the structural information of the stream, with property <code>repo:hasTimestampTriple</code>.
+		 On the other hand, we want to enable queries of RDF streams jointly with static datasets.
+		 The union of a static and dynamic data structure puts the static statements into the default component of the
+		 dynamic structure, so the union of a static dataset and an RDF stream will have a default component (except for the trivial
+		 case when the static structure is empty). For proper querying in this case, it would be helpful if in the "union" the
+		 elements of sequential components are named with blank nodes, so that the result of the union is a repository.
+		 On the other hand, the union of a stream with an empty static dataset causes a change of type, which is undesirable.
+	</li>	 
+	 </ol>
+	 <p class="ednote">
+	 	 Note that windowing is supposed to be performed prior to pattern matching, so if windowing is done on an RDF stream,
+	 the result is a stream (sequence) of RDF Datasets, and this is not (in general) an RDF Stream.
+	 So we also need to define Ceval on a sequence of (unnamed) RDF Datasets, and further, show how to
+	 restrict the arguments of Ceval so that a second-order repository can be used to emulate a stream of RDF Datasets.
+	 </p>
+	<p class="ednote">
+	 In the case that the first argument of Ceval is a <a>k-th Order Dataset Stream</a>,
+	 the Ceval function takes a <a>k-th Order Pattern</a>, P<sub>seq</sub>, as second argument,
+	 and an optional <a>k-th Order Pattern</a>, P<sub>def</sub> as third argument.
+	 The pattern P<sub>seq</sub> is matched continuously against
+	 the union of each element of the sequence with the default dataset,
+	 to generate the sequential part of the <a>structured result</a>,
+	 while the default component of the <a>structured result</a> is obtained
+	 from a one-time match of P<sub>def</sub> against the default dataset.
+	 </p>
+	 <p class="ednote">
+	 The case that the first argument is an <a>RDF Stream</a>
+     is a specialization of the case that the first argument is a sequence of 
+	 <a>k-th Order RDF Datasets</a>, with k = 1, with empty default dataset.
+	 Therefore, the second argument P<sub>seq</sub> MUST be a Quadpattern.
+	 If a third argument is present, it has no effect since the default dataset is empty.
+	 </p>
+	 <p class="ednote">
+	 The case that the first argument is the merger or union of an <a>RDF Stream</a>
+	 with a static first-order dataset
+     is also a specialization of the case that the first argument is a sequence of 
+	 <a>k-th Order RDF Datasets</a>, with k = 1, with non-empty default dataset.
+	 Again, the second argument P<sub>seq</sub> MUST be a Quadpattern.
+	 If a third argument is present, it does have an effect since the default dataset is non-empty.
+	 </p>
+	 <p class="ednote">This formulation of the Ceval function that takes two pattern arguments is
+	 not very satisfactory because it breaks the SPARQL syntactic convention of processing just one pattern at a time.
+	 It might be better to split off the matching of the pattern on the default structure to another
+	 Eval spinoff, e.g. Seval - for Static evaluation on a dynamic data structure, where the pattern is matched
+	 only against the default component, and the result is a single multiset of solution mappings.
+	 </p>
+	 </aside>
+	<p class="ednote">OK, the continuous eval function Ceval has not actually been defined yet either.
 	The description above will form the basis of that definition.
+	The problem is that we have proposed three different "evals" on dynamic structures, Eval, Ceval and Seval.
+	To express this in the concrete syntax, we need to provide a hint as to which "eval" function is intended,
+	given
 	<p>
-	<p class="ednote">We also need to define <dfn>timestamped graph pattern</dfn>. This is an extension of QuadPattern
-	with a new expression to indicate that a certain BGP is to be matched only against the timestamp triple.
+	<pre>
+	SELECT *
+	FROM <dynamic data structure IRI>
+	WHERE {some pattern}
+	</pre>
+	<p>
+	There is a choice for indicating the different kinds of eval syntactically (with reserved words) or semantically,
+	with e.g. query strings.
+	In the former case, the syntactic hints can be applied to construct subqueries without binding them to an IRI.
+	In the latter case, IRIs become non-opaque, since the query string would be used to determine the transformation
+	from concrete to abstract syntax.
+	</p>
+	<p>As a middle way approach, the implementation could use query strings to
+	indicate various data structures derived from the parent, but the transformation to the
+	abstract algebra would not depend on the query string.
+	The <em>evalution</em> of the abstract operations could depend on the datatype
+	of the arguments however.
+	In this approach there would be just the one Eval function, and it would take a data structure, of various types, as
+	first argument and a pattern as second argument.
+	(In SPARQL fashion, it could also take a third argument to provide the scope in which minted blank nodes must be new.)
+	The semantics of Eval would be to match the pattern to the sequential part of the dynamic structure, with the default part unioned
+    into every element, to get the sequential component
+	of the structured result, and to match the same pattern to the default part of the dynamic structure to get the default component
+	of the structured result.
+	The query string would be used to extract portions of the dynamic structure, e.g just the default part,
+	just the sequential part, just the current version, or derived structures, e.g. a sequence with the default dataset unioned into every element,
+	the result of a window operation.
+	</p>
+	<p>
+	Further, we could provide a concrete syntax for some of these extraction and derivation operations, and a means to bind the results
+	to a variable, so that product could be referenced multiple times within the query.
+	That would allow the same capability in the case where one does not have control over the IRIs.
+	</p>
 	</section>
 	<section>
 	<h4>Dataset-UNION</h4>
 	<p>The Dataset-UNION basic operation has been extended to apply to arbitrary pairs of higher-order datasets.
 	It has also been extended to apply to pairs where one of the elements is a higher-order dataset and the other is a 
-	dynamic data structure (repository, store, recursive store). 
+	dynamic data structure (repository, store, recursive store, dataset stream ). 
 	</p>
 	<p>
 	In all cases, the first step of evaluation is to elevate a static input argument as needed: to the same order (in the case of two higher-order datasets),
-	or to orders that differ by one (in the case of one dataset and one dynamic structure, where the dynamic structure
-	should be one order higher than the static dataset, which wills be unioned with the default component of the dynamic
-	data structure).
-	Then it is sufficient to consider input arguments of the requisite order.
+	or in the case of one static and one dynamic structure, to the requisite orders so that the default component of the dynamic structure
+	is of the same order as the static structure.
+	Then it is sufficient to consider input arguments where these orders are already compatible.
 	The type of the result is either a dynamic structure, of the same type and order as the dynamic input,
-    or a static, higher-order dataset, with order that is the maximum of the order of the input datasets.	
+    or a static, higher-order dataset, of the order of the two inputs.	
 	</p>
 	</section>
   </section>
