@@ -184,8 +184,8 @@
                 <td>The DOLCE+DnS Ultralet namespace (http://lov.okfn.org/dataset/lov/vocabs/dul) [[DUL]]</td></tr>
               
               <tr><td>(others)</td><td>(various)</td><td>All other namespace prefixes are used in examples only. <br/> In particular, IRIs starting with "http://example.com" represent<br/> some application-dependent IRI [[!IRI]]</td></tr>
-        </div>
             </tbody></table>
+        </div>
       </section>
 	  <section id="constraints">
 	    <h3>Restrictions on SPARQL Query Language</h3>
@@ -213,7 +213,7 @@
             <caption id="existing-data-structure-types-table"><b>Table A</b>: Existing data structure types used in this specification</caption> 
             <tbody>
 			  <tr>
-			    <td><b<>Data Structure Type</b></td>
+			    <td><b>Data Structure Type</b></td>
 				<td><b>Reference</b></td> 
 				<td><b>Definition</b>
 				</td>
@@ -284,6 +284,7 @@
 <ul>
 <li>Exactly one default graph, being an RDF graph. The default graph does not have a name and may be empty.</li>
 <li>Zero or more named graphs. Each named graph is a pair consisting of an IRI or a blank node (the graph name), and an RDF graph. Graph names are unique within an RDF dataset.</li>
+</ul>
 				</td>
 			  </tr>
 			  <tr>
@@ -318,6 +319,7 @@
 	<section id="def-datasets">
         <h3>RDF Datasets</h3>
 		<section id="def-rdf-dataset">
+        <h3>RDF Dataset</h3>
 		Recall the definition of RDF Dataset from [[!RDF11-Concepts]]:
 		  <p>An <dfn data-lt="RDF Datasets">RDF dataset</dfn> is a collection of
       <a>RDF graphs</a>, and comprises:</p>
@@ -373,7 +375,6 @@
 		<section id="def-kth-order-rdf-repository">
           <h4>k-th Order RDF Repositories</h4>
 		  <p>A <dfn data-lt="k-th Order RDF Repositories|k-th Order Repository|k-th Order Repositories|RDF Repository|RDF Repositories|repository|repositories"
-		  |k-th Order Repository|k-th Order Repositories
 		  >k-th Order RDF Repository</dfn> is 
 		  defined by cases:
 		  </p>
@@ -442,13 +443,14 @@
 		  transitions of the state of a Graph Store,
 		  for a RDF Repository these operations play the role of helper functions used in the "lazy" construction of the
 		  RDF Repository.
-		  </p>To use a second-order <a>repository</a> to emulate a <a>Graph Store</a>, the input for query and update operations 
+		  </p>
+		  <p  class="ednote">To use a second-order <a>repository</a> to emulate a <a>Graph Store</a>, the input for query and update operations 
 		  would have to be limited to
 		  some "current <a>version</a>", and the <a>default dataset</a> would be empty.
 		  The execution of an <a>Update operation</a> would move the "current <a>version</a> pointer" to the next <a>version</a>.
 		  </p>
-		</section>
-		<section id="def-named-kth-order-RDF Repository">
+		  
+		<section id="def-named-kth-order-repository">
           <h4>Named k-th Order RDF Repository</h4>
 		  <p>A <dfn data-lt="Named k-th Order RDF Repositories|Named RDF Repository|Named RDF Repositories|Named Repository|Named Repositories">Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of 
 		  
@@ -524,20 +526,23 @@
 		  the property prov:isSpecializationOf, which require the parent Store to have an identifier.
 		  </p>
 		</section>
-		<section id="def-k-th-order-sequential-dataset">
-          <h4><dfn data-lt="k-th Order Sequential RDF Datasets">k-th Order Sequential RDF Dataset</dfn></h4>
-		  <p>A k-th Order Sequential RDF Dataset consists of
-		  </p>	
-		  <ul>
-		    <li>a distinguished (k-1)-th order <a>dataset</a>, called the <dfn>default dataset of the sequential dataset</a></li>
-		    <li>a sequence (i.e. totally-ordered set) of <a>k-th order datasets</a>, called the 
-			<dfn>sequential component of the sequential dataset</dfn>.
-			</li>
-		  </ul>
-		  <p class="ednote">We need this type to define the semantics of windowed queries on RDF Streams.
-		  The name is not ideal.
-		  </p>
 		</section>
+		<section>
+		  <h3>Streams</h3>
+			<section id="def-k-th-order-sequential-dataset">
+			  <h4><dfn data-lt="k-th Order Sequential RDF Datasets|sequential dataset|sequential datasets">k-th Order Sequential RDF Dataset</dfn></h4>
+			  <p>A k-th Order Sequential RDF Dataset consists of
+			  </p>	
+			  <ul>
+				<li>a distinguished (k-1)-th order <a>dataset</a>, called the <dfn>default dataset of the sequential dataset</dfn></li>
+				<li>a sequence (i.e. totally-ordered set) of <a>k-th order datasets</a>, called the 
+				<dfn>sequential component of the sequential dataset</dfn>.
+				</li>
+			  </ul>
+			  <p class="ednote">We need this type to define the semantics of windowed queries on RDF Streams.
+			  The name is not ideal.
+			  </p>
+			</section>
 		</section>
 		<!--
 		<section id="def-term-segment">
@@ -655,7 +660,6 @@
 			  </tr>
 			</tbody></table>
         </div>
-      </section>
 	</section>
 	<section id="abstract-syntactic-categories">
 	  <h2>Abstract Syntactic Categories</h2>
@@ -668,14 +672,13 @@
 		</p>
         <p>We make use of the following data structure types from other specifications in the RDF and SPARQL family:</p>
 
-	  <section id="Existing Abstract Syntactic Categories">
         <div style="text-align: left;">
           <table class="thinborder" style="margin-left: auto; margin-right: auto;">
             <caption id="existing-abstract-syntactic-categories-table"><b>Table C</b>: Existing abstract syntactic categories used in this specification, 
 			excluding data structures</caption>
             <tbody>
 			  <tr>
-			    <td><b<>Syntactic Category</b></td>
+			    <td><b>Syntactic Category</b></td>
 				<td><b>Reference</b></td> 
 				<td><b>Definition</b>
 				</td>
@@ -730,11 +733,14 @@
 			  </tr>
 			</tbody></table>
         </div>
-	  </section
+	  </section>
+	  <section id="sec-patterns">
+	    <h3>Patterns</h3>
 		<section id="kth-order-pattern">
           <h4>k-th Order Pattern</h4>
 		  <p>A <dfn data-lt="k-th Order patterns|pattern|patterns">k-th Order pattern</dfn> is @@@ </p>
-		</section>	  </section
+		</section>
+	  </section>
 	</section>
 
 	<section id="algebra-syntax">
@@ -1685,7 +1691,7 @@ _:b203{
 ?version repo:isInitialVersion "true"^^&lt;http://www.w3.org/2001/XMLSchema#boolean&gt; .
 </pre>
 </aside>	
-     <aside class="example" id="bgp-pattern-prov-initial" title="Basic Graph Pattern for Initial Version Statements for Named Repositories">	
+     <aside class="example" id="bgp-pattern-prov-initial-of" title="Basic Graph Pattern for Initial Version Statements for Named Repositories">	
 	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings
 	 describing the initial version of a named repository
 	 might be extracted from the above data structures
@@ -1707,7 +1713,7 @@ _:b203{
 ?version repo:isTerminalVersion "true"^^&lt;http://www.w3.org/2001/XMLSchema#boolean&gt; .
 </pre>
 </aside>	
-     <aside class="example" id="bgp-pattern-prov-initial" title="Basic Graph Pattern for Terminal Version Statements for Named Repositories">	
+     <aside class="example" id="bgp-pattern-prov-terminal-of" title="Basic Graph Pattern for Terminal Version Statements for Named Repositories">	
 	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings
 	 describing the terminal version of a named repository
 	 might be extracted from the above data structures
@@ -1743,8 +1749,7 @@ GRAPH ?g {
 </pre>
 The abstract algebra expression is
 <p> ID<sub>0</sub> = BGP(?s ?p ?o)
-</p>
-</aside>	
+</p>	
 </aside>	
      <aside class="example" id="id-pattern-1" title="Identity Pattern for First Order">	
 	 This GraphPattern is denoted ID<sub>1</sub>.
@@ -1896,7 +1901,7 @@ We write
 	 Continuous matching is applicable to
 	  <a>Repositories</a>, <a>Stores</a>, <a>Recursive Stores</a>,
 	   sequences of <a>k-th Order RDF Datasets</a>,
-	   and <dfn>RDF Dataset Streams</dfn>, 
+	   and <a>k-th Order Sequential RDF Datasets</a>, 
 	   which are structures consisting of a sequence of <a>k-th Order RDF Datasets</a>
 	   and a distinguished <a>k-th Order RDF Datasets</a> called the default dataset.
      </p>
@@ -2021,7 +2026,7 @@ We write
 	 restrict the arguments of Ceval so that a second-order repository can be used to emulate a stream of RDF Datasets.
 	 </p>
 	<p class="ednote">
-	 In the case that the first argument of Ceval is a <a>k-th Order Dataset Stream</a>,
+	 In the case that the first argument of Ceval is a <a>sequential dataset</a>,
 	 the Ceval function takes a <a>k-th Order Pattern</a>, P<sub>seq</sub>, as second argument,
 	 and an optional <a>k-th Order Pattern</a>, P<sub>def</sub> as third argument.
 	 The pattern P<sub>seq</sub> is matched continuously against
@@ -2060,7 +2065,7 @@ We write
 	<p>
 	<pre>
 	SELECT *
-	FROM <dynamic data structure IRI>
+	FROM &lt;dynamic data structure IRI&gt;
 	WHERE {some pattern}
 	</pre>
 	<p>
@@ -2096,7 +2101,7 @@ We write
 	<h4>Dataset-UNION</h4>
 	<p>The Dataset-UNION basic operation has been extended to apply to arbitrary pairs of higher-order datasets.
 	It has also been extended to apply to pairs where one of the elements is a higher-order dataset and the other is a 
-	dynamic data structure (repository, store, recursive store, dataset stream ). 
+	dynamic data structure (repository, store, recursive store, sequential datasets ). 
 	</p>
 	<p>
 	In all cases, the first step of evaluation is to elevate a static input argument as needed: to the same order (in the case of two higher-order datasets),
@@ -2127,7 +2132,7 @@ We write
           </p>
           <dl>
             <dt>Reflexivity</dt>
-            <dd><code>X &le;<sub>P</sub> X</code></li></dd>
+            <dd><code>X &le;<sub>P</sub> X</code></dd>
             <dt>Antisymmetry<dt>
               <dd>  <code>X &le;<sub>P</sub> Y</code> and <code>Y &le;<sub>P</sub> X</code> implies <code>X =
                 Y</code></dd>
