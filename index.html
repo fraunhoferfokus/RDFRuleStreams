@@ -1941,7 +1941,7 @@ WHERE {
 	<aside class="example" id="match-quad-first-order-repository" title="Matching a First-Order Pattern Against a First-Order Repository">
 		<p>
 			eval(<a href='#fhir-repository'>R<sub>FHIR</sub></a>, <a href='#id-pattern-1'>ID<sub>1</sub></a>) = 
-			eval(Union(G0, [D<sub>i, FHIR</sub>]<sub>i=1,2,3</sub>), <a href='#id-pattern-1'>ID<sub>1</sub></a>) = 
+			eval(Dataset-UNION(G0, [D<sub>i, FHIR</sub>]<sub>i=1,2,3</sub>), <a href='#id-pattern-1'>ID<sub>1</sub></a>) = 
 			
 			[{} , [Ω<sub>i, R-FHIR</sub>]<sub>i=1,2,3</sub>]
 		</p>
