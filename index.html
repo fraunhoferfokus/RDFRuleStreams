@@ -303,11 +303,11 @@
 			</tbody></table>
         </div>
 		
-		<p class="ednote">
-		  In mathematics, the "cardinality" (typically called "multiplicity") mapping of multisets is generally assumed to range over non-negative integers.
+		<p class="note">In mathematics, the "cardinality" (typically called "multiplicity") mapping of multisets is generally assumed to range over non-negative integers.
 		  The cardinality of a multiset is, typically, defined as the sum of the multiplicities of all its elements.
 		</p>
-		<p class="ednote">Note that not all sequences can be converted (by forgetting the order) to multisets with finite cardinality; 
+		<p class="ednote">This information may or may not be relevant:
+				Note that not all sequences can be converted (by forgetting the order) to multisets with finite cardinality; 
 				some sequences would correspond to multisets with countable cardinality (where cardinality of an element may be a non-negative integer or the
 				cardinal number aleph-nought).
 				All multisets with countable cardinality can be expressed as sequences.
@@ -354,8 +354,7 @@
 		  <p class="note"> Hereafter in this document, "dataset", without modification, means a <a>k-th Order RDF Dataset</a> where k is not specified.
 		  When the original concept of RDF Dataset is intended, we use the term "first-order dataset" for clarity.
 		  </p>
-		  <p class="ednote">
-		  To be clarified in a separate semantics section:
+		  <p class="ednote">To be clarified in a separate semantics section:
 		  just as there is not a single recommended semantics for RDF Datasets,
 		  it is important to be inclusive regarding possible semantics for k-th Order RDF Datasets.
 		  An important consideration is whether the component Named Datasets lie on a single
@@ -398,20 +397,14 @@
 		  </li>
 		  </ol>
 		  <p class="ednote">To be clarified in a separate semantics section: 
-		  The intended semantics of a k-th Order RDF Repository
-		  under the simple entailment regime is that of the underlying k-th Order RDF Dataset. 
-		  That is,
-		  the order among the <a>named datasets</a> is forgotten in simple entailment.
-		  </p>
-		  <p class="ednote">To be clarified in a separate semantics section: Further point on
-		  the intended semantics is that an entailment regime, called 
-		  e.g. "provenance entailment regime",
+		  there is an entailment regime, called 
+		  e.g. "provenance entailment regime", that
 		  has additional entailments beyond those of the simple entailment regimes in that 
 		  each non-initial version is related to its previous version by the 
 		  <a href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#wasRevisionOf">prov:wasRevisionOf</a>
 		  property.
 		  </p>
-		  <p class="ednote">
+		  <p class="ednote">To be clarified in the section on the extension of Eval on named repositories:
 		  An objective for the provenance entailment regime is that it be monotonic with respect to
 		  repository updates.
 		  From this perspective, it would also be ok to include entailment regarding the initial version.
@@ -436,17 +429,21 @@
 		  data structures that extract parts of the sequence, e.g. head, tail
 		  and subsequences related to these) that are nonmonotonic relative to update operations). 
 		  </p>
-		  <p class="ednote">A second-order <a>RDF Repository</a> is similar to a Graph Store, 
+		  <p class="ednote">This is not yet a sufficient analysis of the similarities and differences between
+		  a second-order repository and a Graph Store.
+		  Move to Examples section?
+		  A second-order <a>RDF Repository</a> is similar to a Graph Store, 
 		  but with the additional structure
 		  that every version is named (albeit the name may be a blank node).
 		  </p>
-		  <p class="ednote">
+		  <p class="ednote">Needs more explanation, examples:
 		  Where Update Operations are conceived as functional specifications for 
 		  transitions of the state of a Graph Store,
 		  for a RDF Repository these operations play the role of helper functions used in the "lazy" construction of the
 		  RDF Repository.
 		  </p>
-		  <p  class="ednote">To use a second-order <a>repository</a> to emulate a <a>Graph Store</a>, the input for query and update operations 
+		  <p  class="ednote">Needs more explanation, examples: 
+		  To use a second-order <a>repository</a> to emulate a <a>Graph Store</a>, the input for query and update operations 
 		  would have to be limited to
 		  some "current <a>version</a>", and the <a>default dataset</a> would be empty.
 		  The execution of an <a>Update operation</a> would move the "current <a>version</a> pointer" to the next <a>version</a>.
@@ -459,7 +456,7 @@
 		  an IRI or blank node n 
 		  that is the <a>RDF Repository</a> name, and <a>k-th Order RDF Repository</a> R.
 		  </p>
-		  <p class="ednote">		  
+		  <p class="ednote">To be clarified in the section on the extension of Eval on named repositories:		  
 		  Under the provenance entailment regime
 		  a <a>named RDF repository</a> has additional entailments that 
 		  each version
