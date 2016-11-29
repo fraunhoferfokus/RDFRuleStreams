@@ -421,7 +421,8 @@
 		  <code>repo:isInitialVersionOf</code>, with object being the name of the repository.
 		   A new namespace (prefix "repo") needs to
 		  be defined.
-		  These properties can be used to define basic operations on dynamic
+		  These properties can be used to define 
+		  s on dynamic
 		  data structures that extract parts of the sequence (e.g. foot, and subsequences related to that,
 		  such as the first 10 versions) that are
           monotonic relative to update operations.
@@ -1124,23 +1125,24 @@
 		-->
 	</section>
 	<section id="examples">
-	<h2>Examples</h2>
-	<section id="fhir-stream-example">
-	<h3>FHIR RDF Stream Example</h3>
-	<aside  class="example" id="fhir-graph" title="FHIR Statements as RDF Graph">
-	The following is a representation of an RDF graph in Trig.
-	These statements have a dynamic aspect
-	that is implicitly expressed in timestamps
-	of the events of type  fhir:Observations.
-	Although the statements appear in a particular order within the graph
-	representation, this order is not significant to inference.
-	In particualr, the temporal order is not directly available through simple entailment.
-	We will show how this same data could be handled within some 
-	of the new datatypes so that the dynamic
-	nature of the statements
-	is accessible through simple entailment.
-	<p>The following graph is denoted G<sub>FHIR</sub>.</p>
-	<pre>
+		<h2>Examples</h2>
+		<section id="fhir-stream-example">
+			<h3>FHIR RDF Stream Example</h3>
+			<section id="fhir-graph-example">
+				<aside  class="example" id="fhir-graph" title="FHIR Statements as RDF Graph">
+				The following is a representation of an RDF graph in Trig.
+				These statements have a dynamic aspect
+				that is implicitly expressed in timestamps
+				of the events of type  fhir:Observations.
+				Although the statements appear in a particular order within the graph
+				representation, this order is not significant to inference.
+				In particualr, the temporal order is not directly available through simple entailment.
+				We will show how this same data could be handled within some 
+				of the new datatypes so that the dynamic
+				nature of the statements
+				is accessible through simple entailment.
+				<p>The following graph is denoted G<sub>FHIR</sub>.</p>
+<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1177,15 +1179,76 @@ _:b7 a fhir:Observation ;
 _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-	</aside>
+		<p>G<sub>FHIR</sub> is the union of three graphs, each fully describing an observation. We write:</p>
+		<p>G<sub>FHIR</sub> = Dataset-UNION(Dataset-UNION(G<sub>1, FHIR</sub>, G<sub>2, FHIR</sub>), G<sub>3, FHIR</sub>)</p>
+		<p>where G<sub>1, FHIR</sub> is:
+		</p>
+<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b1 a fhir:Observation ;
+		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b2 .
+	
+_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+</pre>
+		<p>G<sub>2, FHIR</sub> is:.
+		</p>
+<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+
+_:b4 a fhir:Observation ;
+		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b5 .
+	
+_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+</pre>
+		<p>G<sub>3, FHIR</sub> is:
+		</p>
+<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b7 a fhir:Observation ;
+		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b8 .
+	
+_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+</pre>
+		</aside>
+	</section>
 	<aside  class="example" id="fhir-stream" title="FHIR Statements as RDF Stream">
-	An RDF Stream is a sequence of RDF Datasets (possibly graphs) satisfying certain additional constraints.
-	<p>The RDF Stream as a whole is denoted S<sub>FHIR</sub>.</p>
-	<p>A representation of the first element of the stream is as follows.
-	The first triple in each document is the timestamp triple.
-	This graph is denoted G<sub>1, FHIR</sub>.
-	</p>
-	<pre>
+		Recall that an <a>RDF Stream</a> is a sequence of <a>timestamped graphs</a>
+		which are composed of a default graph and a named graph,
+		where the default graph contains a distinguished triple called the timestamp triple.
+		<p>We will construct an RDF Stream for the FHIR observation data, which as a whole is denoted S<sub>FHIR</sub>.</p>
+		<p>Let G'<sub>1, FHIR</sub> be
+		</p>
+<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1193,7 +1256,6 @@ _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
 _:b1 a fhir:Observation ;
-		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:subject lr:patientA ;
@@ -1202,56 +1264,48 @@ _:b1 a fhir:Observation ;
 _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-	<p>A representation of the second element of the stream is as follows.
-		This graph is denoted G<sub>2, FHIR</sub>.
-</p>
-	<pre>
-@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
-@prefix lr: &lt;http://localhost/local-records#&gt; .
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
-@prefix sct: &lt;http://snomed.info/id/&gt; .
-
-
-_:b4 a fhir:Observation ;
-		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
-		obs:code sct:36407505 ;
-		obs:device lr:sensor1234 ;
-		obs:subject lr:patientA ;
-		obs:valueQuantity _:b5 .
-	
-_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+		<p>which is like G<sub>1, FHIR</sub> except it is missing the timestamp triple, and TS<sub>1, FHIR</sub> be
+		the timestamp triple</p>
+<pre>
+_:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
 </pre>
-	<p>A representation of the third element of the stream is as follows.
-		This graph is denoted G<sub>3, FHIR</sub>.
-</p>
-	<pre>
-@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
-@prefix lr: &lt;http://localhost/local-records#&gt; .
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
-@prefix sct: &lt;http://snomed.info/id/&gt; .
+		<p>We construct a timestamped graph with the basic operation <a>TSGraph</a></p>
+		<p>TSG<sub>1, FHIR</sub> = TSGraph(TS<sub>1, FHIR</sub>, G'<sub>1, FHIR</sub>)</p>
+		<p>Similarly,</p>
+		<p>TSG<sub>i, FHIR</sub> = TSGraph(TS<sub>i, FHIR</sub>, G'<sub>i, FHIR</sub>)</p>
 
-_:b7 a fhir:Observation ;
-		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
-		obs:code sct:36407505 ;
-		obs:device lr:sensor1234 ;
-		obs:subject lr:patientA ;
-		obs:valueQuantity _:b8 .
-	
-_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
-</pre>
-One possible way that this RDF Stream would be transmitted is as a sequence of RDF documents, each one containing
-an RDF graph corresponding to one element of the stream.
+		<p>The RDF stream can be abstractly constructed from its component timestamped graphs using basic operations:</p>
+		<p>S<sub>FHIR</sub> = 
+				Cons(TSG<sub>3, FHIR</sub>, 
+					Cons(TSG<sub>2, FHIR</sub>, 
+						Cons(TSG<sub>1, FHIR</sub>, 
+							S<sub>0</sub>)))
+		</p>
+		<p>where S<sub>0</sub> is the null sequence.</p>
+		<p>One possible way that this RDF Stream would be transmitted is as a sequence of RDF documents, each one containing
+			an RDF graph corresponding to one element of the stream, where the timestamp triple is the first triple in the document.
+		</p>
+
 	</aside>
 	<aside  class="example" id="fhir-dataset" title="FHIR Statements as RDF Dataset">
-	This information can also be represented using the <a>RDF Dataset</a> datatype.
-	The named graph structure allows the statements of each stream element to be grouped together,
-	and also allows us to materialize, in the default graph, 
-	statements giving the order among these elements.	
-		This RDF dataset is denoted D<sub>FHIR</sub>.
+		The information about FHIR observations can also be represented using the <a>RDF Dataset</a> datatype.
+		The named graph structure allows the statements of each stream element to be grouped together,
+		and also allows us to materialize, in the default graph, 
+		statements giving the order among these elements.
+<p>Let D<sub>0, FHIR</sub> be</p>		
+<pre>
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+
+_:b102 prov:wasRevisionOf _:b101.
+_:b103 prov:wasRevisionOf _:b102.
+</pre>
+
+		<p>We write</p>
+		<p>D<sub>FHIR</sub> = Dataset-UNION(Dataset-UNION(Dataset-UNION(D<sub>0, FHIR</sub>, D<sub>1, FHIR</sub>), D<sub>2, FHIR</sub>), D<sub>3, FHIR</sub>)</p>
+		<p>where</p>
+		<p>D<sub>i, FHIR</sub> = Graph(b<sub>i, FHIR</sub>, G<sub>i, FHIR</sub>) and</p>
+		<p>b<sub>1, FHIR</sub>= _:b101, b<sub>2, FHIR</sub>= _:b102, b<sub>3, FHIR</sub>= _:b103 .</p>
+		<p>The resulting dataset D<sub>FHIR</sub> is as follows.</p> 
 <pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1301,80 +1355,22 @@ _:b103{
 	The dataset above is a static structure representing the entailment,
 	under the provenance regime,
 	of a first-order <a>Repository</a>.
-	This repository is denoted R<sub>FHIR</sub>.
+	We denote this repository as R<sub>FHIR</sub>.
 	In this example, the default dataset of the repository is empty.
-	 <p>We write</p>
-	 <p>R<sub>FHIR</sub> = {} ∪ [D<sub>i,FHIR</sub>]<sub>i=1, 2, 3</sub></p>
-    <p>	 
+	<p>We write</p>
+	<p>R<sub>FHIR</sub> = [{}, [D<sub>i,FHIR</sub>]<sub>i=1, 2, 3</sub>]</p>
+	<p>The repository can be abstractly constructed from its component datasets using basic operations:</p>
+		<p>R<sub>FHIR</sub> = 
+				Revise(D<sub>3,FHIR</sub>, 
+					Revise(D<sub>2,FHIR</sub>, 
+						Revise(D<sub>1,FHIR</sub>, 
+							S<sub>0</sub>)))
+		</p>
+	 <p>	 
 	Since repositories are dynamic entities, one form the transmission of the repository could
-	take is a sequence of documents, as shown below.
+	take is a sequence of documents, one for the unordered dataset and one for each of the elements of the 
+	ordered component of the repository.
 	</p>
- 	<p>The first document of the sequence, representing a dataset, is as follows.
-	The dataset is denoted D<sub>1, FHIR</sub>.
-	</p>
-	<pre>
-@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
-@prefix lr: &lt;http://localhost/local-records#&gt; .
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
-@prefix sct: &lt;http://snomed.info/id/&gt; .
-
-_:b101{
-	    _:b1 a fhir:Observation ;
-		    obs:code sct:36407505 ;
-		    obs:device lr:sensor1234 ;
-		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
-		    obs:subject lr:patientA ;
-		    obs:valueQuantity _:b2 .
-	
-	    _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		    lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
-}	
-</pre>
- 	<p>The second document of the sequence is as follows.
-		The dataset is denoted D<sub>2, FHIR</sub>.
-</p>
-	<pre>
-@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
-@prefix lr: &lt;http://localhost/local-records#&gt; .
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
-@prefix sct: &lt;http://snomed.info/id/&gt; .
-
-_:b102{
-		_:b4 a fhir:Observation ;
-			obs:code sct:36407505 ;
-			obs:device lr:sensor1234 ;
-			obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
-			obs:subject lr:patientA ;
-			obs:valueQuantity _:b5 .
-	
-		_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-			lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
-}
-</pre>
- 	<p>The third document of the sequence is as follows.
-		The dataset is denoted D<sub>3, FHIR</sub>.
-</p>
-	<pre>
-@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
-@prefix lr: &lt;http://localhost/local-records#&gt; .
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
-@prefix sct: &lt;http://snomed.info/id/&gt; .
-
-_:b103{
-		_:b7 a fhir:Observation ;
-			obs:code sct:36407505 ;
-			obs:device lr:sensor1234 ;
-			obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
-			obs:subject lr:patientA ;
-			obs:valueQuantity _:b8 .
-	
-		_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-			lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
-}
-</pre>
 	</aside>
 	</section>
 	<section id="general-stream-example">
@@ -1382,11 +1378,52 @@ _:b103{
 	<aside  class="example" id="prov-dataset" title="FHIR Provenance in an RDF Dataset">
 	We consider a more general RDF Stream example, showing a typically
 	case when sets of statements have multiple temporal characteristics.
+	We construct a set of named graphs
+	<p>NG<sub>i, FHIR</sub> = Graph(nb<sub>i</sub>, G<sub>i, FHIR</sub>)</p>
+	where
+	<p>nb<sub>1</sub> = _:b0, nb<sub>2</sub> = _:b3, nb<sub>3</sub> = _:b6 </p>
+	and we express some provenance metadata using these graph names. 
+	Let G<sub>1, prov</sub> be
+<pre>
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+
+_:b0 
+	prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+    lr:stream lr:streamA12342015-01-01T12:00:00Z .
+</pre>	
+	Let G<sub>2, prov</sub> be
+<pre>
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+
+_:b3 
+	prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+    lr:stream lr:streamA12342015-01-01T12:00:00Z .
+</pre>	
+	Let G<sub>3, prov</sub> be
+<pre>
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+
+_:b6 
+	prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+    lr:stream lr:streamA12342015-01-01T12:00:00Z .
+</pre>	
 	In this example, we have the time of observation as one temporal
 	characteristics, and the time the observation report was generated
 	as the second temporal characteristic,
-	The following is a representation of this information as an RDF dataset in Trig.
-	The dataset is denoted D<sub>prov</sub>.
+	The entire dataset is denoted D<sub>prov</sub> and is constructed as follows
+	<p>D<sub>prov</sub> = 
+	    Dataset-UNION(
+			Dataset-UNION(D<sub>1,prov</sub>, D<sub>2,prov</sub>), D<sub>3,prov</sub>
+		)
+	</p>
+	where
+	<p>
+	D<sub>i,prov</sub> = Dataset-UNION(G<sub>i, prov</sub>, NG<sub>i, FHIR</sub>)
+	</p>
+	The following is a representation of  D<sub>prov</sub> in Trig.
 	In this representation, the dytnamic aspects are implicitly expressed 
 	in timestamps,
 	but the temporal order is not directly available through simple entailment.
@@ -1399,7 +1436,7 @@ _:b103{
 
 _:b0 
 	prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
-    lr:stream lr:streamA12342015-01-01T12:00:00Zm .
+    lr:stream lr:streamA12342015-01-01T12:00:00Z .
 _:b0 {
 	_:b1 a fhir:Observation ;
 		obs:code sct:36407505 ;
@@ -1444,93 +1481,28 @@ _:b6 {
 </pre>
 	</aside>
 	<aside  class="example" id="prov-stream" title="FHIR Provenance in an RDF Stream">
-	<p>
-	The representation as an RDF Stream takes the form of the following sequence.
-	The stream as a whole is denoted S<sub>prov</sub>.
-	</p>
-	 <p>We write</p>
-	 <p>S<sub>prov</sub> = [D<sub>i,prov</sub>]<sub>i=1, 2, 3</sub></p>
-	<p>A representation of the first element of the stream is an RDF dataset as follows.
-	The dataset is denoted D<sub>1, prov</sub>.
-	The first triple in each document is the timestamp triple.
-	</p>
-	<pre>
-@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
-@prefix lr: &lt;http://localhost/local-records#&gt; .
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+		<p>The representation of this same information as an RDF Stream takes the form of the following sequence.
+		The stream as a whole is denoted S<sub>prov</sub>.
+		</p>
+		<p>We write</p>
+		<p>S<sub>prov</sub> = [TSG<sub>i,prov</sub>]<sub>i=1, 2, 3</sub></p>
+		<p>A representation of the first element of the stream is a timestamped graph as follows.
+		<p>TSG<sub>i,prov</sub> = TSGraph(, D'<sub>i, prov</sub>)</p>
+		where  D'<sub>i, prov</sub> is like D<sub>i, prov</sub> except it is missing the timestamp triple.
+		<p>D'<sub>i, prov</sub> = Dataset-DIFF(D<sub>i, prov</sub>, TS<sub>i, prov</sub>)
+		</p>
+		where TS<sub>1, prov</sub> is
+<pre>
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
-@prefix sct: &lt;http://snomed.info/id/&gt; .
 
 _:b0 
 	prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
-    lr:stream lr:streamA12342015-01-01T12:00:00Zm .
-_:b0 {
-	_:b1 a fhir:Observation ;
-		obs:code sct:36407505 ;
-		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
-		obs:subject lr:patientA ;
-		obs:valueQuantity _:b2 .
-	
-	_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
-}
 </pre>
-	<p>A representation of the second element of the stream is as follows.
-		The dataset is denoted D<sub>2, prov</sub>.
-</p>
-	<pre>
-@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
-@prefix lr: &lt;http://localhost/local-records#&gt; .
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
-@prefix sct: &lt;http://snomed.info/id/&gt; .
-
-
-_:b3 
-	prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
-    lr:stream lr:streamA12342015-01-01T12:00:00Z .
-_:b3 {
-	_:b4 a fhir:Observation ;
-		obs:code sct:36407505 ;
-		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
-		obs:subject lr:patientA ;
-		obs:valueQuantity _:b5 .
-	
-	_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
-}
-</pre>
-	<p>A representation of the third element of the stream is as follows.
-		The dataset is denoted D<sub>3, prov</sub>.
-</p>
-	<pre>
-@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
-@prefix lr: &lt;http://localhost/local-records#&gt; .
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
-@prefix sct: &lt;http://snomed.info/id/&gt; .
-
-_:b6 
-	prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
-    lr:stream lr:streamA12342015-01-01T12:00:00Z .
-_:b6 {
-	_:b7 a fhir:Observation ;
-		obs:code sct:36407505 ;
-		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
-		obs:subject lr:patientA ;
-		obs:valueQuantity _:b8 .
-	
-	_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
-}
-</pre>
-One possible way that this RDF Stream would be transmitted is as a sequence of RDF documents, each one containing
-an RDF Dataset corresponding to one element of the stream.
-In this example, each element of the stream contains a triple in its default graph that provides an identifier for the
-stream as a whole (<code>lr:streamA12342015-01-01T12:00:00Z</code>). This is optional for RDF streams. 
+		<p>and so on.</p>
+		<p>One possible way that this RDF Stream would be transmitted is as a sequence of RDF documents, each one containing
+		an RDF Dataset corresponding to one element of the stream.</p>
+		<p>In this example, each element of the stream contains a triple in its default graph that provides an identifier for the
+		stream as a whole (<code>lr:streamA12342015-01-01T12:00:00Z</code>). This is optional for RDF streams.</p> 
 	</aside>
 	<aside  class="example" id="prov-dataset-2" title="FHIR Provenance in a Second-Order Dataset">
 	This data can also be represented using the second-order <a>Dataset</a> datatype.
@@ -1604,6 +1576,24 @@ _:b203{
 			lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 	}
 }
+</pre>
+	 <p>We write</p>
+	 <p>D2<sub>prov</sub> = 
+	    Dataset-Union(
+	    Dataset-Union(
+	    Dataset-Union(
+	    Dataset-Union(D<sub>0, prov</sub>,ND<sub>1, prov</sub>),ND<sub>2, prov</sub>),ND<sub>3, prov</sub>)
+	 </p>
+     <p>where</p>
+		<p>ND<sub>i, prov</sub> = Dataset( b<sub>i, prov</sub>, D<sub>i, prov</sub>)
+		<p>b<sub>1, prov</sub>= _:b201, b<sub>2, prov</sub>= _:b202, b<sub>3, prov</sub>= _:b203 .</p>
+		<p>and</p>
+		<p>D<sub>0, prov</sub> is</p>
+<pre>
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+
+_:b202 prov:wasRevisionOf _:b201.
+_:b203 prov:wasRevisionOf _:b202.
 </pre>
 	</aside>
 	<aside  class="example" id="psrov-repository" title="FHIR Provenance as a Second-Order Repository">
@@ -1889,23 +1879,9 @@ WHERE {
 		that is the unordered component of the first-order repository.</p>
 		<p>For example,</p>
 		<p>
-			eval(<a href='#prov-dataset-2'>D2<sub>prov</sub></a>, <a href='#bgp-pattern-prov-revise'>TP<sub>rev</sub></a>) = Ω<sub>rev</sub>
+			eval(<a href='#prov-dataset-2'>D2<sub>prov</sub></a>, <a href='#bgp-pattern-prov-revise'>TP<sub>rev</sub></a>) 
+			= <a href="#omega-rev">Ω<sub>rev</sub></a>
 		</p>
-		<p>	where Ω<sub>rev</sub> is shown in the following table:</p>
-		<table id="omega-rev">
-			<tr>
-				<th>?version</th>
-				<th>?previous</th>
-			</tr>
-			<tr>
-				<td>_:b202</td>
-				<td>_:b201</td>
-			</tr>
-			<tr>
-				<td>_:b203</td>
-				<td>_:b202</td>
-			</tr>
-		</table>
 		<p>If k=2, then application of eval to a repository and BGP corresponds to matching the BGP against the RDF Dataset 
 		that is the unordered component of the second-order repository.</p>
 		<p>In general, application of eval to a (k+1)-th repository and BGP corresponds to matching the BGP against the 
@@ -1920,7 +1896,7 @@ WHERE {
 		   Such an operation can extract information from both the default and named components of the dataset.
 		</p>
 		<p>If k&ge;2, then application of eval to a dataset and QuadPattern corresponds to matching the QuadPattern against the 
-		default (k-1)-th order RDF Dataset of the input dataset, which is defined by recursion over the order.
+		default (k-1)-th order RDF Dataset of the input dataset, which may be defined by induction over the order.
 		As shown in the next example, a second-order pattern (containing "quint" patterns) is needed to access the information in the
 		(non-default) named
 		components of a second-order dataset.
@@ -1961,6 +1937,46 @@ WHERE {
 				<td>_:b201</td>
 			</tr>
 		</table>
+	</aside>	
+	<aside class="example" id="match-quad-first-order-repository" title="Matching a First-Order Pattern Against a First-Order Repository">
+		<p>
+			eval(<a href='#fhir-repository'>R<sub>FHIR</sub></a>, <a href='#id-pattern-1'>ID<sub>1</sub></a>) = 
+			eval(Union(G0, [D<sub>i, FHIR</sub>]<sub>i=1,2,3</sub>), <a href='#id-pattern-1'>ID<sub>1</sub></a>) = 
+			
+			[{} , [Ω<sub>i, R-FHIR</sub>]<sub>i=1,2,3</sub>]
+		</p>
+		<p>	where Ω<sub>i, R-FHIR</sub> = eval(Dataset-UNION(G0, D<sub>i, FHIR</sub>), ID<sub>1</sub>) </P>
+		<!--is partially shown in the following table:</p>
+		<table id="omega-d2-prov">
+			<tr>
+				<th>?s</th>
+				<th>?p</th>
+				<th>?o</th>
+				<th>?g</th>
+				<th>?d</th>
+			</tr>
+			<tr>
+				<td>_:b202</td>
+				<td>prov:wasRevisionOf</td>
+				<td>_:b201</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>_:b0</td>
+				<td>prov:generatedAtTime</td>
+				<td>"2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt;</td>
+				<td></td>
+				<td>_:b201</td>
+			</tr>
+			<tr>
+				<td>_:b1</td>
+				<td>rdf:type</td>
+				<td>fhir:Observation</td>
+				<td>_:b0</td>
+				<td>_:b201</td>
+			</tr>
+		</table>-->
 	</aside>	
 	<!--
 	 The Eval function has been extended to apply to higher-order datasets, repositories and stores.
