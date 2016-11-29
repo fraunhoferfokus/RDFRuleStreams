@@ -293,8 +293,7 @@
 										href="https://www.w3.org/TR/rdf11-concepts/#section-triples"
 										>#section-triples</a>
 								</td>
-								<td><p>An RDF triple consists of three components:</p>
-									<ul>
+								<td>An RDF triple consists of three components: <ul>
 										<li>the <dfn id="dfn-subject">subject</dfn>, which is an
 												<a><abbr
 												title="Internationalized Resource Identifier"
@@ -463,16 +462,38 @@
 									sequence</a> of <a>named k-th order datasets</a> for its order
 								component. </li>
 						</ol>
-						<p>A k-th Order RDF Repository may be viewed as a k-th Order RDF Dataset
-							with the additional structure of a total order on its component set of
-								<a>Named datasets</a>. Each element of the ordered component is
-							called a <dfn>version</dfn> of the RDF Repository. The sequence may be
-							finite (with unique initial and terminal versions), semi-infinite
-							(lacking either an initial or terminal version) or bi-infinite (lacking
-							both initial or terminal versions). Every version that is not the
-							initial version has a unique previous version, and we say that each such
-							version revises the previous version. The set of version names of a
-							repository R is denoted by versionNames(R). </p>
+						<p class="note">A k-th Order RDF Repository may be viewed as a k-th Order
+							RDF Dataset with the additional structure of a total order on its
+							component set of <a>Named datasets</a>. </p>
+						<p>Each element of the ordered component is called a <dfn>version</dfn> of
+							the RDF Repository. </p>
+						<p>We say a version U is a <dfn>previous version</dfn> of version V if U
+							&lt; V in the context of the ordered component, and V is called a
+								<dfn>following version</dfn> of U.</p>
+						<p>If U is the greatest <a>previous version</a> of version V then U is
+							called the <dfn>preceding version</dfn> of V in the context of the
+							ordered component.</p>
+						<p>If V is the least <a>following version</a> of version U then V is
+							called the <dfn>succeding version</dfn> of U in the context of the
+							ordered component.</p>
+						<p>An <dfn>initial version</dfn> is a version that does not have a previous
+							version. The ordered component of a repository MAY have an initial
+							version; if so, the initial version is unique, due to the order being total. </p>
+						<p>Every version that is not the initial version MUST have a unique
+							preceding version, and we say that each such version revises its
+							preceding version. </p>
+						<p>A <dfn>terminal version</dfn> is a version that does not have a following
+							version. The ordered component of a repository MAY have a terminal
+							version; if so, the terminal version is unique, due to the order being total. </p>
+						<p>Every version that is not the terminal version MUST have a unique
+							succeding version. </p>
+						<p class="note">Because of the requirement for total order in the ordered
+							component, it is not possible to have version structures which
+							branch.</p>
+						<p class="note"> The ordered component MAY be finite, semi-infinite, or
+							bi-infinite.</p>
+						<p>The set of version names of a repository R is denoted by
+								<dfn>versionNames</dfn>(R). </p>
 						<p class="ednote">To be clarified in the section on the extension of Eval to
 							repositories: there is an entailment regime, called e.g. "provenance
 							entailment regime", that has additional entailments beyond those of the
@@ -481,28 +502,11 @@
 								href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#wasRevisionOf"
 								>prov:wasRevisionOf</a> property. </p>
 						<p class="ednote">To be clarified in the section on the extension of Eval to
-							named repositories: An objective for the provenance entailment regime is
-							that it be monotonic with respect to repository updates. From this
+							repositories: An objective for the provenance entailment regime is that
+							it be monotonic with respect to repository updates. From this
 							perspective, it would also be ok to include entailment regarding the
 							initial version. Therefore, we define a new property
-								<code>repo:isInitialVersion</code>. For a named repository, e.g.
-							within a store, this entailment regime also includes an additional
-							property, <code>repo:isInitialVersionOf</code>, with object being the
-							name of the repository. A new namespace (prefix "repo") needs to be
-							defined. These properties can be used to define s on dynamic data
-							structures that extract parts of the sequence (e.g. foot, and
-							subsequences related to that, such as the first 10 versions) that are
-							monotonic relative to update operations. </p>
-						<p class="ednote">For consideration: a "repository structure entailment
-							regime" could be defined as an extension of the monotonic provenance
-							entailment regime, relaxing the requirement for monotonicity with
-							respect to update operations. This regime could then include entailments
-							regarding the terminal version, using
-								<code>repo:isTerminalVersion</code> and
-								<code>repo:isTerminalVersionOf</code>. These properties could be
-							used as the basis for basic operations on dynamic data structures that
-							extract parts of the sequence, e.g. head, tail and subsequences related
-							to these) that are nonmonotonic relative to update operations). </p>
+								<code>repo:isInitialVersion</code>. </p>
 						<p class="ednote">This is not yet a sufficient analysis of the similarities
 							and differences between a second-order repository and a Graph Store.
 							Move to Examples section? A second-order <a>RDF Repository</a> is
@@ -532,6 +536,26 @@
 							related to the parent RDF Repository by the <a
 								href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#specializationOf"
 								>prov:specializationOf</a> property. </p>
+						<p class="ednote">To be clarified in the section on the extension of Eval to
+							named repositories: For a named repository, e.g. within a store, the
+							provenance entailment regime also includes an additional property,
+								<code>repo:isInitialVersionOf</code>, with object being the name of
+							the repository. A new namespace (prefix "repo") needs to be defined.
+							These properties can be used to define s on dynamic data structures that
+							extract parts of the sequence (e.g. foot, and subsequences related to
+							that, such as the first 10 versions) that are monotonic relative to
+							update operations. </p>
+						<p class="ednote">To be clarified in the section on the extension of Eval to
+							repositories and named repositories: a "repository structure entailment
+							regime" could be defined as an extension of the monotonic provenance
+							entailment regime, relaxing the requirement for monotonicity with
+							respect to update operations. This regime could then include entailments
+							regarding the terminal version, using
+								<code>repo:isTerminalVersion</code> and
+								<code>repo:isTerminalVersionOf</code>. These properties could be
+							used as the basis for basic operations on dynamic data structures that
+							extract parts of the sequence, e.g. head, tail and subsequences related
+							to these) that are nonmonotonic relative to update operations). </p>
 					</section>
 				</section>
 				<section id="def-stores">
@@ -578,9 +602,10 @@
 					</section>
 					<section id="def-named-rdf-recursive-store">
 						<h4>Named RDF Recursive Store</h4>
-						<p>A <dfn data-lt="Named RDF Recursive Stores">Named RDF Recursive
-								Store</dfn> is an ordered pair [n, S] of an IRI n that is the
-								<a>Store</a> name, and <a>RDF Recursive Store</a> S. </p>
+						<p>A <dfn
+								data-lt="Named RDF Recursive Stores|Named Recursive Store|Named Recursive Stores"
+								>Named RDF Recursive Store</dfn> is an ordered pair [n, S] of an IRI
+							n that is the <a>Store</a> name, and <a>RDF Recursive Store</a> S. </p>
 						<p class="ednote">We do need this type for the components of Recursive
 							Stores. Also at the top level, a Recursive Store, or even the
 							non-recursive version, may be named. The effect is that in the
@@ -3129,6 +3154,68 @@ _:b0 {dbp:Berlin loc:hasPointTempC "12.5"^^xsd:decimal .}</code></pre>
       </aside>
     </section>
 	  -->
+		<section id="structural-inferences">
+			<div style="text-align: left;">
+				<table class="thinborder" style="margin-left: auto; margin-right: auto;">
+					<caption id="structural-inferences-table"><b>Table D</b>: Inferences under the
+						provenance and structural entailment regimes</caption>
+					<tbody>
+						<tr>
+							<th><b>Structure</b></th>
+							<th><b>Regime</b></th>
+							<th><b>Property</b></th>
+							<th><b>Usage</b>
+							</th>
+						</tr>
+						<tr>
+							<td><a>Repository</a>
+								<a>Store</a>
+								<a>Recursive Store</a></td>
+							<td>provenance</td>
+							<td>prov:wasRevisionOf</td>
+							<td>Usage </td>
+						</tr>
+						<tr>
+							<td><a>Repository</a>
+								<a>Store</a>
+								<a>Recursive Store</a></td>
+							<td>provenance</td>
+							<td>repo:isInitialVersion</td>
+							<td>Usage </td>
+						</tr>
+						<tr>
+							<td><a>Repository</a>
+								<a>Store</a>
+								<a>Recursive Store</a></td>
+							<td>structural</td>
+							<td>repo:isTerminalVersion</td>
+							<td>Usage </td>
+						</tr>
+						<tr>
+							<td><a>Named Repository</a>
+								<a>Named Recursive Store</a></td>
+							<td>provenance</td>
+							<td>prov:isSpecializationOf</td>
+							<td>Usage </td>
+						</tr>
+						<tr>
+							<td><a>Named Repository</a>
+								<a>Named Recursive Store</a></td>
+							<td>provenance</td>
+							<td>repo:isInitialVersionOf</td>
+							<td>Usage </td>
+						</tr>
+						<tr>
+							<td><a>Named Repository</a>
+								<a>Named Recursive Store</a></td>
+							<td>structural</td>
+							<td>repo:isTerminalVersionOf</td>
+							<td>Usage </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
 		<!-- CONFORMANCE -->
 		<section id="conformance"> </section>
 	</body>
