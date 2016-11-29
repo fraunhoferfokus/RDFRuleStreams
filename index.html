@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
 <html>
-  <head>
-    <title>Extension of the SPARQL Abstract Data Model for RDF Stream Processing</title>
-    <meta charset="utf-8" />
-    <script src="http://www.w3.org/Tools/respec/respec-w3c-common" async="async" class="remove"></script>
-    <script class="remove">
+	<head>
+		<title>Extension of the SPARQL Abstract Data Model for RDF Stream Processing</title>
+		<meta charset="utf-8" />
+		<script src="http://www.w3.org/Tools/respec/respec-w3c-common" async="async" class="remove"></script>
+		<script class="remove">
       var respecConfig = {
           specStatus: "CG-DRAFT",
           shortName:  "rdf-stream-semantics",
@@ -119,431 +119,495 @@
           githubAPI: "https://api.github.com/repos/streamreasoning/RSP-QL"
       };
     </script>
-    <style type="text/css">
-      table{
-          border-collapse: collapse;
-          border-style: hidden hidden none hidden;
-      }
-      table thead,
-      table tbody{
-          border-bottom: solid;
-      }
-      table td,
-      table th{
-          border-left: solid;
-          border-right: solid;
-          border-bottom: solid thin;
-          vertical-align: top;
-          padding: 0.2em;
-      }</style>
-  </head>
-  <body>
-    <!-- ABSTRACT -->
-    <section id="abstract"> 
-	</section>
-    <!-- STATUS OF DOCUMENT -->
-    <section id="sotd">
-      <p> The specification is intended for discussion within the RDF Stream Processing Community
-        Group. Its content does not yet represent the consensus of the Community Group. </p>
-      <p class="warning"> This specification is incomplete. </p>
-    </section>
-    <!-- INTRODUCTION -->
-    <section class="informative" id="intro">
-      <h2>Introduction</h2>
-
-    </section>
-
-    <section id="basics">
-      <h2>The Basics</h2>
-      <section id="namespaces-and-prefixes">
-        <h3>Namespaces and Prefixes</h3>
-        <p class="ednote">Do we need any new namespaces for this document?
-        </p>		
-        <p>Additional prefixes used in this document are the following:
-        </p>
-        <div style="text-align: left;">
-          <table class="thinborder" style="margin-left: auto; margin-right: auto;">
-            <caption id="namespace-table">Table 1: Prefix and Namespaces used in this specification</caption>
-            <tbody><tr><td><b>prefix</b></td><td><b>namespace IRI</b></td> <td><b>definition</b></td></tr>
-              
-              <tr><td>rsp</td><td><code>http://www.w3.org/ns/rsp#</code></td><td>The RSP rnamespace</td></tr>
-              
-              <tr><td>rdf</td><td><code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code></td><td>The RDF namespace [[!RDF-SCHEMA]]</td></tr>
-              
-              <tr><td>rdfs</td><td><code>http://www.w3.org/2000/01/rdf-schema#</code></td><td>The RDFS namespace [[!RDF-SCHEMA]]</td></tr>
-              
-              <tr><td>xsd</td><td><code>http://www.w3.org/2000/10/XMLSchema#</code></td><td>XML Schema Namespace [[!XMLSCHEMA11-2]]</td></tr>
-              
-              <tr><td>owl</td><td><code>http://www.w3.org/2002/07/owl#</code></td><td>The OWL namespace [[!OWL2-OVERVIEW]]</td></tr>
-              
-              <tr><td>owl-time</td><td><code>http://www.w3.org/2006/time#</code></td><td>The OWL-TIME namespace [[!OWL-TIME]]</td></tr>
-              
-              <tr><td>prov</td><td><code>http://www.w3.org/ns/prov#</code></td>
-                <td>The PROV namespace [[!PROV-DM]]</td></tr>
-
-              <tr><td>dul</td><td><code>http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#</code></td>
-                <td>The DOLCE+DnS Ultralet namespace (http://lov.okfn.org/dataset/lov/vocabs/dul) [[DUL]]</td></tr>
-              
-              <tr><td>(others)</td><td>(various)</td><td>All other namespace prefixes are used in examples only. <br/> In particular, IRIs starting with "http://example.com" represent<br/> some application-dependent IRI [[!IRI]]</td></tr>
-            </tbody></table>
-        </div>
-      </section>
-	  <section id="constraints">
-	    <h3>Restrictions on SPARQL Query Language</h3>
-		For simplicity, we use here a subset of the SPARQL Query language, with the aim to
-		minimize ambiguity of semantics.
-		Constraints are:
-		<ol>
-		  <li>The Sample aggregation operator is not allowed either explicitly or implicitly.</li>
-		</ol>
-	  </section>
-	 </section>
-
-    <section id="data-structures">
-      <h2>Data Structures</h2>
-        <p>In this section, we review the data structure types defined in other recommendations and
-		state the definitions of new data structure types that support the signature definitions of new algebra operators.s</p>
-      <section id="existing-datastructuretypes">
-        <h3>Existing Data Structure Types</h3>
-		<p class="ednote">For now, I keep this table here as a summary of definitions and links to the recommendations 
-		for existing datatypes. In the final document, this table will be moved to an appendix, or deleted.
-		</p>
-        <p>We make use of the following data structure types from other specifications in the RDF and SPARQL family:</p>
-        <div style="text-align: left;">
-          <table class="thinborder" style="margin-left: auto; margin-right: auto;">
-            <caption id="existing-data-structure-types-table"><b>Table A</b>: Existing data structure types used in this specification</caption> 
-            <tbody>
-			  <tr>
-			    <td><b>Data Structure Type</b></td>
-				<td><b>Reference</b></td> 
-				<td><b>Definition</b>
-				</td>
-			  </tr>
-              <tr>
-			    <td><dfn>solution mapping</dfn></td>
-			    <td>[[!SPARQL11-Query]]
-				<a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlSolutions"
-				>#sparqlSolutions</a></td>
-				<td> partial function μ : V -> RDF-T
-				</td>
-			  </tr>
-              <tr>
-			    <td><dfn>multiset of solution mappings</dfn></td>
-				<td>[[!SPARQL11-Query]] 
-				<a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#BasicGraphPattern"
-				>#BasicGraphPattern</a></td>
-				<td>A multiset is an unordered collection of elements in which each element may appear more than once. It is described by a set of elements and a cardinality function giving the number of occurrences of each element from the set in the multiset.
-				</td>
-			  </tr>
-              <tr>
-			    <td><dfn>sequence of solution mappings</dfn></td>
-				<td>[[!SPARQL11-Query]]
-				<a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#solutionModifiers"
-				>#solutionModifiers</a>
-				</td>
-				<td>The recommendation does not define the concept of "sequence", so it is not normatively limited.
-				   The characteristics that are used correspond to a totally-ordered set.
-				</td>
-			  </tr>
-			  <tr>
-			    <td><dfn data-lt="RDF triples|triple|triples">RDF triple</dfn></td>
-				<td>[[!RDF11-Concepts]] 
-				<a href="https://www.w3.org/TR/rdf11-concepts/#section-triples"
-				>#section-triples</a>
-				</td> 
-				<td><p>An RDF triple consists of three components:</p>
-
-    <ul>
-      <li>the <dfn id="dfn-subject">subject</dfn>, which is an
-      <a><abbr title="Internationalized Resource Identifier">IRI</abbr></a> or a <a>blank node</a></li>
-
-      <li>the <dfn id="dfn-predicate">predicate</dfn>, which is an <a>IRI</a></li>
-
-      <li>the <dfn id="dfn-object">object</dfn>, which is an <a>IRI</a>,
-      a <a>literal</a> or a <a>blank node</a></li>
-    </ul>
-
-
-				</td>
-			  </tr>
-			  <tr>
-			    <td><dfn data-lt="RDF Graphs|graph|graphs">RDF Graph</dfn></td>
-				<td>[[!RDF11-Concepts]] 
-				<a href="https://www.w3.org/TR/rdf11-concepts/#section-rdf-graph"
-				>#section-rdf-graph</a>
-				</td> 
-				<td>An RDF graph is a set of RDF triples.
-				</td>
-			  </tr>
-			  <tr>
-			    <td>RDF Datase</td>
-				<td>[[!RDF11-Concepts]] 
-				<a href="https://www.w3.org/TR/rdf11-concepts/#section-dataset"
-				>#section-dataset</a>
-				</td> 
-				<td>An RDF dataset is a collection of RDF graphs, and comprises:
-<ul>
-<li>Exactly one default graph, being an RDF graph. The default graph does not have a name and may be empty.</li>
-<li>Zero or more named graphs. Each named graph is a pair consisting of an IRI or a blank node (the graph name), and an RDF graph. Graph names are unique within an RDF dataset.</li>
-</ul>
-				</td>
-			  </tr>
-			  <tr>
-			    <td><dfn data-lt="RDF Streams">RDF Stream</dfn></td>
-				<td><b>Reference</b></td> 
-				<td><b>Definition</b>
-				</td>
-			  </tr>			  
-			  <tr>
-			    <td><dfn>RDF Surface (sensu Pat Hayes)</dfn></td>
-				<td><b>Reference</b></td> 
-				<td><b>Definition</b>
-				</td>
-			  </tr>			  
-			</tbody></table>
-        </div>
-		
-		<p class="note">In mathematics, the "cardinality" (typically called "multiplicity") mapping of multisets is generally assumed to range over non-negative integers.
-		  The cardinality of a multiset is, typically, defined as the sum of the multiplicities of all its elements.
-		</p>
-		<p class="ednote">This information may or may not be relevant:
-				Note that not all sequences can be converted (by forgetting the order) to multisets with finite cardinality; 
-				some sequences would correspond to multisets with countable cardinality (where cardinality of an element may be a non-negative integer or the
-				cardinal number aleph-nought).
-				All multisets with countable cardinality can be expressed as sequences.
-				However, not all multisets with countable cardinality can be expressed as ordered sequences.
-				SPARQL implicitly assumes sequences of solution mappings may be ordered, and hence we may suppose that
-				the intention is to use only sequences with finite replication of any value, corresponding to
-				multisets with finite cardinality when order is forgotten.
-				</p>
-      </section>
-	<section id="def-datasets">
-        <h3>RDF Datasets</h3>
-		<section id="def-rdf-dataset">
-        <h3>RDF Dataset</h3>
-		Recall the definition of RDF Dataset from [[!RDF11-Concepts]]:
-		  <p>An <dfn data-lt="RDF Datasets">RDF dataset</dfn> is a collection of
-      <a>RDF graphs</a>, and comprises:</p>
-
-    <ul>
-      <li>Exactly one <dfn data-lt="default graphs">default graph</dfn>, being an <a>RDF graph</a>.
-        The default graph does not have a name and MAY be empty.</li>
-      <li>Zero or more <dfn data-lt="named graph">named graphs</dfn>.
-        Each named graph is a pair consisting of an IRI or a blank node
-        (the <dfn>graph name</dfn>), and an <a>RDF graph</a>.
-        Graph names are unique within an RDF dataset.</li>
-    </ul>
-
-
+		<style type="text/css">
+			table{
+			    border-collapse: collapse;
+			    border-style: hidden hidden none hidden;
+			}
+			table thead,
+			table tbody{
+			    border-bottom: solid;
+			}
+			table td,
+			table th{
+			    border-left: solid;
+			    border-right: solid;
+			    border-bottom: solid thin;
+			    vertical-align: top;
+			    padding: 0.2em;
+			}</style>
+	</head>
+	<body>
+		<!-- ABSTRACT -->
+		<section id="abstract"> </section>
+		<!-- STATUS OF DOCUMENT -->
+		<section id="sotd">
+			<p> The specification is intended for discussion within the RDF Stream Processing
+				Community Group. Its content does not yet represent the consensus of the Community
+				Group. </p>
+			<p class="warning"> This specification is incomplete. </p>
 		</section>
-		<section id="def-kth-order-dataset">
-          <h4>k-th order RDF Dataset</h4>
-		  <p>A <dfn data-lt="k-th Order RDF Datasets|k-th Order Dataset|k-th Order Datasets|Dataset|Datasets">k-th Order RDF Dataset</dfn> 
-		  is defined inductively as follows.
-          </p>
-		  <p> A Zeroth-Order RDF Dataset is an RDF Graph.
-		  </p>
-		  <p>For k = 0, 1, ... , a (k+1)-th Order RDF Dataset is composed of a distinguished k-th Order RDF Dataset, 
-		  called the <dfn data-lt="default datasets">default dataset</dfn>, 
-		  and a set of <a>Named k-th Order RDF Datasets</a>.
-		  The names of the k-th Order Datasets are unique within the k+1-th Order Dataset.		  
-		  The set of <a>k-th order dataset</a> names of a k+1-th order dataset D is denoted by datasetNames(D).
-		  </p>
-		  <p class="note"> A first-Order RDF Dataset is an RDF Dataset according to the definition in [[!RDF11-Concepts]].
-		  </p>
-		  <p class="note"> Hereafter in this document, "dataset", without modification, means a <a>k-th Order RDF Dataset</a> where k is not specified.
-		  When the original concept of RDF Dataset is intended, we use the term "first-order dataset" for clarity.
-		  </p>
-		  <p class="ednote">To be clarified in a separate semantics section:
-		  just as there is not a single recommended semantics for RDF Datasets,
-		  it is important to be inclusive regarding possible semantics for k-th Order RDF Datasets.
-		  An important consideration is whether the component Named Datasets lie on a single
-		  <a>RDF Surface (sensu Pat Hayes)</a>, i.e. do they share blank nodes.
-		  </p>		  
+		<!-- INTRODUCTION -->
+		<section class="informative" id="intro">
+			<h2>Introduction</h2>
 		</section>
-		<section id="def-named-kth-order-dataset">
-          <h4>Named k-th order  RDF Dataset</h4>
-		  <p>A <dfn data-lt="Named k-th Order RDF Datasets|Named Dataset|Named Datasets|Named k-th Order Dataset|Named k-th Order Datasets"
-		  >Named k-th Order RDF Dataset</dfn> 
-		  is an ordered pair [n, D] of an IRI or blank node n 
-		  that is the <a>k-th Order RDF Dataset</a> name, and <a>k-th Order RDF Dataset</a> D.
-		  </p>	
-		</section>
-		</section>
-		<section id="def-repositories">
-          <h3>RDF Repositories</h3>
-		<section id="def-kth-order-rdf-repository">
-          <h4>k-th Order RDF Repositories</h4>
-		  <p>A <dfn data-lt="k-th Order RDF Repositories|k-th Order Repository|k-th Order Repositories|RDF Repository|RDF Repositories|repository|repositories"
-		  >k-th Order RDF Repository</dfn> is 
-		  defined by cases:
-		  </p>
-		  <ol>
-		  <li>a zeroth Order RDF Repository is an RDF Graph.
-		  </li>
-		  <li>k+1-th Order RDF Repository, k = 0, 1, ...,
-		  is a k+1-th Order RDF Dataset with the additional structure of a total order 
-		  on its component set of <a>Named k-th Order RDF Datasets</a>.
-		  As such, the sequential nature of the structure of Named Datasets may be considered as a linear linked data structure,
-		  as opposed to a mapping over integers.
-		  Each <a>k-th order dataset</a> of the sequence is called a <dfn>version</dfn> of the RDF Repository.
-		  The sequence may be finite (with unique initial and terminal versions),
-		  semi-infinite (lacking either an initial or terminal version) or 
-		  bi-infinite (lacking both initial or terminal versions).
-		  Every version that is not the initial version has a unique previous version,
-		  and we say that
-		  each such version revises the previous version.
-		  The set of version names of a repository R is denoted by versionNames(R).
-		  </li>
-		  </ol>
-		  <p class="ednote">To be clarified in a separate semantics section: 
-		  there is an entailment regime, called 
-		  e.g. "provenance entailment regime", that
-		  has additional entailments beyond those of the simple entailment regimes in that 
-		  each non-initial version is related to its previous version by the 
-		  <a href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#wasRevisionOf">prov:wasRevisionOf</a>
-		  property.
-		  </p>
-		  <p class="ednote">To be clarified in the section on the extension of Eval on named repositories:
-		  An objective for the provenance entailment regime is that it be monotonic with respect to
-		  repository updates.
-		  From this perspective, it would also be ok to include entailment regarding the initial version.
-		  Therefore, we define a new property <code>repo:isInitialVersion</code>.
-		  For a named repository, e.g.
-		  within a store, this entailment regime also includes an additional property,
-		  <code>repo:isInitialVersionOf</code>, with object being the name of the repository.
-		   A new namespace (prefix "repo") needs to
-		  be defined.
-		  These properties can be used to define 
-		  s on dynamic
-		  data structures that extract parts of the sequence (e.g. foot, and subsequences related to that,
-		  such as the first 10 versions) that are
-          monotonic relative to update operations.
-		  </p>	
-		  <p class="ednote">For consideration: a "repository structure entailment regime"
-		  could be defined as an extension of the monotonic provenance entailment regime,
-		  relaxing the requirement for monotonicity with respect to update operations.
-		  This regime could then include entailments regarding the terminal version,
-		  using <code>repo:isTerminalVersion</code> and <code>repo:isTerminalVersionOf</code>.
-		  These properties could be used as the basis for basic operations on dynamic
-		  data structures that extract parts of the sequence, e.g. head, tail
-		  and subsequences related to these) that are nonmonotonic relative to update operations). 
-		  </p>
-		  <p class="ednote">This is not yet a sufficient analysis of the similarities and differences between
-		  a second-order repository and a Graph Store.
-		  Move to Examples section?
-		  A second-order <a>RDF Repository</a> is similar to a Graph Store, 
-		  but with the additional structure
-		  that every version is named (albeit the name may be a blank node).
-		  </p>
-		  <p class="ednote">Needs more explanation, examples:
-		  Where Update Operations are conceived as functional specifications for 
-		  transitions of the state of a Graph Store,
-		  for a RDF Repository these operations play the role of helper functions used in the "lazy" construction of the
-		  RDF Repository.
-		  </p>
-		  <p  class="ednote">Needs more explanation, examples: 
-		  To use a second-order <a>repository</a> to emulate a <a>Graph Store</a>, the input for query and update operations 
-		  would have to be limited to
-		  some "current <a>version</a>", and the <a>default dataset</a> would be empty.
-		  The execution of an <a>Update operation</a> would move the "current <a>version</a> pointer" to the next <a>version</a>.
-		  </p>
-		  
-		<section id="def-named-kth-order-repository">
-          <h4>Named k-th Order RDF Repository</h4>
-		  <p>A <dfn data-lt="Named k-th Order RDF Repositories|Named RDF Repository|Named RDF Repositories|Named Repository|Named Repositories">Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of 
-		  
-		  an IRI or blank node n 
-		  that is the <a>RDF Repository</a> name, and <a>k-th Order RDF Repository</a> R.
-		  </p>
-		  <p class="ednote">To be clarified in the section on the extension of Eval on named repositories:		  
-		  Under the provenance entailment regime
-		  a <a>named RDF repository</a> has additional entailments that 
-		  each version
-		  is related to the parent RDF Repository by the 
-		  <a href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#specializationOf">prov:specializationOf</a>
-		  property.
-          </p>		
-		</section>
-		</section>
-		<section id="def-stores">
-          <h3>Stores</h3>
-		<section id="def-kth-order-store">
-          <h4>k-th Order RDF Store</h4>
-		  <p>A <dfn data-lt="k-th Order RDF Stores|k-th Order Store|k-th Order Stores|RDF Store|RDF Stores|Store|Stores">k-th Order RDF Store</dfn>
-		  is defined by cases:
-		  </p>
-		  <ol>
-		  <li>A zeroth Order RDF Store is an RDF Graph.
-		  </li>
-		  <li>For k=0, 1, ..., a k+1-th Order RDF Store
-		 is a k+1-th Order RDF Repository whose component k-th Order RDF Datasets have the additionl structure
-		 of RDF Repositories.
-		 The history of each member k-th Order RDF Repository is a restriction of the 
-		 RDF Store history to that RDF Repository.
-		 </li>
-		 </ol>
-		  <p class="ednote">We need to define a restriction of the history of a k+1-th Order RDF Repository
-		  to a member k-th Order RDF Repository.
-		  In particular, we need to take care to remove adjacent versions that have identical content.
-		  </p>
-		  <p class="ednote">The intended semantics, under any entailment regime,
-		  of a k+1-th Order <a>RDF Store</a> is derived from 
-		  that of the corresponding k+1-th Order RDF Repository,
-		  supplemented by that of its member k-th Order Repositories,
-		  possibly augmented (e.g. in the provenance regime) by entailments that link the two.
-		  </p>
-		</section>
-		<section id="def-kth-order-rdf-recursive-store">
-          <h4>k-th Order RDF Recursive Store</h4>
-		  <p>A <dfn data-lt="k-th Order RDF Recursive Stores|k-th Order Recursive Store|k-th Order Recursive Stores|RDF Recursive Store|RDF Recursive Stores|Recursive Store|Recursive Stores">k-th Order RDF Recursive Store</dfn>
-		  is defined by cases:
-		  </p>
-		  <ol>
-		  <li>A zeroth Order RDF Recursive Store is an RDF Graph.
-		  </li>
-		  <li>For k=0, 1, ..., a k+1-th Order RDF Recursive Store
-		 is a k+1-th Order RDF Repository whose component k-th Order RDF Datasets have the additionl structure
-		 of RDF Recursive Stores.
-		 </li>
-		 </ol>
-		  <p class="ednote">The intended semantics, under any entailment regime,
-		  of a k+1-th Order <a>RDF Recursive Store</a> is derived from 
-		  that of the corresponding k+1-th Order RDF Store,
-		  supplemented by that of its member k-th Order RDF Store,
-		  possibly augmented (e.g. in the provenance regime) by entailments that link the two.
-		  </p>
-		</section>		  
-		<section id="def-named-rdf-recursive-store">
-          <h4>Named RDF Recursive Store</h4>
-		  <p>A <dfn data-lt="Named RDF Recursive Stores">Named RDF Recursive Store</dfn> is an ordered pair [n, S] of an IRI n that is the 
-		  <a>Store</a> name, and <a>RDF Recursive Store</a> S.
-		  </p>	
-		  <p class="ednote">We do need this type for the components of Recursive Stores.
-		  Also at the top level, a Recursive Store, or even the non-recursive version, may be
-		  named. The effect is that in the provenance entailment regime there are entailments of
-		  the property prov:isSpecializationOf, which require the parent Store to have an identifier.
-		  </p>
-		</section>
-		</section>
-		<section id="def-streams">
-		  <h3>Streams</h3>
-			<section id="def-k-th-order-sequential-dataset">
-			  <h4><dfn data-lt="k-th Order Sequential RDF Datasets|sequential dataset|sequential datasets">k-th Order Sequential RDF Dataset</dfn></h4>
-			  <p>A k-th Order Sequential RDF Dataset consists of
-			  </p>	
-			  <ul>
-				<li>a distinguished (k-1)-th order <a>dataset</a>, called the <dfn>default dataset of the sequential dataset</dfn></li>
-				<li>a sequence (i.e. totally-ordered set) of <a>k-th order datasets</a>, called the 
-				<dfn>sequential component of the sequential dataset</dfn>.
-				</li>
-			  </ul>
-			  <p class="ednote">We need this type to define the semantics of windowed queries on RDF Streams.
-			  The name is not ideal.
-			  </p>
+		<section id="basics">
+			<h2>The Basics</h2>
+			<section id="namespaces-and-prefixes">
+				<h3>Namespaces and Prefixes</h3>
+				<p class="ednote">Do we need any new namespaces for this document? </p>
+				<p>Additional prefixes used in this document are the following: </p>
+				<div style="text-align: left;">
+					<table class="thinborder" style="margin-left: auto; margin-right: auto;">
+						<caption id="namespace-table">Table 1: Prefix and Namespaces used in this
+							specification</caption>
+						<tbody>
+							<tr>
+								<td><b>prefix</b></td>
+								<td><b>namespace IRI</b></td>
+								<td><b>definition</b></td>
+							</tr>
+
+							<tr>
+								<td>rsp</td>
+								<td><code>http://www.w3.org/ns/rsp#</code></td>
+								<td>The RSP rnamespace</td>
+							</tr>
+
+							<tr>
+								<td>rdf</td>
+								<td><code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code></td>
+								<td>The RDF namespace [[!RDF-SCHEMA]]</td>
+							</tr>
+
+							<tr>
+								<td>rdfs</td>
+								<td><code>http://www.w3.org/2000/01/rdf-schema#</code></td>
+								<td>The RDFS namespace [[!RDF-SCHEMA]]</td>
+							</tr>
+
+							<tr>
+								<td>xsd</td>
+								<td><code>http://www.w3.org/2000/10/XMLSchema#</code></td>
+								<td>XML Schema Namespace [[!XMLSCHEMA11-2]]</td>
+							</tr>
+
+							<tr>
+								<td>owl</td>
+								<td><code>http://www.w3.org/2002/07/owl#</code></td>
+								<td>The OWL namespace [[!OWL2-OVERVIEW]]</td>
+							</tr>
+
+							<tr>
+								<td>owl-time</td>
+								<td><code>http://www.w3.org/2006/time#</code></td>
+								<td>The OWL-TIME namespace [[!OWL-TIME]]</td>
+							</tr>
+
+							<tr>
+								<td>prov</td>
+								<td><code>http://www.w3.org/ns/prov#</code></td>
+								<td>The PROV namespace [[!PROV-DM]]</td>
+							</tr>
+
+							<tr>
+								<td>dul</td>
+								<td><code>http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#</code></td>
+								<td>The DOLCE+DnS Ultralet namespace
+									(http://lov.okfn.org/dataset/lov/vocabs/dul) [[DUL]]</td>
+							</tr>
+
+							<tr>
+								<td>(others)</td>
+								<td>(various)</td>
+								<td>All other namespace prefixes are used in examples only. <br />
+									In particular, IRIs starting with "http://example.com"
+									represent<br /> some application-dependent IRI [[!IRI]]</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section id="constraints">
+				<h3>Restrictions on SPARQL Query Language</h3> For simplicity, we use here a subset
+				of the SPARQL Query language, with the aim to minimize ambiguity of semantics.
+				Constraints are: <ol>
+					<li>The Sample aggregation operator is not allowed either explicitly or
+						implicitly.</li>
+				</ol>
 			</section>
 		</section>
-		<!--
+		<section id="data-structures">
+			<h2>Data Structures</h2>
+			<p>In this section, we review the data structure types defined in other recommendations
+				and state the definitions of new data structure types that support the signature
+				definitions of new algebra operators.s</p>
+			<section id="existing-datastructuretypes">
+				<h3>Existing Data Structure Types</h3>
+				<p class="ednote">For now, I keep this table here as a summary of definitions and
+					links to the recommendations for existing datatypes. In the final document, this
+					table will be moved to an appendix, or deleted. </p>
+				<p>We make use of the following data structure types from other specifications in
+					the RDF and SPARQL family:</p>
+				<div style="text-align: left;">
+					<table class="thinborder" style="margin-left: auto; margin-right: auto;">
+						<caption id="existing-data-structure-types-table"><b>Table A</b>: Existing
+							data structure types used in this specification</caption>
+						<tbody>
+							<tr>
+								<td><b>Data Structure Type</b></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b>
+								</td>
+							</tr>
+							<tr>
+								<td><dfn>solution mapping</dfn></td>
+								<td>[[!SPARQL11-Query]] <a
+										href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlSolutions"
+										>#sparqlSolutions</a></td>
+								<td> partial function μ : V -> RDF-T </td>
+							</tr>
+							<tr>
+								<td><dfn>multiset of solution mappings</dfn></td>
+								<td>[[!SPARQL11-Query]] <a
+										href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#BasicGraphPattern"
+										>#BasicGraphPattern</a></td>
+								<td>A multiset is an unordered collection of elements in which each
+									element may appear more than once. It is described by a set of
+									elements and a cardinality function giving the number of
+									occurrences of each element from the set in the multiset. </td>
+							</tr>
+							<tr>
+								<td><dfn>sequence of solution mappings</dfn></td>
+								<td>[[!SPARQL11-Query]] <a
+										href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#solutionModifiers"
+										>#solutionModifiers</a>
+								</td>
+								<td>The recommendation does not define the concept of "sequence", so
+									it is not normatively limited. The characteristics that are used
+									correspond to a totally-ordered set. </td>
+							</tr>
+							<tr>
+								<td><dfn data-lt="RDF triples|triple|triples">RDF triple</dfn></td>
+								<td>[[!RDF11-Concepts]] <a
+										href="https://www.w3.org/TR/rdf11-concepts/#section-triples"
+										>#section-triples</a>
+								</td>
+								<td><p>An RDF triple consists of three components:</p>
+									<ul>
+										<li>the <dfn id="dfn-subject">subject</dfn>, which is an
+												<a><abbr
+												title="Internationalized Resource Identifier"
+												>IRI</abbr></a> or a <a>blank node</a></li>
+
+										<li>the <dfn id="dfn-predicate">predicate</dfn>, which is an
+												<a>IRI</a></li>
+
+										<li>the <dfn id="dfn-object">object</dfn>, which is an
+												<a>IRI</a>, a <a>literal</a> or a <a>blank
+											node</a></li>
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<td><dfn data-lt="RDF Graphs|graph|graphs">RDF Graph</dfn></td>
+								<td>[[!RDF11-Concepts]] <a
+										href="https://www.w3.org/TR/rdf11-concepts/#section-rdf-graph"
+										>#section-rdf-graph</a>
+								</td>
+								<td>An RDF graph is a set of RDF triples. </td>
+							</tr>
+							<tr>
+								<td><dfn data-lt="RDF Datasets">RDF dataset</dfn></td>
+								<td>[[!RDF11-Concepts]] <a
+										href="https://www.w3.org/TR/rdf11-concepts/#section-dataset"
+										>#section-dataset</a>
+								</td>
+								<td>An RDF dataset is a collection of <a>RDF graphs</a>, and
+									comprises: <ul>
+										<li>Exactly one <dfn data-lt="default graphs">default
+												graph</dfn>, being an <a>RDF graph</a>. The default
+											graph does not have a name and MAY be empty.</li>
+										<li>Zero or more <dfn data-lt="named graph">named
+												graphs</dfn>. Each named graph is a pair consisting
+											of an IRI or a blank node (the <dfn>graph name</dfn>),
+											and an <a>RDF graph</a>. Graph names are unique within
+											an RDF dataset.</li>
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<td><dfn data-lt="RDF Streams">RDF Stream</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b>
+								</td>
+							</tr>
+							<tr>
+								<td><dfn>RDF Surface (sensu Pat Hayes)</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<p class="note">In mathematics, the "cardinality" (typically called "multiplicity")
+					mapping of multisets is generally assumed to range over non-negative integers.
+					The cardinality of a multiset is, typically, defined as the sum of the
+					multiplicities of all its elements. </p>
+				<p class="ednote">This information may or may not be relevant: Note that not all
+					sequences can be converted (by forgetting the order) to multisets with finite
+					cardinality; some sequences would correspond to multisets with countable
+					cardinality (where cardinality of an element may be a non-negative integer or
+					the cardinal number aleph-nought). All multisets with countable cardinality can
+					be expressed as sequences. However, not all multisets with countable cardinality
+					can be expressed as ordered sequences. SPARQL implicitly assumes sequences of
+					solution mappings may be ordered, and hence we may suppose that the intention is
+					to use only sequences with finite replication of any value, corresponding to
+					multisets with finite cardinality when order is forgotten. </p>
+			</section>
+			<section id="def-datasets">
+				<h3>RDF Datasets</h3>
+				<section id="def-rdf-dataset">
+					<h3>RDF Dataset</h3>
+					<p>Recall that an <a>RDF dataset</a> is a collection of <a>RDF graphs</a>, and
+						comprises:</p>
+					<ul>
+						<li>Exactly one <a>default graph</a>.</li>
+						<li>Zero or more <a>named graphs</a>.</li>
+					</ul> We generalize this concept below to accommodate more complex structures. </section>
+				<section id="def-kth-order-dataset">
+					<h4>k-th order RDF Dataset</h4>
+					<p>A <dfn
+							data-lt="k-th Order RDF Datasets|k-th Order Dataset|k-th Order Datasets|Dataset|Datasets"
+							>k-th Order RDF Dataset</dfn> is defined inductively as follows. </p>
+					<p> A Zeroth-Order RDF Dataset is an RDF Graph. </p>
+					<p>For k = 0, 1, ... , a (k+1)-th Order RDF Dataset is a collection of k-th
+						Order RDF Datasets composed of a distinguished k-th Order RDF Dataset,
+						called the <dfn data-lt="default datasets">default dataset</dfn>, and a set
+						of <a>Named k-th Order RDF Datasets</a>. The names of the k-th Order
+						Datasets are unique within the k+1-th Order Dataset. The set of <a>k-th
+							order dataset</a> names of a k+1-th order dataset D is denoted by
+						datasetNames(D). </p>
+					<p class="note"> A first-Order RDF Dataset is an RDF Dataset according to the
+						definition in [[!RDF11-Concepts]]. </p>
+					<p class="note"> Hereafter in this document, "dataset", without modification,
+						means a <a>k-th Order RDF Dataset</a> where k is not specified. When the
+						original concept of RDF Dataset is intended, we use the term "first-order
+						dataset" for clarity. </p>
+					<p class="ednote">To be clarified in a separate semantics section: just as there
+						is not a single recommended semantics for RDF Datasets, it is important to
+						be inclusive regarding possible semantics for k-th Order RDF Datasets. An
+						important consideration is whether the component Named Datasets lie on a
+						single <a>RDF Surface (sensu Pat Hayes)</a>, i.e. do they share blank nodes.
+					</p>
+				</section>
+				<section id="def-named-kth-order-dataset">
+					<h4>Named k-th order RDF Dataset</h4>
+					<p>A <dfn
+							data-lt="Named k-th Order RDF Datasets|Named Dataset|Named Datasets|Named k-th Order Dataset|Named k-th Order Datasets"
+							>Named k-th Order RDF Dataset</dfn> is an ordered pair [n, D] of an IRI
+						or blank node n that is the <a>k-th Order RDF Dataset</a> name, and <a>k-th
+							Order RDF Dataset</a> D. </p>
+					<p class="note"> Hereafter in this document, <dfn>unnamed or named
+						dataset</dfn>, without modification, means either a <a>k-th Order RDF
+							Dataset</a> or a <a>named k-th Order RDF Dataset</a> where k is not
+						specified. </p>
+				</section>
+				<section id="def-data-sequences-structures">
+					<h3>RDF Data Sequences and Structures</h3>
+					<section id="def-data-sequences">
+						<h4>RDF Data Sequences</h4>
+						<p>An <dfn data-lt="RDF Data Sequences|Data Sequence|Data Sequences">RDF
+								Data Sequence</dfn> is a totally-ordered set of <a>unnamed or named
+								datasets</a>. The set may be finite, or infinite. If infinite, the
+							set may or may not have a least element, and may or may not have a
+							greatest element. </p>
+						<p class="ednote">In some cases, the sequential nature of the ordered
+							component may be considered as a linear linked data structure. However,
+							in general this doesn't have to be applicable, as an infinite
+							totally-ordered set, even a countable one, can have limit points in the
+							interior of its order structure. The neccessity to deal with this arises
+							from the definition of RDF dataset in [[!RDF-Concepts]], which puts no
+							bound on the cardinality of the set of named graphs. </p>
+						<p class="ednote">Add to table of structural inferences: rdsq:lessThan,
+							rdsq:greaterThan can be inferred, but only within the context of a
+							particular structure. That means the structure must be named in order
+							for a quad to be created. </p>
+					</section>
+					<section id="def-data-structures">
+						<h4>RDF Data Structures</h4>
+						<p>An <dfn>RDF Data Structure</dfn> is a collection of <a>unnamed or named
+								datasets</a> comprised of: </p>
+						<ul>
+							<li>a distinguished <a>unnamed or named dataset</a>, called the
+									<dfn>unordered component</dfn> of the data structure.</li>
+							<li>a <a>data sequence</a>, called the <dfn>ordered component</dfn> of
+								the data structure. </li>
+						</ul>
+					</section>
+				</section>
+				<section id="def-repositories">
+					<h3>RDF Repositories</h3>
+					<section id="def-kth-order-rdf-repository">
+						<h4>k-th Order RDF Repositories</h4>
+						<p>A <dfn
+								data-lt="k-th Order RDF Repositories|k-th Order Repository|k-th Order Repositories|RDF Repository|RDF Repositories|repository|repositories"
+								>k-th Order RDF Repository</dfn> is an <a>RDF data structure</a>
+							that is defined by cases: </p>
+						<ol>
+							<li>a zeroth Order RDF Repository has an RDF Graph for its unordered
+								component and the empty sequence for its ordered component. </li>
+							<li>k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>k-th order
+									dataset</a> for its unordered component and a <a>data
+									sequence</a> of <a>named k-th order datasets</a> for its order
+								component. </li>
+						</ol>
+						<p>A k-th Order RDF Repository may be viewed as a k-th Order RDF Dataset
+							with the additional structure of a total order on its component set of
+								<a>Named datasets</a>. Each element of the ordered component is
+							called a <dfn>version</dfn> of the RDF Repository. The sequence may be
+							finite (with unique initial and terminal versions), semi-infinite
+							(lacking either an initial or terminal version) or bi-infinite (lacking
+							both initial or terminal versions). Every version that is not the
+							initial version has a unique previous version, and we say that each such
+							version revises the previous version. The set of version names of a
+							repository R is denoted by versionNames(R). </p>
+						<p class="ednote">To be clarified in the section on the extension of Eval to
+							repositories: there is an entailment regime, called e.g. "provenance
+							entailment regime", that has additional entailments beyond those of the
+							simple entailment regimes in that each non-initial version is related to
+							its previous version by the <a
+								href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#wasRevisionOf"
+								>prov:wasRevisionOf</a> property. </p>
+						<p class="ednote">To be clarified in the section on the extension of Eval to
+							named repositories: An objective for the provenance entailment regime is
+							that it be monotonic with respect to repository updates. From this
+							perspective, it would also be ok to include entailment regarding the
+							initial version. Therefore, we define a new property
+								<code>repo:isInitialVersion</code>. For a named repository, e.g.
+							within a store, this entailment regime also includes an additional
+							property, <code>repo:isInitialVersionOf</code>, with object being the
+							name of the repository. A new namespace (prefix "repo") needs to be
+							defined. These properties can be used to define s on dynamic data
+							structures that extract parts of the sequence (e.g. foot, and
+							subsequences related to that, such as the first 10 versions) that are
+							monotonic relative to update operations. </p>
+						<p class="ednote">For consideration: a "repository structure entailment
+							regime" could be defined as an extension of the monotonic provenance
+							entailment regime, relaxing the requirement for monotonicity with
+							respect to update operations. This regime could then include entailments
+							regarding the terminal version, using
+								<code>repo:isTerminalVersion</code> and
+								<code>repo:isTerminalVersionOf</code>. These properties could be
+							used as the basis for basic operations on dynamic data structures that
+							extract parts of the sequence, e.g. head, tail and subsequences related
+							to these) that are nonmonotonic relative to update operations). </p>
+						<p class="ednote">This is not yet a sufficient analysis of the similarities
+							and differences between a second-order repository and a Graph Store.
+							Move to Examples section? A second-order <a>RDF Repository</a> is
+							similar to a Graph Store, but with the additional structure that every
+							version is named (albeit the name may be a blank node). </p>
+						<p class="ednote">Needs more explanation, examples: Where Update Operations
+							are conceived as functional specifications for transitions of the state
+							of a Graph Store, for a RDF Repository these operations play the role of
+							helper functions used in the "lazy" construction of the RDF Repository. </p>
+						<p class="ednote">Needs more explanation, examples: To use a second-order
+								<a>repository</a> to emulate a <a>Graph Store</a>, the input for
+							query and update operations would have to be limited to some "current
+								<a>version</a>", and the <a>default dataset</a> would be empty. The
+							execution of an <a>Update operation</a> would move the "current
+								<a>version</a> pointer" to the next <a>version</a>. </p>
+					</section>
+					<section id="def-named-kth-order-repository">
+						<h4>Named k-th Order RDF Repository</h4>
+						<p>A <dfn
+								data-lt="Named k-th Order RDF Repositories|Named RDF Repository|Named RDF Repositories|Named Repository|Named Repositories"
+								>Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of
+							an IRI or blank node n that is the <a>RDF Repository</a> name, and
+								<a>k-th Order RDF Repository</a> R. </p>
+						<p class="ednote">To be clarified in the section on the extension of Eval on
+							named repositories: Under the provenance entailment regime a <a>named
+								RDF repository</a> has additional entailments that each version is
+							related to the parent RDF Repository by the <a
+								href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#specializationOf"
+								>prov:specializationOf</a> property. </p>
+					</section>
+				</section>
+				<section id="def-stores">
+					<h3>Stores</h3>
+					<section id="def-kth-order-store">
+						<h4>k-th Order RDF Store</h4>
+						<p>A <dfn
+								data-lt="k-th Order RDF Stores|k-th Order Store|k-th Order Stores|RDF Store|RDF Stores|Store|Stores"
+								>k-th Order RDF Store</dfn> is defined by cases: </p>
+						<ol>
+							<li>A zeroth Order RDF Store is an RDF Graph. </li>
+							<li>For k=0, 1, ..., a k+1-th Order RDF Store is a k+1-th Order RDF
+								Repository whose component k-th Order RDF Datasets have the
+								additionl structure of RDF Repositories. The history of each member
+								k-th Order RDF Repository is a restriction of the RDF Store history
+								to that RDF Repository. </li>
+						</ol>
+						<p class="ednote">We need to define a restriction of the history of a k+1-th
+							Order RDF Repository to a member k-th Order RDF Repository. In
+							particular, we need to take care to remove adjacent versions that have
+							identical content. </p>
+						<p class="ednote">The intended semantics, under any entailment regime, of a
+							k+1-th Order <a>RDF Store</a> is derived from that of the corresponding
+							k+1-th Order RDF Repository, supplemented by that of its member k-th
+							Order Repositories, possibly augmented (e.g. in the provenance regime)
+							by entailments that link the two. </p>
+					</section>
+					<section id="def-kth-order-rdf-recursive-store">
+						<h4>k-th Order RDF Recursive Store</h4>
+						<p>A <dfn
+								data-lt="k-th Order RDF Recursive Stores|k-th Order Recursive Store|k-th Order Recursive Stores|RDF Recursive Store|RDF Recursive Stores|Recursive Store|Recursive Stores"
+								>k-th Order RDF Recursive Store</dfn> is defined by cases: </p>
+						<ol>
+							<li>A zeroth Order RDF Recursive Store is an RDF Graph. </li>
+							<li>For k=0, 1, ..., a k+1-th Order RDF Recursive Store is a k+1-th
+								Order RDF Repository whose component k-th Order RDF Datasets have
+								the additionl structure of RDF Recursive Stores. </li>
+						</ol>
+						<p class="ednote">The intended semantics, under any entailment regime, of a
+							k+1-th Order <a>RDF Recursive Store</a> is derived from that of the
+							corresponding k+1-th Order RDF Store, supplemented by that of its member
+							k-th Order RDF Store, possibly augmented (e.g. in the provenance regime)
+							by entailments that link the two. </p>
+					</section>
+					<section id="def-named-rdf-recursive-store">
+						<h4>Named RDF Recursive Store</h4>
+						<p>A <dfn data-lt="Named RDF Recursive Stores">Named RDF Recursive
+								Store</dfn> is an ordered pair [n, S] of an IRI n that is the
+								<a>Store</a> name, and <a>RDF Recursive Store</a> S. </p>
+						<p class="ednote">We do need this type for the components of Recursive
+							Stores. Also at the top level, a Recursive Store, or even the
+							non-recursive version, may be named. The effect is that in the
+							provenance entailment regime there are entailments of the property
+							prov:isSpecializationOf, which require the parent Store to have an
+							identifier. </p>
+					</section>
+				</section>
+				<section id="def-streams">
+					<h3>Streams</h3>
+					<section id="def-k-th-order-sequential-dataset">
+						<h4><dfn
+								data-lt="k-th Order Sequential RDF Datasets|sequential dataset|sequential datasets"
+								>k-th Order Sequential RDF Dataset</dfn></h4>
+						<p>A k-th Order Sequential RDF Dataset consists of </p>
+						<ul>
+							<li>a distinguished (k-1)-th order <a>dataset</a>, called the
+									<dfn>default dataset of the sequential dataset</dfn></li>
+							<li>a sequence (i.e. totally-ordered set) of <a>k-th order datasets</a>,
+								called the <dfn>sequential component of the sequential
+								dataset</dfn>. </li>
+						</ul>
+						<p class="ednote">We need this type to define the semantics of windowed
+							queries on RDF Streams. The name is not ideal. </p>
+					</section>
+				</section>
+				<!--
 		<section id="def-term-segment">
           <h4>Term Segment</h4>
 		  <p>The <dfn data-lt="Term Segments">Term Segment</dfn> (of a Store) is the mutable (write-only) set of 
@@ -558,7 +622,7 @@
 		  which does not appear to be relevant for the abstract data model.
 		  </p>		  
 		</section>-->
-		<!--
+				<!--
 		<section id="def-term">
           <h4>The Term</h4>
 		  <p>A <dfn data-lt="the terms">the term</dfn> is a (supertype) where (specialization)</a>.
@@ -573,16 +637,17 @@
 		  <p class="ednote">This property is a subproperty of @@@
 		  </p>
 		</section>		-->
-		<div style="text-align: left;">
-			  <table class="thinborder" style="margin-left: auto; margin-right: auto;">
-            <caption id="new-datatypes-discarded-table"><b>Table B</b>: New datatypes considered for this specification but probably not needed</caption>
-            <tbody>
-			  <tr>
-			    <td><b>Name</b></td>
-				<td><b>Definition</b>
-				</td>
-			  </tr>
-			  <!-- <tr>
+				<div style="text-align: left;">
+					<table class="thinborder" style="margin-left: auto; margin-right: auto;">
+						<caption id="new-datatypes-discarded-table"><b>Table B</b>: New datatypes
+							considered for this specification but probably not needed</caption>
+						<tbody>
+							<tr>
+								<td><b>Name</b></td>
+								<td><b>Definition</b>
+								</td>
+							</tr>
+							<!-- <tr>
 			    <td>Store</td>
 				<td>structure on a fixed RDF Surface (sensu Pat Hayes).
 				This Surface contains all the RDF Terms that (ever) appear in the Term Segment. 
@@ -595,406 +660,428 @@
 			    <td>Named RDF Recursive Store</td>
 				<td>ordered pair [n, S] of an IRI n that is the Store name, and Store S.
 				</td>
-			  </tr>   -->           
-			  <tr>
-			    <td>Term Segment (of a Store)</td>
-				<td>mutable (write-only) set of the RDF Terms known at a given time to appear 
-				or have appeared in the Named Repositories of the Store 
-				(i.e includes terms that might not currently appear in any statement in the current Revision of any 
-				RDF Repository currently in the Store)
-				</td>
-			  </tr>      
-			  <tr>
-			    <td>version (of a RDF Repository)</td>
-				<td>relationship between the RDF Repository and each of the elements in its sequence of Named RDF Datsets.
-                    A subproperty of prov:specializationOf. The "versionOf" relationship can be inferred from a prov:specializationOf, 
-					together with participation in a
-                    prov:wasRevisionOf relationship with another specialization of the same RDF Repository.
-                    Therefore it is not necessary to mint this subproperty. 					
-				</td>
-			  </tr>              
-			  <tr>
-			    <td>RDF Databag</td>
-				<td>structure consisting of an RDF Dataset D and a cardinality mapping
-                     from the set of triples and quads in D into positive integers.
-                     For an RDF Databag B, the dataset is data[B] and the cardinality mapping is card[B].					 
-				</td>
-			  </tr>
-			  <tr>
-			    <td>Named RDF Databag</td>
-				<td>ordered pair [n, B] of an IRI 
-				that is the name of the RDF Databag, and RDF Databag B.
-				</td>
-			  </tr>
-		      <tr>
-			    <td>Multirepository</td>
-				<td>like a Repository, but with RDF Databags instead of RDF Datasets.
-				 (move to a note) Explanation: The purpose of the additional types which incorporate cardinality is to 
-				accommodate a representation of an arbitrary RDF Stream with a "cumulative" strategy 
-				(just making this name up on the spot). This strategy is what I am using in the current experimental repository, 
-				 where each new timestamped graph of the stream is inserted into the repository that holds its representation, 
-				 and never deleted. 
-				 The cardinality is needed for the case when the same triple, or quad, appears in more than one element of 
-				 the stream, which is allowed in the most general RDF stream. This strategy was the best match to the 
-				 visibility mapping where the default is persistence (if no value is given for run length, then it is 
-				 assumed to be present from then on, and never deleted).
-				 
-				 An alternative strategy would be to use a  "noncumulataive" strategy, where the repository is "cleared" 
-				 (without deleting the history) when a new stream element arrives, and the new stream element becomes the 
-				 repository content. 
-				 The visibility map that is the best match to this case is where the default is a runlength of 1. 
-				 This strategy would not need the additional types with cardinality, making the abstract data model more parsimonious.
-				
-				</td>
-			  </tr>              
-			  <tr>
-			    <td>Named Multirepository</td>
-				<td>ordered pair [n, M] of an IRI n that is the Multirepository name, and Multirepository M.
-				</td>
-			  </tr>
-			  <tr>
-			    <td>Multistore</td>
-				<td>like a Store, but with Multirepositories instead of Repositories.
-				</td>
-			  </tr>
-			</tbody></table>
-        </div>
-	</section>
-	</section>
-	<section id="abstract-syntactic-categories">
-	  <h2>Abstract Syntactic Categories</h2>
-        <p>In this section, we review the abstract syntactic categories defined in other recommendations and
-		state the definitions of new abstract syntactic categories that support the signature definitions of new algebra operators.</p>
-      <section id="existing-abstract-syntactic-categories">
-		<h3>Existing Abstract Syntactic Categories</h3>
-		<p class="ednote">For now, I keep this table here as a summary of definitions and links to the recommendations 
-		for existing datatypes. In the final document, this table will be moved to an appendix, or deleted.
-		</p>
-        <p>We make use of the following data structure types from other specifications in the RDF and SPARQL family:</p>
-
-        <div style="text-align: left;">
-          <table class="thinborder" style="margin-left: auto; margin-right: auto;">
-            <caption id="existing-abstract-syntactic-categories-table"><b>Table C</b>: Existing abstract syntactic categories used in this specification, 
-			excluding data structures</caption>
-            <tbody>
-			  <tr>
-			    <td><b>Syntactic Category</b></td>
-				<td><b>Reference</b></td> 
-				<td><b>Definition</b>
-				</td>
-			  </tr>
-              <tr>
-			    <td><dfn data-lt="RDF Terms">RDF-T</dfn></td>
-			    <td>[[!SPARQL11-Query]]
-				<a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlBasicTerms"
-				>#sparqlBasicTerms</a></td>
-				<td> Let <dfn>I</dfn> be the set of all <a>IRIs</a>.
-					Let <dfn>RDF-L</dfn> be the set of all <a>RDF Literals</a>
-					Let <dfn>RDF-B</dfn> be the set of all <a>blank nodes</a> in <a>RDF graphs</a>.
-					The set of RDF Terms, RDF-T, is I ∪ RDF-L ∪ RDF-B.
-				</td>
-			  </tr>              
-			  <tr>
-			    <td><dfn>V</dfn></td>
-				<td>[[!SPARQL11-Query]]
-				<a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlQueryVariables"
-				>#sparqlQueryVariables</a></td> 
-				<td>A query variable is a member of the set V where V is infinite and disjoint from RDF-T.
-				</td>
-			  </tr>
-			  <tr>
-			    <td><dfn>expression</dfn></td>
-				<td><b>Reference</b></td> 
-				<td><b>Definition</b>
-				</td>
-			  </tr>
-			  <tr>
-			    <td><dfn>Graph Pattern</dfn></td>
-				<td><b>Reference</b></td> 
-				<td><b>Definition</b>
-				</td>
-			  </tr>              
-			  <tr>
-			    <td><dfn>Quadpattern</dfn> or <dfn>GraphGraphPattern</dfn></td>
-				<td>
-				[[!SPARQL11-Update]]
-				[[!SPARQL11-Query]]
-				<a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlTranslateGraphPatterns"
-				>#sparqlTranslateGraphPatterns</a>
-				</td> 
-				<td><b>Definition</b>
-				</td>
-			  </tr>              
-			  <tr>
-			    <td><dfn>Query</dfn></td>
-				<td><b>Reference</b></td> 
-				<td><b>Definition</b>
-				</td>
-			  </tr>
-			</tbody></table>
-        </div>
-	  </section>
-	  <section id="patterns">
-	    <h3>Patterns</h3>
-		<section id="kth-order-pattern">
-          <h4>k-th Order Pattern</h4>
-		  <p>A <dfn data-lt="k-th Order patterns|pattern|patterns">k-th Order pattern</dfn> is @@@ </p>
-		</section>
-	  </section>
-	</section>
-
-	<section id="abstract-algebra">
-		<h2>Abstract Algebra Operations</h2>
-		<section id="def-existing-query">
-		    <h3>SPARQL Query Abstract Algebra</h3>		
-			<section id="def-existing-query-eval">
-				<h4>Eval</h4>
-				<p>We define an extension of the signature, and the corresponding semantics, of the "eval" operation 
-				of [[!SPARQL11-Query]] that accommodates two styles:</p>
-				<ul>
-					<li>A syntactic style that uses reserved words to modify data structures, 
-						 e.g. by casting to different types, extracting substructures or applying window operations.</li>
-					<li>A semantic style that uses naming conventions within the IRI, 
-						e.g. with query strings, to indicate such modifications of the data structures.</li>
-				</ul>
-				<p> In either case, it is necessary that the transformation to the
-				abstract algebra does not depend on any details of the IRI; i.e., IRIs are still opaque.
-				</p>
-				<p>However, it is acceptable, even typical, that
-				the <em>semantics</em> of the abstract operations depend on the datatype
-				of the arguments.
-				</p>
-				<p>
-				Thus, we extend the binary signature of the eval function from its definition in [[!SPARQL11-Query]] of RDF Dataset x expression, 
-				to take a data structure of the various types defined in Section <a href="#data-structures"></a>, as
-				first argument and an extended pattern, as defined in Section <a href="#patterns"></a> as second argument.
-				</p>
-				<p>All of the newly-defined data structures can be considered as specializations of an abstract data structure having an unordered (set-based)
-				component and a totally-ordered (sequence-based) component. This same abstraction holds for:</p> 
-				<ul>
-					<li>data strucutures with triples as the fundamental type (datasets, repositories, stores, streams)</li>
-					<li>data structures with solution mappings as the fundamental type (structured results)</li>
-				</ul>
-				<p>
-				The semantics of eval are based on matching the pattern to the ordered component of the data structure, with the unordered component unioned
-				into every element, to obtain the ordered component
-				of the structured result, and also matching the same pattern to the unordered component of the data structure to get the unordered component
-				of the structured result.
-				</p>
-				<p>In the semantic approach, the implementer defines the naming convention of the 
-				 query string to denote substructures of the parent data structure, e.g just the unordered component,
-				just the ordered component, just the terminal element of the ordered component, or 
-				structures derived from the parent structure, e.g. the ordered component with the unordered component unioned into every element,
-				or the result of a window operation, where subsequences from the ordered component are unioned to obtain a new sequence.
-				</p>
-				<p>In the syntactic approach, abstract algebra operations are employed to express these transformations and associate them
-				with variables or names,
-				with a syntactic transformation to and from the concrete syntax.
-				<!--The motivation for the syntactic approach is to allow the same capability for transformation as the semantic approach in regard to external and legacy sources.-->
-				</p>
-
+			  </tr>   -->
+							<tr>
+								<td>Term Segment (of a Store)</td>
+								<td>mutable (write-only) set of the RDF Terms known at a given time
+									to appear or have appeared in the Named Repositories of the
+									Store (i.e includes terms that might not currently appear in any
+									statement in the current Revision of any RDF Repository
+									currently in the Store) </td>
+							</tr>
+							<tr>
+								<td>version (of a RDF Repository)</td>
+								<td>relationship between the RDF Repository and each of the elements
+									in its sequence of Named RDF Datsets. A subproperty of
+									prov:specializationOf. The "versionOf" relationship can be
+									inferred from a prov:specializationOf, together with
+									participation in a prov:wasRevisionOf relationship with another
+									specialization of the same RDF Repository. Therefore it is not
+									necessary to mint this subproperty. </td>
+							</tr>
+							<tr>
+								<td>RDF Databag</td>
+								<td>structure consisting of an RDF Dataset D and a cardinality
+									mapping from the set of triples and quads in D into positive
+									integers. For an RDF Databag B, the dataset is data[B] and the
+									cardinality mapping is card[B]. </td>
+							</tr>
+							<tr>
+								<td>Named RDF Databag</td>
+								<td>ordered pair [n, B] of an IRI that is the name of the RDF
+									Databag, and RDF Databag B. </td>
+							</tr>
+							<tr>
+								<td>Multirepository</td>
+								<td>like a Repository, but with RDF Databags instead of RDF
+									Datasets. (move to a note) Explanation: The purpose of the
+									additional types which incorporate cardinality is to accommodate
+									a representation of an arbitrary RDF Stream with a "cumulative"
+									strategy (just making this name up on the spot). This strategy
+									is what I am using in the current experimental repository, where
+									each new timestamped graph of the stream is inserted into the
+									repository that holds its representation, and never deleted. The
+									cardinality is needed for the case when the same triple, or
+									quad, appears in more than one element of the stream, which is
+									allowed in the most general RDF stream. This strategy was the
+									best match to the visibility mapping where the default is
+									persistence (if no value is given for run length, then it is
+									assumed to be present from then on, and never deleted). An
+									alternative strategy would be to use a "noncumulataive"
+									strategy, where the repository is "cleared" (without deleting
+									the history) when a new stream element arrives, and the new
+									stream element becomes the repository content. The visibility
+									map that is the best match to this case is where the default is
+									a runlength of 1. This strategy would not need the additional
+									types with cardinality, making the abstract data model more
+									parsimonious. </td>
+							</tr>
+							<tr>
+								<td>Named Multirepository</td>
+								<td>ordered pair [n, M] of an IRI n that is the Multirepository
+									name, and Multirepository M. </td>
+							</tr>
+							<tr>
+								<td>Multistore</td>
+								<td>like a Store, but with Multirepositories instead of
+									Repositories. </td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</section>
 		</section>
-		<section id="def-existing-basic">
-		    <h3>Basic Operations</h3>		
-			<section id="def-existing-basic-dataset-union">
-				<h4>Dataset-UNION</h4>
-				<p><dfn>Dataset-UNION</dfn> is defined in [[!SPARQL11-Update]] as a basic operation with the following signature:</p>
-				<ul>
-				<li>On the domain RDF Dataset x RDF Dataset, the range is RDF Dataset.</li>
-				</ul>
-				<p>The semantics of <a>Dataset-UNION</a> is defined in [[!SPARQL11-Update]] as follows.</p> 
-				<p>
-				Let DS={DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and DS' = {DG'} union {(iri'<sub>j</sub>, G'<sub>j</sub>) | 1 ≤ j ≤ m} be two RDF Datasets. Let further graphNames(DS) = { iri<sub>i</sub> | 1 ≤ i ≤ n} and graphNames(DS') = {iri'<sub>j</sub> | 1 ≤ j ≤ m}. The Dataset-UNION between DS and DS' is defined as follows:
-				</p>
-				<p>Dataset-UNION(DS, DS') = {DG union DG'} union {(iri, G) | iri in graphNames(DS) union graphNames(DS')}</p>
-				<p>and G defined as </p>
-				<ul>
-				<li>G<sub>i</sub> for iri = iri<sub>i</sub> such that iri<sub>i</sub> in graphNames(DS) minus graphNames(DS')</li>
-				<li>G<sub>j</sub> for iri = iri'<sub>j</sub> such that iri<sub>j</sub> in graphNames(DS') minus graphNames(DS)</li>
-				<li>G<sub>i</sub> union G<sub>j</sub> for iri = iri<sub>i</sub> = iri'<sub>j</sub> in graphNames(DS) intersect graphNames(DS')</li>
-				</ul>
-				<p>where union between <a>graphs</a> is defined as set-union of <a>triples</a> in those <a>graphs</a>.</p>
-				<p>The Dataset-UNION operation constructs a new (first-order) <a>RDF Dataset</a> from two existing (first-order) <a>RDF Datasets</a> by
-				forming the union of the <a>default graphs</a>, and taking the union of the sets of <a>named graphs</a>, with the exception
-				that if the sets of <a>graph names</a> of the two (first-order) <a>RDF datasets</a> have a non-empty intersection, 
-				the <a>graphs</a> with names
-				in that intersection must be combined by set union. 		  	  
-				</p>
-				<p>
-				We extend the Dataset-UNION operation to <a>k-th Order RDF Datasets</a>.
-				Also, the names are extended from IRIs to also allow <a>blank node</a> names.
-				</p>
-				<ul>
-				<li>On the domain <a>k-th order dataset</a> x k'-th order <a>dataset</a>, the range is max(k, k')-th order <a>dataset</a>.</li>
-				</ul>
-				<p>The extended semantics of <a>Dataset-UNION</a> is defined by cases as follows.</p>
-				<p>In the case that both arguments are zeroth-order <a>datasets</a>, i.e., <a>RDF Graphs</a>, then the result is the union
-				 of the sets of <a>triples</a> in the two <a>graphs</a>.
-				</p>		  
-				<p>In the case that both arguments, DSP and DSP', are k+1-th order <a>datasets</a>, 
-				let DSP = {DSC} ∪ 
-				{(name<sub>i</sub>, DSC<sub>i</sub>) | 1 ≤ i ≤ n} and 
-				datasetNames(DSP) = { name<sub>i</sub> | 1 ≤ i ≤ n}, and similarly for DSP',
-				where DSC and DSC<sub>i</sub> are <a>k-th Order RDF Datasets</a>, and
-				name and name<sub>i</sub> are IRIs or blank nodes (I ∪ RDF-B).
-				Then</p>
-				<p>
-				Dataset-UNION(DSP, DSP') = 
-				Dataset-UNION(DSC , DSC') ∪ {(iri, DS) | iri in datasetNames(DSP) ∪ 
-				datasetNames(DSP')}</p>
-				<p>and DS defined as </p>
-				<ul>
-				<li>DSC<sub>i</sub> for iri = iri<sub>i</sub> such that iri<sub>i</sub> in datasetNames(DSP) minus datasetNames(DSP')</li>
-				<li>DSC'<sub>j</sub> for iri = iri'<sub>j</sub> such that iri<sub>j</sub> in datasetNames(DSP') minus datasetNames(DSP)</li>
-				<li>Dataset-UNION(DSC<sub>i</sub> , DSC'<sub>j</sub>) for iri = iri<sub>i</sub> = iri'<sub>j</sub> in 
-					datasetNames(DSP) intersect datasetNames(DSP')</li>
-				</ul>
-
-				<p>In the case that k and k' are different, let k'' = max(k, k').
-				Then Dataset-UNION(DS, DS') = Dataset-UNION(Dataset-ELEVATE(DS, k''), Dataset-ELEVATE(DS', k'')).
-				</p>
-				<p class="ednote">Define the basic operation Dataset-ELEVATE to lift a k'-th order <a>dataset</a> to a k-th order <a>dataset</a>, 
-				with k' &le; k.
-				In the case that k' &lt; k, then it will be embedded in the <a>default dataset</a>.
-				The definition can be recursive, with base case of k = k' + 1, and the input <a>dataset</a> is the <a>default dataset</a> of the output, 
-				and the output contains no <a>named datasets</a>. 
-				When k=k', then the operation returns the input <a>dataset</a>.
-				</p>
-				<p class="ednote">
-				It is possible to informally apply the Dataset-UNION operation to pairs of <a>repositories</a> or <a>stores</a> by first applying
-				a forgetful functor that retains all the versions but forgets the order among them.
-				However, the result is not a <a>repository</a> or <a>store</a>, but is just a <a>dataset</a>.
-				To truly extend the UNION operation to <a>repositories</a> and <a>stores</a> to generate new  <a>repositories</a> and <a>stores</a>,
-				it would be necessary to mint new version names and to specify how versions are ordered and combined when necessary
-				e.g. according to timestamps, but timestamps are not mandatory in our definitions 
-				There is no precedent for such definitions, since the Update spec does not define a union operation on Graph Stores.			
-				</p>
+		<section id="abstract-syntactic-categories">
+			<h2>Abstract Syntactic Categories</h2>
+			<p>In this section, we review the abstract syntactic categories defined in other
+				recommendations and state the definitions of new abstract syntactic categories that
+				support the signature definitions of new algebra operators.</p>
+			<section id="existing-abstract-syntactic-categories">
+				<h3>Existing Abstract Syntactic Categories</h3>
+				<p class="ednote">For now, I keep this table here as a summary of definitions and
+					links to the recommendations for existing datatypes. In the final document, this
+					table will be moved to an appendix, or deleted. </p>
+				<p>We make use of the following data structure types from other specifications in
+					the RDF and SPARQL family:</p>
+				<div style="text-align: left;">
+					<table class="thinborder" style="margin-left: auto; margin-right: auto;">
+						<caption id="existing-abstract-syntactic-categories-table"><b>Table C</b>:
+							Existing abstract syntactic categories used in this specification,
+							excluding data structures</caption>
+						<tbody>
+							<tr>
+								<td><b>Syntactic Category</b></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b>
+								</td>
+							</tr>
+							<tr>
+								<td><dfn data-lt="RDF Terms">RDF-T</dfn></td>
+								<td>[[!SPARQL11-Query]] <a
+										href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlBasicTerms"
+										>#sparqlBasicTerms</a></td>
+								<td> Let <dfn>I</dfn> be the set of all <a>IRIs</a>. Let
+										<dfn>RDF-L</dfn> be the set of all <a>RDF Literals</a> Let
+										<dfn>RDF-B</dfn> be the set of all <a>blank nodes</a> in
+										<a>RDF graphs</a>. The set of RDF Terms, RDF-T, is I ∪ RDF-L
+									∪ RDF-B. </td>
+							</tr>
+							<tr>
+								<td><dfn>V</dfn></td>
+								<td>[[!SPARQL11-Query]] <a
+										href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlQueryVariables"
+										>#sparqlQueryVariables</a></td>
+								<td>A query variable is a member of the set V where V is infinite
+									and disjoint from RDF-T. </td>
+							</tr>
+							<tr>
+								<td><dfn>expression</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b>
+								</td>
+							</tr>
+							<tr>
+								<td><dfn>Graph Pattern</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b>
+								</td>
+							</tr>
+							<tr>
+								<td><dfn>Quadpattern</dfn> or <dfn>GraphGraphPattern</dfn></td>
+								<td> [[!SPARQL11-Update]] [[!SPARQL11-Query]] <a
+										href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#sparqlTranslateGraphPatterns"
+										>#sparqlTranslateGraphPatterns</a>
+								</td>
+								<td><b>Definition</b>
+								</td>
+							</tr>
+							<tr>
+								<td><dfn>Query</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</section>
-			<section>
-				<h4>Other Basic Operations</h4>
-				<p class="ednote">Similarly, the basic operations of Dataset-DIFF and Dataset will be extended to <a>k-th order datasets</a>.
-				The Dataset operation will also be extended to <a>k-th order patterns</a>. 		  
-				</p>
+			<section id="patterns">
+				<h3>Patterns</h3>
+				<section id="kth-order-pattern">
+					<h4>k-th Order Pattern</h4>
+					<p>A <dfn data-lt="k-th Order patterns|pattern|patterns">k-th Order
+							pattern</dfn> is @@@ </p>
+				</section>
 			</section>
 		</section>
-		<section id="def-existing-update">
-		    <h3>SPARQL Update Operations</h3>		
-			<section id="def-existing-update-insert-data">
-				<h4>Insert Data</h4>
-				<p><dfn>Insert Data</dfn> is defined in [[!SPARQL11-Update]] as an Update Operation with the following signature:</p>
-				<ul>
-					<li>On the domain RDF Dataset x IRI, the range is RDF Dataset.</li>
-				</ul>
-				<p>The semantics of <a>Insert Data</a> is defined in [[!SPARQL11-Update]] as follows.</p> 
-				<p>OpInsertData(GS, <em>QuadPattern</em>) = Dataset-UNION(GS, Dataset(<em>QuadPattern</em>,{},GS,GS))</p>
-				<p>where {} is the empty solution mapping,</p>
-				<p>
-				GS is an (first-order) <a>RDF dataset</a>, and <em>QuadPattern</em> is a ground quad pattern.
-				</p>
-				<p>The Insert Data operation constructs a new RDF Dataset from an existing RDF Dataset by adding 
-				triples and quads to it as expressed in the ground <em>QuadPattern</em>.
-				Note that Insert Data is functional in that it does not actually "change" the input RDF Dataset.
-				Update operations may be used to define a Graph Store as a state machine, where the state of a Graph Store
-				is an RDF Dataset, and Update Operations take the current state of a Graph Store as one of their input arguments,
-				generating a new RDF Dataset which then is taken as the new state of the Graph Store.		  
-				</p>
-				<p>
-				We extend the Insert Data operation to <a>k-th Order RDF Datasets</a>.
-				</p>
-				<ul>
-					<li>On the domain <a>k-th Order RDF Datasets</a> x Ground <a>k-th Order Patterns</a>, the range is <a>k-th Order RDF Datasets</a>.</li>
-				</ul>
-				<p>The extended semantics of <a>Insert Data</a> is defined as follows.</p> 
-				<p>OpInsertData(DS, <em>k-Pattern</em>) = Dataset-UNION(DS, Dataset(<em>k-Pattern</em>,{},DS,DS))</p>
-				<p>where {} is the empty solution mapping,</p>
+		<section id="abstract-algebra">
+			<h2>Abstract Algebra Operations</h2>
+			<section id="def-existing-query">
+				<h3>SPARQL Query Abstract Algebra</h3>
+				<section id="def-existing-query-eval">
+					<h4>Eval</h4>
+					<p>We define an extension of the signature, and the corresponding semantics, of
+						the "eval" operation of [[!SPARQL11-Query]] that accommodates two
+						styles:</p>
+					<ul>
+						<li>A syntactic style that uses reserved words to modify data structures,
+							e.g. by casting to different types, extracting substructures or applying
+							window operations.</li>
+						<li>A semantic style that uses naming conventions within the IRI, e.g. with
+							query strings, to indicate such modifications of the data
+							structures.</li>
+					</ul>
+					<p> In either case, it is necessary that the transformation to the abstract
+						algebra does not depend on any details of the IRI; i.e., IRIs are still
+						opaque. </p>
+					<p>However, it is acceptable, even typical, that the <em>semantics</em> of the
+						abstract operations depend on the datatype of the arguments. </p>
+					<p> Thus, we extend the binary signature of the eval function from its
+						definition in [[!SPARQL11-Query]] of RDF Dataset x expression, to take a
+						data structure of the various types defined in Section <a
+							href="#data-structures"></a>, as first argument and an extended pattern,
+						as defined in Section <a href="#patterns"></a> as second argument. </p>
+					<p>All of the newly-defined data structures can be considered as specializations
+						of an abstract data structure having an unordered (set-based) component and
+						a totally-ordered (sequence-based) component. This same abstraction holds
+						for:</p>
+					<ul>
+						<li>data strucutures with triples as the fundamental type (datasets,
+							repositories, stores, streams)</li>
+						<li>data structures with solution mappings as the fundamental type
+							(structured results)</li>
+					</ul>
+					<p> The semantics of eval are based on matching the pattern to the ordered
+						component of the data structure, with the unordered component unioned into
+						every element, to obtain the ordered component of the structured result, and
+						also matching the same pattern to the unordered component of the data
+						structure to get the unordered component of the structured result. </p>
+					<p>In the semantic approach, the implementer defines the naming convention of
+						the query string to denote substructures of the parent data structure, e.g
+						just the unordered component, just the ordered component, just the terminal
+						element of the ordered component, or structures derived from the parent
+						structure, e.g. the ordered component with the unordered component unioned
+						into every element, or the result of a window operation, where subsequences
+						from the ordered component are unioned to obtain a new sequence. </p>
+					<p>In the syntactic approach, abstract algebra operations are employed to
+						express these transformations and associate them with variables or names,
+						with a syntactic transformation to and from the concrete syntax.
+						<!--The motivation for the syntactic approach is to allow the same capability for transformation as the semantic approach in regard to external and legacy sources.-->
+					</p>
+				</section>
 			</section>
-			<section id="def-existing-update-opcreate">
-				<h4>OpCreate</h4>
-				<p><dfn>OpCreate</dfn> is defined in [[!SPARQL11-Update]] as an Update Operation with the following signature:</p>
-				<ul>
-				<li>On the domain RDF Dataset x IRI, the range is RDF Dataset.</li>
-				</ul>
-				<p>The semantics of <a>OpCreate</a> is defined in [[!SPARQL11-Update]] as follows.</p> 
-				<p>Let GS = {DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and graphNames(GS) = { iri<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
-				<p>OpCreate(GS, iri) = GS union {(iri, {})} if iri not in graphNames(GS); 
-				otherwise, OpCreate(GS, iri) = GS</p>
-				<p>
-				where DG and G<sub>i</sub> are graphs, iri and iri<sub>i</sub> are IRIs.
-				</p>
-				<p>The OpCreate operation constructs a new RDF Dataset from an existing RDF Dataset by adding 
-				an empty named graph to it with a specified IRI as name, 
-				provided it does not already contain a named graph of the specified name.
-				Note that OpCreate is functional in that it does not actually "change" the input RDF Dataset.
-				Update operations may be used to define a Graph Store as a state machine, where the state of a Graph Store
-				is an RDF Dataset, and Update Operations take the current state of a Graph Store as input,
-				generating a new RDF Dataset which then is taken as the new state of the Graph Store.		  
-				</p>
-				<p>
-				We extend the OpCreate operation to <a>k-th Order RDF Datasets</a>.
-				Also, the names are extended from IRIs to also allow blank node names.
-				</p>
-				<ul>
-				<li>On the domain <a>k-th Order RDF Dataset</a> x I ∪ RDF-B, the range is <a>k-th Order RDF Dataset</a>.</li>
-				</ul>
-				<p>The extended semantics of <a>OpCreate</a> is defined as follows.</p> 
-				<p>Let DSP = {DSC} ∪ 
-				{(name<sub>i</sub>, DSC<sub>i</sub>) | 1 ≤ i ≤ n} and 
-				datasetNames(DSP) = { name<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
-				<p>OpCreate(DSP, name) = DSP ∪ {(name, {})} 
-				if name not in datasetNames(DSP); 
-				otherwise, OpCreate(DSP, name) = DSP</p>
-				<p>
-				where DSC and DSC are <a>k-th Order RDF Datasets</a>, and
-				name and name<sub>i</sub> are IRIs or blank nodes (I ∪ RDF-B).
-				</p>
+			<section id="def-existing-basic">
+				<h3>Basic Operations</h3>
+				<section id="def-existing-basic-dataset-union">
+					<h4>Dataset-UNION</h4>
+					<p><dfn>Dataset-UNION</dfn> is defined in [[!SPARQL11-Update]] as a basic
+						operation with the following signature:</p>
+					<ul>
+						<li>On the domain RDF Dataset x RDF Dataset, the range is RDF Dataset.</li>
+					</ul>
+					<p>The semantics of <a>Dataset-UNION</a> is defined in [[!SPARQL11-Update]] as
+						follows.</p>
+					<p> Let DS={DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and DS' =
+						{DG'} union {(iri'<sub>j</sub>, G'<sub>j</sub>) | 1 ≤ j ≤ m} be two RDF
+						Datasets. Let further graphNames(DS) = { iri<sub>i</sub> | 1 ≤ i ≤ n} and
+						graphNames(DS') = {iri'<sub>j</sub> | 1 ≤ j ≤ m}. The Dataset-UNION between
+						DS and DS' is defined as follows: </p>
+					<p>Dataset-UNION(DS, DS') = {DG union DG'} union {(iri, G) | iri in
+						graphNames(DS) union graphNames(DS')}</p>
+					<p>and G defined as </p>
+					<ul>
+						<li>G<sub>i</sub> for iri = iri<sub>i</sub> such that iri<sub>i</sub> in
+							graphNames(DS) minus graphNames(DS')</li>
+						<li>G<sub>j</sub> for iri = iri'<sub>j</sub> such that iri<sub>j</sub> in
+							graphNames(DS') minus graphNames(DS)</li>
+						<li>G<sub>i</sub> union G<sub>j</sub> for iri = iri<sub>i</sub> =
+								iri'<sub>j</sub> in graphNames(DS) intersect graphNames(DS')</li>
+					</ul>
+					<p>where union between <a>graphs</a> is defined as set-union of <a>triples</a>
+						in those <a>graphs</a>.</p>
+					<p>The Dataset-UNION operation constructs a new (first-order) <a>RDF Dataset</a>
+						from two existing (first-order) <a>RDF Datasets</a> by forming the union of
+						the <a>default graphs</a>, and taking the union of the sets of <a>named
+							graphs</a>, with the exception that if the sets of <a>graph names</a> of
+						the two (first-order) <a>RDF datasets</a> have a non-empty intersection, the
+							<a>graphs</a> with names in that intersection must be combined by set
+						union. </p>
+					<p> We extend the Dataset-UNION operation to <a>k-th Order RDF Datasets</a>.
+						Also, the names are extended from IRIs to also allow <a>blank node</a>
+						names. </p>
+					<ul>
+						<li>On the domain <a>k-th order dataset</a> x k'-th order <a>dataset</a>,
+							the range is max(k, k')-th order <a>dataset</a>.</li>
+					</ul>
+					<p>The extended semantics of <a>Dataset-UNION</a> is defined by cases as
+						follows.</p>
+					<p>In the case that both arguments are zeroth-order <a>datasets</a>, i.e.,
+							<a>RDF Graphs</a>, then the result is the union of the sets of
+							<a>triples</a> in the two <a>graphs</a>. </p>
+					<p>In the case that both arguments, DSP and DSP', are k+1-th order
+							<a>datasets</a>, let DSP = {DSC} ∪ {(name<sub>i</sub>, DSC<sub>i</sub>)
+						| 1 ≤ i ≤ n} and datasetNames(DSP) = { name<sub>i</sub> | 1 ≤ i ≤ n}, and
+						similarly for DSP', where DSC and DSC<sub>i</sub> are <a>k-th Order RDF
+							Datasets</a>, and name and name<sub>i</sub> are IRIs or blank nodes (I ∪
+						RDF-B). Then</p>
+					<p> Dataset-UNION(DSP, DSP') = Dataset-UNION(DSC , DSC') ∪ {(iri, DS) | iri in
+						datasetNames(DSP) ∪ datasetNames(DSP')}</p>
+					<p>and DS defined as </p>
+					<ul>
+						<li>DSC<sub>i</sub> for iri = iri<sub>i</sub> such that iri<sub>i</sub> in
+							datasetNames(DSP) minus datasetNames(DSP')</li>
+						<li>DSC'<sub>j</sub> for iri = iri'<sub>j</sub> such that iri<sub>j</sub> in
+							datasetNames(DSP') minus datasetNames(DSP)</li>
+						<li>Dataset-UNION(DSC<sub>i</sub> , DSC'<sub>j</sub>) for iri =
+								iri<sub>i</sub> = iri'<sub>j</sub> in datasetNames(DSP) intersect
+							datasetNames(DSP')</li>
+					</ul>
+					<p>In the case that k and k' are different, let k'' = max(k, k'). Then
+						Dataset-UNION(DS, DS') = Dataset-UNION(Dataset-ELEVATE(DS, k''),
+						Dataset-ELEVATE(DS', k'')). </p>
+					<p class="ednote">Define the basic operation Dataset-ELEVATE to lift a k'-th
+						order <a>dataset</a> to a k-th order <a>dataset</a>, with k' &lt;= k. In the
+						case that k' &lt; k, then it will be embedded in the <a>default dataset</a>.
+						The definition can be recursive, with base case of k = k' + 1, and the input
+							<a>dataset</a> is the <a>default dataset</a> of the output, and the
+						output contains no <a>named datasets</a>. When k=k', then the operation
+						returns the input <a>dataset</a>. </p>
+					<p class="ednote"> It is possible to informally apply the Dataset-UNION
+						operation to pairs of <a>repositories</a> or <a>stores</a> by first applying
+						a forgetful functor that retains all the versions but forgets the order
+						among them. However, the result is not a <a>repository</a> or <a>store</a>,
+						but is just a <a>dataset</a>. To truly extend the UNION operation to
+							<a>repositories</a> and <a>stores</a> to generate new
+							<a>repositories</a> and <a>stores</a>, it would be necessary to mint new
+						version names and to specify how versions are ordered and combined when
+						necessary e.g. according to timestamps, but timestamps are not mandatory in
+						our definitions There is no precedent for such definitions, since the Update
+						spec does not define a union operation on Graph Stores. </p>
+				</section>
+				<section>
+					<h4>Other Basic Operations</h4>
+					<p class="ednote">Similarly, the basic operations of Dataset-DIFF and Dataset
+						will be extended to <a>k-th order datasets</a>. The Dataset operation will
+						also be extended to <a>k-th order patterns</a>. </p>
+				</section>
 			</section>
-			<section>
-			  <h4>Other Update Operations</h4>
-			  <p class="ednote">Similarly, the Update Operations of SPARQL Update can be extended to <a>k-th order datasets</a>,
-			  making use of the extended basic operations.
-			  </p>
-			  </section>		  
-		  </section>
-			  <section id="def-new-apply-operation">
-			  <h4>Apply Operation</h4>
-			  <p class="ednote">The above extensions only allow management, e.g. creation of a new "slot", at the top level of
-			  a <a>k-th order dataset</a>. However, it is also useful to be able to apply operations at a deeper level within
-			  a <a>k-th order dataset</a>. This capability can be enabled with a generic operation, called <dfn>Apply</dfn>, which takes
-			  a <a>k-th order dataset</a> as first argument,
-			  an Operation specification (Operation name and tuple of arguments with a placehoder in one position) as second argument, 
-			  and an optional third argument that is an IRI or blank node.
-			  The result would be the result of applying that Operation with the appropriate (named or default) (k-1)-th order dataset 
-			  replacing the placeholder,
-			  and then substituting for the (k-1)-th order dataset with the operation result within the original <a>k-th order dataset</a>. 
-			  If the name is not in the set of
-			  database names, then the result would be the original dataset.
-			  </p>
-			  </section>
-			  <section id="def-new-revise-operation">
-			  <h4>Revise Operation</h4>
-			  <p>Update Operations as defined in SPARQL Update, and here extended, are not directly applicable to <a>repositories</a> 
-			  and <a>stores</a>.
-			  In order to enable this, we define a Revise operation, 
-			  that takes as input a <a>repository</a> (with a terminal version) as first argument,
-			  an Update Operation specification as second argument and a name (IRI or blank node) as third argument.
-			  The result is a new <a>repository</a> that has an additional <a>version</a>, that being the result of applying
-			  the Update Operation to the terminal <a>version</a> of the input repository, and making that the new terminal
-			  version, using the specified name as the version name.
-			  </p>
-			  <p>The Revise Operation may be extended to <a>stores</a> in the obvious fashion. However, this 
-			  only allows manipulation of the version sequence of the store.
-			  To enable direct manipulation of the version sequence of repositories within the store, we extend
-			  the <a>Apply</a> Operation, defined above for <a>k-th order datasets</a> and Update Operation specifications, 
-			  to <a>stores</a> and Revise Operation specifications on repositories (only for unnested Revise).
-			  </p>
-			  <p>The Revise Operation may be further extended to <a>recursive stores</a> and nested Revise Operation Specifications.
-			  </p>
-			  <p>Application of a Revise operation to a structure without a terminal version is an error.
-			  </p>
-			  </section>		  
-
-		  <!--
+			<section id="def-existing-update">
+				<h3>SPARQL Update Operations</h3>
+				<section id="def-existing-update-insert-data">
+					<h4>Insert Data</h4>
+					<p><dfn>Insert Data</dfn> is defined in [[!SPARQL11-Update]] as an Update
+						Operation with the following signature:</p>
+					<ul>
+						<li>On the domain RDF Dataset x IRI, the range is RDF Dataset.</li>
+					</ul>
+					<p>The semantics of <a>Insert Data</a> is defined in [[!SPARQL11-Update]] as
+						follows.</p>
+					<p>OpInsertData(GS, <em>QuadPattern</em>) = Dataset-UNION(GS,
+							Dataset(<em>QuadPattern</em>,{},GS,GS))</p>
+					<p>where {} is the empty solution mapping,</p>
+					<p> GS is an (first-order) <a>RDF dataset</a>, and <em>QuadPattern</em> is a
+						ground quad pattern. </p>
+					<p>The Insert Data operation constructs a new RDF Dataset from an existing RDF
+						Dataset by adding triples and quads to it as expressed in the ground
+							<em>QuadPattern</em>. Note that Insert Data is functional in that it
+						does not actually "change" the input RDF Dataset. Update operations may be
+						used to define a Graph Store as a state machine, where the state of a Graph
+						Store is an RDF Dataset, and Update Operations take the current state of a
+						Graph Store as one of their input arguments, generating a new RDF Dataset
+						which then is taken as the new state of the Graph Store. </p>
+					<p> We extend the Insert Data operation to <a>k-th Order RDF Datasets</a>. </p>
+					<ul>
+						<li>On the domain <a>k-th Order RDF Datasets</a> x Ground <a>k-th Order
+								Patterns</a>, the range is <a>k-th Order RDF Datasets</a>.</li>
+					</ul>
+					<p>The extended semantics of <a>Insert Data</a> is defined as follows.</p>
+					<p>OpInsertData(DS, <em>k-Pattern</em>) = Dataset-UNION(DS,
+							Dataset(<em>k-Pattern</em>,{},DS,DS))</p>
+					<p>where {} is the empty solution mapping,</p>
+				</section>
+				<section id="def-existing-update-opcreate">
+					<h4>OpCreate</h4>
+					<p><dfn>OpCreate</dfn> is defined in [[!SPARQL11-Update]] as an Update Operation
+						with the following signature:</p>
+					<ul>
+						<li>On the domain RDF Dataset x IRI, the range is RDF Dataset.</li>
+					</ul>
+					<p>The semantics of <a>OpCreate</a> is defined in [[!SPARQL11-Update]] as
+						follows.</p>
+					<p>Let GS = {DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and
+						graphNames(GS) = { iri<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
+					<p>OpCreate(GS, iri) = GS union {(iri, {})} if iri not in graphNames(GS);
+						otherwise, OpCreate(GS, iri) = GS</p>
+					<p> where DG and G<sub>i</sub> are graphs, iri and iri<sub>i</sub> are IRIs. </p>
+					<p>The OpCreate operation constructs a new RDF Dataset from an existing RDF
+						Dataset by adding an empty named graph to it with a specified IRI as name,
+						provided it does not already contain a named graph of the specified name.
+						Note that OpCreate is functional in that it does not actually "change" the
+						input RDF Dataset. Update operations may be used to define a Graph Store as
+						a state machine, where the state of a Graph Store is an RDF Dataset, and
+						Update Operations take the current state of a Graph Store as input,
+						generating a new RDF Dataset which then is taken as the new state of the
+						Graph Store. </p>
+					<p> We extend the OpCreate operation to <a>k-th Order RDF Datasets</a>. Also,
+						the names are extended from IRIs to also allow blank node names. </p>
+					<ul>
+						<li>On the domain <a>k-th Order RDF Dataset</a> x I ∪ RDF-B, the range is
+								<a>k-th Order RDF Dataset</a>.</li>
+					</ul>
+					<p>The extended semantics of <a>OpCreate</a> is defined as follows.</p>
+					<p>Let DSP = {DSC} ∪ {(name<sub>i</sub>, DSC<sub>i</sub>) | 1 ≤ i ≤ n} and
+						datasetNames(DSP) = { name<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
+					<p>OpCreate(DSP, name) = DSP ∪ {(name, {})} if name not in datasetNames(DSP);
+						otherwise, OpCreate(DSP, name) = DSP</p>
+					<p> where DSC and DSC are <a>k-th Order RDF Datasets</a>, and name and
+							name<sub>i</sub> are IRIs or blank nodes (I ∪ RDF-B). </p>
+				</section>
+				<section>
+					<h4>Other Update Operations</h4>
+					<p class="ednote">Similarly, the Update Operations of SPARQL Update can be
+						extended to <a>k-th order datasets</a>, making use of the extended basic
+						operations. </p>
+				</section>
+			</section>
+			<section id="def-new-apply-operation">
+				<h4>Apply Operation</h4>
+				<p class="ednote">The above extensions only allow management, e.g. creation of a new
+					"slot", at the top level of a <a>k-th order dataset</a>. However, it is also
+					useful to be able to apply operations at a deeper level within a <a>k-th order
+						dataset</a>. This capability can be enabled with a generic operation, called
+						<dfn>Apply</dfn>, which takes a <a>k-th order dataset</a> as first argument,
+					an Operation specification (Operation name and tuple of arguments with a
+					placehoder in one position) as second argument, and an optional third argument
+					that is an IRI or blank node. The result would be the result of applying that
+					Operation with the appropriate (named or default) (k-1)-th order dataset
+					replacing the placeholder, and then substituting for the (k-1)-th order dataset
+					with the operation result within the original <a>k-th order dataset</a>. If the
+					name is not in the set of database names, then the result would be the original
+					dataset. </p>
+			</section>
+			<section id="def-new-revise-operation">
+				<h4>Revise Operation</h4>
+				<p>Update Operations as defined in SPARQL Update, and here extended, are not
+					directly applicable to <a>repositories</a> and <a>stores</a>. In order to enable
+					this, we define a Revise operation, that takes as input a <a>repository</a>
+					(with a terminal version) as first argument, an Update Operation specification
+					as second argument and a name (IRI or blank node) as third argument. The result
+					is a new <a>repository</a> that has an additional <a>version</a>, that being the
+					result of applying the Update Operation to the terminal <a>version</a> of the
+					input repository, and making that the new terminal version, using the specified
+					name as the version name. </p>
+				<p>The Revise Operation may be extended to <a>stores</a> in the obvious fashion.
+					However, this only allows manipulation of the version sequence of the store. To
+					enable direct manipulation of the version sequence of repositories within the
+					store, we extend the <a>Apply</a> Operation, defined above for <a>k-th order
+						datasets</a> and Update Operation specifications, to <a>stores</a> and
+					Revise Operation specifications on repositories (only for unnested Revise). </p>
+				<p>The Revise Operation may be further extended to <a>recursive stores</a> and
+					nested Revise Operation Specifications. </p>
+				<p>Application of a Revise operation to a structure without a terminal version is an
+					error. </p>
+			</section>
+			<!--
 		  <section>
 		  <p class="ednote">Options for extending Update Operations to the Store/Repository model are:
 		  </p>
@@ -1038,7 +1125,7 @@
 		  and  R<sup>k</sup><sub>0</sub> is the empty <a>k-th Order Repository</a>.
 		  </p>
 		  -->
-          <!--
+			<!--
 		  <p>We extend the syntax of OpCreate to include the following additional signature:</p>
 		  <ul>
 		    <li>On the domain StoreState x IRI, the range is StoreState.</li>
@@ -1083,8 +1170,8 @@
 		  where DD and D<sub>i</sub> are RDF Datasets, iri and iri<sub>i</sub> are IRIs.
 		  </p>
          </section>
-		-->		  
-		<!--
+		-->
+			<!--
 		<section id="def-existing-update-operator">
           <h4>Operator</h4>
 		  <p><dfn>Operator</dfn> is defined in [[!SPARQL11-Update]] as an Update Operation with the following signatures:</p>
@@ -1120,26 +1207,23 @@
 		  </p>
 		</section>
 		-->
-	</section>
-	<section id="examples">
-		<h2>Examples</h2>
-		<section id="fhir-stream-example">
-			<h3>FHIR RDF Stream Example</h3>
-			<section id="fhir-graph-example">
-				<aside  class="example" id="fhir-graph" title="FHIR Statements as RDF Graph">
-				The following is a representation of an RDF graph in Trig.
-				These statements have a dynamic aspect
-				that is implicitly expressed in timestamps
-				of the events of type  fhir:Observations.
-				Although the statements appear in a particular order within the graph
-				representation, this order is not significant to inference.
-				In particualr, the temporal order is not directly available through simple entailment.
-				We will show how this same data could be handled within some 
-				of the new datatypes so that the dynamic
-				nature of the statements
-				is accessible through simple entailment.
-				<p>The following graph is denoted G<sub>FHIR</sub>.</p>
-<pre>
+		</section>
+		<section id="examples">
+			<h2>Examples</h2>
+			<section id="fhir-stream-example">
+				<h3>FHIR RDF Stream Example</h3>
+				<section id="fhir-graph-example">
+					<aside class="example" id="fhir-graph" title="FHIR Statements as RDF Graph"> The
+						following is a representation of an RDF graph in Trig. These statements have
+						a dynamic aspect that is implicitly expressed in timestamps of the events of
+						type fhir:Observations. Although the statements appear in a particular order
+						within the graph representation, this order is not significant to inference.
+						In particualr, the temporal order is not directly available through simple
+						entailment. We will show how this same data could be handled within some of
+						the new datatypes so that the dynamic nature of the statements is accessible
+						through simple entailment. <p>The following graph is denoted
+								G<sub>FHIR</sub>.</p>
+						<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1176,11 +1260,12 @@ _:b7 a fhir:Observation ;
 _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-		<p>G<sub>FHIR</sub> is the union of three graphs, each fully describing an observation. We write:</p>
-		<p>G<sub>FHIR</sub> = Dataset-UNION(Dataset-UNION(G<sub>1, FHIR</sub>, G<sub>2, FHIR</sub>), G<sub>3, FHIR</sub>)</p>
-		<p>where G<sub>1, FHIR</sub> is:
-		</p>
-<pre>
+						<p>G<sub>FHIR</sub> is the union of three graphs, each fully describing an
+							observation. We write:</p>
+						<p>G<sub>FHIR</sub> = Dataset-UNION(Dataset-UNION(G<sub>1, FHIR</sub>,
+								G<sub>2, FHIR</sub>), G<sub>3, FHIR</sub>)</p>
+						<p>where G<sub>1, FHIR</sub> is: </p>
+						<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1197,9 +1282,8 @@ _:b1 a fhir:Observation ;
 _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-		<p>G<sub>2, FHIR</sub> is:.
-		</p>
-<pre>
+						<p>G<sub>2, FHIR</sub> is:. </p>
+						<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1217,9 +1301,8 @@ _:b4 a fhir:Observation ;
 _:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-		<p>G<sub>3, FHIR</sub> is:
-		</p>
-<pre>
+						<p>G<sub>3, FHIR</sub> is: </p>
+						<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1236,16 +1319,16 @@ _:b7 a fhir:Observation ;
 _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-		</aside>
-	</section>
-	<aside  class="example" id="fhir-stream" title="FHIR Statements as RDF Stream">
-		Recall that an <a>RDF Stream</a> is a sequence of <a>timestamped graphs</a>
-		which are composed of a default graph and a named graph,
-		where the default graph contains a distinguished triple called the timestamp triple.
-		<p>We will construct an RDF Stream for the FHIR observation data, which as a whole is denoted S<sub>FHIR</sub>.</p>
-		<p>Let G'<sub>1, FHIR</sub> be
-		</p>
-<pre>
+					</aside>
+				</section>
+				<aside class="example" id="fhir-stream" title="FHIR Statements as RDF Stream">
+					Recall that an <a>RDF Stream</a> is a sequence of <a>timestamped graphs</a>
+					which are composed of a default graph and a named graph, where the default graph
+					contains a distinguished triple called the timestamp triple. <p>We will
+						construct an RDF Stream for the FHIR observation data, which as a whole is
+						denoted S<sub>FHIR</sub>.</p>
+					<p>Let G'<sub>1, FHIR</sub> be </p>
+					<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1261,49 +1344,49 @@ _:b1 a fhir:Observation ;
 _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-		<p>which is like G<sub>1, FHIR</sub> except it is missing the timestamp triple, and TS<sub>1, FHIR</sub> be
-		the timestamp triple</p>
-<pre>
+					<p>which is like G<sub>1, FHIR</sub> except it is missing the timestamp triple,
+						and TS<sub>1, FHIR</sub> be the timestamp triple</p>
+					<pre>
 _:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
 </pre>
-		<p>We construct a timestamped graph with the basic operation <a>TSGraph</a></p>
-		<p>TSG<sub>1, FHIR</sub> = TSGraph(TS<sub>1, FHIR</sub>, G'<sub>1, FHIR</sub>)</p>
-		<p>Similarly,</p>
-		<p>TSG<sub>i, FHIR</sub> = TSGraph(TS<sub>i, FHIR</sub>, G'<sub>i, FHIR</sub>)</p>
-
-		<p>The RDF stream can be abstractly constructed from its component timestamped graphs using basic operations:</p>
-		<p>S<sub>FHIR</sub> = 
-				Cons(TSG<sub>3, FHIR</sub>, 
-					Cons(TSG<sub>2, FHIR</sub>, 
-						Cons(TSG<sub>1, FHIR</sub>, 
-							S<sub>0</sub>)))
-		</p>
-		<p>where S<sub>0</sub> is the null sequence.</p>
-		<p>One possible way that this RDF Stream would be transmitted is as a sequence of RDF documents, each one containing
-			an RDF graph corresponding to one element of the stream, where the timestamp triple is the first triple in the document.
-		</p>
-
-	</aside>
-	<aside  class="example" id="fhir-dataset" title="FHIR Statements as RDF Dataset">
-		The information about FHIR observations can also be represented using the <a>RDF Dataset</a> datatype.
-		The named graph structure allows the statements of each stream element to be grouped together,
-		and also allows us to materialize, in the default graph, 
-		statements giving the order among these elements.
-<p>Let D<sub>0, FHIR</sub> be</p>		
-<pre>
+					<p>We construct a timestamped graph with the basic operation <a>TSGraph</a></p>
+					<p>TSG<sub>1, FHIR</sub> = TSGraph(TS<sub>1, FHIR</sub>, G'<sub>1,
+						FHIR</sub>)</p>
+					<p>Similarly,</p>
+					<p>TSG<sub>i, FHIR</sub> = TSGraph(TS<sub>i, FHIR</sub>, G'<sub>i,
+						FHIR</sub>)</p>
+					<p>The RDF stream can be abstractly constructed from its component timestamped
+						graphs using basic operations:</p>
+					<p>S<sub>FHIR</sub> = Cons(TSG<sub>3, FHIR</sub>, Cons(TSG<sub>2, FHIR</sub>,
+							Cons(TSG<sub>1, FHIR</sub>, S<sub>0</sub>))) </p>
+					<p>where S<sub>0</sub> is the null sequence.</p>
+					<p>One possible way that this RDF Stream would be transmitted is as a sequence
+						of RDF documents, each one containing an RDF graph corresponding to one
+						element of the stream, where the timestamp triple is the first triple in the
+						document. </p>
+				</aside>
+				<aside class="example" id="fhir-dataset" title="FHIR Statements as RDF Dataset"> The
+					information about FHIR observations can also be represented using the <a>RDF
+						Dataset</a> datatype. The named graph structure allows the statements of
+					each stream element to be grouped together, and also allows us to materialize,
+					in the default graph, statements giving the order among these elements. <p>Let
+							D<sub>0, FHIR</sub> be</p>
+					<pre>
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 
 _:b102 prov:wasRevisionOf _:b101.
 _:b103 prov:wasRevisionOf _:b102.
 </pre>
-
-		<p>We write</p>
-		<p>D<sub>FHIR</sub> = Dataset-UNION(Dataset-UNION(Dataset-UNION(D<sub>0, FHIR</sub>, D<sub>1, FHIR</sub>), D<sub>2, FHIR</sub>), D<sub>3, FHIR</sub>)</p>
-		<p>where</p>
-		<p>D<sub>i, FHIR</sub> = Graph(b<sub>i, FHIR</sub>, G<sub>i, FHIR</sub>) and</p>
-		<p>b<sub>1, FHIR</sub>= _:b101, b<sub>2, FHIR</sub>= _:b102, b<sub>3, FHIR</sub>= _:b103 .</p>
-		<p>The resulting dataset D<sub>FHIR</sub> is as follows.</p> 
-<pre>
+					<p>We write</p>
+					<p>D<sub>FHIR</sub> = Dataset-UNION(Dataset-UNION(Dataset-UNION(D<sub>0,
+							FHIR</sub>, D<sub>1, FHIR</sub>), D<sub>2, FHIR</sub>), D<sub>3,
+							FHIR</sub>)</p>
+					<p>where</p>
+					<p>D<sub>i, FHIR</sub> = Graph(b<sub>i, FHIR</sub>, G<sub>i, FHIR</sub>) and</p>
+					<p>b<sub>1, FHIR</sub>= _:b101, b<sub>2, FHIR</sub>= _:b102, b<sub>3,
+						FHIR</sub>= _:b103 .</p>
+					<p>The resulting dataset D<sub>FHIR</sub> is as follows.</p>
+					<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1347,84 +1430,69 @@ _:b103{
 			lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 }
 </pre>
-	</aside>
-	<aside  class="example" id="fhir-repository" title="FHIR Statements as a Repository">
-	The dataset above is a static structure representing the entailment,
-	under the provenance regime,
-	of a first-order <a>Repository</a>.
-	We denote this repository as R<sub>FHIR</sub>.
-	In this example, the default dataset of the repository is empty.
-	<p>We write</p>
-	<p>R<sub>FHIR</sub> = [{}, [D<sub>i,FHIR</sub>]<sub>i=1, 2, 3</sub>]</p>
-	<p>The repository can be abstractly constructed from its component datasets using basic operations:</p>
-		<p>R<sub>FHIR</sub> = 
-				Revise(D<sub>3,FHIR</sub>, 
-					Revise(D<sub>2,FHIR</sub>, 
-						Revise(D<sub>1,FHIR</sub>, 
-							S<sub>0</sub>)))
-		</p>
-	 <p>	 
-	Since repositories are dynamic entities, one form the transmission of the repository could
-	take is a sequence of documents, one for the unordered dataset and one for each of the elements of the 
-	ordered component of the repository.
-	</p>
-	</aside>
-	</section>
-	<section id="general-stream-example">
-	<h3>General RDF Stream Example</h3>
-	<aside  class="example" id="prov-dataset" title="FHIR Provenance in an RDF Dataset">
-	We consider a more general RDF Stream example, showing a typically
-	case when sets of statements have multiple temporal characteristics.
-	We construct a set of named graphs
-	<p>NG<sub>i, FHIR</sub> = Graph(nb<sub>i</sub>, G<sub>i, FHIR</sub>)</p>
-	where
-	<p>nb<sub>1</sub> = _:b0, nb<sub>2</sub> = _:b3, nb<sub>3</sub> = _:b6 </p>
-	and we express some provenance metadata using these graph names. 
-	Let G<sub>1, prov</sub> be
-<pre>
+				</aside>
+				<aside class="example" id="fhir-repository" title="FHIR Statements as a Repository">
+					The dataset above is a static structure representing the entailment, under the
+					provenance regime, of a first-order <a>Repository</a>. We denote this repository
+					as R<sub>FHIR</sub>. In this example, the default dataset of the repository is
+					empty. <p>We write</p>
+					<p>R<sub>FHIR</sub> = [{}, [D<sub>i,FHIR</sub>]<sub>i=1, 2, 3</sub>]</p>
+					<p>The repository can be abstractly constructed from its component datasets
+						using basic operations:</p>
+					<p>R<sub>FHIR</sub> = Revise(D<sub>3,FHIR</sub>, Revise(D<sub>2,FHIR</sub>,
+							Revise(D<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
+					<p> Since repositories are dynamic entities, one form the transmission of the
+						repository could take is a sequence of documents, one for the unordered
+						dataset and one for each of the elements of the ordered component of the
+						repository. </p>
+				</aside>
+			</section>
+			<section id="general-stream-example">
+				<h3>General RDF Stream Example</h3>
+				<aside class="example" id="prov-dataset" title="FHIR Provenance in an RDF Dataset">
+					We consider a more general RDF Stream example, showing a typically case when
+					sets of statements have multiple temporal characteristics. We construct a set of
+					named graphs <p>NG<sub>i, FHIR</sub> = Graph(nb<sub>i</sub>, G<sub>i,
+						FHIR</sub>)</p> where <p>nb<sub>1</sub> = _:b0, nb<sub>2</sub> = _:b3,
+							nb<sub>3</sub> = _:b6 </p> and we express some provenance metadata using
+					these graph names. Let G<sub>1, prov</sub> be
+					<pre>
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 
 _:b0 
 	prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
     lr:stream lr:streamA12342015-01-01T12:00:00Z .
-</pre>	
-	Let G<sub>2, prov</sub> be
-<pre>
+</pre>
+					Let G<sub>2, prov</sub> be
+					<pre>
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 
 _:b3 
 	prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
     lr:stream lr:streamA12342015-01-01T12:00:00Z .
-</pre>	
-	Let G<sub>3, prov</sub> be
-<pre>
+</pre>
+					Let G<sub>3, prov</sub> be
+					<pre>
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 
 _:b6 
 	prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
     lr:stream lr:streamA12342015-01-01T12:00:00Z .
-</pre>	
-	In this example, we have the time of observation as one temporal
-	characteristics, and the time the observation report was generated
-	as the second temporal characteristic,
-	The entire dataset is denoted D<sub>prov</sub> and is constructed as follows
-	<p>D<sub>prov</sub> = 
-	    Dataset-UNION(
-			Dataset-UNION(D<sub>1,prov</sub>, D<sub>2,prov</sub>), D<sub>3,prov</sub>
-		)
-	</p>
-	where
-	<p>
-	D<sub>i,prov</sub> = Dataset-UNION(G<sub>i, prov</sub>, NG<sub>i, FHIR</sub>)
-	</p>
-	The following is a representation of  D<sub>prov</sub> in Trig.
-	In this representation, the dytnamic aspects are implicitly expressed 
-	in timestamps,
-	but the temporal order is not directly available through simple entailment.
-	<pre>
+</pre>
+					In this example, we have the time of observation as one temporal
+					characteristics, and the time the observation report was generated as the second
+					temporal characteristic, The entire dataset is denoted D<sub>prov</sub> and is
+					constructed as follows <p>D<sub>prov</sub> = Dataset-UNION(
+							Dataset-UNION(D<sub>1,prov</sub>, D<sub>2,prov</sub>),
+							D<sub>3,prov</sub> ) </p> where <p> D<sub>i,prov</sub> =
+							Dataset-UNION(G<sub>i, prov</sub>, NG<sub>i, FHIR</sub>) </p> The
+					following is a representation of D<sub>prov</sub> in Trig. In this
+					representation, the dytnamic aspects are implicitly expressed in timestamps, but
+					the temporal order is not directly available through simple entailment.
+					<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1476,39 +1544,41 @@ _:b6 {
 		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 }
 </pre>
-	</aside>
-	<aside  class="example" id="prov-stream" title="FHIR Provenance in an RDF Stream">
-		<p>The representation of this same information as an RDF Stream takes the form of the following sequence.
-		The stream as a whole is denoted S<sub>prov</sub>.
-		</p>
-		<p>We write</p>
-		<p>S<sub>prov</sub> = [TSG<sub>i,prov</sub>]<sub>i=1, 2, 3</sub></p>
-		<p>A representation of the first element of the stream is a timestamped graph as follows.
-		<p>TSG<sub>i,prov</sub> = TSGraph(, D'<sub>i, prov</sub>)</p>
-		where  D'<sub>i, prov</sub> is like D<sub>i, prov</sub> except it is missing the timestamp triple.
-		<p>D'<sub>i, prov</sub> = Dataset-DIFF(D<sub>i, prov</sub>, TS<sub>i, prov</sub>)
-		</p>
-		where TS<sub>1, prov</sub> is
-<pre>
+				</aside>
+				<aside class="example" id="prov-stream" title="FHIR Provenance in an RDF Stream">
+					<p>The representation of this same information as an RDF Stream takes the form
+						of the following sequence. The stream as a whole is denoted
+						S<sub>prov</sub>. </p>
+					<p>We write</p>
+					<p>S<sub>prov</sub> = [TSG<sub>i,prov</sub>]<sub>i=1, 2, 3</sub></p>
+					<p>A representation of the first element of the stream is a timestamped graph as
+						follows.</p>
+					<p>TSG<sub>i,prov</sub> = TSGraph(, D'<sub>i, prov</sub>)</p> where D'<sub>i,
+						prov</sub> is like D<sub>i, prov</sub> except it is missing the timestamp
+					triple. <p>D'<sub>i, prov</sub> = Dataset-DIFF(D<sub>i, prov</sub>, TS<sub>i,
+							prov</sub>) </p> where TS<sub>1, prov</sub> is <pre>
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 
 _:b0 
 	prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
 </pre>
-		<p>and so on.</p>
-		<p>One possible way that this RDF Stream would be transmitted is as a sequence of RDF documents, each one containing
-		an RDF Dataset corresponding to one element of the stream.</p>
-		<p>In this example, each element of the stream contains a triple in its default graph that provides an identifier for the
-		stream as a whole (<code>lr:streamA12342015-01-01T12:00:00Z</code>). This is optional for RDF streams.</p> 
-	</aside>
-	<aside  class="example" id="prov-dataset-2" title="FHIR Provenance in a Second-Order Dataset">
-	This data can also be represented using the second-order <a>Dataset</a> datatype.
-	For this representation, we use an extension of the Trig syntax to "quints".
-	This additional name allows the statements of each stream element to be grouped together,
-	and also allows us to materialize, in the default (first-order) dataset, 
-	statements giving the order among these elements.	
-	The second-order dataset is denoted D2<sub>prov</sub>.
-	<pre>
+					<p>and so on.</p>
+					<p>One possible way that this RDF Stream would be transmitted is as a sequence
+						of RDF documents, each one containing an RDF Dataset corresponding to one
+						element of the stream.</p>
+					<p>In this example, each element of the stream contains a triple in its default
+						graph that provides an identifier for the stream as a whole
+							(<code>lr:streamA12342015-01-01T12:00:00Z</code>). This is optional for
+						RDF streams.</p>
+				</aside>
+				<aside class="example" id="prov-dataset-2"
+					title="FHIR Provenance in a Second-Order Dataset"> This data can also be
+					represented using the second-order <a>Dataset</a> datatype. For this
+					representation, we use an extension of the Trig syntax to "quints". This
+					additional name allows the statements of each stream element to be grouped
+					together, and also allows us to materialize, in the default (first-order)
+					dataset, statements giving the order among these elements. The second-order
+					dataset is denoted D2<sub>prov</sub>. <pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1574,45 +1644,38 @@ _:b203{
 	}
 }
 </pre>
-	 <p>We write</p>
-	 <p>D2<sub>prov</sub> = 
-	    Dataset-UNION(
-	    Dataset-UNION(
-	    Dataset-UNION(
-	    Dataset-UNION(D<sub>0, prov</sub>,ND<sub>1, prov</sub>),ND<sub>2, prov</sub>),ND<sub>3, prov</sub>)
-	 </p>
-     <p>where</p>
-		<p>ND<sub>i, prov</sub> = Dataset( b<sub>i, prov</sub>, D<sub>i, prov</sub>)
-		<p>b<sub>1, prov</sub>= _:b201, b<sub>2, prov</sub>= _:b202, b<sub>3, prov</sub>= _:b203 .</p>
-		<p>and</p>
-		<p>D<sub>0, prov</sub> is</p>
-<pre>
+					<p>We write</p>
+					<p>D2<sub>prov</sub> = Dataset-UNION( Dataset-UNION( Dataset-UNION(
+							Dataset-UNION(D<sub>0, prov</sub>,ND<sub>1, prov</sub>),ND<sub>2,
+							prov</sub>),ND<sub>3, prov</sub>) </p>
+					<p>where</p>
+					<p>ND<sub>i, prov</sub> = Dataset( b<sub>i, prov</sub>, D<sub>i, prov</sub>)</p>
+					<p>b<sub>1, prov</sub>= _:b201, b<sub>2, prov</sub>= _:b202, b<sub>3,
+						prov</sub>= _:b203 .</p>
+					<p>and</p>
+					<p>D<sub>0, prov</sub> is</p>
+					<pre>
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 
 _:b202 prov:wasRevisionOf _:b201.
 _:b203 prov:wasRevisionOf _:b202.
 </pre>
-	</aside>
-	<aside  class="example" id="psrov-repository" title="FHIR Provenance as a Second-Order Repository">
-	<p>
-	The second-order dataset above is a static structure representing the entailment,
-	under the provenance regime,
-	of a second-order <a>Repository</a>.
-	The repository as a whole is denoted R<sub>prov</sub>.
-	In this example, the default dataset of the repository is empty.
-	</p>
-	 <p>We write</p>
-	 <p>R<sub>prov</sub> = {} ∪ [ND<sub>i,prov</sub>]<sub>i=1, 2, 3</sub></p>	
-	 <p>
-	 For this representation, we use the same extension of the Trig syntax to "quints"
-	as in the previous example.
-	Since repositories are dynamic entities, one form of the transmission of the repository would
-	be a sequence of documents representing named first-order datasets, as shown below.
-	</p>
- 	<p>The first document of the sequence is as follows.
-		The named dataset is denoted ND<sub>1, prov</sub>.
-</p>
-	<pre>
+				</aside>
+				<aside class="example" id="psrov-repository"
+					title="FHIR Provenance as a Second-Order Repository">
+					<p> The second-order dataset above is a static structure representing the
+						entailment, under the provenance regime, of a second-order
+						<a>Repository</a>. The repository as a whole is denoted R<sub>prov</sub>. In
+						this example, the default dataset of the repository is empty. </p>
+					<p>We write</p>
+					<p>R<sub>prov</sub> = {} ∪ [ND<sub>i,prov</sub>]<sub>i=1, 2, 3</sub></p>
+					<p> For this representation, we use the same extension of the Trig syntax to
+						"quints" as in the previous example. Since repositories are dynamic
+						entities, one form of the transmission of the repository would be a sequence
+						of documents representing named first-order datasets, as shown below. </p>
+					<p>The first document of the sequence is as follows. The named dataset is
+						denoted ND<sub>1, prov</sub>. </p>
+					<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1638,10 +1701,9 @@ _:b201{
     }
 }	
 </pre>
- 	<p>The second document of the sequence is as follows.
-			The named dataset is denoted ND<sub>2, prov</sub>.
-</p>
-	<pre>
+					<p>The second document of the sequence is as follows. The named dataset is
+						denoted ND<sub>2, prov</sub>. </p>
+					<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1667,10 +1729,9 @@ _:b202{
 	}
 }
 </pre>
- 	<p>The third document of the sequence is as follows.
-			The named dataset is denoted ND<sub>3, prov</sub>.
-</p>
-	<pre>
+					<p>The third document of the sequence is as follows. The named dataset is
+						denoted ND<sub>3, prov</sub>. </p>
+					<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -1696,15 +1757,16 @@ _:b203{
 	}
 }
 </pre>
-	</aside>
-	</section>
-    <section id="pattern-examples">
-	<h3>Pattern Examples</h3>
-     <aside class="example" id="bgp-fhir-heartrate" title="Basic Graph Pattern for FHIR Heartrate Observation">	
-	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings might be extracted from the above data structures.
-	 This BGP is denoted TP<sub>FHIR-heartrate</sub>.
-	 </p>
-	<pre>
+				</aside>
+			</section>
+			<section id="pattern-examples">
+				<h3>Pattern Examples</h3>
+				<aside class="example" id="bgp-fhir-heartrate"
+					title="Basic Graph Pattern for FHIR Heartrate Observation">
+					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
+						mappings might be extracted from the above data structures. This BGP is
+						denoted TP<sub>FHIR-heartrate</sub>. </p>
+					<pre>
 ?heartRateObservation a fhir:Observation ;
           obs:subject ?patient ;
           obs:effectiveDateTime ?heartRate_time ;
@@ -1712,68 +1774,63 @@ _:b203{
           obs:valueQuantity [ fhir:Quantity.value ?heartRate;
                               fhir:Quantity.unit 'bpm'        ] .
 </pre>
-</aside>	
-     <aside class="example" id="bgp-pattern-prov-revise" title="Basic Graph Pattern for Revision Statements">	
-	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings
-	 about the relative order of versions of a repository
-	 might be extracted from the above data structures
-	 using the provenance entailment regime.
-	 This BGP is denoted TP<sub>revise</sub>.
-	 </p>
-	<pre>
+				</aside>
+				<aside class="example" id="bgp-pattern-prov-revise"
+					title="Basic Graph Pattern for Revision Statements">
+					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
+						mappings about the relative order of versions of a repository might be
+						extracted from the above data structures using the provenance entailment
+						regime. This BGP is denoted TP<sub>revise</sub>. </p>
+					<pre>
 ?version prov:wasRevisionOf ?previous.
 </pre>
-</aside>	
-     <aside class="example" id="bgp-pattern-prov-initial" title="Basic Graph Pattern for Initial Version Statements">	
-	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings 
-	 describing the initial version of a repository
-	 might be extracted from the above data structures
-	 using the provenance entailment regime.
-	 This BGP is denoted TP<sub>initialVersion</sub>.
-	 </p>
-	<pre>
+				</aside>
+				<aside class="example" id="bgp-pattern-prov-initial"
+					title="Basic Graph Pattern for Initial Version Statements">
+					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
+						mappings describing the initial version of a repository might be extracted
+						from the above data structures using the provenance entailment regime. This
+						BGP is denoted TP<sub>initialVersion</sub>. </p>
+					<pre>
 ?version repo:isInitialVersion "true"^^&lt;http://www.w3.org/2001/XMLSchema#boolean&gt; .
 </pre>
-</aside>	
-     <aside class="example" id="bgp-pattern-prov-initial-of" title="Basic Graph Pattern for Initial Version Statements for Named Repositories">	
-	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings
-	 describing the initial version of a named repository
-	 might be extracted from the above data structures
-	 using the provenance entailment regime.
-	 This BGP is denoted TP<sub>initialVersionOf</sub>.
-	 </p>
-	<pre>
+				</aside>
+				<aside class="example" id="bgp-pattern-prov-initial-of"
+					title="Basic Graph Pattern for Initial Version Statements for Named Repositories">
+					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
+						mappings describing the initial version of a named repository might be
+						extracted from the above data structures using the provenance entailment
+						regime. This BGP is denoted TP<sub>initialVersionOf</sub>. </p>
+					<pre>
 ?version repo:isInitialVersionOf ?repo .
 </pre>
-</aside>	
-     <aside class="example" id="bgp-pattern-prov-terminal" title="Basic Graph Pattern for Terminal Version Statements">	
-	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings 
-	 describing the terminal version of a repository
-	 might be extracted from the above data structures
-	 using the repository structure entailment regime.
-	 This BGP is denoted TP<sub>terminalVersion</sub>.
-	 </p>
-	<pre>
+				</aside>
+				<aside class="example" id="bgp-pattern-prov-terminal"
+					title="Basic Graph Pattern for Terminal Version Statements">
+					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
+						mappings describing the terminal version of a repository might be extracted
+						from the above data structures using the repository structure entailment
+						regime. This BGP is denoted TP<sub>terminalVersion</sub>. </p>
+					<pre>
 ?version repo:isTerminalVersion "true"^^&lt;http://www.w3.org/2001/XMLSchema#boolean&gt; .
 </pre>
-</aside>	
-     <aside class="example" id="bgp-pattern-prov-terminal-of" title="Basic Graph Pattern for Terminal Version Statements for Named Repositories">	
-	 <p>The basic graph pattern (BGP) below will be used to demonstrate how solution mappings
-	 describing the terminal version of a named repository
-	 might be extracted from the above data structures
-	 using the repository structure entailment regime.
-	 This BGP is denoted TP<sub>terminalVersionOf</sub>.
-	 </p>
-	<pre>
+				</aside>
+				<aside class="example" id="bgp-pattern-prov-terminal-of"
+					title="Basic Graph Pattern for Terminal Version Statements for Named Repositories">
+					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
+						mappings describing the terminal version of a named repository might be
+						extracted from the above data structures using the repository structure
+						entailment regime. This BGP is denoted TP<sub>terminalVersionOf</sub>. </p>
+					<pre>
 ?version repo:isTerminalVersionOf ?repo .
 </pre>
-</aside>	
-     <aside class="example" id="quad-fhir-heartrate" title="QuadPattern for FHIR Heartrate Observation">	
-	 <p>The <a>Quadpattern</a> below will be used to demonstrate how solution mappings might be 
-	 extracted from the above data structures.
-	 This <a>Quadpattern</a> is denoted QP<sub>FHIR-heartrate</sub>.
-	 </p>
-	<pre>
+				</aside>
+				<aside class="example" id="quad-fhir-heartrate"
+					title="QuadPattern for FHIR Heartrate Observation">
+					<p>The <a>Quadpattern</a> below will be used to demonstrate how solution
+						mappings might be extracted from the above data structures. This
+							<a>Quadpattern</a> is denoted QP<sub>FHIR-heartrate</sub>. </p>
+					<pre>
 GRAPH ?g {
 	?heartRateObservation a fhir:Observation ;
           obs:subject ?patient ;
@@ -1783,47 +1840,41 @@ GRAPH ?g {
                               fhir:Quantity.unit 'bpm'        ] .
 }
 </pre>
-<p>We write</p>
-<p>QP<sub>FHIR-heartrate</sub> = Graph( ?g, TP<sub>FHIR-heartrate</sub>)
-</p>
-</aside>	
-     <aside class="example" id="id-pattern-0" title="Identity Pattern for Zeroth Order">	
-	 This BGP is denoted ID<sub>0</sub>.
-	<pre>
+					<p>We write</p>
+					<p>QP<sub>FHIR-heartrate</sub> = Graph( ?g, TP<sub>FHIR-heartrate</sub>) </p>
+				</aside>
+				<aside class="example" id="id-pattern-0" title="Identity Pattern for Zeroth Order">
+					This BGP is denoted ID<sub>0</sub>. <pre>
 {?s ?p ?o.}
-</pre>
-The abstract algebra expression is
-<p> ID<sub>0</sub> = BGP(?s ?p ?o)
-</p>	
-</aside>	
-     <aside class="example" id="id-pattern-1" title="Identity Pattern for First Order">	
-	 This GraphPattern is denoted ID<sub>1</sub>.
-	<pre>
+</pre> The abstract
+					algebra expression is <p> ID<sub>0</sub> = BGP(?s ?p ?o) </p>
+				</aside>
+				<aside class="example" id="id-pattern-1" title="Identity Pattern for First Order">
+					This GraphPattern is denoted ID<sub>1</sub>.
+					<pre>
 { graph ?g {?s ?p ?o} } union {?s ?p ?o}
-</pre>
-The abstract algebra expression is
-<p> ID<sub>1</sub> = Union( Graph( ?g, ID<sub>0</sub> ), ID<sub>0</sub>)
-</p>
-</aside>
-     <aside class="example" id="id-pattern-2" title="Identity Pattern for Second Order">	
-	 This DatasetPattern is denoted ID<sub>2</sub>.
-	<pre>
+</pre> The abstract algebra
+					expression is <p> ID<sub>1</sub> = Union( Graph( ?g, ID<sub>0</sub> ),
+							ID<sub>0</sub>) </p>
+				</aside>
+				<aside class="example" id="id-pattern-2" title="Identity Pattern for Second Order">
+					This DatasetPattern is denoted ID<sub>2</sub>.
+					<pre>
 	{ dataset ?d { { graph ?g {?s ?p ?o} } union {?s ?p ?o} } }    
 	 union
 	{ graph ?g {?s ?p ?o} } union {?s ?p ?o}
 </pre>
-The abstract algebra expression is
-<p> ID<sub>2</sub> = Union( Dataset( ?d, ID<sub>1</sub> ), ID<sub>1</sub>)
-</p>
-and in general
-<p> ID<sub>k+1</sub> = Union( Dataset( ?d, ID<sub>k</sub> ), ID<sub>k</sub>)
-</p>
-</aside>
-	</section>
-    <section id="query-examples">
-	<h3>Query Examples</h3>
-     <aside class="example" id="select-triple-pattern-avg-hr" title="Select Query with Triple Pattern for Average Heartrate">	
-	<pre>
+					The abstract algebra expression is <p> ID<sub>2</sub> = Union( Dataset( ?d,
+							ID<sub>1</sub> ), ID<sub>1</sub>) </p> and in general <p>
+							ID<sub>k+1</sub> = Union( Dataset( ?d, ID<sub>k</sub> ), ID<sub>k</sub>)
+					</p>
+				</aside>
+			</section>
+			<section id="query-examples">
+				<h3>Query Examples</h3>
+				<aside class="example" id="select-triple-pattern-avg-hr"
+					title="Select Query with Triple Pattern for Average Heartrate">
+					<pre>
 	
 SELECT (AVG(?heartRate) AS ?heartRate_base)
 
@@ -1837,113 +1888,130 @@ WHERE {
         FILTER ( ?heartRate_time &gt;= (now() - 'P30D'^^xsd:dayTimeDuration) )
     }
 </pre>
-	</aside>
-	</section>
-    <section id="abstract-algebra-examples">
-	<h3>Abstract Algebra Examples</h3>
-	<section id="eval-examples">
-	<h4>Eval</h4>
-	<aside class="example" id="match-bgp-dataset" title="Matching a BGP Against a k-th Order Dataset">
-		<p>If k=0, then application of eval to a dataset and BGP corresponds to matching a BGP against an RDF Graph.</p>
-		<p>If k=1, then application of eval to a dataset and BGP corresponds to matching a BGP against an RDF Dataset,
-			so that the default graph is active.</p>
-		<p>If k=2, then application of eval to a dataset and BGP corresponds to matching a BGP against the RDF Dataset
-			that is the default dataset of the second-order
-			dataset. For example,</p>
-		<p>
-			eval(<a href='#prov-dataset-2'>D2<sub>prov</sub></a>, <a href='#bgp-pattern-prov-revise'>TP<sub>rev</sub></a>) = Ω<sub>rev</sub>
-		</p>
-		<p>	where Ω<sub>rev</sub> is shown in the following table:</p>
-		<table id="omega-rev">
-			<tr>
-				<th>?version</th>
-				<th>?previous</th>
-			</tr>
-			<tr>
-				<td>_:b202</td>
-				<td>_:b201</td>
-			</tr>
-			<tr>
-				<td>_:b203</td>
-				<td>_:b202</td>
-			</tr>
-		</table>
-	</aside>
-	<aside class="example" id="match-bgp-repository" title="Matching a BGP Against a k-th Order Repository">
-		<p>If k=0, then application of eval to a repository and BGP corresponds to matching the BGP against an RDF Graph, as defined in [[!SPARQL11-Query]]
-		.</p>
-		<p>If k=1, then application of eval to a repository and BGP corresponds to matching the BGP against the RDF Graph 
-		that is the unordered component of the first-order repository.</p>
-		<p>For example,</p>
-		<p>
-			eval(<a href='#prov-dataset-2'>D2<sub>prov</sub></a>, <a href='#bgp-pattern-prov-revise'>TP<sub>rev</sub></a>) 
-			= <a href="#omega-rev">Ω<sub>rev</sub></a>
-		</p>
-		<p>If k=2, then application of eval to a repository and BGP corresponds to matching the BGP against the RDF Dataset 
-		that is the unordered component of the second-order repository.</p>
-		<p>In general, application of eval to a (k+1)-th repository and BGP corresponds to matching the BGP against the 
-		   k-th order RDF Dataset that is the unordered component of the input repository.
-		   The result is a multiset of solution mappings.</p>
-	</aside>
-	<aside class="example" id="match-quad-dataset" title="Matching a QuadPattern Against a k-th Order Dataset">
-	    <p>Recall that a <a>QuadPattern</a>, also called a GraphGraphPattern, can match withing named and unnamed graphs,
-		   depending on the nature of the pattern.</p>
-		<p>If k=0, then application of eval to a dataset and QuadPattern corresponds to matching a QuadPattern against an RDF Graph, as defined in [[!SPARQL11-Query]].</p>
-		<p>If k=1, then application of eval to a dataset and QuadPattern corresponds to matching a QuadPattern against an RDF Dataset, also as defined in [[!SPARQL11-Query]].
-		   Such an operation can extract information from both the default and named components of the dataset.
-		</p>
-		<p>If k&ge;2, then application of eval to a dataset and QuadPattern corresponds to matching the QuadPattern against the 
-		default (k-1)-th order RDF Dataset of the input dataset, which may be defined by induction over the order.
-		As shown in the next example, a second-order pattern (containing "quint" patterns) is needed to access the information in the
-		(non-default) named
-		components of a second-order dataset.
- 		</p>
-	</aside>	
-	<aside class="example" id="match-quint-second-order-dataset" title="Matching a Second-Order Pattern Against a Second-Order Dataset">
-		<p>
-			eval(<a href='#prov-dataset-2'>D2<sub>prov</sub></a>, <a href='#id-pattern-2'>ID<sub>2</sub></a>) = Ω<sub>D2-prov</sub>
-		</p>
-		<p>	where Ω<sub>D2-prov</sub> is partially shown in the following table:</p>
-		<table id="omega-d2-prov">
-			<tr>
-				<th>?s</th>
-				<th>?p</th>
-				<th>?o</th>
-				<th>?g</th>
-				<th>?d</th>
-			</tr>
-			<tr>
-				<td>_:b202</td>
-				<td>prov:wasRevisionOf</td>
-				<td>_:b201</td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>_:b0</td>
-				<td>prov:generatedAtTime</td>
-				<td>"2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt;</td>
-				<td></td>
-				<td>_:b201</td>
-			</tr>
-			<tr>
-				<td>_:b1</td>
-				<td>rdf:type</td>
-				<td>fhir:Observation</td>
-				<td>_:b0</td>
-				<td>_:b201</td>
-			</tr>
-		</table>
-	</aside>	
-	<aside class="example" id="match-quad-first-order-repository" title="Matching a First-Order Pattern Against a First-Order Repository">
-		<p>
-			eval(<a href='#fhir-repository'>R<sub>FHIR</sub></a>, <a href='#id-pattern-1'>ID<sub>1</sub></a>) = 
-			eval(Dataset-UNION(G0, [D<sub>i, FHIR</sub>]<sub>i=1,2,3</sub>), <a href='#id-pattern-1'>ID<sub>1</sub></a>) = 
-			
-			[{} , [Ω<sub>i, R-FHIR</sub>]<sub>i=1,2,3</sub>]
-		</p>
-		<p>	where Ω<sub>i, R-FHIR</sub> = eval(Dataset-UNION(G0, D<sub>i, FHIR</sub>), ID<sub>1</sub>) </P>
-		<!--is partially shown in the following table:</p>
+				</aside>
+			</section>
+			<section id="abstract-algebra-examples">
+				<h3>Abstract Algebra Examples</h3>
+				<section id="eval-examples">
+					<h4>Eval</h4>
+					<aside class="example" id="match-bgp-dataset"
+						title="Matching a BGP Against a k-th Order Dataset">
+						<p>If k=0, then application of eval to a dataset and BGP corresponds to
+							matching a BGP against an RDF Graph.</p>
+						<p>If k=1, then application of eval to a dataset and BGP corresponds to
+							matching a BGP against an RDF Dataset, so that the default graph is
+							active.</p>
+						<p>If k=2, then application of eval to a dataset and BGP corresponds to
+							matching a BGP against the RDF Dataset that is the default dataset of
+							the second-order dataset. For example,</p>
+						<p> eval(<a href="#prov-dataset-2">D2<sub>prov</sub></a>, <a
+								href="#bgp-pattern-prov-revise">TP<sub>rev</sub></a>) =
+								Ω<sub>rev</sub>
+						</p>
+						<p> where Ω<sub>rev</sub> is shown in the following table:</p>
+						<table id="omega-rev">
+							<tr>
+								<th>?version</th>
+								<th>?previous</th>
+							</tr>
+							<tr>
+								<td>_:b202</td>
+								<td>_:b201</td>
+							</tr>
+							<tr>
+								<td>_:b203</td>
+								<td>_:b202</td>
+							</tr>
+						</table>
+					</aside>
+					<aside class="example" id="match-bgp-repository"
+						title="Matching a BGP Against a k-th Order Repository">
+						<p>If k=0, then application of eval to a repository and BGP corresponds to
+							matching the BGP against an RDF Graph, as defined in [[!SPARQL11-Query]]
+							.</p>
+						<p>If k=1, then application of eval to a repository and BGP corresponds to
+							matching the BGP against the RDF Graph that is the unordered component
+							of the first-order repository.</p>
+						<p>For example,</p>
+						<p> eval(<a href="#prov-dataset-2">D2<sub>prov</sub></a>, <a
+								href="#bgp-pattern-prov-revise">TP<sub>rev</sub></a>) = <a
+								href="#omega-rev">Ω<sub>rev</sub></a>
+						</p>
+						<p>If k=2, then application of eval to a repository and BGP corresponds to
+							matching the BGP against the RDF Dataset that is the unordered component
+							of the second-order repository.</p>
+						<p>In general, application of eval to a (k+1)-th repository and BGP
+							corresponds to matching the BGP against the k-th order RDF Dataset that
+							is the unordered component of the input repository. The result is a
+							multiset of solution mappings.</p>
+					</aside>
+					<aside class="example" id="match-quad-dataset"
+						title="Matching a QuadPattern Against a k-th Order Dataset">
+						<p>Recall that a <a>QuadPattern</a>, also called a GraphGraphPattern, can
+							match withing named and unnamed graphs, depending on the nature of the
+							pattern.</p>
+						<p>If k=0, then application of eval to a dataset and QuadPattern corresponds
+							to matching a QuadPattern against an RDF Graph, as defined in
+							[[!SPARQL11-Query]].</p>
+						<p>If k=1, then application of eval to a dataset and QuadPattern corresponds
+							to matching a QuadPattern against an RDF Dataset, also as defined in
+							[[!SPARQL11-Query]]. Such an operation can extract information from both
+							the default and named components of the dataset. </p>
+						<p>If k>=2, then application of eval to a dataset and QuadPattern
+							corresponds to matching the QuadPattern against the default (k-1)-th
+							order RDF Dataset of the input dataset, which may be defined by
+							induction over the order. As shown in the next example, a second-order
+							pattern (containing "quint" patterns) is needed to access the
+							information in the (non-default) named components of a second-order
+							dataset. </p>
+					</aside>
+					<aside class="example" id="match-quint-second-order-dataset"
+						title="Matching a Second-Order Pattern Against a Second-Order Dataset">
+						<p> eval(<a href="#prov-dataset-2">D2<sub>prov</sub></a>, <a
+								href="#id-pattern-2">ID<sub>2</sub></a>) = Ω<sub>D2-prov</sub>
+						</p>
+						<p> where Ω<sub>D2-prov</sub> is partially shown in the following table:</p>
+						<table id="omega-d2-prov">
+							<tr>
+								<th>?s</th>
+								<th>?p</th>
+								<th>?o</th>
+								<th>?g</th>
+								<th>?d</th>
+							</tr>
+							<tr>
+								<td>_:b202</td>
+								<td>prov:wasRevisionOf</td>
+								<td>_:b201</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>_:b0</td>
+								<td>prov:generatedAtTime</td>
+								<td>"2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt;</td>
+								<td></td>
+								<td>_:b201</td>
+							</tr>
+							<tr>
+								<td>_:b1</td>
+								<td>rdf:type</td>
+								<td>fhir:Observation</td>
+								<td>_:b0</td>
+								<td>_:b201</td>
+							</tr>
+						</table>
+					</aside>
+					<aside class="example" id="match-quad-first-order-repository"
+						title="Matching a First-Order Pattern Against a First-Order Repository">
+						<p> eval(<a href="#fhir-repository">R<sub>FHIR</sub></a>, <a
+								href="#id-pattern-1">ID<sub>1</sub></a>) = eval(Dataset-UNION(G0,
+								[D<sub>i, FHIR</sub>]<sub>i=1,2,3</sub>), <a href="#id-pattern-1"
+									>ID<sub>1</sub></a>) = [{} , [Ω<sub>i,
+								R-FHIR</sub>]<sub>i=1,2,3</sub>] </p>
+						<p> where Ω<sub>i, R-FHIR</sub> = eval(Dataset-UNION(G0, D<sub>i,
+							FHIR</sub>), ID<sub>1</sub>) </p>
+						<!--is partially shown in the following table:</p>
 		<table id="omega-d2-prov">
 			<tr>
 				<th>?s</th>
@@ -1974,8 +2042,8 @@ WHERE {
 				<td>_:b201</td>
 			</tr>
 		</table>-->
-	</aside>	
-	<!--
+					</aside>
+					<!--
 	 The Eval function has been extended to apply to higher-order datasets, repositories and stores.
      If the pattern is a BGP, then matching will be performed only within the default component 
 	 (dataset, repository or store, as the case may be.)
@@ -2236,34 +2304,34 @@ We write
 	from concrete to abstract syntax.
 	</p>
 	-->
-	</section>
-	<section id="dataset-union-examples">
-	<h4>Dataset-UNION</h4>
-	<p>The Dataset-UNION basic operation has been extended to apply to arbitrary pairs of higher-order datasets.
-	It has also been extended to apply to pairs where one of the elements is a higher-order dataset and the other is a 
-	dynamic data structure (repository, store, recursive store, sequential datasets ). 
-	</p>
-	<p>
-	In all cases, the first step of evaluation is to elevate a static input argument as needed: to the same order (in the case of two higher-order datasets),
-	or in the case of one static and one dynamic structure, to the requisite orders so that the default component of the dynamic structure
-	is of the same order as the static structure.
-	Then it is sufficient to consider input arguments where these orders are already compatible.
-	The type of the result is either a dynamic structure, of the same type and order as the dynamic input,
-    or a static, higher-order dataset, of the order of the two inputs.	
-	</p>
-	</section>
-  </section>
-</section>
-
-
-<!--
+				</section>
+				<section id="dataset-union-examples">
+					<h4>Dataset-UNION</h4>
+					<p>The Dataset-UNION basic operation has been extended to apply to arbitrary
+						pairs of higher-order datasets. It has also been extended to apply to pairs
+						where one of the elements is a higher-order dataset and the other is a
+						dynamic data structure (repository, store, recursive store, sequential
+						datasets ). </p>
+					<p> In all cases, the first step of evaluation is to elevate a static input
+						argument as needed: to the same order (in the case of two higher-order
+						datasets), or in the case of one static and one dynamic structure, to the
+						requisite orders so that the default component of the dynamic structure is
+						of the same order as the static structure. Then it is sufficient to consider
+						input arguments where these orders are already compatible. The type of the
+						result is either a dynamic structure, of the same type and order as the
+						dynamic input, or a static, higher-order dataset, of the order of the two
+						inputs. </p>
+				</section>
+			</section>
+		</section>
+		<!--
 	  <section id="def-timestamp-predicate">
           <h4>Timestamp Predicates</h4>
           <p> An RSP timestamp predicate <code>P</code> is an <code>rdf:Property</code> with range <code>rsp:TemporalEntity</code> that is
             associated, through the <code>rdf:Property</code> <code>rsp:hasTimePlenum</code>, with a unique partially-ordered set (poset) of 
             temporal entities <code>T<sub>P</sub> &sube; T<sup>all</sup></code>, called the <em>time plenum</em> of the predicate.
             The time plenum is associated, through the <code>rdf:Property</code> <code>rsp:hasPartialOrder</code>, 
-            with a unique partial order <code>&le;<sub>P</sub></code> that is in the class
+            with a unique partial order <code>&lt;=<sub>P</sub></code> that is in the class
             <code>rsp:ChronologicalPartialOrder</code>.</p>
           <p>The usual mathematical requirements of a partial order MUST be satisfied by an instance of 
             <code>rsp:ChronologicalPartialOrder</code>. In particular, for all instances <code>X</code>, <code>Y</code>, <code>Z</code> 
@@ -2271,19 +2339,19 @@ We write
           </p>
           <dl>
             <dt>Reflexivity</dt>
-            <dd><code>X &le;<sub>P</sub> X</code></dd>
+            <dd><code>X &lt;=<sub>P</sub> X</code></dd>
             <dt>Antisymmetry<dt>
-              <dd>  <code>X &le;<sub>P</sub> Y</code> and <code>Y &le;<sub>P</sub> X</code> implies <code>X =
+              <dd>  <code>X &lt;=<sub>P</sub> Y</code> and <code>Y &lt;=<sub>P</sub> X</code> implies <code>X =
                 Y</code></dd>
             <dt>Transitivity</dt>
-              <dd><code>X &le;<sub>P</sub> Y</code> and <code>Y &le;<sub>P</sub> Z</code> implies <code>X &le;<sub>P</sub>
+              <dd><code>X &lt;=<sub>P</sub> Y</code> and <code>Y &lt;=<sub>P</sub> Z</code> implies <code>X &lt;=<sub>P</sub>
                 Z</code>. </dd>
           </dl>
           <p>Further, an instance of <code>rsp:ChronologicalPartialOrder</code> MUST respect the natural order of time.</p>
           <p>In
             particular, if every time instant within the closure of temporal entity <code>X</code>
             is earlier than every time instant within the closure of temporal entity <code>Y</code>,
-            then <code>X &le;<sub>P</sub> Y</code> (where closure of a time instant <code>t</code> is defined as
+            then <code>X &lt;=<sub>P</sub> Y</code> (where closure of a time instant <code>t</code> is defined as
             the degenerate interval <code>[t, t]</code>, and closure of an interval is defined in
             the usual way) </p>
           <p class="ednote">The above definition regarding natural order of time depends on the
@@ -2404,8 +2472,8 @@ _:b0 {dbp:Berlin loc:hasPointTempC "12.5"^^xsd:decimal .}</code></pre>
           <em>covers</em>
           <code>TSG1</code> (denoted <code>TSG1  	&#8818; TSG2</code>) if and only if <code>TSG1</code>
           and <code>TSG2</code> have the same timestamp predicate <code>P</code> and the timestamps,
-            <code>t1</code> and <code>t2</code> resp., satisfy <code>t1 &le;<sub>P</sub> t2</code>,
-          where <code>&le;<sub>P</sub></code> is the temporal partial order associated with the time plenum
+            <code>t1</code> and <code>t2</code> resp., satisfy <code>t1 &lt;=<sub>P</sub> t2</code>,
+          where <code>&lt;=<sub>P</sub></code> is the temporal partial order associated with the time plenum
           of the timestamp predicate <code>P</code>. </p>
         <p class="note">The relation <code>&#8818;</code> between timestamped graphs is a preorder (a
           reflexive, transitive binary relation). It is not a partial order because it doesn't have
@@ -2522,7 +2590,7 @@ _:b0 {dbp:Berlin loc:hasPointTempC "12.5"^^xsd:decimal .}</code></pre>
             <li>For every timestamped graph TSG where NG is the named graph pair and DG is the default
               graph containing the timestamp triple TST, M(TSG) is a timestamped graph TSG2, with
               named graph pair M(NG), default graph M(DG) and timestamp triple M(TST).;</li>
-            <li>For every i &ge; 1, M(S1(i))=S2(i), where S1(i) is the i-th element of S1 and S2(i)
+            <li>For every i &gt;= 1, M(S1(i))=S2(i), where S1(i) is the i-th element of S1 and S2(i)
               is the i-the element of S2.</li>
           </ol>
         </p>
@@ -2858,7 +2926,7 @@ _:b0 {dbp:Berlin loc:hasPointTempC "12.5"^^xsd:decimal .}</code></pre>
       </section>
     </section>
 	-->
-    <!--<h2>References:</h2>
+		<!--<h2>References:</h2>
     
     <ul>
       <li>EP-SPARQL: a unified language for event processing and stream reasoning.
@@ -2875,7 +2943,7 @@ _:b0 {dbp:Berlin loc:hasPointTempC "12.5"^^xsd:decimal .}</code></pre>
         Beck, H., Dao-Tran, M., Eiter, T., Fink, M. In AAAI. 2015.</li>
       <li>RDF 1.1: On Semantics of RDF Datasets. Zimmerman, Antoine, ed.. 2014.  <a href="http://www.w3.org/TR/2014/NOTE-RDF11-datasets-20140225">http://www.w3.org/TR/2014/NOTE-RDF11-datasets-20140225</a>.</li>
     </ul>-->
-	<!--
+		<!--
     <blockquote>
       <p class="note">this example could be integrated to the main text body</p>
       <h3>Beyond time instants: intervals &amp; more</h3>
@@ -2926,7 +2994,7 @@ _:b0 {dbp:Berlin loc:hasPointTempC "12.5"^^xsd:decimal .}</code></pre>
           <li><code>I(D)</code> is false otherwise.</li>
           <li>for an RDF stream <code>S</code>, I(S) is true if and only if if there exists a
             mapping <code>A</code> from blank nodes to the universe <code>IR</code> such that for
-            every element <code>S(i)</code> of <code>S</code>, <code>i &ge; 1</code>,
+            every element <code>S(i)</code> of <code>S</code>, <code>i &gt;= 1</code>,
               <code>[I+A](S(i))</code> is true.</li>
         </ul> We say that an RSP interpretation <code>I</code> E-satisfies a graph, named graph
         pair, timestamped graph, dataset, or stream <code>X</code> (or satisfies <code>A</code>
@@ -3061,7 +3129,7 @@ _:b0 {dbp:Berlin loc:hasPointTempC "12.5"^^xsd:decimal .}</code></pre>
       </aside>
     </section>
 	  -->
-    <!-- CONFORMANCE -->
-    <section id="conformance"> </section>
-  </body>
+		<!-- CONFORMANCE -->
+		<section id="conformance"> </section>
+	</body>
 </html>
