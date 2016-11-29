@@ -422,10 +422,13 @@
 								datasets</a>.</p>
 						<p>In this document, we use the term <dfn>sequence</dfn> in the sense of a
 							totally-ordered set that can be strictly monotonically mapped onto the
-							integers. A sequence may be finite, or infinite. If infinite, the set
-							may or may not have a least element, and may or may not have a greatest
+							integers. 
+							I.e., it is isomorphic, as a totally-ordered set, to a subset
+							of the integers.  
+							A sequence may be finite, or infinite. If infinite, the set
+							MAY or MAY NOT have a least element, and MAY or MAY NOT have a greatest
 							element. If a sequence has neither least or greatest element, then it is
-							said to be bi-infinite.</p>
+							said to be <dfn>bi-infinite</dfn>.</p>
 						<p class="ednote">Add to table of structural inferences: rdfsq:lessThan,
 							rdfsq:greaterThan, rdfsq:successor, rdfsq:predecessor, rdfsq:least,
 							rdfsq:greatest, can be inferred, but only if the elements are named
@@ -433,7 +436,7 @@
 							order is not an inherent relationship between the two datasets. That
 							means the sequence must be named in order for a quad to be created, or
 							it must be part of a larger structures that is named (see <a>named
-								repository</a> below. </p>
+								repository</a> below.) </p>
 					</section>
 					<section id="def-data-structures">
 						<h4>RDF Data Structures</h4>
@@ -522,9 +525,10 @@
 						<p class="ednote">Needs more explanation, examples: To use a second-order
 								<a>repository</a> to emulate a <a>Graph Store</a>, the input for
 							query and update operations would have to be limited to some "current
-								<a>version</a>", and the <a>default dataset</a> would be empty. The
+								<a>version</a>", and the <a>unordered dataset</a> of the repository 
+							would be empty. The
 							execution of an <a>Update operation</a> would move the "current
-								<a>version</a> pointer" to the next <a>version</a>. </p>
+							<a>version</a> pointer" to the <a>succeeding version</a>. </p>
 					</section>
 					<section id="def-named-kth-order-repository">
 						<h4>Named k-th Order RDF Repository</h4>
@@ -544,8 +548,10 @@
 							provenance entailment regime also includes an additional property,
 								<code>repo:isInitialVersionOf</code>, with object being the name of
 							the repository. A new namespace (prefix "repo") needs to be defined.
-							These properties can be used to define s on dynamic data structures that
-							extract parts of the sequence (e.g. foot, and subsequences related to
+							These properties can be used to define operations on <a>data sequences</a> 
+							and <a>data structures</a> that
+							extract parts of the sequence 
+							(e.g. foot(initial version), and subsequences related to
 							that, such as the first 10 versions) that are monotonic relative to
 							update operations. </p>
 						<p class="ednote">To be clarified in the section on the extension of Eval to
@@ -556,7 +562,8 @@
 							regarding the terminal version, using
 								<code>repo:isTerminalVersion</code> and
 								<code>repo:isTerminalVersionOf</code>. These properties could be
-							used as the basis for basic operations on dynamic data structures that
+							used as the basis for basic operations on <a>data sequences</a>
+							and <a>data structures</a> that
 							extract parts of the sequence, e.g. head, tail and subsequences related
 							to these) that are nonmonotonic relative to update operations). </p>
 					</section>
@@ -1091,7 +1098,7 @@
 				<h4>Revise Operation</h4>
 				<p>Update Operations as defined in SPARQL Update, and here extended, are not
 					directly applicable to <a>repositories</a> and <a>stores</a>. In order to enable
-					this, we define a Revise operation, that takes as input a <a>repository</a>
+					them, we define a Revise operation, that takes as input a <a>repository</a>
 					(with a terminal version) as first argument, an Update Operation specification
 					as second argument and a name (IRI or blank node) as third argument. The result
 					is a new <a>repository</a> that has an additional <a>version</a>, that being the
@@ -1469,16 +1476,16 @@ _:b103{
 						using basic operations:</p>
 					<p>R<sub>FHIR</sub> = Revise(D<sub>3,FHIR</sub>, Revise(D<sub>2,FHIR</sub>,
 							Revise(D<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
-					<p> Since repositories are dynamic entities, one form the transmission of the
-						repository could take is a sequence of documents, one for the unordered
+					<p> Since the ordered component of a repository may be lazily contructed, 
+						the repository could be transmitted as a sequence of documents, one for the unordered
 						dataset and one for each of the elements of the ordered component of the
-						repository. </p>
+						repository, transmitted as they become available. </p>
 				</aside>
 			</section>
 			<section id="general-stream-example">
 				<h3>General RDF Stream Example</h3>
 				<aside class="example" id="prov-dataset" title="FHIR Provenance in an RDF Dataset">
-					We consider a more general RDF Stream example, showing a typically case when
+					We consider a more general RDF Stream example, showing a typical case when
 					sets of statements have multiple temporal characteristics. We construct a set of
 					named graphs <p>NG<sub>i, FHIR</sub> = Graph(nb<sub>i</sub>, G<sub>i,
 						FHIR</sub>)</p> where <p>nb<sub>1</sub> = _:b0, nb<sub>2</sub> = _:b3,
