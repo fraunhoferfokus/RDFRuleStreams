@@ -284,8 +284,7 @@
 										>#solutionModifiers</a>
 								</td>
 								<td>The recommendation does not define the concept of "sequence", so
-									it is not normatively limited. The characteristics that are used
-									correspond to a totally-ordered set. </td>
+									it is not normatively limited. </td>
 							</tr>
 							<tr>
 								<td><dfn data-lt="RDF triples|triple|triples">RDF triple</dfn></td>
@@ -421,33 +420,30 @@
 								Data Sequence</dfn> is a <a>sequence</a> of <a>unnamed or named data
 								structures</a>.</p>
 						<p>In this document, we use the term <dfn>sequence</dfn> in the sense of a
-							totally-ordered set that can be strictly monotonically mapped onto the
-							integers. I.e., it is isomorphic, as a totally-ordered set, to a subset
-							of the integers. A sequence may be finite, or infinite. If infinite, the
-							set MAY or MAY NOT have a least element, and MAY or MAY NOT have a
-							greatest element. If a sequence has neither least nor greatest element,
-							then it is said to be <dfn>bi-infinite</dfn>.</p>
+							totally-ordered set (in mathematics, called a chain) that can be
+							strictly monotonically mapped onto the integers. I.e., it is isomorphic,
+							as a poset, to a subset of the integers. A sequence may be finite, or
+							infinite. If infinite, the set MAY or MAY NOT have a least element, and
+							MAY or MAY NOT have a greatest element. If a sequence has neither least
+							nor greatest element, then it is said to be <dfn>bi-infinite</dfn>.</p>
 						<p>We define a number of syntactic operations on <a>data sequences</a> as
 							follows. Let DSQ be a <a>data sequence</a>. </p>
 						<ul>
 							<li>If DST is an element of DSQ, then <dfn>isMemberOf</dfn>(DST, DSQ) is
-								@@@true; otherwise, it is false.</li>
+								true; otherwise, it is false.</li>
 							<li>If DST and DST' are two elements of DSQ, then
 								<dfn>previousTo</dfn>(DST, DST'; DSQ) is defined; otherwise it is
-								undefined. It has the value @@@true if DST &lt; DST' in the context
-								of DSQ, and has the value @@@false if DST &gt;= DST' in the context
-								of DSQ. </li>
+								undefined. It has the value true if DST &lt; DST' in the context of
+								DSQ, and has the value false if DST &gt;= DST' in the context of
+								DSQ. </li>
 							<li>If <a>previousTo</a>(DST, DST'; DSQ), then <dfn>follows</dfn>(DST,
 								DST'; DSQ) is defined; otherwise it is undefined. It has the value
-								@@@true if DST &gt; DST' in the context of DSQ, and has the value
-								@@@false if DST &lt;= DST' in the context of DSQ. </li>
+								true if DST &gt; DST' in the context of DSQ, and has the value false
+								if DST &lt;= DST' in the context of DSQ. </li>
 							<li>If DSQ has a least element then <dfn>hasLeast</dfn>(DSQ) has the
-								value to the Boolean literal <code>'true'^^&lt;@@@&gt;</code>, and
-								otherwise <code>'false'^^&lt;@@@&gt;</code>
-							</li>
+								value true, and otherwise false </li>
 							<li>If DSQ has a greatest element then <dfn>hasGreatest</dfn>(DSQ) has
-								the value <code>'true'^^&lt;@@@&gt;</code>, and otherwise
-									<code>'false'^^&lt;@@@&gt;</code>. </li>
+								the value true, and otherwise false. </li>
 							<li>If <a>hasLeast</a>(DSQ) is true, then <dfn>least</dfn>(DSQ) is
 								defined, and has the value of the least element of DSQ. Otherwise it
 								is undefined. </li>
@@ -455,9 +451,9 @@
 								defined, and has the value of the greatest element of DSQ. Otherwise
 								it is undefined. </li>
 							<li>If <a>least</a>(DSQ) = DST, then <dfn>isLeastOf</dfn>(DST, DSQ) has
-								value @@@true, and otherwise @@@false. </li>
+								value true, and otherwise false. </li>
 							<li>If <a>greatest</a>(DSQ) = DST, then <dfn>isGreatestOf</dfn>(DST,
-								DSQ) has value @@@true, and otherwise @@@false. </li>
+								DSQ) has value true, and otherwise false. </li>
 							<li>If <a>isLeastOf</a>(DST, DSG) is false, then
 								<dfn>predecessor</dfn>(DST; DSQ) is defined, and has the value of
 								the unique <a>predecessor</a> of DST in the context of DSQ. I.e., if
@@ -487,45 +483,112 @@
 							sequence, then whether it is appropriate to use that name to materialize
 							such statements depends on the active semantics.</p>
 					</section>
-					<section id="def-data-structures">
-						<h4>RDF Data Structures</h4>
-						<p>An <dfn>RDF Data Structure</dfn> is a collection of <a>unnamed or named
-								data structures</a> comprised of: </p>
+					<section id="def-static-data-structure">
+						<h4>Static RDF Data Structures</h4>
+						<p>A <dfn>Static RDF Data Structure</dfn> is a <a>data structure</a> that is
+							either an RDF Graph or a collection of <a>data structures</a> comprised
+							of: </p>
 						<ul>
 							<li>an optional distinguished <a>data structure</a>, called the
-									<dfn>unordered component</dfn> of the data structure.</li>
-							<li>an optional <a>data sequence</a>, called the <dfn>ordered
-									component</dfn> of the data structure. </li>
+									<dfn>default part</dfn> of the static data structure. </li>
+							<li>a set, possibly empty, of <dfn data-lt="named data structure">named
+									data structures</dfn>, that being an ordered pair
+								[n<sub>i</sub>, DS<sub>i</sub>} where n<sub>i</sub> is the name of
+								the named data structure and data structure DS<sub>i</sub> is the
+								content of the named data structure. This set is called the named
+								part of the data structure, and is optional if the data structure
+								has a default part.</li>
 						</ul>
-						<p>The function <dfn>Unordered</dfn> is defined on all <a>data
-								structures</a> that have an unordered component, and has the value
-							of the unordered component; otherwise, it is undefined. If Unordered(DS)
-							= DS, then we say the data structure is an <dfn>unordered data
-								structure</dfn>. </p>
-						<p>The function <dfn>Ordered</dfn> is defined on all <a>data structures</a>
-							that have an ordered component, and its value is the ordered component;
-							otherwise it is undefined. If Ordered(DSO = DS, then we say the data
-							structure is a <dfn>fully-ordered data structure</dfn>.</p>
+						<p>We define a number of syntactic operations on <a>static data
+								structures</a> as follows. Let DS be a <a>static data structure</a>. </p>
+						<ul>
+							<li><dfn>hasDefault</dfn>(DS) is true if DS has a default part;
+								otherwise, it is false.</li>
+							<li><dfn>hasNamed</dfn>(DS) is true if DS has a named part; otherwise,
+								it is false.</li>
+							<li><dfn>default</dfn>(DS) is defined on all static data structures that
+								have a default part (hasDefault(DS) is true); otherwise it is
+								undefined. When defined, its value is the default part of DS.</li>
+							<li><dfn>named</dfn>(DS) is defined on all static data structures that
+								have a named part (hasNamed(DS) is true); otherwise it is undefined.
+								When defined, its value is the named part of DS.</li>
+							<li><dfn>names</dfn>(DS) is defined on all static data structures that
+								have a named part (hasNamed(DS) is true); otherwise it is undefined.
+								When defined, it is the set of names of the named data structures in
+								DS.</li>
+							<li>If n is a member of names(DS), then <dfn>content(n, DS)</dfn> is
+								defined as the content of the named data structure in DS having the
+								name n; otherwise, it is undefined. </li>
+						</ul>
+						<p class="note">When hasNamed(DS) is false, then default(DS) = DS. This
+							situation arises, e.g., when the data structure is an RDF graph.
+							Similarly, when hasDefault(DS) is false, then named(DS) = DS.</p>
+						<p class="ednote">As these definitions stand, a named data structure is
+								<em>note</em> a static data structure.</p>
 					</section>
-					<section id="def-k-th-data-structure">
+					<section id="def-data-structures">
+						<h4>RDF Data Structures</h4>
+						<p>An <dfn>RDF Data Structure</dfn> is either an RDF Graph or a collection
+							of <a>unnamed and/or named data structures</a> comprised of: </p>
+						<ul>
+							<li>an optional <a>static data structure</a>, called the <dfn>static
+									part</dfn> of the data structure. </li>
+							<li>an <a>RDF data sequence</a>, called the <dfn>dynamic part</dfn> of
+								the data structure, that is optional if the data structure has a
+								dynamic part. </li>
+						</ul>
+						<p class="ednote">I have reverted to the terminology "static" and "dynamic"
+							because using "unordered" and "ordered" has a collision with the "order"
+							of the structure. However this terminology is not entirely satisfactory,
+							for two reasons. One is that it suggests a temporal character, and while
+							that is the primary motivation for these structures, the temporal nature
+							comes from the semantics, not the sequential order. The sequential order
+							could quite reasonably be exploited for nontemporal aspects that have
+							ordering. The second reason it is unsatisfactory is that the "static"
+							part can have either default or named parts that are "dynamic". This is
+							particularly relevant in the case of the "store" structure, defined
+							below, whose static part is a collection of repositories. Alternative:
+							"map" and "history"?</p>
+						<p>We define a number of syntactic operations on <a>data structures</a> as
+							follows. Let DS be a <a>data structure</a>. </p>
+						<ul>
+							<li><dfn>hasStatic</dfn>(DS) is true if DS has a static part; otherwise,
+								it is false.</li>
+							<li><dfn>hasDynamic</dfn>(DS) is true if DS has a dynamic part;
+								otherwise, it is false.</li>
+							<li><dfn>static</dfn>(DS) is defined on all data structures that have a
+								static part (hasStatic(DS) is true); otherwise it is undefined. When
+								defined, its value is the static part of DS.</li>
+							<li><dfn>dynamic</dfn>(DS) is defined on all data structures that have a
+								dynamic part (hasDynamic(DS) is true); otherwise it is undefined.
+								When defined, its value is the dynamic part of DS.</li>
+						</ul>
+						<p class="note">If the <a>data structure</a> has no dynamic part, then its
+							static part is itself (static(DS) = DS). In that case it is a <a>static data
+							structure</a>, e.g. an RDF graph.</p>
+
+						<p class="note">If a data structure DS does not have a
+							static part, then Dynamic(DS) = DS; in this case, the data structure is
+							a <a>data sequence</a>.</p>
+					</section>
+					<section id="def-k-th-order-data-structure">
 						<h4>k-th Order RDF Data Structure</h4>
 						<p>A <dfn
 								data-lt="k-th Order RDF Data Structures|k-th Order Data Structure|k-th Order Data Structures|Order Data Structure|Order Data Structures"
 								>k-th Order RDF Data Structure</dfn> is a <a>data structure</a> DS
-							satisfying the following. Let DS be the k-th order data structure. </p>
+							satisfying the following. </p>
 						<ul>
-							<li>If DS has an unordered component, it is a collection of (k-1)-th
-									<a>order data structures</a> composed of: <ul>
+							<li>If DS has a static part, it is a collection of (k-1)-th <a>order
+									data structures</a> composed of: <ul>
 									<li> a distinguished (k-1)-th <a>order data structure</a>,
-										called the <dfn>default component</dfn> of the data
-										structure, denoted <dfn>Default</dfn>(DS) or equivalently
-										Default(Unordered(DS)). </li>
+										called the default part of the data structure, denoted
+										Default(DS) or equivalently Default(Static(DS)). </li>
 									<li> zero or many named (k-1)-th <a>order data structures</a>.
 										The set of names is denoted <dfn>structureNames</dfn>(DS) or
-										equivalently structureNames(Unordered(DS)) </li>
+										equivalently structureNames(Static(DS)) </li>
 								</ul>
 							</li>
-							<li>The elements of its ordered component, Ordered(DS), are k-th order
+							<li>The elements of its dynamic part, Dynamic(DS), are k-th order
 									<a>data structures</a>.</li>
 						</ul>
 					</section>
@@ -539,18 +602,17 @@
 								>k-th Order RDF Repository</dfn> is an <a>RDF data structure</a>
 							that is defined by cases: </p>
 						<ol>
-							<li>a zeroth Order RDF Repository has an RDF Graph for its unordered
-								component and the empty sequence for its ordered component. </li>
+							<li>a zeroth Order RDF Repository has an RDF Graph for its static part
+								and the empty sequence for its dynamic part. </li>
 							<li>k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>k-th order
-									dataset</a> for its unordered component and a <a>data
-									sequence</a> of <a>named k-th order datasets</a> for its ordered
-								component. </li>
+									dataset</a> for its static part and a <a>data sequence</a> of
+									<a>named k-th order datasets</a> for its dynamic part. </li>
 						</ol>
 						<p class="note">A k-th Order RDF Repository may be viewed as a k-th Order
 							RDF Dataset with the additional structure of a total order on its
 							component set of <a>named datasets</a>.</p>
-						<p>Each element of the ordered component is called a <dfn>version</dfn> of
-							the repository. </p>
+						<p>Each element of the dynamic part is called a <dfn>version</dfn> of the
+							repository. </p>
 						<p>We say a version U is a <dfn>previous version</dfn> of version V if U
 							&lt; V in the context of the repository, and V is called a
 								<dfn>following version</dfn> of U.</p>
@@ -558,26 +620,24 @@
 								<dfn>preceding version</dfn> of V (V is the <dfn>succeeding
 								version</dfn> of U) in the context of the repository.</p>
 						<p>An <dfn>initial version</dfn> is a version that does not have a previous
-							version. The ordered component of a repository MAY have an initial
+							version. The dynamic part of a repository MAY have an initial
 							version.</p>
-						<p class="note">If the ordered component of a repositoriy has an initial
-							version, then it is unique, due to the order being total; further, it is
-							a minimal element. </p>
+						<p class="note">If the dynamic part of a repositoriy has an initial version,
+							then it is unique, due to the order being total; further, it is a
+							minimal element. </p>
 						<p>Every version that is not the initial version has a unique preceding
 							version, and we say that each such version <dfn>revises</dfn> its
 							preceding version. </p>
 						<p>A <dfn>terminal version</dfn> is a version that does not have a following
-							version. The ordered component of a repository MAY have a terminal
+							version. The dynamic part of a repository MAY have a terminal
 							version.</p>
-						<p class="note">If the ordered component of a repositoriy has a terminal
-							version, it is unique, due to the order being total, and is a maximal
-							element. </p>
+						<p class="note">If the dynamic part of a repositoriy has a terminal version,
+							it is unique, due to the order being total, and is a maximal element. </p>
 						<p class="note">Every version that is not the terminal version has a unique
 							succeding version. </p>
 						<p class="note">Because of the requirement for total order in the ordered
-							component, it is not possible to have version structures which
-							branch.</p>
-						<p> The ordered component MAY be finite, semi-infinite, or bi-infinite.</p>
+							part, it is not possible to have version structures which branch.</p>
+						<p> The dynamic part MAY be finite, semi-infinite, or bi-infinite.</p>
 						<p>The set of version names of a repository R is denoted by
 								<dfn>versionNames</dfn>(R). </p>
 						<p class="ednote">To be clarified in the section on the extension of Eval to
@@ -605,10 +665,9 @@
 						<p class="ednote">Needs more explanation, examples: To use a second-order
 								<a>repository</a> to emulate a <a>Graph Store</a>, the input for
 							query and update operations would have to be limited to some "current
-								<a>version</a>", and the <a>unordered dataset</a> of the repository
-							would be empty. The execution of an <a>Update operation</a> would move
-							the "current <a>version</a> pointer" to the <a>succeeding version</a>.
-						</p>
+								<a>version</a>", and the <a>static part</a> of the repository would
+							be empty. The execution of an <a>Update operation</a> would move the
+							"current <a>version</a> pointer" to the <a>succeeding version</a>. </p>
 					</section>
 					<section id="def-named-kth-order-repository">
 						<h4>Named k-th Order RDF Repository</h4>
@@ -941,27 +1000,26 @@
 							href="#data-structures"></a>, as first argument and an extended pattern,
 						as defined in Section <a href="#patterns"></a> as second argument. </p>
 					<p>All of the newly-defined data structures can be considered as specializations
-						of an abstract data structure having an unordered (set-based) component and
-						a totally-ordered (sequence-based) component. This same abstraction holds
-						for:</p>
+						of an abstract data structure having an (optional) static part and an
+						(optional) dynamic part. This same abstraction holds for:</p>
 					<ul>
 						<li>data strucutures with triples as the fundamental type (datasets,
 							repositories, stores, streams)</li>
 						<li>data structures with solution mappings as the fundamental type
 							(structured results)</li>
 					</ul>
-					<p> The semantics of eval are based on matching the pattern to the ordered
-						component of the data structure, with the unordered component unioned into
-						every element, to obtain the ordered component of the structured result, and
-						also matching the same pattern to the unordered component of the data
-						structure to get the unordered component of the structured result. </p>
+					<p> The semantics of eval are based on matching the pattern to the ordered part
+						of the data structure, with the static part unioned into every element, to
+						obtain the dynamic part of the structured result, and also matching the same
+						pattern to the static part of the data structure to get the static part of
+						the structured result. </p>
 					<p>In the semantic approach, the implementer defines the naming convention of
 						the query string to denote substructures of the parent data structure, e.g
-						just the unordered component, just the ordered component, just the terminal
-						element of the ordered component, or structures derived from the parent
-						structure, e.g. the ordered component with the unordered component unioned
-						into every element, or the result of a window operation, where subsequences
-						from the ordered component are unioned to obtain a new sequence. </p>
+						just the static part, just the dynamic part, just the terminal element of
+						the dynamic part, or structures derived from the parent structure, e.g. the
+						dynamic part with the static part unioned into every element, or the result
+						of a window operation, where subsequences from the dynamic part are unioned
+						to obtain a new sequence. </p>
 					<p>In the syntactic approach, abstract algebra operations are employed to
 						express these transformations and associate them with variables or names,
 						with a syntactic transformation to and from the concrete syntax.
@@ -1540,9 +1598,9 @@ _:b103{
 						using basic operations:</p>
 					<p>R<sub>FHIR</sub> = Revise(D<sub>3,FHIR</sub>, Revise(D<sub>2,FHIR</sub>,
 							Revise(D<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
-					<p> Since the ordered component of a repository may be lazily contructed, the
+					<p> Since the dynamic component of a repository may be lazily contructed, the
 						repository could be transmitted as a sequence of documents, one for the
-						unordered dataset and one for each of the elements of the ordered component
+						unordered dataset and one for each of the elements of the dynamic component
 						of the repository, transmitted as they become available. </p>
 				</aside>
 			</section>
@@ -2029,19 +2087,19 @@ WHERE {
 							matching the BGP against an RDF Graph, as defined in [[!SPARQL11-Query]]
 							.</p>
 						<p>If k=1, then application of eval to a repository and BGP corresponds to
-							matching the BGP against the RDF Graph that is the unordered component
-							of the first-order repository.</p>
+							matching the BGP against the RDF Graph that is the static component of
+							the first-order repository.</p>
 						<p>For example,</p>
 						<p> eval(<a href="#prov-dataset-2">D2<sub>prov</sub></a>, <a
 								href="#bgp-pattern-prov-revise">TP<sub>rev</sub></a>) = <a
 								href="#omega-rev">Ω<sub>rev</sub></a>
 						</p>
 						<p>If k=2, then application of eval to a repository and BGP corresponds to
-							matching the BGP against the RDF Dataset that is the unordered component
-							of the second-order repository.</p>
+							matching the BGP against the RDF Dataset that is the static component of
+							the second-order repository.</p>
 						<p>In general, application of eval to a (k+1)-th repository and BGP
 							corresponds to matching the BGP against the k-th order RDF Dataset that
-							is the unordered component of the input repository. The result is a
+							is the static component of the input repository. The result is a
 							multiset of solution mappings.</p>
 					</aside>
 					<aside class="example" id="match-quad-dataset"
