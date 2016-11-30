@@ -418,35 +418,115 @@
 					<section id="def-data-sequences">
 						<h4>RDF Data Sequences</h4>
 						<p>An <dfn data-lt="RDF Data Sequences|Data Sequence|Data Sequences">RDF
-								Data Sequence</dfn> is a <a>sequence</a> of <a>unnamed or named
-								datasets</a>.</p>
+								Data Sequence</dfn> is a <a>sequence</a> of <a>unnamed or named data
+								structures</a>.</p>
 						<p>In this document, we use the term <dfn>sequence</dfn> in the sense of a
 							totally-ordered set that can be strictly monotonically mapped onto the
-							integers. 
-							I.e., it is isomorphic, as a totally-ordered set, to a subset
-							of the integers.  
-							A sequence may be finite, or infinite. If infinite, the set
-							MAY or MAY NOT have a least element, and MAY or MAY NOT have a greatest
-							element. If a sequence has neither least or greatest element, then it is
-							said to be <dfn>bi-infinite</dfn>.</p>
-						<p class="ednote">Add to table of structural inferences: rdfsq:lessThan,
-							rdfsq:greaterThan, rdfsq:successor, rdfsq:predecessor, rdfsq:least,
-							rdfsq:greatest, can be inferred, but only if the elements are named
-							datasets, and only within the context of a particular sequence. The
-							order is not an inherent relationship between the two datasets. That
-							means the sequence must be named in order for a quad to be created, or
-							it must be part of a larger structures that is named (see <a>named
-								repository</a> below.) </p>
+							integers. I.e., it is isomorphic, as a totally-ordered set, to a subset
+							of the integers. A sequence may be finite, or infinite. If infinite, the
+							set MAY or MAY NOT have a least element, and MAY or MAY NOT have a
+							greatest element. If a sequence has neither least nor greatest element,
+							then it is said to be <dfn>bi-infinite</dfn>.</p>
+						<p>We define a number of syntactic operations on <a>data sequences</a> as
+							follows. Let DSQ be a <a>data sequence</a>. </p>
+						<ul>
+							<li>If DST is an element of DSQ, then <dfn>isMemberOf</dfn>(DST, DSQ) is
+								@@@true; otherwise, it is false.</li>
+							<li>If DST and DST' are two elements of DSQ, then
+								<dfn>previousTo</dfn>(DST, DST'; DSQ) is defined; otherwise it is
+								undefined. It has the value @@@true if DST &lt; DST' in the context
+								of DSQ, and has the value @@@false if DST &gt;= DST' in the context
+								of DSQ. </li>
+							<li>If <a>previousTo</a>(DST, DST'; DSQ), then <dfn>follows</dfn>(DST,
+								DST'; DSQ) is defined; otherwise it is undefined. It has the value
+								@@@true if DST &gt; DST' in the context of DSQ, and has the value
+								@@@false if DST &lt;= DST' in the context of DSQ. </li>
+							<li>If DSQ has a least element then <dfn>hasLeast</dfn>(DSQ) has the
+								value to the Boolean literal <code>'true'^^&lt;@@@&gt;</code>, and
+								otherwise <code>'false'^^&lt;@@@&gt;</code>
+							</li>
+							<li>If DSQ has a greatest element then <dfn>hasGreatest</dfn>(DSQ) has
+								the value <code>'true'^^&lt;@@@&gt;</code>, and otherwise
+									<code>'false'^^&lt;@@@&gt;</code>. </li>
+							<li>If <a>hasLeast</a>(DSQ) is true, then <dfn>least</dfn>(DSQ) is
+								defined, and has the value of the least element of DSQ. Otherwise it
+								is undefined. </li>
+							<li>If <a>hasGreatest</a>(DSQ) is true, then <dfn>greatest</dfn>(DSQ) is
+								defined, and has the value of the greatest element of DSQ. Otherwise
+								it is undefined. </li>
+							<li>If <a>least</a>(DSQ) = DST, then <dfn>isLeastOf</dfn>(DST, DSQ) has
+								value @@@true, and otherwise @@@false. </li>
+							<li>If <a>greatest</a>(DSQ) = DST, then <dfn>isGreatestOf</dfn>(DST,
+								DSQ) has value @@@true, and otherwise @@@false. </li>
+							<li>If <a>isLeastOf</a>(DST, DSG) is false, then
+								<dfn>predecessor</dfn>(DST; DSQ) is defined, and has the value of
+								the unique <a>predecessor</a> of DST in the context of DSQ. I.e., if
+								predecessor(DST; DSQ) = DST', then (in the context of DSQ) DST' &lt;
+								DST, and for any DST'' where DST'' &lt; DST, it holds that DST''
+								&lt;= DST'. </li>
+							<li>If <a>isGreatestOf</a>(DST, DSQ) is false, then
+								<dfn>successor</dfn>(DST; DSQ) is defined, and has the value of the
+								unique <a>successor</a> of DST in the context of DSQ. I.e., if
+								successor(DST; DSQ) = DST', then (in the context of DSQ) DST' &gt;
+								DST, and for any DST'' where DST'' &gt; DST, it holds that DST''
+								&gt;= DST'. </li>
+							<li></li>
+						</ul>
+						<p class="ednote">Add to table of structural inferences: rdfsq:isMemberOf,
+							rdfsq:previousTo, rdfsq:follows, rdfsq:hasLeast, rdfsq:hasGreatest,
+							rdfsq:least, rdfsq:greatest, rdfsq:isLeastOf, rdfsq:isGreatestOf,
+							rdfsq:predecessor, rdfsq:successor, These relationships can be inferred,
+							but only within the context of a particular sequence. The order is not
+							an inherent relationship between the two data structures. That means
+							that if this information is materialized, it must be done, in a number
+							of cases, as a quad, to indicate the context in which it holds. The
+							graph name in the quad may or may not "denote" the sequence, depending
+							on the semantics that is in play. The sequence does not need to be named
+							explicitly, but can be indicated by a blank node, (again, provided that
+							makes sense within the active semantics). If the sequence is a named
+							sequence, then whether it is appropriate to use that name to materialize
+							such statements depends on the active semantics.</p>
 					</section>
 					<section id="def-data-structures">
 						<h4>RDF Data Structures</h4>
 						<p>An <dfn>RDF Data Structure</dfn> is a collection of <a>unnamed or named
-								datasets</a> comprised of: </p>
+								data structures</a> comprised of: </p>
 						<ul>
-							<li>a distinguished <a>unnamed or named dataset</a>, called the
+							<li>an optional distinguished <a>data structure</a>, called the
 									<dfn>unordered component</dfn> of the data structure.</li>
-							<li>a <a>data sequence</a>, called the <dfn>ordered component</dfn> of
-								the data structure. </li>
+							<li>an optional <a>data sequence</a>, called the <dfn>ordered
+									component</dfn> of the data structure. </li>
+						</ul>
+						<p>The function <dfn>Unordered</dfn> is defined on all <a>data
+								structures</a> that have an unordered component, and has the value
+							of the unordered component; otherwise, it is undefined. If Unordered(DS)
+							= DS, then we say the data structure is an <dfn>unordered data
+								structure</dfn>. </p>
+						<p>The function <dfn>Ordered</dfn> is defined on all <a>data structures</a>
+							that have an ordered component, and its value is the ordered component;
+							otherwise it is undefined. If Ordered(DSO = DS, then we say the data
+							structure is a <dfn>fully-ordered data structure</dfn>.</p>
+					</section>
+					<section id="def-k-th-data-structure">
+						<h4>k-th Order RDF Data Structure</h4>
+						<p>A <dfn
+								data-lt="k-th Order RDF Data Structures|k-th Order Data Structure|k-th Order Data Structures|Order Data Structure|Order Data Structures"
+								>k-th Order RDF Data Structure</dfn> is a <a>data structure</a> DS
+							satisfying the following. Let DS be the k-th order data structure. </p>
+						<ul>
+							<li>If DS has an unordered component, it is a collection of (k-1)-th
+									<a>order data structures</a> composed of: <ul>
+									<li> a distinguished (k-1)-th <a>order data structure</a>,
+										called the <dfn>default component</dfn> of the data
+										structure, denoted <dfn>Default</dfn>(DS) or equivalently
+										Default(Unordered(DS)). </li>
+									<li> zero or many named (k-1)-th <a>order data structures</a>.
+										The set of names is denoted <dfn>structureNames</dfn>(DS) or
+										equivalently structureNames(Unordered(DS)) </li>
+								</ul>
+							</li>
+							<li>The elements of its ordered component, Ordered(DS), are k-th order
+									<a>data structures</a>.</li>
 						</ul>
 					</section>
 				</section>
@@ -525,10 +605,10 @@
 						<p class="ednote">Needs more explanation, examples: To use a second-order
 								<a>repository</a> to emulate a <a>Graph Store</a>, the input for
 							query and update operations would have to be limited to some "current
-								<a>version</a>", and the <a>unordered dataset</a> of the repository 
-							would be empty. The
-							execution of an <a>Update operation</a> would move the "current
-							<a>version</a> pointer" to the <a>succeeding version</a>. </p>
+								<a>version</a>", and the <a>unordered dataset</a> of the repository
+							would be empty. The execution of an <a>Update operation</a> would move
+							the "current <a>version</a> pointer" to the <a>succeeding version</a>.
+						</p>
 					</section>
 					<section id="def-named-kth-order-repository">
 						<h4>Named k-th Order RDF Repository</h4>
@@ -548,12 +628,11 @@
 							provenance entailment regime also includes an additional property,
 								<code>repo:isInitialVersionOf</code>, with object being the name of
 							the repository. A new namespace (prefix "repo") needs to be defined.
-							These properties can be used to define operations on <a>data sequences</a> 
-							and <a>data structures</a> that
-							extract parts of the sequence 
-							(e.g. foot(initial version), and subsequences related to
-							that, such as the first 10 versions) that are monotonic relative to
-							update operations. </p>
+							These properties can be used to define operations on <a>data
+								sequences</a> and <a>data structures</a> that extract parts of the
+							sequence (e.g. foot(initial version), and subsequences related to that,
+							such as the first 10 versions) that are monotonic relative to update
+							operations. </p>
 						<p class="ednote">To be clarified in the section on the extension of Eval to
 							repositories and named repositories: a "repository structure entailment
 							regime" could be defined as an extension of the monotonic provenance
@@ -562,10 +641,10 @@
 							regarding the terminal version, using
 								<code>repo:isTerminalVersion</code> and
 								<code>repo:isTerminalVersionOf</code>. These properties could be
-							used as the basis for basic operations on <a>data sequences</a>
-							and <a>data structures</a> that
-							extract parts of the sequence, e.g. head, tail and subsequences related
-							to these) that are nonmonotonic relative to update operations). </p>
+							used as the basis for basic operations on <a>data sequences</a> and
+								<a>data structures</a> that extract parts of the sequence, e.g.
+							head, tail and subsequences related to these) that are nonmonotonic
+							relative to update operations). </p>
 					</section>
 				</section>
 				<section id="def-stores">
@@ -626,21 +705,6 @@
 				</section>
 				<section id="def-streams">
 					<h3>Streams</h3>
-					<section id="def-k-th-order-sequential-dataset">
-						<h4><dfn
-								data-lt="k-th Order Sequential RDF Datasets|sequential dataset|sequential datasets"
-								>k-th Order Sequential RDF Dataset</dfn></h4>
-						<p>A k-th Order Sequential RDF Dataset consists of </p>
-						<ul>
-							<li>a distinguished (k-1)-th order <a>dataset</a>, called the
-									<dfn>default dataset of the sequential dataset</dfn></li>
-							<li>a sequence (i.e. totally-ordered set) of <a>k-th order datasets</a>,
-								called the <dfn>sequential component of the sequential
-								dataset</dfn>. </li>
-						</ul>
-						<p class="ednote">We need this type to define the semantics of windowed
-							queries on RDF Streams. The name is not ideal. </p>
-					</section>
 				</section>
 				<!--
 		<section id="def-term-segment">
@@ -1476,17 +1540,17 @@ _:b103{
 						using basic operations:</p>
 					<p>R<sub>FHIR</sub> = Revise(D<sub>3,FHIR</sub>, Revise(D<sub>2,FHIR</sub>,
 							Revise(D<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
-					<p> Since the ordered component of a repository may be lazily contructed, 
-						the repository could be transmitted as a sequence of documents, one for the unordered
-						dataset and one for each of the elements of the ordered component of the
-						repository, transmitted as they become available. </p>
+					<p> Since the ordered component of a repository may be lazily contructed, the
+						repository could be transmitted as a sequence of documents, one for the
+						unordered dataset and one for each of the elements of the ordered component
+						of the repository, transmitted as they become available. </p>
 				</aside>
 			</section>
 			<section id="general-stream-example">
 				<h3>General RDF Stream Example</h3>
 				<aside class="example" id="prov-dataset" title="FHIR Provenance in an RDF Dataset">
-					We consider a more general RDF Stream example, showing a typical case when
-					sets of statements have multiple temporal characteristics. We construct a set of
+					We consider a more general RDF Stream example, showing a typical case when sets
+					of statements have multiple temporal characteristics. We construct a set of
 					named graphs <p>NG<sub>i, FHIR</sub> = Graph(nb<sub>i</sub>, G<sub>i,
 						FHIR</sub>)</p> where <p>nb<sub>1</sub> = _:b0, nb<sub>2</sub> = _:b3,
 							nb<sub>3</sub> = _:b6 </p> and we express some provenance metadata using
