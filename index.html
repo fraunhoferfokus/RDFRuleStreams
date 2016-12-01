@@ -382,19 +382,20 @@
 						that is defined inductively as follows.</p>
 					<ul>
 						<li>A <dfn>zeroth-order static data structure</dfn> is an RDF Graph. </li>
-						<li>A (k+1)-th order static data structure is a collection of k-th order
-							data structures consisting of: <ul>
-								<li>an optional distinguished k-th order <a>data structure</a>,
-									called the <dfn>default part</dfn> of the static data structure. </li>
+						<li>A (k+1)-th order static data structure is a collection of data
+							structures of k-th order or less consisting of: <ul>
+								<li>an optional distinguished <a>data structure</a>, called the
+										<dfn>default part</dfn> of the static data structure, of
+									order k or less. </li>
 								<li>one or more <dfn data-lt="named k-th order data structure">named
-										k-th order data structures</dfn>, that being an ordered pair
-										[n<sub>i</sub>, DS<sub>i</sub>} where n<sub>i</sub> is the
-									name of the named data structure and k-th order data structure
-										DS<sub>i</sub> is the content of the named data structure.
-									The names of the named data structures are unique within the
-									static data structure. The data structure consisting of only
-									these named data structures is called the <dfn>named part</dfn>
-									of the data structure. </li>
+										k-th order data structures</dfn>, that being an ordered
+									tuple [n<sub>i</sub>, DS<sub>i</sub>}, k] where n<sub>i</sub> is
+									the name of the named data structure and data structure
+										DS<sub>i</sub>, of order k or less, is the content of the
+									named data structure. The names of the named data structures are
+									unique within the static data structure. The data structure
+									consisting of only these named data structures is called the
+										<dfn>named part</dfn> of the data structure. </li>
 							</ul>
 						</li>
 					</ul>
@@ -402,10 +403,10 @@
 						and is equal to its default part.</p>
 					<p>A named graph is a first-order <a>static data structure</a>. It has no
 						default part and is equal to its named part.</p>
-					<p>An RDF dataset is either a zeroth- or first-order <a>static data
-							structure</a>. It always has a default part, its default graph, which
-						may be the empty graph. If it contains at least one named graph, then it has
-						a named part and its order is 1.</p>
+					<p>An RDF dataset, as defined in [[!RDF-Concepts]] is either a zeroth- or
+						first-order <a>static data structure</a>. It always has a default part, its
+						default graph, which may be the empty graph. If it contains at least one
+						named graph, then it has a named part and its order is 1.</p>
 					<p>We define a number of syntactic operations on <a>static data structures</a>
 						as follows. Let DS be a <a>static data structure</a> and E be an arbitrary
 						entity. </p>
@@ -427,7 +428,8 @@
 							the named data structures in DS; otherwise, its value is the empty
 							set.</li>
 						<li>Every static data structure DS has a well-defined order, a non-negative
-							integer, and this is the value of the function <dfn>order</dfn>(DS). </li>
+							integer, and this is the value of the function
+							<dfn>order</dfn>(DS).</li>
 						<li><dfn>isNamed</dfn>(DS) is true if DS is a <a>named data structure</a>;
 							otherwise, it is false. In this case, the cardinality of <a>names</a> is
 							1.</li>
@@ -437,6 +439,17 @@
 							as the content of the named data structure in DS having the name n;
 							otherwise, it is undefined. If <a>isNamed</a>(DS) is true, then
 							content(DS) = content(name(DS), DS).</li>
+						<li><dfn>nameMap(DS)</dfn> is the function defined on names(DS) that maps name to
+							content(name, DS).</li>
+						<li>A static data structure DS with order k &gt; 0 is uniquely determined by
+							the following properties: default(DS), namesDS), and the value of
+							content(name, DS) for each name in names(DS). Therefore we may define a
+							constructor that takes this set of properties as input parameters and
+							returns the corresponding static data structure. Let this constructor be
+							called <dfn>Static<sub>k</sub></dfn> with domain DS<sub>k-1</sub> x
+								2<sup>Names</sup> x PartialFunctions(Names => DS<sub>k-1</sub>)
+							where DS<sub>k-1</sub> is the set of data structures of order k-1 or
+							less.</li>
 					</ul>
 				</section>
 				<section id="def-kth-order-dataset">
@@ -446,22 +459,11 @@
 							>k-th Order RDF Dataset</dfn> is a <a>k-th order static data
 							structure</a> DS with the following properties. </p>
 					<ul>
-						<li>If k &gt; 0, then <a>default</a>(DS) is a (k-1)-th <a>order static data
-								structure</a>.</li>
-						<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is a (k-1)-th
-								<a>order static data structure</a>.</li>
+						<li>If k &gt; 0, then <a>default</a>(DS) is a <a>data set</a> of order k-1
+							or less.</li>
+						<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is a <a>data
+								set</a> of order k-1 or less.</li>
 					</ul>
-					<!--
-						defined inductively as follows. </p>
-					<p> A Zeroth-Order RDF Dataset is an RDF Graph. </p>
-					<p>For k = 0, 1, ... , a (k+1)-th Order RDF Dataset is a collection of k-th
-						Order RDF Datasets composed of a distinguished k-th Order RDF Dataset,
-						called the <dfn data-lt="default datasets">default dataset</dfn>, and a set
-						of <a>Named k-th Order RDF Datasets</a>. The names of the k-th Order
-						Datasets are unique within the k+1-th Order Dataset. The set of <a>k-th
-							order dataset</a> names of a k+1-th order dataset D is denoted by
-						datasetNames(D). </p>
-						-->
 					<p class="note">An RDF Graph is a zeroth-order RDF dataset.</p>
 					<p class="note"> A first-Order RDF Dataset is an RDF Dataset according to the
 						definition in [[!RDF11-Concepts]]. </p>
@@ -1100,12 +1102,11 @@
 					<p>where union between <a>graphs</a> is defined as set-union of <a>triples</a>
 						in those <a>graphs</a>.</p>
 					<p>The Dataset-UNION operation constructs a new <a>RDF 1.1 Dataset</a> from two
-						existing (first-order) <a>RDF 1.1 Datasets</a> by forming the union of the
-							<a>default graphs</a>, and taking the union of the sets of <a>named
-							graphs</a>, with the exception that if the sets of <a>graph names</a> of
-						the two <a>RDF 1.1 datasets</a> have a non-empty intersection, the
-							<a>graphs</a> with names in that intersection must be combined by set
-						union. </p>
+						existing <a>RDF 1.1 Datasets</a> by forming the union of the <a>default
+							graphs</a>, and taking the union of the sets of <a>named graphs</a>,
+						with the exception that if the sets of <a>graph names</a> of the two <a>RDF
+							1.1 datasets</a> have a non-empty intersection, the <a>graphs</a> with
+						names in that intersection must be combined by set union. </p>
 					<p> We extend the Dataset-UNION operation to <a>k-th Order RDF Datasets</a>.
 						Also, the names are extended from IRIs to also allow <a>blank node</a>
 						names. </p>
@@ -1115,38 +1116,23 @@
 					</ul>
 					<p>The extended semantics of <a>Dataset-UNION</a> is defined by cases as
 						follows.</p>
-					<p>In the case that both arguments are zeroth-order <a>datasets</a>, i.e.,
-							<a>RDF Graphs</a>, then the result is the union of the sets of
-							<a>triples</a> in the two <a>graphs</a>. </p>
-					<p>In the case that both arguments, DSP and DSP', are k+1-th order
-							<a>datasets</a>, let DSP = {DSC} ∪ {(name<sub>i</sub>, DSC<sub>i</sub>)
-						| 1 ≤ i ≤ n} and datasetNames(DSP) = { name<sub>i</sub> | 1 ≤ i ≤ n}, and
-						similarly for DSP', where DSC and DSC<sub>i</sub> are <a>k-th Order RDF
-							Datasets</a>, and name and name<sub>i</sub> are IRIs or blank nodes (I ∪
-						RDF-B). Then</p>
-					<p> Dataset-UNION(DSP, DSP') = Dataset-UNION(DSC , DSC') ∪ {(iri, DS) | iri in
-						datasetNames(DSP) ∪ datasetNames(DSP')}</p>
-					<p>and DS defined as </p>
 					<ul>
-						<li>DSC<sub>i</sub> for iri = iri<sub>i</sub> such that iri<sub>i</sub> in
-							datasetNames(DSP) minus datasetNames(DSP')</li>
-						<li>DSC'<sub>j</sub> for iri = iri'<sub>j</sub> such that iri<sub>j</sub> in
-							datasetNames(DSP') minus datasetNames(DSP)</li>
-						<li>Dataset-UNION(DSC<sub>i</sub> , DSC'<sub>j</sub>) for iri =
-								iri<sub>i</sub> = iri'<sub>j</sub> in datasetNames(DSP) intersect
-							datasetNames(DSP')</li>
+						<li>In the case that both arguments are zeroth-order <a>datasets</a>, i.e.,
+								<a>RDF Graphs</a>, then the result is the union of the sets of
+								<a>triples</a> in the two <a>graphs</a>. </li>
+						<li>If order(DSP) = order(DSP') = k &gt; 0, then <br /> Dataset-UNION(DSP,
+							DSP') = Static<sub>k</sub>( Dataset-UNION(default(DSP), default(DSP')),
+							names(DSP) ∪ names(DSP'), result-nameMap ) <br /> where result-nameMap =
+							<br /> { name = > content(name, DSP)| name in names(DSP) - names(DSP')}
+							∪ <br /> { name = > content(name, DSP')| name in names(DSP') -
+							names(DSP)} ∪ <br /> { name = > Dataset-UNION( content(name, DSP),
+							content(name, DSP'))| name in names(DSP) &amp; names(DSP')} </li>
+						<li>If order(DSP') &lt; order(DSP) = k, then <br /> Dataset-UNION(DSP, DSP')
+							= Dataset-UNION(DSP', DSP) = Static<sub>k</sub>(
+							Dataset-UNION(default(DSP), DSP'), names(DSP) , result-nameMap ) <br />
+							where result-nameMap = { name = > content(name, DSP)| name in
+							names(DSP)} </li>
 					</ul>
-					<p class="ednote">This has to be rewritten because the new definition of dataset
-						does not permit this sort of manipulation of the order. In the case that k
-						and k' are different, let k'' = max(k, k'). Then Dataset-UNION(DS, DS') =
-						Dataset-UNION(Dataset-ELEVATE(DS, k''), Dataset-ELEVATE(DS', k'')). Define
-						the basic operation Dataset-ELEVATE to lift a k'-th order <a>dataset</a> to
-						a k-th order <a>dataset</a>, with k' &lt;= k. In the case that k' &lt; k,
-						then it will be embedded in the <a>default dataset</a>. The definition can
-						be recursive, with base case of k = k' + 1, and the input <a>dataset</a> is
-						the <a>default dataset</a> of the output, and the output contains no
-							<a>named datasets</a>. When k=k', then the operation returns the input
-							<a>dataset</a>. </p>
 					<p class="ednote"> It is possible to informally apply the Dataset-UNION
 						operation to pairs of <a>repositories</a> or <a>stores</a> by first applying
 						a forgetful functor that retains all the versions but forgets the order
@@ -1180,8 +1166,8 @@
 					<p>OpInsertData(GS, <em>QuadPattern</em>) = Dataset-UNION(GS,
 							Dataset(<em>QuadPattern</em>,{},GS,GS))</p>
 					<p>where {} is the empty solution mapping,</p>
-					<p> GS is an (first-order) <a>RDF dataset</a>, and <em>QuadPattern</em> is a
-						ground quad pattern. </p>
+					<p> GS is an <a>RDF 1.1 dataset</a>, and <em>QuadPattern</em> is a ground quad
+						pattern. </p>
 					<p>The Insert Data operation constructs a new RDF Dataset from an existing RDF
 						Dataset by adding triples and quads to it as expressed in the ground
 							<em>QuadPattern</em>. Note that Insert Data is functional in that it
@@ -1227,7 +1213,7 @@
 						the names are extended from IRIs to also allow blank node names. </p>
 					<ul>
 						<li>On the domain <a>k-th Order RDF Dataset</a> x I ∪ RDF-B, the range is
-								<a>k-th Order RDF Dataset</a>.</li>
+								<a>k-th Order RDF, Dataset</a>.</li>
 					</ul>
 					<p>The extended semantics of <a>OpCreate</a> is defined as follows.</p>
 					<p>Let DSP = {DSC} ∪ {(name<sub>i</sub>, DSC<sub>i</sub>) | 1 ≤ i ≤ n} and
@@ -1236,6 +1222,13 @@
 						otherwise, OpCreate(DSP, name) = DSP</p>
 					<p> where DSC and DSC are <a>k-th Order RDF Datasets</a>, and name and
 							name<sub>i</sub> are IRIs or blank nodes (I ∪ RDF-B). </p>
+					<p>If name is in name(DS), and k = order(DS), then OpCreate(DS, name, k) =
+						DS.</p>
+					<p>If k &gt; order(DS), then OpCreate(DS, name, k) = Static<sub>k</sub>(DS,
+						{name}, {name => {}})</p>
+					<p>If k = order(DS) and name is not in name(DS), then OpCreate(DS, name, k) =
+							Static<sub>k</sub>(default(DS), names(DS) ∪ {name}, nameMap(DS) ∪ {name
+						=> {}}). </p>
 				</section>
 				<section>
 					<h4>Other Update Operations</h4>
