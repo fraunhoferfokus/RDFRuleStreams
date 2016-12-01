@@ -763,14 +763,11 @@
 						<p>Using the store history, we can form the "union" of histories of
 							repositories that are in the store, because the relative order of
 							revisions of these repositories has been recorded in the history of the
-							store.<br/>
-							Let R<sub>i</sub> = content(name<sub>i</sub>, static(S)), and
-							 R<sub>j</sub> = content(name<sub>j</sub>, static(S)), for some
-							name<sub>i</sub> and name<sub>j</sub> in names(S). Then
-							<br/>
-							Union( Dynamic(R<sub>i</sub>), Dynamic(R<sub>j</sub>; S) = 
-							Map( Restrict( Dynamic( S ), {name<sub>i</sub>, name<sub>j</sub>} ), content)
-						</p>
+							store.<br /> Let R<sub>i</sub> = content(name<sub>i</sub>, static(S)),
+							and R<sub>j</sub> = content(name<sub>j</sub>, static(S)), for some
+								name<sub>i</sub> and name<sub>j</sub> in names(S). Then <br />
+							Union( Dynamic(R<sub>i</sub>), Dynamic(R<sub>j</sub>; S) = Map(
+							Restrict( Dynamic( S ), {name<sub>i</sub>, name<sub>j</sub>} ), content) </p>
 						<p class="ednote">The intended semantics, under any entailment regime, of a
 							k+1-th Order <a>RDF Store</a> is derived from that of the corresponding
 							k+1-th Order RDF Repository, supplemented by that of its member k-th
@@ -1054,7 +1051,7 @@
 						<li>data structures with solution mappings as the fundamental type
 							(structured results)</li>
 					</ul>
-					<p> The semantics of eval are based on matching the pattern to the ordered part
+					<p> The semantics of eval are based on matching the pattern to the dynamic part
 						of the data structure, with the static part unioned into every element, to
 						obtain the dynamic part of the structured result, and also matching the same
 						pattern to the static part of the data structure to get the static part of
