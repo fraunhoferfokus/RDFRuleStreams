@@ -625,8 +625,8 @@
 						<h4>k-th Order RDF Repositories</h4>
 						<p>A <dfn
 								data-lt="k-th Order RDF Repositories|k-th Order Repository|k-th Order Repositories|RDF Repository|RDF Repositories|repository|repositories"
-								>k-th Order RDF Repository</dfn> is an <a>RDF data structure</a>
-							that is defined by cases: </p>
+								>k-th Order RDF Repository</dfn> is a special case of k-th order
+								<a>RDF data structure</a> that is defined by cases: </p>
 						<ol>
 							<li>a zeroth Order RDF Repository is an RDF Graph. </li>
 							<li>k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>k-th order
@@ -638,9 +638,9 @@
 								<a>named datasets</a>.</p>
 						<p>Each element of the dynamic part is called a <dfn>version</dfn> of the
 							repository. </p>
-						<p>We say a version U is a <dfn>previous version</dfn> of version V in the repository R
-							if <a>previousOf</a>(U, V; Dynamic(R)), and similarly V is called a
-								<dfn>following version</dfn> of U in the repository.</p>
+						<p>We say a version U is a <dfn>previous version</dfn> of version V in the
+							repository R if <a>previousOf</a>(U, V; Dynamic(R)), and similarly V is
+							called a <dfn>following version</dfn> of U in the repository.</p>
 						<p>If U is the <a>predecessor</a> of version V then U is called the
 								<dfn>preceding version</dfn> of V (V is the <dfn>succeeding
 								version</dfn> of U) in the context of the repository.</p>
@@ -737,19 +737,40 @@
 						<h4>k-th Order RDF Store</h4>
 						<p>A <dfn
 								data-lt="k-th Order RDF Stores|k-th Order Store|k-th Order Stores|RDF Store|RDF Stores|Store|Stores"
-								>k-th Order RDF Store</dfn> is defined by cases: </p>
+								>k-th Order RDF Store</dfn> is a special case of <a>k-th order data
+								structure</a> defined by cases: </p>
 						<ol>
 							<li>A zeroth Order RDF Store is an RDF Graph. </li>
-							<li>For k=0, 1, ..., a k+1-th Order RDF Store is a k+1-th Order RDF
-								Repository whose component k-th Order RDF Datasets have the
-								additionl structure of RDF Repositories. The history of each member
-								k-th Order RDF Repository is a restriction of the RDF Store history
-								to that RDF Repository. </li>
+							<li> A (k+1)-th order RDF Store, k = 0, 1, ..., has a static part whose
+								named part consists of named k-th order repositories,
+								<!--  if name is in names(Static(S))
+								      then isRepository( content(name, Static(S)) ) = true
+								-->
+								and a dynamic part such that the dynamic part of each named
+								repository in the static part of the store is a restriction of the
+								dynamic part of the store to that repository. <br /> for each name
+								in names(Static(S)), let R = content(name, Static(S)). Then
+								Restrict( Dynamic(S), name) = Dynamic( R ) </li>
+							<li>Further the dynamic part (history) of the store is a "named union"
+								in some sense of the dynamic parts (histories) of the named
+								repositories in the static part of the store.<br /> isNamedUnionOf(
+								Dynamic(S), {Dynamic(R<sub>i</sub>)}<sub>i = ...</sub> ) </li>
 						</ol>
-						<p class="ednote">We need to define a restriction of the history of a k+1-th
-							Order RDF Repository to a member k-th Order RDF Repository. In
-							particular, we need to take care to remove adjacent versions that have
-							identical content. </p>
+						<p class="ednote">We need to define "restriction", with particular care to
+							remove adjacent versions that have identical content. </p>
+						<p class="ednote">We need to also define "named union". This definition will
+							make use of the definition of "restriction". </p>
+						<p>Using the store history, we can form the "union" of histories of
+							repositories that are in the store, because the relative order of
+							revisions of these repositories has been recorded in the history of the
+							store.<br/>
+							Let R<sub>i</sub> = content(name<sub>i</sub>, static(S)), and
+							 R<sub>j</sub> = content(name<sub>j</sub>, static(S)), for some
+							name<sub>i</sub> and name<sub>j</sub> in names(S). Then
+							<br/>
+							Union( Dynamic(R<sub>i</sub>), Dynamic(R<sub>j</sub>; S) = 
+							Map( Restrict( Dynamic( S ), {name<sub>i</sub>, name<sub>j</sub>} ), content)
+						</p>
 						<p class="ednote">The intended semantics, under any entailment regime, of a
 							k+1-th Order <a>RDF Store</a> is derived from that of the corresponding
 							k+1-th Order RDF Repository, supplemented by that of its member k-th
