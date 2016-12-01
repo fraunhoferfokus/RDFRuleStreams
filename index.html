@@ -1136,16 +1136,17 @@
 								iri<sub>i</sub> = iri'<sub>j</sub> in datasetNames(DSP) intersect
 							datasetNames(DSP')</li>
 					</ul>
-					<p>In the case that k and k' are different, let k'' = max(k, k'). Then
-						Dataset-UNION(DS, DS') = Dataset-UNION(Dataset-ELEVATE(DS, k''),
-						Dataset-ELEVATE(DS', k'')). </p>
-					<p class="ednote">Define the basic operation Dataset-ELEVATE to lift a k'-th
-						order <a>dataset</a> to a k-th order <a>dataset</a>, with k' &lt;= k. In the
-						case that k' &lt; k, then it will be embedded in the <a>default dataset</a>.
-						The definition can be recursive, with base case of k = k' + 1, and the input
-							<a>dataset</a> is the <a>default dataset</a> of the output, and the
-						output contains no <a>named datasets</a>. When k=k', then the operation
-						returns the input <a>dataset</a>. </p>
+					<p class="ednote">This has to be rewritten because the new definition of dataset
+						does not permit this sort of manipulation of the order. In the case that k
+						and k' are different, let k'' = max(k, k'). Then Dataset-UNION(DS, DS') =
+						Dataset-UNION(Dataset-ELEVATE(DS, k''), Dataset-ELEVATE(DS', k'')). Define
+						the basic operation Dataset-ELEVATE to lift a k'-th order <a>dataset</a> to
+						a k-th order <a>dataset</a>, with k' &lt;= k. In the case that k' &lt; k,
+						then it will be embedded in the <a>default dataset</a>. The definition can
+						be recursive, with base case of k = k' + 1, and the input <a>dataset</a> is
+						the <a>default dataset</a> of the output, and the output contains no
+							<a>named datasets</a>. When k=k', then the operation returns the input
+							<a>dataset</a>. </p>
 					<p class="ednote"> It is possible to informally apply the Dataset-UNION
 						operation to pairs of <a>repositories</a> or <a>stores</a> by first applying
 						a forgetful functor that retains all the versions but forgets the order
@@ -1643,8 +1644,8 @@ _:b103{
 							Revise(D<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
 					<p> Since the dynamic component of a repository may be lazily contructed, the
 						repository could be transmitted as a sequence of documents, one for the
-						static part and one for each of the elements of the dynamic part
-						of the repository, transmitted as they become available. </p>
+						static part and one for each of the elements of the dynamic part of the
+						repository, transmitted as they become available. </p>
 				</aside>
 			</section>
 			<section id="general-stream-example">
