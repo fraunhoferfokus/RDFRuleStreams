@@ -373,12 +373,86 @@
 					<ul>
 						<li>Exactly one <a>default graph</a>.</li>
 						<li>Zero or more <a>named graphs</a>.</li>
-					</ul> We generalize this concept below to accommodate more complex structures. </section>
+					</ul>
+					<p>We generalize this concept below to accommodate more complex structures.</p>
+				</section>
+				<section id="def-k-th-order-static-data-structure">
+					<h4>k-th Order Static RDF Data Structures</h4>
+					<p>A <dfn>k-th order static RDF data structure</dfn> is a <a>data structure</a>
+						that is defined inductively as follows.</p>
+					<ul>
+						<li>A <dfn>zeroth-order static data structure</dfn> is an RDF Graph. </li>
+						<li>A (k+1)-th order static data structure is a collection of k-th order
+							data structures consisting of: <ul>
+								<li>an optional distinguished k-th order <a>data structure</a>,
+									called the <dfn>default part</dfn> of the static data structure. </li>
+								<li>one or more <dfn data-lt="named k-th order data structure">named
+										k-th order data structures</dfn>, that being an ordered pair
+										[n<sub>i</sub>, DS<sub>i</sub>} where n<sub>i</sub> is the
+									name of the named data structure and k-th order data structure
+										DS<sub>i</sub> is the content of the named data structure.
+									The names of the named data structures are unique within the
+									static data structure. The data structure consisting of only
+									these named data structures is called the <dfn>named part</dfn>
+									of the data structure. </li>
+							</ul>
+						</li>
+					</ul>
+					<p>An RDF Graph is the only <a>static data structure</a> that has no named part,
+						and is equal to its default part.</p>
+					<p>A named graph is a first-order <a>static data structure</a>. It has no
+						default part and is equal to its named part.</p>
+					<p>An RDF dataset is either a zeroth- or first-order <a>static data
+							structure</a>. It always has a default part, its default graph, which
+						may be the empty graph. If it contains at least one named graph, then it has
+						a named part and its order is 1.</p>
+					<p>We define a number of syntactic operations on <a>static data structures</a>
+						as follows. Let DS be a <a>static data structure</a> and E be an arbitrary
+						entity. </p>
+					<ul>
+						<li><dfn>isStatic</dfn>(E) is true if E is a <a>static data structure</a>;
+							otherwise it is false.</li>
+						<li><dfn>hasDefault</dfn>(DS) is true if DS has a default part; otherwise,
+							it is false.</li>
+						<li><dfn>hasNamed</dfn>(DS) is true if DS has a named part; otherwise, it is
+							false.</li>
+						<li><dfn>default</dfn>(DS) is defined on all static data structures that
+							have a default part (hasDefault(DS) is true); otherwise it is undefined.
+							When defined, its value is the default part of DS.</li>
+						<li><dfn>named</dfn>(DS) is defined on all static data structures that have
+							a named part (hasNamed(DS) is true); otherwise it is undefined. When
+							defined, its value is the named part of DS.</li>
+						<li><dfn>names</dfn>(DS) is defined on all <a>static data structures</a>. If
+								<a>hasNamed</a>(DS) is true, then its value is the set of names of
+							the named data structures in DS; otherwise, its value is the empty
+							set.</li>
+						<li>Every static data structure DS has a well-defined order, a non-negative
+							integer, and this is the value of the function <dfn>order</dfn>(DS). </li>
+						<li><dfn>isNamed</dfn>(DS) is true if DS is a <a>named data structure</a>;
+							otherwise, it is false. In this case, the cardinality of <a>names</a> is
+							1.</li>
+						<li>If <a>isNamed</a>(DS) is true, then <dfn>name</dfn>(DS) is its
+							name.</li>
+						<li>If n is a member of names(DS), then <dfn>content</dfn>(n, DS) is defined
+							as the content of the named data structure in DS having the name n;
+							otherwise, it is undefined. If <a>isNamed</a>(DS) is true, then
+							content(DS) = content(name(DS), DS).</li>
+					</ul>
+				</section>
 				<section id="def-kth-order-dataset">
 					<h4>k-th order RDF Dataset</h4>
 					<p>A <dfn
 							data-lt="k-th Order RDF Datasets|k-th Order Dataset|k-th Order Datasets|Dataset|Datasets"
-							>k-th Order RDF Dataset</dfn> is defined inductively as follows. </p>
+							>k-th Order RDF Dataset</dfn> is a <a>k-th order static data
+							structure</a> DS with the following properties. </p>
+					<ul>
+						<li>If k &gt; 0, then <a>default</a>(DS) is a (k-1)-th <a>order static data
+								structure</a>.</li>
+						<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is a (k-1)-th
+								<a>order static data structure</a>.</li>
+					</ul>
+					<!--
+						defined inductively as follows. </p>
 					<p> A Zeroth-Order RDF Dataset is an RDF Graph. </p>
 					<p>For k = 0, 1, ... , a (k+1)-th Order RDF Dataset is a collection of k-th
 						Order RDF Datasets composed of a distinguished k-th Order RDF Dataset,
@@ -387,38 +461,46 @@
 						Datasets are unique within the k+1-th Order Dataset. The set of <a>k-th
 							order dataset</a> names of a k+1-th order dataset D is denoted by
 						datasetNames(D). </p>
+						-->
+					<p class="note">An RDF Graph is a zeroth-order RDF dataset.</p>
 					<p class="note"> A first-Order RDF Dataset is an RDF Dataset according to the
 						definition in [[!RDF11-Concepts]]. </p>
 					<p class="note"> Hereafter in this document, "dataset", without modification,
-						means a <a>k-th Order RDF Dataset</a> where k is not specified. When the
-						original concept of RDF Dataset is intended, we use the term "first-order
-						dataset" for clarity. </p>
+						means a <a>k-th Order RDF Dataset</a> for arbitrary k. When the original
+						concept of RDF Dataset is intended, we use the term "RDF 1.1 Dataset" for
+						clarity. </p>
 					<p class="ednote">To be clarified in a separate semantics section: just as there
-						is not a single recommended semantics for RDF Datasets, it is important to
-						be inclusive regarding possible semantics for k-th Order RDF Datasets. An
+						is not a single recommended semantics for RDF 1.1 Datasets, it is important
+						to be inclusive regarding possible semantics for k-th Order RDF Datasets. An
 						important consideration is whether the component Named Datasets lie on a
-						single <a>RDF Surface (sensu Pat Hayes)</a>, i.e. do they share blank nodes.
-					</p>
-				</section>
-				<section id="def-named-kth-order-dataset">
-					<h4>Named k-th order RDF Dataset</h4>
+						single <a>RDF Surface (sensu Pat Hayes)</a>, i.e. do they share blank nodes. </p>
 					<p>A <dfn
 							data-lt="Named k-th Order RDF Datasets|Named Dataset|Named Datasets|Named k-th Order Dataset|Named k-th Order Datasets"
-							>Named k-th Order RDF Dataset</dfn> is an ordered pair [n, D] of an IRI
-						or blank node n that is the <a>k-th Order RDF Dataset</a> name, and <a>k-th
-							Order RDF Dataset</a> D. </p>
-					<p class="note"> Hereafter in this document, <dfn>unnamed or named
-						dataset</dfn>, without modification, means either a <a>k-th Order RDF
-							Dataset</a> or a <a>named k-th Order RDF Dataset</a> where k is not
+							>Named k-th Order RDF Dataset</dfn> is a <a>named static data
+							structure</a>, that is an ordered pair [n, D], whose content D is a
+							<a>k-th order dataset</a>.</p>
+					<p class="note"> Hereafter in this document, <a>named dataset</a>, without
+						modification, means a <a>named k-th Order RDF dataset</a> where k is not
 						specified. </p>
+					<p>We define syntactic operations on <a>datasets</a> as follows. Let E be an
+						arbitrary entity. </p>
+					<ul>
+						<li><dfn>isDataset</dfn>(E) is true if E is a <a>dataset</a>; otherwise it
+							is false.</li>
+					</ul>
+					<p class="ednote">So far there doesn't appear to be a need for other functions
+						on datasets besides this indicator and the functions already defined for
+						static data structures.</p>
+					<p class="ednote">All these functions need to be added to the table of
+						structural inferences.</p>
 				</section>
 				<section id="def-data-sequences-structures">
 					<h3>RDF Data Sequences and Structures</h3>
 					<section id="def-data-sequences">
 						<h4>RDF Data Sequences</h4>
 						<p>An <dfn data-lt="RDF Data Sequences|Data Sequence|Data Sequences">RDF
-								Data Sequence</dfn> is a <a>sequence</a> of <a>unnamed or named data
-								structures</a>.</p>
+								Data Sequence</dfn> is a <a>sequence</a> of <a>data
+							structures</a>.</p>
 						<p>In this document, we use the term <dfn>sequence</dfn> in the sense of a
 							totally-ordered set (in mathematics, called a chain) that can be
 							strictly monotonically mapped onto the integers. I.e., it is isomorphic,
@@ -429,6 +511,8 @@
 						<p>We define a number of syntactic operations on <a>data sequences</a> as
 							follows. Let DSQ be a <a>data sequence</a>. </p>
 						<ul>
+							<li><dfn>isSequence</dfn>(E) is true if E is a <a>data sequence</a>;
+								otherwise it is false.</li>
 							<li>If DST is an element of DSQ, then <dfn>isMemberOf</dfn>(DST, DSQ) is
 								true; otherwise, it is false.</li>
 							<li>If DST and DST' are two elements of DSQ, then
@@ -466,7 +550,6 @@
 								successor(DST; DSQ) = DST', then (in the context of DSQ) DST' &gt;
 								DST, and for any DST'' where DST'' &gt; DST, it holds that DST''
 								&gt;= DST'. </li>
-							<li></li>
 						</ul>
 						<p class="ednote">Add to table of structural inferences: rdfsq:isMemberOf,
 							rdfsq:previousTo, rdfsq:follows, rdfsq:hasLeast, rdfsq:hasGreatest,
@@ -483,60 +566,45 @@
 							sequence, then whether it is appropriate to use that name to materialize
 							such statements depends on the active semantics.</p>
 					</section>
-					<section id="def-static-data-structure">
-						<h4>Static RDF Data Structures</h4>
-						<p>A <dfn>Static RDF Data Structure</dfn> is a <a>data structure</a> that is
-							either an RDF Graph or a collection of <a>data structures</a> comprised
-							of: </p>
+					<section id="def-k-th-order-data-structure">
+						<h4>k-th Order RDF Data Structure</h4>
+						<p>A <dfn
+								data-lt="k-th Order RDF Data Structures|k-th Order Data Structure|k-th Order Data Structures|Data Structure|Data Structures"
+								>k-th Order RDF Data Structure</dfn> is defined by cases as follows. </p>
+						<p>A k-th order RDF data strucutre is a collection of k-th order static data
+							structures </p>
 						<ul>
-							<li>an optional distinguished <a>data structure</a>, called the
-									<dfn>default part</dfn> of the static data structure. </li>
-							<li>a set, possibly empty, of <dfn data-lt="named data structure">named
-									data structures</dfn>, that being an ordered pair
-								[n<sub>i</sub>, DS<sub>i</sub>} where n<sub>i</sub> is the name of
-								the named data structure and data structure DS<sub>i</sub> is the
-								content of the named data structure. This set is called the named
-								part of the data structure, and is optional if the data structure
-								has a default part.</li>
+							<li>The optional static part of DS is a k-th order static data
+								structure.</li>
+							<li>The dynamic part of DS, which is optional if DS has a static part,
+								is a sequence of k-th order static data structures.</li>
 						</ul>
-						<p>We define a number of syntactic operations on <a>static data
-								structures</a> as follows. Let DS be a <a>static data structure</a>. </p>
+						<p>We define a number of syntactic operations on <a>data structures</a> as
+							follows. Let DS be a <a>data structure</a>. </p>
 						<ul>
-							<li><dfn>hasDefault</dfn>(DS) is true if DS has a default part;
-								otherwise, it is false.</li>
-							<li><dfn>hasNamed</dfn>(DS) is true if DS has a named part; otherwise,
+							<li><dfn>isDataStructure</dfn>(E) is true if E is a <a>data
+									structure</a>; otherwise it is false.</li>
+							<li><dfn>hasStatic</dfn>(DS) is true if DS has a static part; otherwise,
 								it is false.</li>
-							<li><dfn>default</dfn>(DS) is defined on all static data structures that
-								have a default part (hasDefault(DS) is true); otherwise it is
-								undefined. When defined, its value is the default part of DS.</li>
-							<li><dfn>named</dfn>(DS) is defined on all static data structures that
-								have a named part (hasNamed(DS) is true); otherwise it is undefined.
-								When defined, its value is the named part of DS.</li>
-							<li><dfn>names</dfn>(DS) is defined on all static data structures that
-								have a named part (hasNamed(DS) is true); otherwise it is undefined.
-								When defined, it is the set of names of the named data structures in
-								DS.</li>
-							<li>If n is a member of names(DS), then <dfn>content(n, DS)</dfn> is
-								defined as the content of the named data structure in DS having the
-								name n; otherwise, it is undefined. </li>
+							<li><dfn>hasDynamic</dfn>(DS) is true if DS has a dynamic part;
+								otherwise, it is false.</li>
+							<li><dfn>static</dfn>(DS) is defined on all data structures that have a
+								static part (hasStatic(DS) is true); otherwise it is undefined. When
+								defined, its value is the static part of DS.</li>
+							<li><dfn>dynamic</dfn>(DS) is defined on all data structures that have a
+								dynamic part (hasDynamic(DS) is true); otherwise it is undefined.
+								When defined, its value is the dynamic part of DS.</li>
 						</ul>
-						<p class="note">When hasNamed(DS) is false, then default(DS) = DS. This
-							situation arises, e.g., when the data structure is an RDF graph.
-							Similarly, when hasDefault(DS) is false, then named(DS) = DS.</p>
-						<p class="ednote">As these definitions stand, a named data structure is
-								<em>note</em> a static data structure.</p>
-					</section>
-					<section id="def-data-structures">
-						<h4>RDF Data Structures</h4>
-						<p>An <dfn>RDF Data Structure</dfn> is either an RDF Graph or a collection
-							of <a>unnamed and/or named data structures</a> comprised of: </p>
-						<ul>
-							<li>an optional <a>static data structure</a>, called the <dfn>static
-									part</dfn> of the data structure. </li>
-							<li>an <a>RDF data sequence</a>, called the <dfn>dynamic part</dfn> of
-								the data structure, that is optional if the data structure has a
-								dynamic part. </li>
-						</ul>
+						<p class="note">If a k-th order <a>data structure</a> has no dynamic part,
+							then its static part is itself (static(DS) = DS). In that case it is a
+							k-th order <a>static data structure</a>, e.g. an RDF graph (k=0) or k-th
+							order <a>dataset</a>.</p>
+						<p class="note">If a data structure DS does not have a static part, then
+							Dynamic(DS) = DS; in this case, the data structure is a <a>data
+								sequence</a>. In particular, it is a sequence of k-th order
+								<a>static data structures</a>. we define this special case of
+								<a>data sequence</a> to be a <dfn>k-th order data
+							sequence</dfn>.</p>
 						<p class="ednote">I have reverted to the terminology "static" and "dynamic"
 							because using "unordered" and "ordered" has a collision with the "order"
 							of the structure. However this terminology is not entirely satisfactory,
@@ -549,48 +617,6 @@
 							particularly relevant in the case of the "store" structure, defined
 							below, whose static part is a collection of repositories. Alternative:
 							"map" and "history"?</p>
-						<p>We define a number of syntactic operations on <a>data structures</a> as
-							follows. Let DS be a <a>data structure</a>. </p>
-						<ul>
-							<li><dfn>hasStatic</dfn>(DS) is true if DS has a static part; otherwise,
-								it is false.</li>
-							<li><dfn>hasDynamic</dfn>(DS) is true if DS has a dynamic part;
-								otherwise, it is false.</li>
-							<li><dfn>static</dfn>(DS) is defined on all data structures that have a
-								static part (hasStatic(DS) is true); otherwise it is undefined. When
-								defined, its value is the static part of DS.</li>
-							<li><dfn>dynamic</dfn>(DS) is defined on all data structures that have a
-								dynamic part (hasDynamic(DS) is true); otherwise it is undefined.
-								When defined, its value is the dynamic part of DS.</li>
-						</ul>
-						<p class="note">If the <a>data structure</a> has no dynamic part, then its
-							static part is itself (static(DS) = DS). In that case it is a <a>static data
-							structure</a>, e.g. an RDF graph.</p>
-
-						<p class="note">If a data structure DS does not have a
-							static part, then Dynamic(DS) = DS; in this case, the data structure is
-							a <a>data sequence</a>.</p>
-					</section>
-					<section id="def-k-th-order-data-structure">
-						<h4>k-th Order RDF Data Structure</h4>
-						<p>A <dfn
-								data-lt="k-th Order RDF Data Structures|k-th Order Data Structure|k-th Order Data Structures|Order Data Structure|Order Data Structures"
-								>k-th Order RDF Data Structure</dfn> is a <a>data structure</a> DS
-							satisfying the following. </p>
-						<ul>
-							<li>If DS has a static part, it is a collection of (k-1)-th <a>order
-									data structures</a> composed of: <ul>
-									<li> a distinguished (k-1)-th <a>order data structure</a>,
-										called the default part of the data structure, denoted
-										Default(DS) or equivalently Default(Static(DS)). </li>
-									<li> zero or many named (k-1)-th <a>order data structures</a>.
-										The set of names is denoted <dfn>structureNames</dfn>(DS) or
-										equivalently structureNames(Static(DS)) </li>
-								</ul>
-							</li>
-							<li>The elements of its dynamic part, Dynamic(DS), are k-th order
-									<a>data structures</a>.</li>
-						</ul>
 					</section>
 				</section>
 				<section id="def-repositories">
@@ -602,20 +628,19 @@
 								>k-th Order RDF Repository</dfn> is an <a>RDF data structure</a>
 							that is defined by cases: </p>
 						<ol>
-							<li>a zeroth Order RDF Repository has an RDF Graph for its static part
-								and the empty sequence for its dynamic part. </li>
+							<li>a zeroth Order RDF Repository is an RDF Graph. </li>
 							<li>k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>k-th order
 									dataset</a> for its static part and a <a>data sequence</a> of
 									<a>named k-th order datasets</a> for its dynamic part. </li>
 						</ol>
 						<p class="note">A k-th Order RDF Repository may be viewed as a k-th Order
 							RDF Dataset with the additional structure of a total order on its
-							component set of <a>named datasets</a>.</p>
+								<a>named datasets</a>.</p>
 						<p>Each element of the dynamic part is called a <dfn>version</dfn> of the
 							repository. </p>
-						<p>We say a version U is a <dfn>previous version</dfn> of version V if U
-							&lt; V in the context of the repository, and V is called a
-								<dfn>following version</dfn> of U.</p>
+						<p>We say a version U is a <dfn>previous version</dfn> of version V in the repository R
+							if <a>previousOf</a>(U, V; Dynamic(R)), and similarly V is called a
+								<dfn>following version</dfn> of U in the repository.</p>
 						<p>If U is the <a>predecessor</a> of version V then U is called the
 								<dfn>preceding version</dfn> of V (V is the <dfn>succeeding
 								version</dfn> of U) in the context of the repository.</p>
@@ -1056,11 +1081,11 @@
 					</ul>
 					<p>where union between <a>graphs</a> is defined as set-union of <a>triples</a>
 						in those <a>graphs</a>.</p>
-					<p>The Dataset-UNION operation constructs a new (first-order) <a>RDF Dataset</a>
-						from two existing (first-order) <a>RDF Datasets</a> by forming the union of
-						the <a>default graphs</a>, and taking the union of the sets of <a>named
+					<p>The Dataset-UNION operation constructs a new <a>RDF 1.1 Dataset</a> from two
+						existing (first-order) <a>RDF 1.1 Datasets</a> by forming the union of the
+							<a>default graphs</a>, and taking the union of the sets of <a>named
 							graphs</a>, with the exception that if the sets of <a>graph names</a> of
-						the two (first-order) <a>RDF datasets</a> have a non-empty intersection, the
+						the two <a>RDF 1.1 datasets</a> have a non-empty intersection, the
 							<a>graphs</a> with names in that intersection must be combined by set
 						union. </p>
 					<p> We extend the Dataset-UNION operation to <a>k-th Order RDF Datasets</a>.
@@ -2105,7 +2130,7 @@ WHERE {
 					<aside class="example" id="match-quad-dataset"
 						title="Matching a QuadPattern Against a k-th Order Dataset">
 						<p>Recall that a <a>QuadPattern</a>, also called a GraphGraphPattern, can
-							match withing named and unnamed graphs, depending on the nature of the
+							match within named and unnamed graphs, depending on the nature of the
 							pattern.</p>
 						<p>If k=0, then application of eval to a dataset and QuadPattern corresponds
 							to matching a QuadPattern against an RDF Graph, as defined in
@@ -2292,7 +2317,7 @@ We write
 	   and a distinguished <a>k-th Order RDF Datasets</a> called the default dataset.
      </p>
 	 <p class="ednote">To define the semantics of Ceval, we need a new datatype for the result, called
-	 <dfn>Structured Result</dfn>, comprised of a distinguished multiset of solution mappings, possibly empty, 
+	 <dfn>Structured Result</dfn>, consisting of a distinguished multiset of solution mappings, possibly empty, 
 	 the default component of the structured result, and a
 	 totally-ordered set of solutions (possibly empty, finite or infinite), the sequential component of the structured result.
 	 </p>
