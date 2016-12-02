@@ -506,9 +506,8 @@
 						<li><dfn>isDataset</dfn>(E) is true if E is a <a>dataset</a>; otherwise it
 							is false.</li>
 					</ul>
-					<p class="note">The constructor <a>Static</a> defined for general
-						static data structures works as well for <a>datasets</a> of arbitrary
-						order.</p>
+					<p class="note">The constructor <a>Static</a> defined for general static data
+						structures works as well for <a>datasets</a> of arbitrary order.</p>
 					<p class="ednote">We need an extension of the content operation to sets of
 						names, but it depends on the extension of Dataset-UNION to k-th order
 						datasets and to sets of arguments. If n is a member of names(DS), then
@@ -865,37 +864,6 @@
 							Order Repositories, possibly augmented (e.g. in the provenance regime)
 							by entailments that link the two. </p>
 					</section>
-					<p class="ednote">Perhaps we don't need recursive stores.</p>
-					<section id="def-kth-order-rdf-recursive-store">
-						<h4>k-th Order RDF Recursive Store</h4>
-						<p>A <dfn
-								data-lt="k-th Order RDF Recursive Stores|k-th Order Recursive Store|k-th Order Recursive Stores|RDF Recursive Store|RDF Recursive Stores|Recursive Store|Recursive Stores"
-								>k-th Order RDF Recursive Store</dfn> is defined by cases: </p>
-						<ol>
-							<li>A zeroth Order RDF Recursive Store is an RDF Graph. </li>
-							<li>For k=0, 1, ..., a k+1-th Order RDF Recursive Store is a k+1-th
-								Order RDF Repository whose component k-th Order RDF Datasets have
-								the additionl structure of RDF Recursive Stores. </li>
-						</ol>
-						<p class="ednote">The intended semantics, under any entailment regime, of a
-							k+1-th Order <a>RDF Recursive Store</a> is derived from that of the
-							corresponding k+1-th Order RDF Store, supplemented by that of its member
-							k-th Order RDF Store, possibly augmented (e.g. in the provenance regime)
-							by entailments that link the two. </p>
-					</section>
-					<section id="def-named-rdf-recursive-store">
-						<h4>Named RDF Recursive Store</h4>
-						<p>A <dfn
-								data-lt="Named RDF Recursive Stores|Named Recursive Store|Named Recursive Stores"
-								>Named RDF Recursive Store</dfn> is an ordered pair [n, S] of an IRI
-							n that is the <a>Store</a> name, and <a>RDF Recursive Store</a> S. </p>
-						<p class="ednote">We do need this type for the components of Recursive
-							Stores. Also at the top level, a Recursive Store, or even the
-							non-recursive version, may be named. The effect is that in the
-							provenance entailment regime there are entailments of the property
-							prov:isSpecializationOf, which require the parent Store to have an
-							identifier. </p>
-					</section>
 				</section>
 				<section id="def-streams">
 					<h3>Streams</h3>
@@ -939,85 +907,6 @@
 								<td><b>Name</b></td>
 								<td><b>Definition</b>
 								</td>
-							</tr>
-							<!-- <tr>
-			    <td>Store</td>
-				<td>structure on a fixed RDF Surface (sensu Pat Hayes).
-				This Surface contains all the RDF Terms that (ever) appear in the Term Segment. 
-				The structure is as a set R of Named Repositories and a default RDF Repository. 
-				Every Store has an open world assumption in that at any point in time we may not know all the 
-				Repositories in it and all the Terms in it.
-				</td>
-			  </tr>              
-			  <tr>
-			    <td>Named RDF Recursive Store</td>
-				<td>ordered pair [n, S] of an IRI n that is the Store name, and Store S.
-				</td>
-			  </tr>   -->
-							<tr>
-								<td>Term Segment (of a Store)</td>
-								<td>mutable (write-only) set of the RDF Terms known at a given time
-									to appear or have appeared in the Named Repositories of the
-									Store (i.e includes terms that might not currently appear in any
-									statement in the current Revision of any RDF Repository
-									currently in the Store) </td>
-							</tr>
-							<tr>
-								<td>version (of a RDF Repository)</td>
-								<td>relationship between the RDF Repository and each of the elements
-									in its sequence of Named RDF Datsets. A subproperty of
-									prov:specializationOf. The "versionOf" relationship can be
-									inferred from a prov:specializationOf, together with
-									participation in a prov:wasRevisionOf relationship with another
-									specialization of the same RDF Repository. Therefore it is not
-									necessary to mint this subproperty. </td>
-							</tr>
-							<tr>
-								<td>RDF Databag</td>
-								<td>structure consisting of an RDF Dataset D and a cardinality
-									mapping from the set of triples and quads in D into positive
-									integers. For an RDF Databag B, the dataset is data[B] and the
-									cardinality mapping is card[B]. </td>
-							</tr>
-							<tr>
-								<td>Named RDF Databag</td>
-								<td>ordered pair [n, B] of an IRI that is the name of the RDF
-									Databag, and RDF Databag B. </td>
-							</tr>
-							<tr>
-								<td>Multirepository</td>
-								<td>like a Repository, but with RDF Databags instead of RDF
-									Datasets. (move to a note) Explanation: The purpose of the
-									additional types which incorporate cardinality is to accommodate
-									a representation of an arbitrary RDF Stream with a "cumulative"
-									strategy (just making this name up on the spot). This strategy
-									is what I am using in the current experimental repository, where
-									each new timestamped graph of the stream is inserted into the
-									repository that holds its representation, and never deleted. The
-									cardinality is needed for the case when the same triple, or
-									quad, appears in more than one element of the stream, which is
-									allowed in the most general RDF stream. This strategy was the
-									best match to the visibility mapping where the default is
-									persistence (if no value is given for run length, then it is
-									assumed to be present from then on, and never deleted). An
-									alternative strategy would be to use a "noncumulataive"
-									strategy, where the repository is "cleared" (without deleting
-									the history) when a new stream element arrives, and the new
-									stream element becomes the repository content. The visibility
-									map that is the best match to this case is where the default is
-									a runlength of 1. This strategy would not need the additional
-									types with cardinality, making the abstract data model more
-									parsimonious. </td>
-							</tr>
-							<tr>
-								<td>Named Multirepository</td>
-								<td>ordered pair [n, M] of an IRI n that is the Multirepository
-									name, and Multirepository M. </td>
-							</tr>
-							<tr>
-								<td>Multistore</td>
-								<td>like a Store, but with Multirepositories instead of
-									Repositories. </td>
 							</tr>
 						</tbody>
 					</table>
@@ -1370,8 +1259,6 @@
 					store, we extend the <a>Apply</a> Operation, defined above for <a>k-th order
 						datasets</a> and Update Operation specifications, to <a>stores</a> and
 					Revise Operation specifications on repositories (only for unnested Revise). </p>
-				<p>The Revise Operation may be further extended to <a>recursive stores</a> and
-					nested Revise Operation Specifications. </p>
 				<p>Application of a Revise operation to a structure without a terminal version is an
 					error. </p>
 			</section>
@@ -2160,8 +2047,8 @@ GRAPH ?g {
 </pre>
 					The abstract algebra expression is <p> IDP<sub>2</sub> = Union( Dataset( ?d,
 							IDP<sub>1</sub> ), IDP<sub>1</sub>) </p> and in general <p>
-							IDP<sub>k+1</sub> = Union( Dataset( ?d, IDP<sub>k</sub> ), IDP<sub>k</sub>)
-					</p>
+							IDP<sub>k+1</sub> = Union( Dataset( ?d, IDP<sub>k</sub> ),
+							IDP<sub>k</sub>) </p>
 				</aside>
 			</section>
 			<section id="query-examples">
@@ -2422,7 +2309,7 @@ We write
 	</aside>
 	 <p  class="ednote">To be moved to the section where Ceval is defined:
 	 Continuous matching is applicable to
-	  <a>Repositories</a>, <a>Stores</a>, <a>Recursive Stores</a>,
+	  <a>Repositories</a>, <a>Stores</a>,
 	   sequences of <a>k-th Order RDF Datasets</a>,
 	   and <a>k-th Order Sequential RDF Datasets</a>, 
 	   which are structures consisting of a sequence of <a>k-th Order RDF Datasets</a>
@@ -2434,7 +2321,7 @@ We write
 	 totally-ordered set of solutions (possibly empty, finite or infinite), the sequential component of the structured result.
 	 </p>
 	 <p class="ednote">
-	 In the case that the first argument is a <a>Repository</a>, <a>Store</a>, or <a>Recursive Store</a>,
+	 In the case that the first argument is a <a>Repository</a>, <a>Store</a>,
 	 the Ceval function takes a pattern as second argument.
 	 </p>
 	 <p class="ednote">
@@ -2604,8 +2491,7 @@ We write
 					<p>The Dataset-UNION basic operation has been extended to apply to arbitrary
 						pairs of higher-order datasets. It has also been extended to apply to pairs
 						where one of the elements is a higher-order dataset and the other is a
-						dynamic data structure (repository, store, recursive store, sequential
-						datasets ). </p>
+						dynamic data structure (repository, store, data sequence ). </p>
 					<p> In all cases, the first step of evaluation is to elevate a static input
 						argument as needed: to the same order (in the case of two higher-order
 						datasets), or in the case of one static and one dynamic structure, to the
@@ -3438,8 +3324,7 @@ _:b0 {dbp:Berlin loc:hasPointTempC "12.5"^^xsd:decimal .}</code></pre>
 						</tr>
 						<tr>
 							<td><a>Repository</a>
-								<a>Store</a>
-								<a>Recursive Store</a></td>
+								<a>Store</a></td>
 							<td>provenance</td>
 							<td>prov:wasRevisionOf</td>
 							<td>Usage </td>
@@ -3447,7 +3332,7 @@ _:b0 {dbp:Berlin loc:hasPointTempC "12.5"^^xsd:decimal .}</code></pre>
 						<tr>
 							<td><a>Repository</a>
 								<a>Store</a>
-								<a>Recursive Store</a></td>
+							</td>
 							<td>provenance</td>
 							<td>repo:isInitialVersion</td>
 							<td>Usage </td>
@@ -3455,28 +3340,28 @@ _:b0 {dbp:Berlin loc:hasPointTempC "12.5"^^xsd:decimal .}</code></pre>
 						<tr>
 							<td><a>Repository</a>
 								<a>Store</a>
-								<a>Recursive Store</a></td>
+							</td>
 							<td>structural</td>
 							<td>repo:isTerminalVersion</td>
 							<td>Usage </td>
 						</tr>
 						<tr>
 							<td><a>Named Repository</a>
-								<a>Named Recursive Store</a></td>
+							</td>
 							<td>provenance</td>
 							<td>prov:isSpecializationOf</td>
 							<td>Usage </td>
 						</tr>
 						<tr>
 							<td><a>Named Repository</a>
-								<a>Named Recursive Store</a></td>
+							</td>
 							<td>provenance</td>
 							<td>repo:isInitialVersionOf</td>
 							<td>Usage </td>
 						</tr>
 						<tr>
 							<td><a>Named Repository</a>
-								<a>Named Recursive Store</a></td>
+							</td>
 							<td>structural</td>
 							<td>repo:isTerminalVersionOf</td>
 							<td>Usage </td>
