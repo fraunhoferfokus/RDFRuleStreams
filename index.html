@@ -316,7 +316,8 @@
 								<td>An RDF graph is a set of RDF triples. </td>
 							</tr>
 							<tr>
-								<td><dfn data-lt="RDF Datasets">RDF dataset</dfn></td>
+								<td><dfn data-lt="RDF Datasets|RDF 1.1 Dataset|RDF 1.1 Datasets">RDF
+										dataset</dfn></td>
 								<td>[[!RDF11-Concepts]] <a
 										href="https://www.w3.org/TR/rdf11-concepts/#section-dataset"
 										>#section-dataset</a>
@@ -378,7 +379,9 @@
 				</section>
 				<section id="def-k-th-order-static-data-structure">
 					<h4>k-th Order Static RDF Data Structures</h4>
-					<p>A <dfn>k-th order static RDF data structure</dfn> is a <a>data structure</a>
+					<p>A <dfn
+							data-lt="k-th order static RDF data structures|k-th order static data structure|k-th order static data structures|static data structure|static data structures"
+							>k-th order static RDF data structure</dfn> is a <a>data structure</a>
 						that is defined inductively as follows.</p>
 					<ul>
 						<li>A <dfn>zeroth-order static data structure</dfn> is an RDF Graph. </li>
@@ -387,15 +390,16 @@
 								<li>an optional distinguished <a>data structure</a>, called the
 										<dfn>default part</dfn> of the static data structure, of
 									order k or less. </li>
-								<li>one or more <dfn data-lt="named k-th order data structure">named
-										k-th order data structures</dfn>, that being an ordered
-									tuple [n<sub>i</sub>, DS<sub>i</sub>}, k] where n<sub>i</sub> is
-									the name of the named data structure and data structure
-										DS<sub>i</sub>, of order k or less, is the content of the
-									named data structure. The names of the named data structures are
-									unique within the static data structure. The data structure
-									consisting of only these named data structures is called the
-										<dfn>named part</dfn> of the data structure. </li>
+								<li>one or more <dfn
+										data-lt="named k-th order data structure|named data structure|named data structures"
+										>named k-th order data structures</dfn>, that being an
+									ordered tuple [n<sub>i</sub>, DS<sub>i</sub>}, k] where
+										n<sub>i</sub> is the name of the named data structure and
+									data structure DS<sub>i</sub>, of order k or less, is the
+									content of the named data structure. The names of the named data
+									structures are unique within the static data structure. The data
+									structure consisting of only these named data structures is
+									called the <dfn>named part</dfn> of the data structure. </li>
 							</ul>
 						</li>
 					</ul>
@@ -439,18 +443,27 @@
 							as the content of the named data structure in DS having the name n;
 							otherwise, it is undefined. If <a>isNamed</a>(DS) is true, then
 							content(DS) = content(name(DS), DS).</li>
-						<li><dfn>nameMap(DS)</dfn> is the function defined on names(DS) that maps name to
-							content(name, DS).</li>
+						<li><dfn>nameMap(DS)</dfn> is the function defined on names(DS) that maps
+							name to content(name, DS).</li>
 						<li>A static data structure DS with order k &gt; 0 is uniquely determined by
 							the following properties: default(DS), namesDS), and the value of
 							content(name, DS) for each name in names(DS). Therefore we may define a
 							constructor that takes this set of properties as input parameters and
 							returns the corresponding static data structure. Let this constructor be
-							called <dfn>Static<sub>k</sub></dfn> with domain DS<sub>k-1</sub> x
-								2<sup>Names</sup> x PartialFunctions(Names => DS<sub>k-1</sub>)
-							where DS<sub>k-1</sub> is the set of data structures of order k-1 or
-							less.</li>
+							called <dfn data-lt="Static">Static<sub>k</sub></dfn> with domain
+								DS<sub>k-1</sub> x 2<sup>Names</sup> x PartialFunctions(Names =>
+								DS<sub>k-1</sub>) where DS<sub>k-1</sub> is the set of data
+							structures of order k-1 or less.</li>
 					</ul>
+					<aside class="example"><p>The constructor <a>Static</a> can be used to
+							(abstractly) create a named data structure as follows.</p>
+						<p>If ND = Static<sub>k</sub>({}, {n}, {n => DS }), then isNamed(ND) is
+							true, names(ND) = {n} and content(n, ND) = DS.</p>
+					</aside>
+					<aside>The concrete syntax for building a static data structure depends on the
+						extension of Update Operations, e.g. the <a>OpInsertData</a> Update
+						Operation, and the extension of the <a>pattern</a> syntax to express k-th
+						order patterns, including k-th order named patterns.</aside>
 				</section>
 				<section id="def-kth-order-dataset">
 					<h4>k-th order RDF Dataset</h4>
@@ -459,18 +472,22 @@
 							>k-th Order RDF Dataset</dfn> is a <a>k-th order static data
 							structure</a> DS with the following properties. </p>
 					<ul>
-						<li>If k &gt; 0, then <a>default</a>(DS) is a <a>data set</a> of order k-1
-							or less.</li>
-						<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is a <a>data
-								set</a> of order k-1 or less.</li>
+						<li>If k &gt; 0, then <a>default</a>(DS) is a <a>dataset</a> of order k-1 or
+							less.</li>
+						<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is a
+								<a>dataset</a> of order k-1 or less.</li>
 					</ul>
-					<p class="note">An RDF Graph is a zeroth-order RDF dataset.</p>
+					<p class="note">Every RDF Graph is a zeroth-order RDF dataset, and every
+						zeroth-order RDF dataset is an RDF Graph.</p>
 					<p class="note"> A first-Order RDF Dataset is an RDF Dataset according to the
-						definition in [[!RDF11-Concepts]]. </p>
+						definition in [[!RDF11-Concepts]]. However not every RDF Dataset, in the
+						sense of [[!RDF11-Concepts]], is a first-order <a>dataset</a>, because it
+						may have zero named graphs. In that case it is a zeroth-order
+						<a>dataset</a>. </p>
 					<p class="note"> Hereafter in this document, "dataset", without modification,
 						means a <a>k-th Order RDF Dataset</a> for arbitrary k. When the original
-						concept of RDF Dataset is intended, we use the term "RDF 1.1 Dataset" for
-						clarity. </p>
+						concept of RDF Dataset is intended, we use the term <a>RDF 1.1 Dataset</a>
+						for clarity. </p>
 					<p class="ednote">To be clarified in a separate semantics section: just as there
 						is not a single recommended semantics for RDF 1.1 Datasets, it is important
 						to be inclusive regarding possible semantics for k-th Order RDF Datasets. An
@@ -478,9 +495,8 @@
 						single <a>RDF Surface (sensu Pat Hayes)</a>, i.e. do they share blank nodes. </p>
 					<p>A <dfn
 							data-lt="Named k-th Order RDF Datasets|Named Dataset|Named Datasets|Named k-th Order Dataset|Named k-th Order Datasets"
-							>Named k-th Order RDF Dataset</dfn> is a <a>named static data
-							structure</a>, that is an ordered pair [n, D], whose content D is a
-							<a>k-th order dataset</a>.</p>
+							>Named k-th Order RDF Dataset</dfn> is a named <a>static data
+							structure</a> whose content is a <a>k-th order dataset</a>.</p>
 					<p class="note"> Hereafter in this document, <a>named dataset</a>, without
 						modification, means a <a>named k-th Order RDF dataset</a> where k is not
 						specified. </p>
@@ -492,7 +508,9 @@
 					</ul>
 					<p class="ednote">So far there doesn't appear to be a need for other functions
 						on datasets besides this indicator and the functions already defined for
-						static data structures.</p>
+						static data structures. The constructor <a>Static</a> defined for general
+						static data structures works as well for <a>datasets</a> of arbitrary
+						order.</p>
 					<p class="ednote">All these functions need to be added to the table of
 						structural inferences.</p>
 				</section>
@@ -552,7 +570,46 @@
 								successor(DST; DSQ) = DST', then (in the context of DSQ) DST' &gt;
 								DST, and for any DST'' where DST'' &gt; DST, it holds that DST''
 								&gt;= DST'. </li>
+							<li>The basic constructor operation <dfn>Cons</dfn> builds sequences by
+								adding an additional element to a sequence with a greatest element.
+								The basic operation analagous to a "head" function is
+									<a>greatest</a>, that returns the greatest element if it exists.
+								We define also the basic operation <dfn>exceptGreatest</dfn>, which
+								is the counterpart to the traditional "tail" function. </li>
+							<li>Square brackets are used in the abstract syntax to define a sequence
+								explicitly, with the greatest element first. </li>
 						</ul>
+						<aside class="example"> In the case that <a>hasGreatest</a>(DSQ) is true,
+							then <p> Cons( greatest(DSQ), exceptGreatest(DSQ) ) = DSQ.</p>
+						</aside>
+						<aside> The empty sequence, [], is also denoted S<sub>0</sub>.</aside>
+						<aside class="example">For any data structure DS, <p>Cons(DS, S<sub>0</sub>)
+								= [DS]</p></aside>
+						<aside>A Graph Store in the sense of [[!SPARQL-Update]] is most closely
+							related, of the <a>data structures</a> considered in this document, to a
+								<a>data sequence</a> where each element is a <a>dataset</a> of first
+							order or less. </aside>
+						<p>In the spirit of [[!SPARQL-Update]], we define the <dfn>Revise</dfn>
+							operation as an explicit operation acting on a <a>terminating data
+								sequence</a> that applies a binary function to the greatest element
+							of the sequence, and to the sequence itself, and <a>Cons</a>es it onto
+							the sequence.</p>
+						<aside class="example">Consider a Graph Store which has been newly
+							initialized as the empty graph <p>GS = Cons({}, S<sub>0</sub>)</p>
+							<p>The application of <a>Revise</a> to this graph store with an
+								OpInsertData operation specification as a lambda expression is
+								expressed as follows. </p>
+							<p>GS' = Revise(GS, (λxy.OpInsertData(P, {}, x, y)) ) <br /> =
+								Cons(OpInsertData(P, {}, greatest(GS), GS), GS) <br /> where P is a
+								ground Quadpattern.</p>
+							<p>An additional update to this graph store to insert data according to
+								another ground quadpattern P' would be expressed as follows.</p>
+							<p>GS'' = Revise(GS', (λxy.OpInsertData(P', {}, x, y)) ) <br /> =
+								Cons(OpInsertData(P', {}, greatest(GS'), GS'), GS').</p>
+							<p>Note that by the definition of OpInsertData in [[!SPARQL-Update]],
+								any blank node appearing in P' that also appears in P must be
+								renamed.</p>
+						</aside>
 						<p class="ednote">Add to table of structural inferences: rdfsq:isMemberOf,
 							rdfsq:previousTo, rdfsq:follows, rdfsq:hasLeast, rdfsq:hasGreatest,
 							rdfsq:least, rdfsq:greatest, rdfsq:isLeastOf, rdfsq:isGreatestOf,
@@ -576,10 +633,11 @@
 						<p>A k-th order RDF data strucutre is a collection of k-th order static data
 							structures </p>
 						<ul>
-							<li>The optional static part of DS is a k-th order static data
-								structure.</li>
-							<li>The dynamic part of DS, which is optional if DS has a static part,
-								is a sequence of k-th order static data structures.</li>
+							<li>The optional <dfn>static part</dfn> of DS is a k-th order static
+								data structure.</li>
+							<li>The <dfn>dynamic part</dfn> of DS, which is optional if DS has a
+								static part, is a sequence of k-th order static data
+								structures.</li>
 						</ul>
 						<p>We define a number of syntactic operations on <a>data structures</a> as
 							follows. Let DS be a <a>data structure</a>. </p>
@@ -590,21 +648,21 @@
 								it is false.</li>
 							<li><dfn>hasDynamic</dfn>(DS) is true if DS has a dynamic part;
 								otherwise, it is false.</li>
-							<li><dfn>static</dfn>(DS) is defined on all data structures that have a
-								static part (hasStatic(DS) is true); otherwise it is undefined. When
-								defined, its value is the static part of DS.</li>
-							<li><dfn>dynamic</dfn>(DS) is defined on all data structures that have a
-								dynamic part (hasDynamic(DS) is true); otherwise it is undefined.
-								When defined, its value is the dynamic part of DS.</li>
+							<li><dfn>staticPart</dfn>(DS) is defined on all data structures that
+								have a static part (hasStatic(DS) is true); otherwise it is
+								undefined. When defined, its value is the static part of DS.</li>
+							<li><dfn>dynamicPart</dfn>(DS) is defined on all data structures that
+								have a dynamic part (hasDynamic(DS) is true); otherwise it is
+								undefined. When defined, its value is the dynamic part of DS.</li>
 						</ul>
 						<p class="note">If a k-th order <a>data structure</a> has no dynamic part,
-							then its static part is itself (static(DS) = DS). In that case it is a
-							k-th order <a>static data structure</a>, e.g. an RDF graph (k=0) or k-th
-							order <a>dataset</a>.</p>
-						<p class="note">If a data structure DS does not have a static part, then
-							Dynamic(DS) = DS; in this case, the data structure is a <a>data
-								sequence</a>. In particular, it is a sequence of k-th order
-								<a>static data structures</a>. we define this special case of
+							then its static part is itself (staticPart(DS) = DS). In that case it is
+							a k-th order <a>static data structure</a>, e.g. an RDF graph (k=0) or
+							k-th order <a>dataset</a>.</p>
+						<p class="note">If a k-th order data structure DS does not have a static
+							part, then dynamicPart(DS) = DS; in this case, the data structure is a
+								<a>data sequence</a>. In particular, it is a sequence of k-th order
+								<a>static data structures</a>. We define this special case of
 								<a>data sequence</a> to be a <dfn>k-th order data
 							sequence</dfn>.</p>
 						<p class="ednote">I have reverted to the terminology "static" and "dynamic"
@@ -627,28 +685,29 @@
 						<h4>k-th Order RDF Repositories</h4>
 						<p>A <dfn
 								data-lt="k-th Order RDF Repositories|k-th Order Repository|k-th Order Repositories|RDF Repository|RDF Repositories|repository|repositories"
-								>k-th Order RDF Repository</dfn> is a special case of k-th order
-								<a>RDF data structure</a> that is defined by cases: </p>
+								>k-th Order RDF Repository</dfn> is a special case of <a>k-th order
+								RDF data structure</a> that is defined by the following cases. </p>
 						<ol>
-							<li>a zeroth Order RDF Repository is an RDF Graph. </li>
-							<li>k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>k-th order
+							<li>A zeroth Order RDF Repository is an RDF Graph. </li>
+							<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>k-th order
 									dataset</a> for its static part and a <a>data sequence</a> of
 									<a>named k-th order datasets</a> for its dynamic part. </li>
 						</ol>
 						<p class="note">A k-th Order RDF Repository may be viewed as a k-th Order
 							RDF Dataset with the additional structure of a total order on its
 								<a>named datasets</a>.</p>
-						<p>Each element of the dynamic part is called a <dfn>version</dfn> of the
-							repository. </p>
+						<p>Each element of the dynamic part of a repository is called a
+								<dfn>version</dfn> of the repository. </p>
 						<p>We say a version U is a <dfn>previous version</dfn> of version V in the
-							repository R if <a>previousOf</a>(U, V; Dynamic(R)), and similarly V is
-							called a <dfn>following version</dfn> of U in the repository.</p>
-						<p>If U is the <a>predecessor</a> of version V then U is called the
-								<dfn>preceding version</dfn> of V (V is the <dfn>succeeding
+							repository R if <a>previousTo</a>(U, V; dynamicPart(R)), and similarly V
+							is called a <dfn>following version</dfn> of U in the context of the
+							repository.</p>
+						<p>If U is the <a>predecessor</a> of version V in the dynamic part of
+							repository R (<a>predecessor</a>(U, V; dynamicPart(R)) ) then U is
+							called the <dfn>preceding version</dfn> of V (V is the <dfn>succeeding
 								version</dfn> of U) in the context of the repository.</p>
-						<p>An <dfn>initial version</dfn> is a version that does not have a previous
-							version. The dynamic part of a repository MAY have an initial
-							version.</p>
+						<p>An <dfn>initial version</dfn> of a repository is a version that does not
+							have a previous version. A repository MAY have an initial version.</p>
 						<p class="note">If the dynamic part of a repositoriy has an initial version,
 							then it is unique, due to the order being total; further, it is a
 							minimal element. </p>
@@ -662,8 +721,8 @@
 							it is unique, due to the order being total, and is a maximal element. </p>
 						<p class="note">Every version that is not the terminal version has a unique
 							succeding version. </p>
-						<p class="note">Because of the requirement for total order in the ordered
-							part, it is not possible to have version structures which branch.</p>
+						<p class="note">Because of the requirement for total order in the dynamic
+							part, version structures do not branch.</p>
 						<p> The dynamic part MAY be finite, semi-infinite, or bi-infinite.</p>
 						<p>The set of version names of a repository R is denoted by
 								<dfn>versionNames</dfn>(R). </p>
@@ -745,18 +804,19 @@
 							<li>A zeroth Order RDF Store is an RDF Graph. </li>
 							<li> A (k+1)-th order RDF Store, k = 0, 1, ..., has a static part whose
 								named part consists of named k-th order repositories,
-								<!--  if name is in names(Static(S))
-								      then isRepository( content(name, Static(S)) ) = true
+								<!--  if name is in names(staticPart(S))
+								      then isRepository( content(name, staticPart(S)) ) = true
 								-->
 								and a dynamic part such that the dynamic part of each named
 								repository in the static part of the store is a restriction of the
 								dynamic part of the store to that repository. <br /> for each name
-								in names(Static(S)), let R = content(name, Static(S)). Then
-								Restrict( Dynamic(S), name) = Dynamic( R ) </li>
+								in names(staticPart(S)), let R = content(name, staticPart(S)). Then
+								Restrict( dynamicPart(S), name) = dynamicPart( R ) </li>
 							<li>Further the dynamic part (history) of the store is a "named union"
 								in some sense of the dynamic parts (histories) of the named
 								repositories in the static part of the store.<br /> isNamedUnionOf(
-								Dynamic(S), {Dynamic(R<sub>i</sub>)}<sub>i = ...</sub> ) </li>
+								dynamicPart(S), {dynamicPart(R<sub>i</sub>)}<sub>i = ...</sub> )
+							</li>
 						</ol>
 						<p class="ednote">We need to define "restriction", with particular care to
 							remove adjacent versions that have identical content. </p>
@@ -765,11 +825,12 @@
 						<p>Using the store history, we can form the "union" of histories of
 							repositories that are in the store, because the relative order of
 							revisions of these repositories has been recorded in the history of the
-							store.<br /> Let R<sub>i</sub> = content(name<sub>i</sub>, static(S)),
-							and R<sub>j</sub> = content(name<sub>j</sub>, static(S)), for some
-								name<sub>i</sub> and name<sub>j</sub> in names(S). Then <br />
-							Union( Dynamic(R<sub>i</sub>), Dynamic(R<sub>j</sub>; S) = Map(
-							Restrict( Dynamic( S ), {name<sub>i</sub>, name<sub>j</sub>} ), content) </p>
+							store.<br /> Let R<sub>i</sub> = content(name<sub>i</sub>,
+							staticPart(S)), and R<sub>j</sub> = content(name<sub>j</sub>,
+							staticPart(S)), for some name<sub>i</sub> and name<sub>j</sub> in
+							names(S). Then <br /> Union( dynamicPart(R<sub>i</sub>),
+								dynamicPart(R<sub>j</sub>; S) = Map( Restrict( dynamicPart( S ),
+								{name<sub>i</sub>, name<sub>j</sub>} ), content) </p>
 						<p class="ednote">The intended semantics, under any entailment regime, of a
 							k+1-th Order <a>RDF Store</a> is derived from that of the corresponding
 							k+1-th Order RDF Repository, supplemented by that of its member k-th
@@ -1182,7 +1243,7 @@
 								Patterns</a>, the range is <a>k-th Order RDF Datasets</a>.</li>
 					</ul>
 					<p>The extended semantics of <a>Insert Data</a> is defined as follows.</p>
-					<p>OpInsertData(DS, <em>k-Pattern</em>) = Dataset-UNION(DS,
+					<p><dfn>OpInsertData</dfn>(DS, <em>k-Pattern</em>) = Dataset-UNION(DS,
 							Dataset(<em>k-Pattern</em>,{},DS,DS))</p>
 					<p>where {} is the empty solution mapping,</p>
 				</section>
@@ -1213,22 +1274,24 @@
 						the names are extended from IRIs to also allow blank node names. </p>
 					<ul>
 						<li>On the domain <a>k-th Order RDF Dataset</a> x I ∪ RDF-B, the range is
-								<a>k-th Order RDF, Dataset</a>.</li>
+							max(k, 1)-th Order <a>datasets</a>.</li>
+						<li>On the domain <a>k-th Order RDF Dataset</a> x I ∪ RDF-B x Int, the range
+							is <a>datasets</a></li>
 					</ul>
 					<p>The extended semantics of <a>OpCreate</a> is defined as follows.</p>
-					<p>Let DSP = {DSC} ∪ {(name<sub>i</sub>, DSC<sub>i</sub>) | 1 ≤ i ≤ n} and
-						datasetNames(DSP) = { name<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
-					<p>OpCreate(DSP, name) = DSP ∪ {(name, {})} if name not in datasetNames(DSP);
-						otherwise, OpCreate(DSP, name) = DSP</p>
-					<p> where DSC and DSC are <a>k-th Order RDF Datasets</a>, and name and
-							name<sub>i</sub> are IRIs or blank nodes (I ∪ RDF-B). </p>
-					<p>If name is in name(DS), and k = order(DS), then OpCreate(DS, name, k) =
-						DS.</p>
-					<p>If k &gt; order(DS), then OpCreate(DS, name, k) = Static<sub>k</sub>(DS,
-						{name}, {name => {}})</p>
-					<p>If k = order(DS) and name is not in name(DS), then OpCreate(DS, name, k) =
-							Static<sub>k</sub>(default(DS), names(DS) ∪ {name}, nameMap(DS) ∪ {name
-						=> {}}). </p>
+					<ul>
+						<li>OpCreate(DS, name) = OpCreate(DS, name, max(order(DS), 1)).</li>
+						<li>If name is in name(DS), and k = order(DS), then OpCreate(DS, name, k) =
+							DS.</li>
+						<li>If k &gt; order(DS), then OpCreate(DS, name, k) = Static<sub>k</sub>(DS,
+							{name}, {name => {}})</li>
+						<li>If k = order(DS) and name is not in name(DS), then OpCreate(DS, name, k)
+							= Static<sub>k</sub>(default(DS), names(DS) ∪ {name}, nameMap(DS) ∪
+							{name => {}}). </li>
+						<li>If k &lt; order(DS) = k', then OpCreate(DS, name, k) =
+								Static<sub>k'</sub>( OpCreate(default(DS), name, k), names(DS),
+							nameMap(DS) ) )</li>
+					</ul>
 				</section>
 				<section>
 					<h4>Other Update Operations</h4>
@@ -1244,14 +1307,22 @@
 					useful to be able to apply operations at a deeper level within a <a>k-th order
 						dataset</a>. This capability can be enabled with a generic operation, called
 						<dfn>Apply</dfn>, which takes a <a>k-th order dataset</a> as first argument,
-					an Operation specification (Operation name and tuple of arguments with a
-					placehoder in one position) as second argument, and an optional third argument
-					that is an IRI or blank node. The result would be the result of applying that
-					Operation with the appropriate (named or default) (k-1)-th order dataset
-					replacing the placeholder, and then substituting for the (k-1)-th order dataset
-					with the operation result within the original <a>k-th order dataset</a>. If the
-					name is not in the set of database names, then the result would be the original
-					dataset. </p>
+					an Operation specification (unary function built from Operation name and tuple
+					of arguments with a placehoder in one position) as second argument, and an
+					optional third argument that is an IRI or blank node. The result would be the
+					result of applying that Operation with the appropriate (named or default)
+					(k-1)-th order dataset replacing the placeholder, and then substituting for the
+					(k-1)-th order dataset with the operation result within the original <a>k-th
+						order dataset</a>. If the name is not in the set of database names, then the
+					result would be the original dataset. </p>
+				<ul>
+					<li>If name is in names(DS), then APPLY(DS, Spec, name) =
+							Static<sub>order(DS)</sub>( default(DS), names(DS), Delete(nameMap(DS),
+						name) union { name => Spec(content(name, DS))} ) </li>
+					<li>Otherwise, APPLY(DS, Spec, name) = DS.</li>
+					<li>APPLY(DS, Spec) = Static<sub>order(DS)</sub>( Spec(default(DS)), names(DS),
+						nameMap(DS) )</li>
+				</ul>
 			</section>
 			<section id="def-new-revise-operation">
 				<h4>Revise Operation</h4>
