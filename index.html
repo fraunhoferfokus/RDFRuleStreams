@@ -390,16 +390,11 @@
 								<li>an optional distinguished <a>data structure</a>, called the
 										<dfn>default part</dfn> of the static data structure, of
 									order k or less. </li>
-								<li>one or more <dfn
-										data-lt="named k-th order data structure|named data structure|named data structures"
-										>named k-th order data structures</dfn>, that being an
-									ordered tuple [n<sub>i</sub>, DS<sub>i</sub>}, k] where
-										n<sub>i</sub> is the name of the named data structure and
-									data structure DS<sub>i</sub>, of order k or less, is the
-									content of the named data structure. The names of the named data
-									structures are unique within the static data structure. The data
-									structure consisting of only these named data structures is
-									called the <dfn>named part</dfn> of the data structure. </li>
+								<li>one or more <a>named k-th order data structures</a>. The names
+									of the named data structures are unique within the static data
+									structure. The data structure consisting of only these named
+									data structures is called the <dfn>named part</dfn> of the data
+									structure. </li>
 							</ul>
 						</li>
 					</ul>
@@ -440,8 +435,8 @@
 						<li>If <a>isNamed</a>(DS) is true, then <dfn>name</dfn>(DS) is its
 							name.</li>
 						<li>If n is a member of names(DS), then <dfn>content</dfn>(n, DS) is defined
-							as the content of the named data structure in DS having the name n;
-							otherwise, it is defined as the empty set. If <a>isNamed</a>(DS) is
+							as the content of the named data structure in named(DS) having the name
+							n; otherwise, it is defined as the empty set. If <a>isNamed</a>(DS) is
 							true, then content(DS) = content(name(DS), DS).</li>
 						<li><dfn>nameMap(DS)</dfn> is the function defined on names(DS) that maps
 							name to content(name, DS).</li>
@@ -510,11 +505,10 @@
 						structures works as well for <a>datasets</a> of arbitrary order.</p>
 					<p class="ednote">We need an extension of the content operation to sets of
 						names, but it depends on the extension of Dataset-UNION to k-th order
-						datasets and to sets of arguments. If n is a member of names(DS), then
-							<dfn>content</dfn>(n, DS) is defined as the content of the named data
-						structure in DS having the name n; otherwise, it is defined as the empty
-						set. If <a>isNamed</a>(DS) is true, then content(DS) = content(name(DS),
-						DS).</p>
+						datasets and to sets of arguments. </p>
+					<p>If N is a set of names and DS is a <a>k-th order dataset</a>, then
+							<dfn>content-UNION</dfn>(N, DS) is defined as
+						<a>Dataset-UNION</a>({content(n, DS)|n is in N}) .</p>
 					<p class="ednote">All these functions need to be added to the table of
 						structural inferences.</p>
 				</section>
@@ -589,11 +583,11 @@
 						<aside> The empty sequence, [], is also denoted S<sub>0</sub>.</aside>
 						<aside class="example">For any data structure DS, <p>Cons(DS, S<sub>0</sub>)
 								= [DS]</p></aside>
-						<aside>A Graph Store in the sense of [[!SPARQL-Update]] is most closely
+						<aside>A Graph Store in the sense of [[!SPARQL11-Update]] is most closely
 							related, of the <a>data structures</a> considered in this document, to a
 								<a>data sequence</a> where each element is a <a>dataset</a> of first
 							order or less. </aside>
-						<p>In the spirit of [[!SPARQL-Update]], we define the <dfn>Revise</dfn>
+						<p>In the spirit of [[!SPARQL11-Update]], we define the <dfn>Revise</dfn>
 							operation as an explicit operation acting on a <a>terminating data
 								sequence</a> that applies a binary function to the greatest element
 							of the sequence, and to the sequence itself, and <a>Cons</a>es it onto
@@ -610,7 +604,7 @@
 								another ground quadpattern P' would be expressed as follows.</p>
 							<p>GS'' = Revise(GS', (λxy.OpInsertData(P', {}, x, y)) ) <br /> =
 								Cons(OpInsertData(P', {}, greatest(GS'), GS'), GS').</p>
-							<p>Note that by the definition of OpInsertData in [[!SPARQL-Update]],
+							<p>Note that by the definition of OpInsertData in [[!SPARQL11-Update]],
 								any blank node appearing in P' that also appears in P must be
 								renamed.</p>
 						</aside>
@@ -643,6 +637,11 @@
 								static part, is a sequence of k-th order static data
 								structures.</li>
 						</ul>
+						<p>A <dfn
+								data-lt="named k-th order data structure|named data structure|named data structures"
+								>named k-th order data structures</dfn>, is an ordered tuple [n, DS,
+							k] where n is the name of the named data structure and data structure
+							DS, of order k or less, is the content of the named data structure. </p>
 						<p>We define a number of syntactic operations on <a>data structures</a> as
 							follows. Let DS be a <a>data structure</a>. </p>
 						<ul>
@@ -763,9 +762,8 @@
 						<h4>Named k-th Order RDF Repository</h4>
 						<p>A <dfn
 								data-lt="Named k-th Order RDF Repositories|Named RDF Repository|Named RDF Repositories|Named Repository|Named Repositories"
-								>Named k-th Order RDF Repository</dfn> is an ordered pair [n, R] of
-							an IRI or blank node n that is the <a>RDF Repository</a> name, and
-								<a>k-th Order RDF Repository</a> R. </p>
+								>Named k-th Order RDF Repository</dfn> is a <a>named data
+								structure</a> whose content is a <a>k-th order repository</a>. </p>
 						<p class="ednote">To be clarified in the section on the extension of Eval on
 							named repositories: Under the provenance entailment regime a <a>named
 								RDF repository</a> has additional entailments that each version is
@@ -1092,12 +1090,15 @@
 					<ul>
 						<li>On the domain <a>k-th order dataset</a> x k'-th order <a>dataset</a>,
 							the range is max(k, k')-th order <a>dataset</a>.</li>
+						<li>On the domain of sets of <a>datasets</a> of order k or less, the range
+							is <a>k-th order datasets</a>.</li>
 					</ul>
 					<p>The extended semantics of <a>Dataset-UNION</a> is defined by cases as
 						follows.</p>
+					<p>In the case of two arguments DSP, DSP':</p>
 					<ul>
-						<li>In the case that both arguments are zeroth-order <a>datasets</a>, i.e.,
-								<a>RDF Graphs</a>, then the result is the union of the sets of
+						<li>If DSP and DSP' are both zeroth-order <a>datasets</a>, i.e., <a>RDF
+								Graphs</a>, then the result is the union of the sets of
 								<a>triples</a> in the two <a>graphs</a>. </li>
 						<li>If order(DSP) = order(DSP') = k &gt; 0, then <br /> Dataset-UNION(DSP,
 							DSP') = Static<sub>k</sub>( Dataset-UNION(default(DSP), default(DSP')),
@@ -1112,6 +1113,23 @@
 							where result-nameMap = { name = > content(name, DSP)| name in
 							names(DSP)} </li>
 					</ul>
+					<p>In the case of a single argument S that is a set of <a>datasets</a> of order
+						k or less, the value is defined inductively as follows.</p>
+					<ul>
+						<li>if S = {}, then Dataset-UNION(S) = {}.</li>
+						<li>if order(s) = 0 for every s in S (i.e. s is an <a>RDF graph</a>), then
+							Dataset-UNION(S) = ∪<sub>s in S</sub>s.</li>
+						<li>if order(s) = k &gt; 0 for every s in S, then <br /> Dataset-UNION(S) =
+								Static<sub>k</sub>( result-default, result-names, result-nameMap )
+							<br /> where <br /> result-default = Dataset-UNION({default(s)|s in S})
+							<br /> result-names = ∪<sub>s in S</sub> names(s), <br /> result-nameMap
+							= { n => Dataset-UNION({content(n, s)|<sub>s in S</sub>}) | n in
+							result-names} </li>
+						<li> if max({order(s)|s in S}) = k &gt; 0, let S<sub>k</sub> be the subset
+							of S containing all members of S having order k. Then Dataset-Union(S) =
+							Dataset-UNION( Dataset-UNION(S -S<sub>k</sub>),
+								Dataset-UNION(S<sub>k</sub>)) </li>
+					</ul>
 					<p class="ednote"> It is possible to informally apply the Dataset-UNION
 						operation to pairs of <a>repositories</a> or <a>stores</a> by first applying
 						a forgetful functor that retains all the versions but forgets the order
@@ -1123,6 +1141,9 @@
 						necessary e.g. according to timestamps, but timestamps are not mandatory in
 						our definitions There is no precedent for such definitions, since the Update
 						spec does not define a union operation on Graph Stores. </p>
+					<p class="ednote">We do define a special case of "union" for <a>repositories</a>
+						that are all members of the same <a>store</a> using the <a>Restrict</a>
+						operation.</p>
 				</section>
 				<section>
 					<h4>Other Basic Operations</h4>
