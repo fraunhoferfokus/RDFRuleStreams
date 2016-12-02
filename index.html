@@ -506,11 +506,16 @@
 						<li><dfn>isDataset</dfn>(E) is true if E is a <a>dataset</a>; otherwise it
 							is false.</li>
 					</ul>
-					<p class="ednote">So far there doesn't appear to be a need for other functions
-						on datasets besides this indicator and the functions already defined for
-						static data structures. The constructor <a>Static</a> defined for general
+					<p class="note">The constructor <a>Static</a> defined for general
 						static data structures works as well for <a>datasets</a> of arbitrary
 						order.</p>
+					<p class="ednote">We need an extension of the content operation to sets of
+						names, but it depends on the extension of Dataset-UNION to k-th order
+						datasets and to sets of arguments. If n is a member of names(DS), then
+							<dfn>content</dfn>(n, DS) is defined as the content of the named data
+						structure in DS having the name n; otherwise, it is defined as the empty
+						set. If <a>isNamed</a>(DS) is true, then content(DS) = content(name(DS),
+						DS).</p>
 					<p class="ednote">All these functions need to be added to the table of
 						structural inferences.</p>
 				</section>
@@ -833,10 +838,11 @@
 							extend the definition to a set of names, by taking the Dataset-UNION
 							over the set {content(name, content(x})|name in names}. It would be
 							helpful to have Dataset-UNION defined on a set. A convenience method
-							would be to define <a>content</a> for a first argument that is a set of names,
-							and take the <a>Dataset-UNION</a> over the <a>content</a> for each individual name.
-						Because of the Dataset-UNION operation, the second argument of this
-						extended content operation must be a <a>dataset</a>.</p>
+							would be to define <a>content</a> for a first argument that is a set of
+							names, and take the <a>Dataset-UNION</a> over the <a>content</a> for
+							each individual name. Because of the Dataset-UNION operation, the second
+							argument of this extended content operation must be a
+							<a>dataset</a>.</p>
 						<p>Similarly, we define <dfn>Restrict-DEFAULT</dfn> on <a>named static data
 								structures</a> of k-th order, for some fixed k, as follows.</p>
 						<p> Restrict-DEFAULT(DSQ) = Distinct( [default( DSQ<sub>i</sub>)]<sub>i in
@@ -2132,29 +2138,29 @@ GRAPH ?g {
 					<p>QP<sub>FHIR-heartrate</sub> = Graph( ?g, TP<sub>FHIR-heartrate</sub>) </p>
 				</aside>
 				<aside class="example" id="id-pattern-0" title="Identity Pattern for Zeroth Order">
-					This BGP is denoted ID<sub>0</sub>. <pre>
+					This BGP is denoted IDP<sub>0</sub>. <pre>
 {?s ?p ?o.}
 </pre> The abstract
-					algebra expression is <p> ID<sub>0</sub> = BGP(?s ?p ?o) </p>
+					algebra expression is <p> IDP<sub>0</sub> = BGP(?s ?p ?o) </p>
 				</aside>
 				<aside class="example" id="id-pattern-1" title="Identity Pattern for First Order">
-					This GraphPattern is denoted ID<sub>1</sub>.
+					This GraphPattern is denoted IDP<sub>1</sub>.
 					<pre>
 { graph ?g {?s ?p ?o} } union {?s ?p ?o}
 </pre> The abstract algebra
-					expression is <p> ID<sub>1</sub> = Union( Graph( ?g, ID<sub>0</sub> ),
-							ID<sub>0</sub>) </p>
+					expression is <p> IDP<sub>1</sub> = Union( Graph( ?g, IDP<sub>0</sub> ),
+							IDP<sub>0</sub>) </p>
 				</aside>
 				<aside class="example" id="id-pattern-2" title="Identity Pattern for Second Order">
-					This DatasetPattern is denoted ID<sub>2</sub>.
+					This DatasetPattern is denoted IDP<sub>2</sub>.
 					<pre>
 	{ dataset ?d { { graph ?g {?s ?p ?o} } union {?s ?p ?o} } }    
 	 union
 	{ graph ?g {?s ?p ?o} } union {?s ?p ?o}
 </pre>
-					The abstract algebra expression is <p> ID<sub>2</sub> = Union( Dataset( ?d,
-							ID<sub>1</sub> ), ID<sub>1</sub>) </p> and in general <p>
-							ID<sub>k+1</sub> = Union( Dataset( ?d, ID<sub>k</sub> ), ID<sub>k</sub>)
+					The abstract algebra expression is <p> IDP<sub>2</sub> = Union( Dataset( ?d,
+							IDP<sub>1</sub> ), IDP<sub>1</sub>) </p> and in general <p>
+							IDP<sub>k+1</sub> = Union( Dataset( ?d, IDP<sub>k</sub> ), IDP<sub>k</sub>)
 					</p>
 				</aside>
 			</section>
@@ -2256,7 +2262,7 @@ WHERE {
 					<aside class="example" id="match-quint-second-order-dataset"
 						title="Matching a Second-Order Pattern Against a Second-Order Dataset">
 						<p> eval(<a href="#prov-dataset-2">D2<sub>prov</sub></a>, <a
-								href="#id-pattern-2">ID<sub>2</sub></a>) = Ω<sub>D2-prov</sub>
+								href="#id-pattern-2">IDP<sub>2</sub></a>) = Ω<sub>D2-prov</sub>
 						</p>
 						<p> where Ω<sub>D2-prov</sub> is partially shown in the following table:</p>
 						<table id="omega-d2-prov">
@@ -2293,12 +2299,12 @@ WHERE {
 					<aside class="example" id="match-quad-first-order-repository"
 						title="Matching a First-Order Pattern Against a First-Order Repository">
 						<p> eval(<a href="#fhir-repository">R<sub>FHIR</sub></a>, <a
-								href="#id-pattern-1">ID<sub>1</sub></a>) = eval(Dataset-UNION(G0,
+								href="#id-pattern-1">IDP<sub>1</sub></a>) = eval(Dataset-UNION(G0,
 								[D<sub>i, FHIR</sub>]<sub>i=1,2,3</sub>), <a href="#id-pattern-1"
-									>ID<sub>1</sub></a>) = [{} , [Ω<sub>i,
+									>IDP<sub>1</sub></a>) = [{} , [Ω<sub>i,
 								R-FHIR</sub>]<sub>i=1,2,3</sub>] </p>
 						<p> where Ω<sub>i, R-FHIR</sub> = eval(Dataset-UNION(G0, D<sub>i,
-							FHIR</sub>), ID<sub>1</sub>) </p>
+							FHIR</sub>), IDP<sub>1</sub>) </p>
 						<!--is partially shown in the following table:</p>
 		<table id="omega-d2-prov">
 			<tr>
