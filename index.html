@@ -441,8 +441,8 @@
 							name.</li>
 						<li>If n is a member of names(DS), then <dfn>content</dfn>(n, DS) is defined
 							as the content of the named data structure in DS having the name n;
-							otherwise, it is undefined. If <a>isNamed</a>(DS) is true, then
-							content(DS) = content(name(DS), DS).</li>
+							otherwise, it is defined as the empty set. If <a>isNamed</a>(DS) is
+							true, then content(DS) = content(name(DS), DS).</li>
 						<li><dfn>nameMap(DS)</dfn> is the function defined on names(DS) that maps
 							name to content(name, DS).</li>
 						<li>A static data structure DS with order k &gt; 0 is uniquely determined by
@@ -809,34 +809,57 @@
 								-->
 								and a dynamic part such that the dynamic part of each named
 								repository in the static part of the store is a restriction of the
-								dynamic part of the store to that repository. <br /> for each name
+								dynamic part of the store to that repository. <br /> For each name
 								in names(staticPart(S)), let R = content(name, staticPart(S)). Then
 								Restrict( dynamicPart(S), name) = dynamicPart( R ) </li>
-							<li>Further the dynamic part (history) of the store is a "named union"
-								in some sense of the dynamic parts (histories) of the named
-								repositories in the static part of the store.<br /> isNamedUnionOf(
-								dynamicPart(S), {dynamicPart(R<sub>i</sub>)}<sub>i = ...</sub> )
-							</li>
+							<li>Further, if name is not in names(staticPart(S)), then Restrict(
+								dynamicPart(S), name) = [{}] </li>
 						</ol>
-						<p class="ednote">We need to define "restriction", with particular care to
-							remove adjacent versions that have identical content. </p>
-						<p class="ednote">We need to also define "named union". This definition will
-							make use of the definition of "restriction". </p>
+						<p>Let <dfn>Distinct</dfn> be a basic operation on sequences that collapses
+							adjacent identical elements into a single element, producing a new
+							sequence. Let <dfn>Map</dfn> be a basic operation on sequences that
+							applies a unary function to every element of the sequence, producing a
+							new sequence.</p>
+						<p>We define the basic operation <dfn>Restrict</dfn> whose signature is a
+							first argument of a <a>data sequence</a> of <a>named static data
+								structures</a> of k-th order, for some fixed k, and second argument
+							a name or set of names, and output is a <a>data sequence</a>.</p>
+						<p> Let DSQ = [ [n<sub>i</sub>, DSQ<sub>i</sub>, k+1]]<sub>i in
+								<i>I</i></sub>. Then </p>
+						<p> Restrict(DSQ, name) = Distinct( [content(name, DSQ<sub>i</sub>)]<sub>i
+								in <i>I</i></sub> ) </p>
+						<p> = Distinct( Map( DSQ, (λx.content(name, content(x)) ) )</p>
+						<p class="ednote">The definition above is for a single name. We need to
+							extend the definition to a set of names, by taking the Dataset-UNION
+							over the set {content(name, content(x})|name in names}. It would be
+							helpful to have Dataset-UNION defined on a set. A convenience method
+							would be to define <a>content</a> for a first argument that is a set of names,
+							and take the <a>Dataset-UNION</a> over the <a>content</a> for each individual name.
+						Because of the Dataset-UNION operation, the second argument of this
+						extended content operation must be a <a>dataset</a>.</p>
+						<p>Similarly, we define <dfn>Restrict-DEFAULT</dfn> on <a>named static data
+								structures</a> of k-th order, for some fixed k, as follows.</p>
+						<p> Restrict-DEFAULT(DSQ) = Distinct( [default( DSQ<sub>i</sub>)]<sub>i in
+									<i>I</i></sub> ) </p>
+						<p> = Distinct( Map( DSQ, (λx.default(content(x)) ) )</p>
+						<p class="ednote">We might as well include a combination union of default
+							and named.</p>
 						<p>Using the store history, we can form the "union" of histories of
-							repositories that are in the store, because the relative order of
-							revisions of these repositories has been recorded in the history of the
-							store.<br /> Let R<sub>i</sub> = content(name<sub>i</sub>,
-							staticPart(S)), and R<sub>j</sub> = content(name<sub>j</sub>,
-							staticPart(S)), for some name<sub>i</sub> and name<sub>j</sub> in
-							names(S). Then <br /> Union( dynamicPart(R<sub>i</sub>),
-								dynamicPart(R<sub>j</sub>; S) = Map( Restrict( dynamicPart( S ),
-								{name<sub>i</sub>, name<sub>j</sub>} ), content) </p>
+							repositories that are in the store (as named and/or default), because
+							the relative order of revisions of these repositories has been recorded
+							in the history of the store.</p>
+						<p> Let R<sub>i</sub> = content(name<sub>i</sub>, staticPart(S)), and
+								R<sub>j</sub> = content(name<sub>j</sub>, staticPart(S)), for some
+								name<sub>i</sub> and name<sub>j</sub> in names(S). Then </p>
+						<p> Dynamic-UNION(S, {name<sub>i</sub>, name<sub>j</sub>}) = Restrict(
+							dynamicPart( S ), {name<sub>i</sub>, name<sub>j</sub>} ) </p>
 						<p class="ednote">The intended semantics, under any entailment regime, of a
 							k+1-th Order <a>RDF Store</a> is derived from that of the corresponding
 							k+1-th Order RDF Repository, supplemented by that of its member k-th
 							Order Repositories, possibly augmented (e.g. in the provenance regime)
 							by entailments that link the two. </p>
 					</section>
+					<p class="ednote">Perhaps we don't need recursive stores.</p>
 					<section id="def-kth-order-rdf-recursive-store">
 						<h4>k-th Order RDF Recursive Store</h4>
 						<p>A <dfn
