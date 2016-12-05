@@ -1729,6 +1729,44 @@ _:b103{
 						static part and one for each of the elements of the dynamic part of the
 						repository, transmitted as they become available. </p>
 				</aside>
+				<aside class="example" id="fhir-repository"
+					title="FHIR Statements as a Second-Order RDF Store">
+					<p> The repository above has lost the information, contained in the stream, as
+						to which is the timestamp triple of each timestamped graph. For this
+						example, we can express that information as metadata for the entire
+						repository, since it is sufficient to identify the timestamp predicate,
+						because there is only one triple in the default graph of each timestamped
+						graph that uses that predicate. Although this is a specialization of the RDF
+						Stream structure, it would be the most common usecase. To attach this
+						metadata to the repository as a whole, we name the repository and embed it
+						in a second-order RDF Store. We denote this store as ST<sub>FHIR</sub>. </p>
+					<p>We write</p>
+					<p>ST<sub>FHIR</sub> = Dataset-UNION(ST<sub>FHIR, static</sub>, ST<sub>FHIR,
+							dynamic</sub>)</p>
+					<p>where</p>
+					<p>ST<sub>FHIR, static</sub> = Static<sub>2</sub>(G<sub>eff</sub>, {_:b301},
+						{_:b301 => R<sub>FHIR</sub>})</p> where G<sub>eff</sub> is the graph
+					containing the single triple <pre>
+@prefix rsp: &lt;http://@@@#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+
+_:b301 rsp:usesTimestampPredicate obs:effectiveDateTime.
+				</pre>
+					<p>The dynamic part of the store ST can be abstractly constructed from its
+						component datasets using basic operations:</p>
+					<p>ST<sub>FHIR, dynamic</sub> = Cons(ST<sub>3,FHIR</sub>,
+							Cons(ST<sub>2,FHIR</sub>, Cons(ST<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
+					<p>where</p>
+					<p> ST<sub>1, FHIR</sub> = [_:b401, [_:b301, G<sub>1, FHIR</sub>, 1], 2]</p>
+					<p> ST<sub>2, FHIR</sub> = [_:b402, [_:b301, G<sub>2, FHIR</sub>, 1], 2]</p>
+					<p> ST<sub>3, FHIR</sub> = [_:b403, [_:b301, G<sub>3, FHIR</sub>, 1], 2]</p>
+					<p>or generically</p>
+					<p> ST<sub>i, FHIR</sub> = Static<sub>2</sub>({}, {stver<sub>i</sub>},
+							{stver<sub>i</sub> => Static<sub>1</sub>({}, {_:b301}, {_:b301 =>
+							G<sub>i, FHIR</sub>})})</p>
+					<p>where stver<sub>1</sub> = _:b401, stver<sub>2</sub> = _:b402,
+							stver<sub>3</sub> = _:b403.</p>
+				</aside>
 			</section>
 			<section id="general-stream-example">
 				<h3>General RDF Stream Example</h3>
@@ -2287,13 +2325,16 @@ WHERE {
 					</aside>
 					<aside class="example" id="match-quad-first-order-repository"
 						title="Matching a First-Order Pattern Against a First-Order Repository">
+						<p>Recall the definition of the FHIR repository, which has an empty default
+							dataset.</p>
+						<p>R<sub>FHIR</sub> = [{}, [D<sub>i,FHIR</sub>]<sub>i=1, 2, 3</sub>]</p>
+						<p>If we apply the first-order identity pattern IDP<sub>1</sub> to this
+							repository, we obtain the following result structure.</p>
 						<p> eval(<a href="#fhir-repository">R<sub>FHIR</sub></a>, <a
-								href="#id-pattern-1">IDP<sub>1</sub></a>) = eval(Dataset-UNION(G0,
-								[D<sub>i, FHIR</sub>]<sub>i=1,2,3</sub>), <a href="#id-pattern-1"
-									>IDP<sub>1</sub></a>) = [{} , [Ω<sub>i,
+								href="#id-pattern-1">IDP<sub>1</sub></a>) = [{} , [Ω<sub>i,
 								R-FHIR</sub>]<sub>i=1,2,3</sub>] </p>
-						<p> where Ω<sub>i, R-FHIR</sub> = eval(Dataset-UNION(G0, D<sub>i,
-							FHIR</sub>), IDP<sub>1</sub>) </p>
+						<p> where Ω<sub>i, R-FHIR</sub> = eval( D<sub>i, FHIR</sub>,
+							IDP<sub>1</sub>) </p>
 						<!--is partially shown in the following table:</p>
 		<table id="omega-d2-prov">
 			<tr>
