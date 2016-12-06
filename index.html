@@ -1496,16 +1496,16 @@
 			<section id="fhir-stream-example">
 				<h3>FHIR RDF Stream Example</h3>
 				<section id="fhir-graph-example">
-					<aside class="example" id="fhir-graph" title="FHIR Statements as RDF Graph"> The
-						following is a representation of an RDF graph in Trig. These statements have
-						a dynamic aspect that is implicitly expressed in timestamps of the events of
-						type fhir:Observations. Although the statements appear in a particular order
-						within the graph representation, this order is not significant to inference.
-						In particualr, the temporal order is not directly available through simple
-						entailment. We will show how this same data could be handled within some of
-						the new datatypes so that the dynamic nature of the statements is accessible
-						through simple entailment. <p>The following graph is denoted
-								G<sub>FHIR</sub>.</p>
+					<aside class="example" id="ex-fhir-graph" title="FHIR Statements as RDF Graph">
+						The following is a representation of an RDF graph in Trig. These statements
+						have a dynamic aspect that is implicitly expressed in timestamps of the
+						events of type fhir:Observations. Although the statements appear in a
+						particular order within the graph representation, this order is not
+						significant to inference. In particualr, the temporal order is not directly
+						available through simple entailment. We will show how this same data could
+						be handled within some of the new datatypes so that the dynamic nature of
+						the statements is accessible through simple entailment. <p>The following
+							graph is denoted G<sub>FHIR</sub>.</p>
 						<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -1604,7 +1604,7 @@ _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 </pre>
 					</aside>
 				</section>
-				<aside class="example" id="fhir-stream" title="FHIR Statements as RDF Stream">
+				<aside class="example" id="ex-fhir-stream" title="FHIR Statements as RDF Stream">
 					Recall that an <a>RDF Stream</a> is a sequence of <a>timestamped graphs</a>
 					which are composed of a default graph and a named graph, where the default graph
 					contains a distinguished triple called the timestamp triple. <p>We will
@@ -1648,8 +1648,8 @@ _:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XM
 						element of the stream, where the timestamp triple is the first triple in the
 						document. </p>
 				</aside>
-				<aside class="example" id="fhir-dataset" title="FHIR Statements as RDF Dataset"> The
-					information about FHIR observations can also be represented using the <a>RDF
+				<aside class="example" id="ex-fhir-dataset" title="FHIR Statements as RDF Dataset">
+					The information about FHIR observations can also be represented using the <a>RDF
 						Dataset</a> datatype. The named graph structure allows the statements of
 					each stream element to be grouped together, and also allows us to materialize,
 					in the default graph, statements giving the order among these elements. <p>Let
@@ -1714,11 +1714,11 @@ _:b103{
 }
 </pre>
 				</aside>
-				<aside class="example" id="fhir-repository" title="FHIR Statements as a Repository">
-					The dataset above is a static structure representing the entailment, under the
-					provenance regime, of a first-order <a>Repository</a>. We denote this repository
-					as R<sub>FHIR</sub>. In this example, the default dataset of the repository is
-					empty. <p>We write</p>
+				<aside class="example" id="ex-fhir-repository"
+					title="FHIR Statements as a Repository"> The dataset above is a static structure
+					representing the entailment, under the provenance regime, of a first-order
+						<a>Repository</a>. We denote this repository as R<sub>FHIR</sub>. In this
+					example, the default dataset of the repository is empty. <p>We write</p>
 					<p>R<sub>FHIR</sub> = [{}, [D<sub>i,FHIR</sub>]<sub>i=1, 2, 3</sub>]</p>
 					<p>The repository can be abstractly constructed from its component datasets
 						using basic operations:</p>
@@ -1729,7 +1729,7 @@ _:b103{
 						static part and one for each of the elements of the dynamic part of the
 						repository, transmitted as they become available. </p>
 				</aside>
-				<aside class="example" id="fhir-repository"
+				<aside class="example" id="ex-fhir-repository"
 					title="FHIR Statements as a Second-Order RDF Store">
 					<p> The repository above has lost the information, contained in the stream, as
 						to which is the timestamp triple of each timestamped graph. For this
@@ -1745,8 +1745,9 @@ _:b103{
 							dynamic</sub>)</p>
 					<p>where</p>
 					<p>ST<sub>FHIR, static</sub> = Static<sub>2</sub>(G<sub>eff</sub>, {_:b301},
-						{_:b301 => R<sub>FHIR</sub>})</p> where G<sub>eff</sub> is the graph
-					containing the single triple <pre>
+						{_:b301 => R<sub>FHIR</sub>})</p>
+					<p>where G<sub>eff</sub> is the graph containing the single triple</p>
+					<pre>
 @prefix rsp: &lt;http://@@@#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
 
@@ -1757,26 +1758,162 @@ _:b301 rsp:usesTimestampPredicate obs:effectiveDateTime.
 					<p>ST<sub>FHIR, dynamic</sub> = Cons(ST<sub>3,FHIR</sub>,
 							Cons(ST<sub>2,FHIR</sub>, Cons(ST<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
 					<p>where</p>
-					<p> ST<sub>1, FHIR</sub> = [_:b401, [_:b301, G<sub>1, FHIR</sub>, 1], 2]</p>
-					<p> ST<sub>2, FHIR</sub> = [_:b402, [_:b301, G<sub>2, FHIR</sub>, 1], 2]</p>
-					<p> ST<sub>3, FHIR</sub> = [_:b403, [_:b301, G<sub>3, FHIR</sub>, 1], 2]</p>
+					<p> ST<sub>1, FHIR</sub> = [_:sv0, [_:b301, G<sub>1, FHIR</sub>, 1], 2]</p>
+					<p> ST<sub>2, FHIR</sub> = [_:sv1, [_:b301, G<sub>2, FHIR</sub>, 1], 2]</p>
+					<p> ST<sub>3, FHIR</sub> = [_:sv2, [_:b301, G<sub>3, FHIR</sub>, 1], 2]</p>
 					<p>or generically</p>
 					<p> ST<sub>i, FHIR</sub> = Static<sub>2</sub>({}, {stver<sub>i</sub>},
 							{stver<sub>i</sub> => Static<sub>1</sub>({}, {_:b301}, {_:b301 =>
 							G<sub>i, FHIR</sub>})})</p>
-					<p>where stver<sub>1</sub> = _:b401, stver<sub>2</sub> = _:b402,
-							stver<sub>3</sub> = _:b403.</p>
+					<p>where stver<sub>1</sub> = _:sv0, stver<sub>2</sub> = _:sv1, stver<sub>3</sub>
+						= _:sv2.</p>
+					<p>To construct a store in this fashion, it is necessary to ensure
+						synchronization of the store and repository versions manually. A more
+						reliable method is to use the store constructor
+						<a>Store<sub>k</sub></a>.</p>
+				</aside>
+			</section>
+			<section id="fhir-motion">
+				<h3>Example of a Store Holding Two RDF Streams</h3>
+				<aside class="example" id="ex-motion-graphs"
+					title="FHIR Motion Observations as Graphs"> We model a second stream of FHIR
+					observation data using the graphs below. <p>Let G<sub>1, FHIR-m</sub> be: </p>
+					<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/> .
+@prefix lr: &lt;http://localhost/local-records#> .
+@prefix sct: &lt;http://snomed.info/id/> .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.> .
+@prefix prov: &lt;http://www.w3.org/ns/prov#> .
+
+	
+
+_:m1 a fhir:Observation ;
+		obs:code sct:251833007 ;
+		obs:device lr:sensor5678 ;
+		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:m2 .
+	
+_:m2 lr:unit "kJ"^^&lt;http://www.w3.org/2001/XMLSchema#string> ;
+		lr:value "93"^^&lt;http://www.w3.org/2001/XMLSchema#integer> .
+</pre>
+					<p>Let G<sub>2, FHIR-m</sub> be: </p>
+					<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/> .
+@prefix lr: &lt;http://localhost/local-records#> .
+@prefix sct: &lt;http://snomed.info/id/> .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.> .
+@prefix prov: &lt;http://www.w3.org/ns/prov#> .
+
+	
+
+_:m4 a fhir:Observation ;
+		obs:code sct:251833007 ;
+		obs:device lr:sensor5678 ;
+		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:m5 .
+	
+_:m5 lr:unit "kJ"^^&lt;http://www.w3.org/2001/XMLSchema#string> ;
+		lr:value "127"^^&lt;http://www.w3.org/2001/XMLSchema#integer> .
+</pre>
+					<p>Let G<sub>3, FHIR-m</sub> be: </p>
+					<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/> .
+@prefix lr: &lt;http://localhost/local-records#> .
+@prefix sct: &lt;http://snomed.info/id/> .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.> .
+@prefix prov: &lt;http://www.w3.org/ns/prov#> .
+
+	
+
+_:m7 a fhir:Observation ;
+		obs:code sct:251833007 ;
+		obs:device lr:sensor5678 ;
+		obs:effectiveDateTime "2015-01-01T12:04:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:m8 .
+	
+_:m8 lr:unit "kJ"^^&lt;http://www.w3.org/2001/XMLSchema#string> ;
+		lr:value "45"^^&lt;http://www.w3.org/2001/XMLSchema#integer> .
+</pre>
+				</aside>
+				<aside class="example" id="ex-motion-datasets"
+					title="FHIR Motion Observations as Datasets">
+					<p>Let</p>
+					<p>D<sub>i, FHIR-m</sub> = Graph(b<sub>i, FHIR-m</sub>, G<sub>i,
+						FHIR-m</sub>)</p>
+					<p>where b<sub>1, FHIR-m</sub>= _:m0, b<sub>2, FHIR-m</sub>= _:m3, b<sub>3,
+							FHIR-m</sub>= _:m6</p>
+				</aside>
+				<aside class="example" id="ex-motion-repository"
+					title="FHIR Motion Observations as Repository">
+					<p>Let</p>
+					<p>R<sub>FHIR-m</sub> = [{}, [D<sub>i,FHIR-m</sub>]<sub>i=1, 2, 3</sub>]</p>
+				</aside>
+				<aside class="example" id="ex-graph-timestamp-pred-two"
+					title="Metadata Stating Timestamp Predicate for Two Streams"><p> As in the
+						previous example of a store holding an RDF Stream, we use the default
+						repository of the store to hold the metadata regarding timestamp predicates.
+						Let G<sub>eff, 2</sub> be the graph </p>
+					<pre>
+@prefix rsp: &lt;http://@@@#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+
+_:rn1 rsp:usesTimestampPredicate obs:effectiveDateTime.
+_:rn2 rsp:usesTimestampPredicate obs:effectiveDateTime.
+				</pre>
+				</aside>
+				<aside class="example" id="ex-store-fhir-two"
+					title="Store containing Two FHIR Streams">
+					<p>We build a second-order store ST<sub>FHIR, 2</sub> from the first-order
+						repositories R<sub>FHIR</sub> and R<sub>FHIR-m</sub> defined above. This is
+						done using the Store<sub>2</sub> constructor. The arguments of the
+							Store<sub>2</sub> constructor are: </p>
+					<ul>
+						<li>The default first-order repository of the store, which in this case has
+							default graph G<sub>eff, 2</sub> and no versions. .</li>
+						<li>The set of repository names, {_:rn1, _:rn2}.</li>
+						<li>The mapping from repository names to first-order repositories, {_:rn1 =>
+								R<sub>FHIR</sub>, _:rn2 => R<sub>FHIR-m</sub>} </li>
+						<li>The set of store version names {_:sv0, _:sv1, _:sv2, _:sv3}</li>
+						<li>The partial functions from store version names onto repository version
+							names. <ul>
+								<li>The repository R<sub>FHIR</sub> (named _:rn1 in this store) has
+									version names {_:b101, _:b102, _:b103}. For this repository, we
+									assign to _:rn1 the mapping M<sub>_:rn1</sub> = {_:sv0 =>
+									_:b101, _:sv1 => _:b102, _:sv2 => _:b103}. Notice that the
+									domain is a proper interval subset of the set of store version
+									names.</li>
+								<li>The repository R<sub>FHIR-m</sub> (named _:rn2 in this store)
+									has version names {_:m101, _:m102, _:m103}. For this repository,
+									we assign to _:rn2 the mapping M<sub>_:rn2</sub> = {_:sv0 =>
+									_:m101, _:sv1 => _:m101, _:sv2 => _:m102, _:sv3 => _:m103}.
+									Notice that the domain of this mapping is the full set of store
+									version names.</li>
+							</ul>
+						</li>
+					</ul>
+					<p>The mappings from store version names to repository version names are
+						constructed so that the two streams are aligned within the store with regard
+						to their timestamps. Since the two streams use the same timestamp predicate,
+						this alignment sets up a query that creates a union of the two streams into
+						one stream containing both FHIR observations, when available, using the same
+						timestamp predicate.</p>
+					<p>The store may also be continuously queried with matching performed against
+						both streams without actually constructing an intermediate stream union. See
+						the query example <a href="ex-store-query">Example !!!</a>.</p>
 				</aside>
 			</section>
 			<section id="general-stream-example">
 				<h3>General RDF Stream Example</h3>
-				<aside class="example" id="prov-dataset" title="FHIR Provenance in an RDF Dataset">
-					We consider a more general RDF Stream example, showing a typical case when sets
-					of statements have multiple temporal characteristics. We construct a set of
-					named graphs <p>NG<sub>i, FHIR</sub> = Graph(nb<sub>i</sub>, G<sub>i,
-						FHIR</sub>)</p> where <p>nb<sub>1</sub> = _:b0, nb<sub>2</sub> = _:b3,
-							nb<sub>3</sub> = _:b6 </p> and we express some provenance metadata using
-					these graph names. Let G<sub>1, prov</sub> be
+				<aside class="example" id="ex-prov-dataset"
+					title="FHIR Provenance in an RDF Dataset"> We consider a more general RDF Stream
+					example, showing a typical case when sets of statements have multiple temporal
+					characteristics. We construct a set of named graphs <p>NG<sub>i, FHIR</sub> =
+							Graph(nb<sub>i</sub>, G<sub>i, FHIR</sub>)</p> where <p>nb<sub>1</sub> =
+						_:b0, nb<sub>2</sub> = _:b3, nb<sub>3</sub> = _:b6 </p> and we express some
+					provenance metadata using these graph names. Let G<sub>1, prov</sub> be
 					<pre>
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
@@ -1866,7 +2003,7 @@ _:b6 {
 }
 </pre>
 				</aside>
-				<aside class="example" id="prov-stream" title="FHIR Provenance in an RDF Stream">
+				<aside class="example" id="ex-prov-stream" title="FHIR Provenance in an RDF Stream">
 					<p>The representation of this same information as an RDF Stream takes the form
 						of the following sequence. The stream as a whole is denoted
 						S<sub>prov</sub>. </p>
@@ -1892,7 +2029,7 @@ _:b0
 							(<code>lr:streamA12342015-01-01T12:00:00Z</code>). This is optional for
 						RDF streams.</p>
 				</aside>
-				<aside class="example" id="prov-dataset-2"
+				<aside class="example" id="ex-prov-dataset-2"
 					title="FHIR Provenance in a Second-Order Dataset"> This data can also be
 					represented using the second-order <a>Dataset</a> datatype. For this
 					representation, we use an extension of the Trig syntax to "quints". This
@@ -1982,7 +2119,7 @@ _:b202 prov:wasRevisionOf _:b201.
 _:b203 prov:wasRevisionOf _:b202.
 </pre>
 				</aside>
-				<aside class="example" id="psrov-repository"
+				<aside class="example" id="ex-psrov-repository"
 					title="FHIR Provenance as a Second-Order Repository">
 					<p> The second-order dataset above is a static structure representing the
 						entailment, under the provenance regime, of a second-order
@@ -2082,7 +2219,7 @@ _:b203{
 			</section>
 			<section id="pattern-examples">
 				<h3>Pattern Examples</h3>
-				<aside class="example" id="bgp-fhir-heartrate"
+				<aside class="example" id="ex-bgp-fhir-heartrate"
 					title="Basic Graph Pattern for FHIR Heartrate Observation">
 					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
 						mappings might be extracted from the above data structures. This BGP is
@@ -2096,7 +2233,7 @@ _:b203{
                               fhir:Quantity.unit 'bpm'        ] .
 </pre>
 				</aside>
-				<aside class="example" id="bgp-pattern-prov-revise"
+				<aside class="example" id="ex-bgp-pattern-prov-revise"
 					title="Basic Graph Pattern for Revision Statements">
 					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
 						mappings about the relative order of versions of a repository might be
@@ -2106,7 +2243,7 @@ _:b203{
 ?version prov:wasRevisionOf ?previous.
 </pre>
 				</aside>
-				<aside class="example" id="bgp-pattern-prov-initial"
+				<aside class="example" id="ex-bgp-pattern-prov-initial"
 					title="Basic Graph Pattern for Initial Version Statements">
 					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
 						mappings describing the initial version of a repository might be extracted
@@ -2116,7 +2253,7 @@ _:b203{
 ?version repo:isInitialVersion "true"^^&lt;http://www.w3.org/2001/XMLSchema#boolean&gt; .
 </pre>
 				</aside>
-				<aside class="example" id="bgp-pattern-prov-initial-of"
+				<aside class="example" id="ex-bgp-pattern-prov-initial-of"
 					title="Basic Graph Pattern for Initial Version Statements for Named Repositories">
 					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
 						mappings describing the initial version of a named repository might be
@@ -2126,7 +2263,7 @@ _:b203{
 ?version repo:isInitialVersionOf ?repo .
 </pre>
 				</aside>
-				<aside class="example" id="bgp-pattern-prov-terminal"
+				<aside class="example" id="ex-bgp-pattern-prov-terminal"
 					title="Basic Graph Pattern for Terminal Version Statements">
 					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
 						mappings describing the terminal version of a repository might be extracted
@@ -2136,7 +2273,7 @@ _:b203{
 ?version repo:isTerminalVersion "true"^^&lt;http://www.w3.org/2001/XMLSchema#boolean&gt; .
 </pre>
 				</aside>
-				<aside class="example" id="bgp-pattern-prov-terminal-of"
+				<aside class="example" id="ex-bgp-pattern-prov-terminal-of"
 					title="Basic Graph Pattern for Terminal Version Statements for Named Repositories">
 					<p>The basic graph pattern (BGP) below will be used to demonstrate how solution
 						mappings describing the terminal version of a named repository might be
@@ -2146,7 +2283,7 @@ _:b203{
 ?version repo:isTerminalVersionOf ?repo .
 </pre>
 				</aside>
-				<aside class="example" id="quad-fhir-heartrate"
+				<aside class="example" id="ex-quad-fhir-heartrate"
 					title="QuadPattern for FHIR Heartrate Observation">
 					<p>The <a>Quadpattern</a> below will be used to demonstrate how solution
 						mappings might be extracted from the above data structures. This
@@ -2164,22 +2301,24 @@ GRAPH ?g {
 					<p>We write</p>
 					<p>QP<sub>FHIR-heartrate</sub> = Graph( ?g, TP<sub>FHIR-heartrate</sub>) </p>
 				</aside>
-				<aside class="example" id="id-pattern-0" title="Identity Pattern for Zeroth Order">
-					This BGP is denoted IDP<sub>0</sub>. <pre>
+				<aside class="example" id="ex-id-pattern-0"
+					title="Identity Pattern for Zeroth Order"> This BGP is denoted IDP<sub>0</sub>.
+					<pre>
 {?s ?p ?o.}
-</pre> The abstract
-					algebra expression is <p> IDP<sub>0</sub> = BGP(?s ?p ?o) </p>
+</pre> The abstract algebra expression is <p> IDP<sub>0</sub>
+						= BGP(?s ?p ?o) </p>
 				</aside>
-				<aside class="example" id="id-pattern-1" title="Identity Pattern for First Order">
-					This GraphPattern is denoted IDP<sub>1</sub>.
+				<aside class="example" id="ex-id-pattern-1" title="Identity Pattern for First Order"
+					> This GraphPattern is denoted IDP<sub>1</sub>.
 					<pre>
 { graph ?g {?s ?p ?o} } union {?s ?p ?o}
 </pre> The abstract algebra
 					expression is <p> IDP<sub>1</sub> = Union( Graph( ?g, IDP<sub>0</sub> ),
 							IDP<sub>0</sub>) </p>
 				</aside>
-				<aside class="example" id="id-pattern-2" title="Identity Pattern for Second Order">
-					This DatasetPattern is denoted IDP<sub>2</sub>.
+				<aside class="example" id="ex-id-pattern-2"
+					title="Identity Pattern for Second Order"> This DatasetPattern is denoted
+						IDP<sub>2</sub>.
 					<pre>
 	{ dataset ?d { { graph ?g {?s ?p ?o} } union {?s ?p ?o} } }    
 	 union
@@ -2193,7 +2332,7 @@ GRAPH ?g {
 			</section>
 			<section id="query-examples">
 				<h3>Query Examples</h3>
-				<aside class="example" id="select-triple-pattern-avg-hr"
+				<aside class="example" id="ex-select-triple-pattern-avg-hr"
 					title="Select Query with Triple Pattern for Average Heartrate">
 					<pre>
 	
@@ -2215,7 +2354,7 @@ WHERE {
 				<h3>Abstract Algebra Examples</h3>
 				<section id="eval-examples">
 					<h4>Eval</h4>
-					<aside class="example" id="match-bgp-dataset"
+					<aside class="example" id="ex-match-bgp-dataset"
 						title="Matching a BGP Against a k-th Order Dataset">
 						<p>If k=0, then application of eval to a dataset and BGP corresponds to
 							matching a BGP against an RDF Graph.</p>
@@ -2245,7 +2384,7 @@ WHERE {
 							</tr>
 						</table>
 					</aside>
-					<aside class="example" id="match-bgp-repository"
+					<aside class="example" id="ex-match-bgp-repository"
 						title="Matching a BGP Against a k-th Order Repository">
 						<p>If k=0, then application of eval to a repository and BGP corresponds to
 							matching the BGP against an RDF Graph, as defined in [[!SPARQL11-Query]]
@@ -2266,7 +2405,7 @@ WHERE {
 							is the static component of the input repository. The result is a
 							multiset of solution mappings.</p>
 					</aside>
-					<aside class="example" id="match-quad-dataset"
+					<aside class="example" id="ex-match-quad-dataset"
 						title="Matching a QuadPattern Against a k-th Order Dataset">
 						<p>Recall that a <a>QuadPattern</a>, also called a GraphGraphPattern, can
 							match within named and unnamed graphs, depending on the nature of the
@@ -2286,7 +2425,7 @@ WHERE {
 							information in the (non-default) named components of a second-order
 							dataset. </p>
 					</aside>
-					<aside class="example" id="match-quint-second-order-dataset"
+					<aside class="example" id="ex-match-quint-second-order-dataset"
 						title="Matching a Second-Order Pattern Against a Second-Order Dataset">
 						<p> eval(<a href="#prov-dataset-2">D2<sub>prov</sub></a>, <a
 								href="#id-pattern-2">IDP<sub>2</sub></a>) = Ω<sub>D2-prov</sub>
@@ -2323,7 +2462,7 @@ WHERE {
 							</tr>
 						</table>
 					</aside>
-					<aside class="example" id="match-quad-first-order-repository"
+					<aside class="example" id="ex-match-quad-first-order-repository"
 						title="Matching a First-Order Pattern Against a First-Order Repository">
 						<p>Recall the definition of the FHIR repository, which has an empty default
 							dataset.</p>
@@ -2383,7 +2522,7 @@ WHERE {
 	 <p>Eval-Prov(R<sub>prov</sub>, TP<sub>rev</sub>) = Ω<sub>rev</sub></p>
 	</aside>
 	<p class="ednote">OK, the extension of the eval function has not actually been defined yet.</p>
-     <aside class="example" id="match-quad-pattern" title="Matching a QuadPattern">
+     <aside class="example" id="ex-match-quad-pattern" title="Matching a QuadPattern">
      If the pattern is a quad pattern, then matching will be performed according to two cases.
 	 <ul>
 	   <li>If the data structure  (dataset, repository, or store) is of first-order, then the quad pattern
@@ -2448,7 +2587,7 @@ We write
 	 Continuous matching is "push-style" when the transmission is streamed;
 	 a match event is triggered by the arrival of a stream element.
 	 </p>
-	<aside class="example" id="continuous-match-bgp" title="Continuous Matching with a BGP">
+	<aside class="example" id="ex-continuous-match-bgp" title="Continuous Matching with a BGP">
 	</aside>
 	 <p  class="ednote">To be moved to the section where Ceval is defined:
 	 Continuous matching is applicable to
