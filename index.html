@@ -512,382 +512,369 @@
 					<p class="ednote">All these functions need to be added to the table of
 						structural inferences.</p>
 				</section>
-				<section id="def-data-sequences-structures">
-					<h3>RDF Data Sequences and Structures</h3>
-					<section id="def-data-sequences">
-						<h4>RDF Data Sequences</h4>
-						<p>An <dfn data-lt="RDF Data Sequences|Data Sequence|Data Sequences">RDF
-								Data Sequence</dfn> is a <a>sequence</a> of <a>data
-							structures</a>.</p>
-						<p>In this document, we use the term <dfn>sequence</dfn> in the sense of a
-							totally-ordered set (in mathematics, called a chain) that can be
-							strictly monotonically mapped onto the integers. I.e., it is isomorphic,
-							as a poset, to a subset of the integers. A sequence may be finite, or
-							infinite. If infinite, the set MAY or MAY NOT have a least element, and
-							MAY or MAY NOT have a greatest element. If a sequence has neither least
-							nor greatest element, then it is said to be <dfn>bi-infinite</dfn>.</p>
-						<p>We define a number of syntactic operations on <a>data sequences</a> as
-							follows. Let DSQ be a <a>data sequence</a>. </p>
-						<ul>
-							<li><dfn>isSequence</dfn>(E) is true if E is a <a>data sequence</a>;
-								otherwise it is false.</li>
-							<li>If DST is an element of DSQ, then <dfn>isMemberOf</dfn>(DST, DSQ) is
-								true; otherwise, it is false.</li>
-							<li>If DST and DST' are two elements of DSQ, then
-								<dfn>previousTo</dfn>(DST, DST'; DSQ) is defined; otherwise it is
-								undefined. It has the value true if DST &lt; DST' in the context of
-								DSQ, and has the value false if DST &gt;= DST' in the context of
-								DSQ. </li>
-							<li>If <a>previousTo</a>(DST, DST'; DSQ), then <dfn>follows</dfn>(DST,
-								DST'; DSQ) is defined; otherwise it is undefined. It has the value
-								true if DST &gt; DST' in the context of DSQ, and has the value false
-								if DST &lt;= DST' in the context of DSQ. </li>
-							<li>If DSQ has a least element then <dfn>hasLeast</dfn>(DSQ) has the
-								value true, and otherwise false </li>
-							<li>If DSQ has a greatest element then <dfn>hasGreatest</dfn>(DSQ) has
-								the value true, and otherwise false. </li>
-							<li>If <a>hasLeast</a>(DSQ) is true, then <dfn>least</dfn>(DSQ) is
-								defined, and has the value of the least element of DSQ. Otherwise it
-								is undefined. </li>
-							<li>If <a>hasGreatest</a>(DSQ) is true, then <dfn>greatest</dfn>(DSQ) is
-								defined, and has the value of the greatest element of DSQ. Otherwise
-								it is undefined. </li>
-							<li>If <a>least</a>(DSQ) = DST, then <dfn>isLeastOf</dfn>(DST, DSQ) has
-								value true, and otherwise false. </li>
-							<li>If <a>greatest</a>(DSQ) = DST, then <dfn>isGreatestOf</dfn>(DST,
-								DSQ) has value true, and otherwise false. </li>
-							<li>If <a>isLeastOf</a>(DST, DSG) is false, then
-								<dfn>predecessor</dfn>(DST; DSQ) is defined, and has the value of
-								the unique <a>predecessor</a> of DST in the context of DSQ. I.e., if
-								predecessor(DST; DSQ) = DST', then (in the context of DSQ) DST' &lt;
-								DST, and for any DST'' where DST'' &lt; DST, it holds that DST''
-								&lt;= DST'. </li>
-							<li>If <a>isGreatestOf</a>(DST, DSQ) is false, then
-								<dfn>successor</dfn>(DST; DSQ) is defined, and has the value of the
-								unique <a>successor</a> of DST in the context of DSQ. I.e., if
-								successor(DST; DSQ) = DST', then (in the context of DSQ) DST' &gt;
-								DST, and for any DST'' where DST'' &gt; DST, it holds that DST''
-								&gt;= DST'. </li>
-							<li>The basic constructor operation <dfn>Cons</dfn> builds sequences by
-								adding an additional element to a sequence with a greatest element.
-								The basic operation analagous to a "head" function is
-									<a>greatest</a>, that returns the greatest element if it exists.
-								We define also the basic operation <dfn>exceptGreatest</dfn>, which
-								is the counterpart to the traditional "tail" function. </li>
-							<li>Square brackets are used in the abstract syntax to define a sequence
-								explicitly, with the greatest element first. </li>
-						</ul>
-						<aside class="example"> In the case that <a>hasGreatest</a>(DSQ) is true,
-							then <p> Cons( greatest(DSQ), exceptGreatest(DSQ) ) = DSQ.</p>
-						</aside>
-						<aside> The empty sequence, [], is also denoted S<sub>0</sub>.</aside>
-						<aside class="example">For any data structure DS, <p>Cons(DS, S<sub>0</sub>)
-								= [DS]</p></aside>
-						<aside>A Graph Store in the sense of [[!SPARQL11-Update]] is most closely
-							related, of the <a>data structures</a> considered in this document, to a
-								<a>data sequence</a> where each element is a <a>dataset</a> of first
-							order or less. </aside>
-						<p>In the spirit of [[!SPARQL11-Update]], we define the <dfn>Revise</dfn>
-							operation as an explicit operation acting on a <a>terminating data
-								sequence</a> that applies a binary function to the greatest element
-							of the sequence, and to the sequence itself, and <a>Cons</a>es it onto
-							the sequence.</p>
-						<aside class="example">Consider a Graph Store which has been newly
-							initialized as the empty graph <p>GS = Cons({}, S<sub>0</sub>)</p>
-							<p>The application of <a>Revise</a> to this graph store with an
-								OpInsertData operation specification as a lambda expression is
-								expressed as follows. </p>
-							<p>GS' = Revise(GS, (λxy.OpInsertData(P, {}, x, y)) ) <br /> =
-								Cons(OpInsertData(P, {}, greatest(GS), GS), GS) <br /> where P is a
-								ground Quadpattern.</p>
-							<p>An additional update to this graph store to insert data according to
-								another ground quadpattern P' would be expressed as follows.</p>
-							<p>GS'' = Revise(GS', (λxy.OpInsertData(P', {}, x, y)) ) <br /> =
-								Cons(OpInsertData(P', {}, greatest(GS'), GS'), GS').</p>
-							<p>Note that by the definition of OpInsertData in [[!SPARQL11-Update]],
-								any blank node appearing in P' that also appears in P must be
-								renamed.</p>
-						</aside>
-						<p class="ednote">Add to table of structural inferences: rdfsq:isMemberOf,
-							rdfsq:previousTo, rdfsq:follows, rdfsq:hasLeast, rdfsq:hasGreatest,
-							rdfsq:least, rdfsq:greatest, rdfsq:isLeastOf, rdfsq:isGreatestOf,
-							rdfsq:predecessor, rdfsq:successor, These relationships can be inferred,
-							but only within the context of a particular sequence. The order is not
-							an inherent relationship between the two data structures. That means
-							that if this information is materialized, it must be done, in a number
-							of cases, as a quad, to indicate the context in which it holds. The
-							graph name in the quad may or may not "denote" the sequence, depending
-							on the semantics that is in play. The sequence does not need to be named
-							explicitly, but can be indicated by a blank node, (again, provided that
-							makes sense within the active semantics). If the sequence is a named
-							sequence, then whether it is appropriate to use that name to materialize
-							such statements depends on the active semantics.</p>
-					</section>
-					<section id="def-k-th-order-data-structure">
-						<h4>k-th Order RDF Data Structure</h4>
-						<p>A <dfn
-								data-lt="k-th Order RDF Data Structures|k-th Order Data Structure|k-th Order Data Structures|Data Structure|Data Structures"
-								>k-th Order RDF Data Structure</dfn> is defined by cases as follows. </p>
-						<p>A k-th order RDF data strucutre is a collection of k-th order static data
-							structures </p>
-						<ul>
-							<li>The optional <dfn>static part</dfn> of DS is a k-th order static
-								data structure.</li>
-							<li>The <dfn>dynamic part</dfn> of DS, which is optional if DS has a
-								static part, is a sequence of k-th order static data
-								structures.</li>
-						</ul>
-						<p>A <dfn
-								data-lt="named k-th order data structure|named data structure|named data structures"
-								>named k-th order data structures</dfn>, is an ordered tuple [n, DS,
-							k] where n is the name of the named data structure and data structure
-							DS, of order k or less, is the content of the named data structure. </p>
-						<p>We define a number of syntactic operations on <a>data structures</a> as
-							follows. Let DS be a <a>data structure</a>. </p>
-						<ul>
-							<li><dfn>isDataStructure</dfn>(E) is true if E is a <a>data
-									structure</a>; otherwise it is false.</li>
-							<li><dfn>hasStatic</dfn>(DS) is true if DS has a static part; otherwise,
-								it is false.</li>
-							<li><dfn>hasDynamic</dfn>(DS) is true if DS has a dynamic part;
-								otherwise, it is false.</li>
-							<li><dfn>staticPart</dfn>(DS) is defined on all data structures that
-								have a static part (hasStatic(DS) is true); otherwise it is
-								undefined. When defined, its value is the static part of DS.</li>
-							<li><dfn>dynamicPart</dfn>(DS) is defined on all data structures that
-								have a dynamic part (hasDynamic(DS) is true); otherwise it is
-								undefined. When defined, its value is the dynamic part of DS.</li>
-						</ul>
-						<p class="note">If a k-th order <a>data structure</a> has no dynamic part,
-							then its static part is itself (staticPart(DS) = DS). In that case it is
-							a k-th order <a>static data structure</a>, e.g. an RDF graph (k=0) or
-							k-th order <a>dataset</a>.</p>
-						<p class="note">If a k-th order data structure DS does not have a static
-							part, then dynamicPart(DS) = DS; in this case, the data structure is a
-								<a>data sequence</a>. In particular, it is a sequence of k-th order
-								<a>static data structures</a>. We define this special case of
-								<a>data sequence</a> to be a <dfn>k-th order data
-							sequence</dfn>.</p>
-						<p class="ednote">I have reverted to the terminology "static" and "dynamic"
-							because using "unordered" and "ordered" has a collision with the "order"
-							of the structure. However this terminology is not entirely satisfactory,
-							for two reasons. One is that it suggests a temporal character, and while
-							that is the primary motivation for these structures, the temporal nature
-							comes from the semantics, not the sequential order. The sequential order
-							could quite reasonably be exploited for nontemporal aspects that have
-							ordering. The second reason it is unsatisfactory is that the "static"
-							part can have either default or named parts that are "dynamic". This is
-							particularly relevant in the case of the "store" structure, defined
-							below, whose static part is a collection of repositories. Alternative:
-							"map" and "history"?</p>
-					</section>
+			</section>
+			<section id="def-data-sequences-structures">
+				<h3>RDF Data Sequences and Structures</h3>
+				<section id="def-data-sequences">
+					<h4>RDF Data Sequences</h4>
+					<p>An <dfn data-lt="RDF Data Sequences|Data Sequence|Data Sequences">RDF Data
+							Sequence</dfn> is a <a>sequence</a> of <a>data structures</a>.</p>
+					<p>In this document, we use the term <dfn>sequence</dfn> in the sense of a
+						totally-ordered set (in mathematics, called a chain) that can be strictly
+						monotonically mapped onto the integers. I.e., it is isomorphic, as a poset,
+						to a subset of the integers. A sequence may be finite, or infinite. If
+						infinite, the set MAY or MAY NOT have a least element, and MAY or MAY NOT
+						have a greatest element. If a sequence has neither least nor greatest
+						element, then it is said to be <dfn>bi-infinite</dfn>.</p>
+					<p>We define a number of syntactic operations on <a>data sequences</a> as
+						follows. Let DSQ be a <a>data sequence</a>. </p>
+					<ul>
+						<li><dfn>isSequence</dfn>(E) is true if E is a <a>data sequence</a>;
+							otherwise it is false.</li>
+						<li>If DST is an element of DSQ, then <dfn>isMemberOf</dfn>(DST, DSQ) is
+							true; otherwise, it is false.</li>
+						<li>If DST and DST' are two elements of DSQ, then <dfn>previousTo</dfn>(DST,
+							DST'; DSQ) is defined; otherwise it is undefined. It has the value true
+							if DST &lt; DST' in the context of DSQ, and has the value false if DST
+							&gt;= DST' in the context of DSQ. </li>
+						<li>If <a>previousTo</a>(DST, DST'; DSQ), then <dfn>follows</dfn>(DST, DST';
+							DSQ) is defined; otherwise it is undefined. It has the value true if DST
+							&gt; DST' in the context of DSQ, and has the value false if DST &lt;=
+							DST' in the context of DSQ. </li>
+						<li>If DSQ has a least element then <dfn>hasLeast</dfn>(DSQ) has the value
+							true, and otherwise false </li>
+						<li>If DSQ has a greatest element then <dfn>hasGreatest</dfn>(DSQ) has the
+							value true, and otherwise false. </li>
+						<li>If <a>hasLeast</a>(DSQ) is true, then <dfn>least</dfn>(DSQ) is defined,
+							and has the value of the least element of DSQ. Otherwise it is
+							undefined. </li>
+						<li>If <a>hasGreatest</a>(DSQ) is true, then <dfn>greatest</dfn>(DSQ) is
+							defined, and has the value of the greatest element of DSQ. Otherwise it
+							is undefined. </li>
+						<li>If <a>least</a>(DSQ) = DST, then <dfn>isLeastOf</dfn>(DST, DSQ) has
+							value true, and otherwise false. </li>
+						<li>If <a>greatest</a>(DSQ) = DST, then <dfn>isGreatestOf</dfn>(DST, DSQ)
+							has value true, and otherwise false. </li>
+						<li>If <a>isLeastOf</a>(DST, DSG) is false, then <dfn>predecessor</dfn>(DST;
+							DSQ) is defined, and has the value of the unique <a>predecessor</a> of
+							DST in the context of DSQ. I.e., if predecessor(DST; DSQ) = DST', then
+							(in the context of DSQ) DST' &lt; DST, and for any DST'' where DST''
+							&lt; DST, it holds that DST'' &lt;= DST'. </li>
+						<li>If <a>isGreatestOf</a>(DST, DSQ) is false, then
+							<dfn>successor</dfn>(DST; DSQ) is defined, and has the value of the
+							unique <a>successor</a> of DST in the context of DSQ. I.e., if
+							successor(DST; DSQ) = DST', then (in the context of DSQ) DST' &gt; DST,
+							and for any DST'' where DST'' &gt; DST, it holds that DST'' &gt;= DST'. </li>
+						<li>The basic constructor operation <dfn>Cons</dfn> builds sequences by
+							adding an additional element to a sequence with a greatest element. The
+							basic operation analagous to a "head" function is <a>greatest</a>, that
+							returns the greatest element if it exists. We define also the basic
+							operation <dfn>exceptGreatest</dfn>, which is the counterpart to the
+							traditional "tail" function. </li>
+						<li>Square brackets are used in the abstract syntax to define a sequence
+							explicitly, with the greatest element first. </li>
+					</ul>
+					<aside class="example"> In the case that <a>hasGreatest</a>(DSQ) is true, then
+							<p> Cons( greatest(DSQ), exceptGreatest(DSQ) ) = DSQ.</p>
+					</aside>
+					<aside> The empty sequence, [], is also denoted S<sub>0</sub>.</aside>
+					<aside class="example">For any data structure DS, <p>Cons(DS, S<sub>0</sub>) =
+							[DS]</p></aside>
+					<aside>A Graph Store in the sense of [[!SPARQL11-Update]] is most closely
+						related, of the <a>data structures</a> considered in this document, to a
+							<a>data sequence</a> where each element is a <a>dataset</a> of first
+						order or less. </aside>
+					<p>In the spirit of [[!SPARQL11-Update]], we define the <dfn>Revise</dfn>
+						operation as an explicit operation acting on a <a>terminating data
+							sequence</a> that applies a binary function to the greatest element of
+						the sequence, and to the sequence itself, and <a>Cons</a>es it onto the
+						sequence.</p>
+					<aside class="example">Consider a Graph Store which has been newly initialized
+						as the empty graph <p>GS = Cons({}, S<sub>0</sub>)</p>
+						<p>The application of <a>Revise</a> to this graph store with an OpInsertData
+							operation specification as a lambda expression is expressed as follows. </p>
+						<p>GS' = Revise(GS, (λxy.OpInsertData(P, {}, x, y)) ) <br /> =
+							Cons(OpInsertData(P, {}, greatest(GS), GS), GS) <br /> where P is a
+							ground Quadpattern.</p>
+						<p>An additional update to this graph store to insert data according to
+							another ground quadpattern P' would be expressed as follows.</p>
+						<p>GS'' = Revise(GS', (λxy.OpInsertData(P', {}, x, y)) ) <br /> =
+							Cons(OpInsertData(P', {}, greatest(GS'), GS'), GS').</p>
+						<p>Note that by the definition of OpInsertData in [[!SPARQL11-Update]], any
+							blank node appearing in P' that also appears in P must be renamed.</p>
+					</aside>
+					<p class="ednote">Add to table of structural inferences: rdfsq:isMemberOf,
+						rdfsq:previousTo, rdfsq:follows, rdfsq:hasLeast, rdfsq:hasGreatest,
+						rdfsq:least, rdfsq:greatest, rdfsq:isLeastOf, rdfsq:isGreatestOf,
+						rdfsq:predecessor, rdfsq:successor, These relationships can be inferred, but
+						only within the context of a particular sequence. The order is not an
+						inherent relationship between the two data structures. That means that if
+						this information is materialized, it must be done, in a number of cases, as
+						a quad, to indicate the context in which it holds. The graph name in the
+						quad may or may not "denote" the sequence, depending on the semantics that
+						is in play. The sequence does not need to be named explicitly, but can be
+						indicated by a blank node, (again, provided that makes sense within the
+						active semantics). If the sequence is a named sequence, then whether it is
+						appropriate to use that name to materialize such statements depends on the
+						active semantics.</p>
 				</section>
-				<section id="def-repositories">
-					<h3>RDF Repositories</h3>
-					<section id="def-kth-order-rdf-repository">
-						<h4>k-th Order RDF Repositories</h4>
-						<p>A <dfn
-								data-lt="k-th Order RDF Repositories|k-th Order Repository|k-th Order Repositories|RDF Repository|RDF Repositories|repository|repositories"
-								>k-th Order RDF Repository</dfn> is a special case of <a>k-th order
-								RDF data structure</a> that is defined by the following cases. </p>
-						<ol>
-							<li>A zeroth Order RDF Repository is an RDF Graph. </li>
-							<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>k-th order
-									dataset</a> for its static part and a <a>data sequence</a> of
-									<a>named k-th order datasets</a> for its dynamic part. The names
-								of the datasets in this sequence are unique. Further, the contents
-								of adjacent named datasets in the sequence are distinct.</li>
-						</ol>
-						<p class="note">A k-th Order RDF Repository may be viewed as a k-th Order
-							RDF Dataset with the additional structure of a total order on its
-								<a>named datasets</a>. However, the additional requirements on
-							adjacent contents being distinct emphasizes the motivation of this
-							definition as a model of a mutable dataset, where each element of the
-							sequence describes a named "snapshot" of the dataset.</p>
-						<p class="ednote">To be clarified in Eval section: The static part of the
-							repository plays the role of background knowledge, which is unioned with
-							every snapshot prior to query.</p>
-						<p>Let R be a k-th order repository.</p>
-						<p>Each element of the dynamic part of R is called a <a>version</a> of R.
-							The function <dfn>isVersionOf</dfn>(U, R) is defined for all entities U,
-							and is true exactly when <a>isMemberOf</a>(U, dynamicPart(R)) is true. </p>
-						<p class="ednote">As written, a <a>version</a> is a named dataset. It may
-							seem more intuitive to refer to the content of that named dataset as the
-							version. However, it is quite possible for two (non-adjacent) versions
-							to have the same content (i.e. a rollback). If we used only the content
-							as the version, then it would not be clear which of these versions we
-							were referring to.</p>
-						<p>We say a version U is a <dfn>previous version</dfn> of version V in the
-							context of R if <a>previousTo</a>(U, V; dynamicPart(R)) is true, and
-							similarly V is called a <dfn>following version</dfn> of U in the context
-							of the repository. The function <dfn>isPreviousVersionTo</dfn>(U, V; R)
-							is defined whenever U and V are versions of R (<a>isVersionOf</a>(U, R)
-							= isVersionOf(V, R) = true), and has the value <a>previousTo</a>(U, V;
-							dynamicPart(R)); otherwise, it is undefined.</p>
-						<p>An <dfn>initial version</dfn> of a repository is a version that does not
-							have a previous version. A repository MAY have an initial version.</p>
-						<p> The function <dfn>hasInitialVersion(R)</dfn> is defined and has the
-							value of <a>hasLeast</a>(<a>dynamicPart</a>(R)). </p>
-						<p class="note">If the dynamic part of a repositoriy has an initial version,
-							then it is unique, due to the order being total; further, it is a
-							minimal element of the dynamic part. </p>
-						<p>If R has an initial version, then the function
-								<dfn>initialVersionOf</dfn>(R) = <a>least</a>(dynamicPart(R)) is
-							defined.</p>
-						<p>If V is a version of R that is not an initial version, then we define the
-								<dfn>preceding version</dfn> of V in the context of R to be the
-								<a>predecessor</a> of version V in the dynamic part of repository R.
-							The function <dfn>precedingVersion</dfn>(V; R) = <a>predecessor</a>(V;
-								<a>dynamicPart</a>(R)) is defined for all non-intial versions V of
-							R; otherwise, it is undefined. </p>
-						<p>Similarly, we define the concepts of <dfn>terminal version</dfn>,
-								<dfn>succeeding version</dfn>, and functions
-								<dfn>hasTerminalVersion</dfn>, <dfn>terminalVersionOf</dfn>, and
-								<dfn>succeedingVersion</dfn>.</p>
-						<p class="ednote">Here is where it appears to be important to use the named
-							dataset as the version, or to refer to version by name rather than by
-							content. Because the same content can be associated with more than one
-							version name in the same repository, so the preceding version of that
-							content would not be uniquely defined.</p>
-						<p>We say that each non-initial version <dfn>revises</dfn> its preceding
-							version. We define <dfn>revises(U, V; R)</dfn> for all versions U and V
-							of R, with the value true whenever V=<a>precedingVersion</a>(U; R);
-							otherwise, it is false. </p>
-						<p class="note">Because of the requirement for total order in the dynamic
-							part, version structures do not branch.</p>
-						<p> The dynamic part MAY be finite, semi-infinite, or bi-infinite.</p>
-						<p>The set of version names of a repository R is denoted by
-								<dfn>versionNames</dfn>(R). </p>
-						<p>The function <dfn>isVersionNameOf</dfn>(n, R) is true if n is a member of
-								<a>versionNames</a>(R); otherwise, it is false.</p>
-						<p>The function <dfn>version</dfn>(n; R) is defined provided
-								<a>isVersionNameOf</a>(n, R) is true, with value being the element
-							(a named k-th order dataset) of the dynamic part of R having name n.
-							Otherwise, the function is undefined.</p>
-						<p>The function <dfn>hasNext</dfn>(n; R) is true provided n is the name of a
-							non-terminal <a>version</a> of R (<a>isVersionNameOf</a>(n, R) is true
-							and <a>terminalVersionOf</a>(R) &ne; <a>version</a>(n; R)). </p>
-						<p>The function <dfn>next</dfn>(n; R) is defined provided <a>hasNext</a>(n;
-							R) is true, and has the value <a>name</a>( <a>succeedingVersion</a>(
-								<a>version</a>(n; R) ) ).</p>
-						<p class="ednote">To be clarified in the section on the extension of Eval to
-							repositories: there is an entailment regime, called e.g. "provenance
-							entailment regime", that has additional entailments beyond those of the
-							simple entailment regimes in that the name of each non-initial version
-							is related to the name of its previous version by the <a
-								href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#wasRevisionOf"
-								>prov:wasRevisionOf</a> property. </p>
-						<p class="ednote">To be clarified in the section on the extension of Eval to
-							repositories: An objective for the provenance entailment regime is that
-							it be monotonic with respect to repository updates. From this
-							perspective, it would also be ok to include entailment regarding the
-							initial version. Therefore, we define a new property
-								<code>repo:isInitialVersion</code> that relates each version name of
-							a repository to a boolean literal value. </p>
-						<p class="ednote">This is not yet a sufficient analysis of the similarities
-							and differences between a second-order repository and a Graph Store.
-							Move to Examples section? A second-order <a>RDF Repository</a> is
-							similar to a Graph Store, but with the additional structure that every
-							version is named (albeit the name may be a blank node). </p>
-						<p class="ednote">Needs more explanation, examples: Where Update Operations
-							are conceived as functional specifications for transitions of the state
-							of a Graph Store, for a RDF Repository these operations play the role of
-							helper functions used in the "lazy" construction of the RDF Repository. </p>
-						<p class="ednote">Needs more explanation, examples: To use a second-order
-								<a>repository</a> to emulate a <a>Graph Store</a>, the input for
-							query and update operations would have to be limited to some "current
-								<a>version</a>", and the <a>static part</a> of the repository would
-							be empty. The execution of an <a>Update operation</a> would move the
-							"current <a>version</a> pointer" to the <a>succeeding version</a>. </p>
-					</section>
-					<section id="def-named-kth-order-repository">
-						<h4>Named k-th Order RDF Repository</h4>
-						<p>A <dfn
-								data-lt="Named k-th Order RDF Repositories|Named RDF Repository|Named RDF Repositories|Named Repository|Named Repositories"
-								>Named k-th Order RDF Repository</dfn> is a <a>named data
-								structure</a> whose content is a <a>k-th order repository</a>. </p>
-						<p class="ednote">To be clarified in the section on the extension of Eval on
-							named repositories: Under the provenance entailment regime a <a>named
-								RDF repository</a> has additional entailments that the name of each
-							version is related to the name of the parent RDF Repository by the <a
-								href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#specializationOf"
-								>prov:specializationOf</a> property. </p>
-						<p class="ednote">To be clarified in the section on the extension of Eval to
-							named repositories: For a named repository, e.g. within a store, the
-							provenance entailment regime also includes an additional property,
-								<code>repo:isInitialVersionOf</code>, with object being the name of
-							the repository. A new namespace (prefix "repo") needs to be defined.
-							These properties can be used to define operations on <a>data
-								sequences</a> and <a>data structures</a> that extract parts of the
-							sequence (e.g. foot(initial version), and subsequences related to that,
-							such as the first 10 versions) that are monotonic relative to update
-							operations. </p>
-						<p class="ednote">To be clarified in the section on the extension of Eval to
-							repositories and named repositories: a "repository structure entailment
-							regime" could be defined as an extension of the monotonic provenance
-							entailment regime, relaxing the requirement for monotonicity with
-							respect to update operations. This regime could then include entailments
-							regarding the terminal version, using
-								<code>repo:isTerminalVersion</code> and
-								<code>repo:isTerminalVersionOf</code>. These properties could be
-							used as the basis for basic operations on <a>data sequences</a> and
-								<a>data structures</a> that extract parts of the sequence, e.g.
-							head, tail and subsequences related to these) that are nonmonotonic
-							relative to update operations). </p>
-					</section>
+				<section id="def-k-th-order-data-structure">
+					<h4>k-th Order RDF Data Structure</h4>
+					<p>A <dfn
+							data-lt="k-th Order RDF Data Structures|k-th Order Data Structure|k-th Order Data Structures|Data Structure|Data Structures"
+							>k-th Order RDF Data Structure</dfn> is defined by cases as follows. </p>
+					<p>A k-th order RDF data strucutre is a collection of k-th order static data
+						structures </p>
+					<ul>
+						<li>The optional <dfn>static part</dfn> of DS is a k-th order static data
+							structure.</li>
+						<li>The <dfn>dynamic part</dfn> of DS, which is optional if DS has a static
+							part, is a sequence of k-th order static data structures.</li>
+					</ul>
+					<p>A <dfn
+							data-lt="named k-th order data structure|named data structure|named data structures"
+							>named k-th order data structures</dfn>, is an ordered tuple [n, DS, k]
+						where n is the name of the named data structure and data structure DS, of
+						order k or less, is the content of the named data structure. </p>
+					<p>We define a number of syntactic operations on <a>data structures</a> as
+						follows. Let DS be a <a>data structure</a>. </p>
+					<ul>
+						<li><dfn>isDataStructure</dfn>(E) is true if E is a <a>data structure</a>;
+							otherwise it is false.</li>
+						<li><dfn>hasStatic</dfn>(DS) is true if DS has a static part; otherwise, it
+							is false.</li>
+						<li><dfn>hasDynamic</dfn>(DS) is true if DS has a dynamic part; otherwise,
+							it is false.</li>
+						<li><dfn>staticPart</dfn>(DS) is defined on all data structures that have a
+							static part (hasStatic(DS) is true); otherwise it is undefined. When
+							defined, its value is the static part of DS.</li>
+						<li><dfn>dynamicPart</dfn>(DS) is defined on all data structures that have a
+							dynamic part (hasDynamic(DS) is true); otherwise it is undefined. When
+							defined, its value is the dynamic part of DS.</li>
+					</ul>
+					<p class="note">If a k-th order <a>data structure</a> has no dynamic part, then
+						its static part is itself (staticPart(DS) = DS). In that case it is a k-th
+						order <a>static data structure</a>, e.g. an RDF graph (k=0) or k-th order
+							<a>dataset</a>.</p>
+					<p class="note">If a k-th order data structure DS does not have a static part,
+						then dynamicPart(DS) = DS; in this case, the data structure is a <a>data
+							sequence</a>. In particular, it is a sequence of k-th order <a>static
+							data structures</a>. We define this special case of <a>data sequence</a>
+						to be a <dfn>k-th order data sequence</dfn>.</p>
+					<p class="ednote">I have reverted to the terminology "static" and "dynamic"
+						because using "unordered" and "ordered" has a collision with the "order" of
+						the structure. However this terminology is not entirely satisfactory, for
+						two reasons. One is that it suggests a temporal character, and while that is
+						the primary motivation for these structures, the temporal nature comes from
+						the semantics, not the sequential order. The sequential order could quite
+						reasonably be exploited for nontemporal aspects that have ordering. The
+						second reason it is unsatisfactory is that the "static" part can have either
+						default or named parts that are "dynamic". This is particularly relevant in
+						the case of the "store" structure, defined below, whose static part is a
+						collection of repositories. Alternative: "map" and "history"?</p>
 				</section>
-				<section id="def-stores">
-					<h3>Stores</h3>
-					<section id="def-kth-order-store">
-						<h4>k-th Order RDF Store</h4>
-						<p>A <dfn
-								data-lt="k-th Order RDF Stores|k-th Order Store|k-th Order Stores|RDF Store|RDF Stores|Store|Stores"
-								>k-th Order RDF Store</dfn> is a special case of <a>k-th order data
-								structure</a> defined by cases: </p>
-						<ol>
-							<li>A zeroth-order RDF Store is an RDF Graph. </li>
-							<li>A first-order RDF Store is first-order dataset.</li>
-							<li> A (k+2)-th order RDF Store, k = 0, 1, ..., is a (k+2)-th order data
-								structure with the following properties. <ul>
-									<li>It has a static part whose default part is a (k+1)-th order
-										repository, called the default repository of the store, and
-										whose named part consists of named (k+1)-th order
-										repositories, called named repositories of the store. </li>
-									<li>It has a dynamic part whose elements are named (k+1)-th
-										order datasets, called versions of the store.</li>
-									<li>The static and dynamic parts of a store St satisfy the
-										following consistency requirements.</li>
-									<ul>
-										<!--
+			</section>
+			<section id="def-repositories">
+				<h3>RDF Repositories</h3>
+				<section id="def-kth-order-rdf-repository">
+					<h4>k-th Order RDF Repositories</h4>
+					<p>A <dfn
+							data-lt="k-th Order RDF Repositories|k-th Order Repository|k-th Order Repositories|RDF Repository|RDF Repositories|repository|repositories"
+							>k-th Order RDF Repository</dfn> is a special case of <a>k-th order RDF
+							data structure</a> that is defined by the following cases. </p>
+					<ol>
+						<li>A zeroth Order RDF Repository is an RDF Graph. </li>
+						<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>k-th order
+								dataset</a> for its static part and a <a>data sequence</a> of
+								<a>named k-th order datasets</a> for its dynamic part. The names of
+							the datasets in this sequence are unique. Further, the contents of
+							adjacent named datasets in the sequence are distinct.</li>
+					</ol>
+					<p class="note">A k-th Order RDF Repository may be viewed as a k-th Order RDF
+						Dataset with the additional structure of a total order on its <a>named
+							datasets</a>. However, the additional requirements on adjacent contents
+						being distinct emphasizes the motivation of this definition as a model of a
+						mutable dataset, where each element of the sequence describes a named
+						"snapshot" of the dataset.</p>
+					<p class="ednote">To be clarified in Eval section: The static part of the
+						repository plays the role of background knowledge, which is unioned with
+						every snapshot prior to query.</p>
+					<p>Let R be a k-th order repository.</p>
+					<p>Each element of the dynamic part of R is called a <a>version</a> of R. The
+						function <dfn>isVersionOf</dfn>(U, R) is defined for all entities U, and is
+						true exactly when <a>isMemberOf</a>(U, dynamicPart(R)) is true. </p>
+					<p class="ednote">As written, a <a>version</a> is a named dataset. It may seem
+						more intuitive to refer to the content of that named dataset as the version.
+						However, it is quite possible for two (non-adjacent) versions to have the
+						same content (i.e. a rollback). If we used only the content as the version,
+						then it would not be clear which of these versions we were referring to.</p>
+					<p>We say a version U is a <dfn>previous version</dfn> of version V in the
+						context of R if <a>previousTo</a>(U, V; dynamicPart(R)) is true, and
+						similarly V is called a <dfn>following version</dfn> of U in the context of
+						the repository. The function <dfn>isPreviousVersionTo</dfn>(U, V; R) is
+						defined whenever U and V are versions of R (<a>isVersionOf</a>(U, R) =
+						isVersionOf(V, R) = true), and has the value <a>previousTo</a>(U, V;
+						dynamicPart(R)); otherwise, it is undefined.</p>
+					<p>An <dfn>initial version</dfn> of a repository is a version that does not have
+						a previous version. A repository MAY have an initial version.</p>
+					<p> The function <dfn>hasInitialVersion(R)</dfn> is defined and has the value of
+							<a>hasLeast</a>(<a>dynamicPart</a>(R)). </p>
+					<p class="note">If the dynamic part of a repositoriy has an initial version,
+						then it is unique, due to the order being total; further, it is a minimal
+						element of the dynamic part. </p>
+					<p>If R has an initial version, then the function <dfn>initialVersionOf</dfn>(R)
+						= <a>least</a>(dynamicPart(R)) is defined.</p>
+					<p>If V is a version of R that is not an initial version, then we define the
+							<dfn>preceding version</dfn> of V in the context of R to be the
+							<a>predecessor</a> of version V in the dynamic part of repository R. The
+						function <dfn>precedingVersion</dfn>(V; R) = <a>predecessor</a>(V;
+							<a>dynamicPart</a>(R)) is defined for all non-intial versions V of R;
+						otherwise, it is undefined. </p>
+					<p>Similarly, we define the concepts of <dfn>terminal version</dfn>,
+							<dfn>succeeding version</dfn>, and functions
+							<dfn>hasTerminalVersion</dfn>, <dfn>terminalVersionOf</dfn>, and
+							<dfn>succeedingVersion</dfn>.</p>
+					<p class="ednote">Here is where it appears to be important to use the named
+						dataset as the version, or to refer to version by name rather than by
+						content. Because the same content can be associated with more than one
+						version name in the same repository, so the preceding version of that
+						content would not be uniquely defined.</p>
+					<p>We say that each non-initial version <dfn>revises</dfn> its preceding
+						version. We define <dfn>revises(U, V; R)</dfn> for all versions U and V of
+						R, with the value true whenever V=<a>precedingVersion</a>(U; R); otherwise,
+						it is false. </p>
+					<p class="note">Because of the requirement for total order in the dynamic part,
+						version structures do not branch.</p>
+					<p> The dynamic part MAY be finite, semi-infinite, or bi-infinite.</p>
+					<p>The set of version names of a repository R is denoted by
+							<dfn>versionNames</dfn>(R). </p>
+					<p>The function <dfn>isVersionNameOf</dfn>(n, R) is true if n is a member of
+							<a>versionNames</a>(R); otherwise, it is false.</p>
+					<p>The function <dfn>version</dfn>(n; R) is defined provided
+							<a>isVersionNameOf</a>(n, R) is true, with value being the element (a
+						named k-th order dataset) of the dynamic part of R having name n. Otherwise,
+						the function is undefined.</p>
+					<p>The function <dfn>hasNext</dfn>(n; R) is true provided n is the name of a
+						non-terminal <a>version</a> of R (<a>isVersionNameOf</a>(n, R) is true and
+							<a>terminalVersionOf</a>(R) &ne; <a>version</a>(n; R)). </p>
+					<p>The function <dfn>next</dfn>(n; R) is defined provided <a>hasNext</a>(n; R)
+						is true, and has the value <a>name</a>( <a>succeedingVersion</a>(
+							<a>version</a>(n; R) ) ).</p>
+					<p class="ednote">To be clarified in the section on the extension of Eval to
+						repositories: there is an entailment regime, called e.g. "provenance
+						entailment regime", that has additional entailments beyond those of the
+						simple entailment regimes in that the name of each non-initial version is
+						related to the name of its previous version by the <a
+							href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#wasRevisionOf"
+							>prov:wasRevisionOf</a> property. </p>
+					<p class="ednote">To be clarified in the section on the extension of Eval to
+						repositories: An objective for the provenance entailment regime is that it
+						be monotonic with respect to repository updates. From this perspective, it
+						would also be ok to include entailment regarding the initial version.
+						Therefore, we define a new property <code>repo:isInitialVersion</code> that
+						relates each version name of a repository to a boolean literal value. </p>
+					<p class="ednote">This is not yet a sufficient analysis of the similarities and
+						differences between a second-order repository and a Graph Store. Move to
+						Examples section? A second-order <a>RDF Repository</a> is similar to a Graph
+						Store, but with the additional structure that every version is named (albeit
+						the name may be a blank node). </p>
+					<p class="ednote">Needs more explanation, examples: Where Update Operations are
+						conceived as functional specifications for transitions of the state of a
+						Graph Store, for a RDF Repository these operations play the role of helper
+						functions used in the "lazy" construction of the RDF Repository. </p>
+					<p class="ednote">Needs more explanation, examples: To use a second-order
+							<a>repository</a> to emulate a <a>Graph Store</a>, the input for query
+						and update operations would have to be limited to some "current
+							<a>version</a>", and the <a>static part</a> of the repository would be
+						empty. The execution of an <a>Update operation</a> would move the "current
+							<a>version</a> pointer" to the <a>succeeding version</a>. </p>
+				</section>
+				<section id="def-named-kth-order-repository">
+					<h4>Named k-th Order RDF Repository</h4>
+					<p>A <dfn
+							data-lt="Named k-th Order RDF Repositories|Named RDF Repository|Named RDF Repositories|Named Repository|Named Repositories"
+							>Named k-th Order RDF Repository</dfn> is a <a>named data structure</a>
+						whose content is a <a>k-th order repository</a>. </p>
+					<p class="ednote">To be clarified in the section on the extension of Eval on
+						named repositories: Under the provenance entailment regime a <a>named RDF
+							repository</a> has additional entailments that the name of each version
+						is related to the name of the parent RDF Repository by the <a
+							href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#specializationOf"
+							>prov:specializationOf</a> property. </p>
+					<p class="ednote">To be clarified in the section on the extension of Eval to
+						named repositories: For a named repository, e.g. within a store, the
+						provenance entailment regime also includes an additional property,
+							<code>repo:isInitialVersionOf</code>, with object being the name of the
+						repository. A new namespace (prefix "repo") needs to be defined. These
+						properties can be used to define operations on <a>data sequences</a> and
+							<a>data structures</a> that extract parts of the sequence (e.g.
+						foot(initial version), and subsequences related to that, such as the first
+						10 versions) that are monotonic relative to update operations. </p>
+					<p class="ednote">To be clarified in the section on the extension of Eval to
+						repositories and named repositories: a "repository structure entailment
+						regime" could be defined as an extension of the monotonic provenance
+						entailment regime, relaxing the requirement for monotonicity with respect to
+						update operations. This regime could then include entailments regarding the
+						terminal version, using <code>repo:isTerminalVersion</code> and
+							<code>repo:isTerminalVersionOf</code>. These properties could be used as
+						the basis for basic operations on <a>data sequences</a> and <a>data
+							structures</a> that extract parts of the sequence, e.g. head, tail and
+						subsequences related to these) that are nonmonotonic relative to update
+						operations). </p>
+				</section>
+			</section>
+			<section id="def-stores">
+				<h3>Stores</h3>
+				<section id="def-kth-order-store">
+					<h4>k-th Order RDF Store</h4>
+					<p>A <dfn
+							data-lt="k-th Order RDF Stores|k-th Order Store|k-th Order Stores|RDF Store|RDF Stores|Store|Stores"
+							>k-th Order RDF Store</dfn> is a special case of <a>k-th order data
+							structure</a> defined by cases: </p>
+					<ol>
+						<li>A zeroth-order RDF Store is an RDF Graph. </li>
+						<li>A first-order RDF Store is first-order dataset.</li>
+						<li> A (k+2)-th order RDF Store, k = 0, 1, ..., is a (k+2)-th order data
+							structure with the following properties. <ul>
+								<li>It has a static part whose default part is a (k+1)-th order
+									repository, called the default repository of the store, and
+									whose named part consists of named (k+1)-th order repositories,
+									called named repositories of the store. </li>
+								<li>It has a dynamic part whose elements are named (k+1)-th order
+									datasets, called versions of the store.</li>
+								<li>The static and dynamic parts of a store St satisfy the following
+									consistency requirements.</li>
+								<ul>
+									<!--
 										<li>The names in any version of store are a subset of the
 											names of named repositories of the store.</li>
 										<li>The content of a name in any version of the dynamic part
 											of the store is a version of the repository having that
 											name according to the static part of the store.</li>
 											-->
-										<li>For every repository name n in names(staticPart(St)),
-											there is a monotonic partial mapping M<sub>n</sub> from
-											versionNames(St) onto versionNames( content(n,
-											staticPart(St))); that is, from version names of the
-											store to version names of the named repository of the
-											store with name n. </li>
-										<li>The domain of M<sub>n</sub>, dom(M<sub>n</sub>), is an
-											interval in versionNames(St).</li>
-										<li>If stver is in dom(M<sub>repname</sub>), let repver =
-												M<sub>repname</sub>(stver). Then <br />
-											content(repname; version(stver; St)) = version(repver;
-											content(repname; staticPart(St))) </li>
-										<li>There is a one-to-one monotonic correspondence
-												M<sub>default</sub> of version names of the Store to
-											version names of the default repository.</li>
-										<li>If stver in in versionNames(St), let repver =
-												M<sub>default</sub>(stver). Then <br />
-											default(version(stver; St)) = version(repver;
-											default(Static(St))) </li>
-									</ul>
+									<li>For every repository name n in names(staticPart(St)), there
+										is a monotonic partial mapping M<sub>n</sub> from
+										versionNames(St) onto versionNames( content(n,
+										staticPart(St))); that is, from version names of the store
+										to version names of the named repository of the store with
+										name n. </li>
+									<li>The domain of M<sub>n</sub>, dom(M<sub>n</sub>), is an
+										interval in versionNames(St).</li>
+									<li>If stver is in dom(M<sub>repname</sub>), let repver =
+											M<sub>repname</sub>(stver). Then <br /> content(repname;
+										version(stver; St)) = version(repver; content(repname;
+										staticPart(St))) </li>
+									<li>There is a one-to-one monotonic correspondence
+											M<sub>default</sub> of version names of the Store to
+										version names of the default repository.</li>
+									<li>If stver in in versionNames(St), let repver =
+											M<sub>default</sub>(stver). Then <br />
+										default(version(stver; St)) = version(repver;
+										default(Static(St))) </li>
 								</ul>
-							</li>
-							<!--  if name is in names(staticPart(S))
+							</ul>
+						</li>
+						<!--  if name is in names(staticPart(S))
 								      then isRepository( content(name, staticPart(S)) ) = true
 								and a dynamic part such that the dynamic part of each named
 								repository in the static part of the store is a restriction of the
@@ -897,99 +884,53 @@
 							<li>Further, if name is not in names(staticPart(S)), then Restrict(
 								dynamicPart(S), name) = [{}] </li>
 								-->
-						</ol>
-						<p>Let <dfn>Distinct</dfn> be a basic operation on sequences that collapses
-							adjacent identical elements into a single element, producing a new
-							sequence. Let <dfn>Map</dfn> be a basic operation on sequences that
-							applies a unary function to every element of the sequence, producing a
-							new sequence.</p>
-						<p>We define the basic operation <dfn>Restrict</dfn> whose signature is a
-							first argument of a <a>data sequence</a> of <a>named static data
-								structures</a> of k-th order, for some fixed k, and second argument
-							a name or set of names, and output is a <a>data sequence</a>.</p>
-						<p> Let DSQ = [ [n<sub>i</sub>, DSQ<sub>i</sub>, k+1]]<sub>i in
-								<i>I</i></sub>. Then </p>
-						<p> Restrict(DSQ, name) = Distinct( [content(name, DSQ<sub>i</sub>)]<sub>i
-								in <i>I</i></sub> ) </p>
-						<p> = Distinct( Map( DSQ, (λx.content(name, content(x)) ) )</p>
-						<p class="ednote">The definition above is for a single name. We need to
-							extend the definition to a set of names, by taking the Dataset-UNION
-							over the set {content(name, content(x})|name in names}. It would be
-							helpful to have Dataset-UNION defined on a set. A convenience method
-							would be to define <a>content</a> for a first argument that is a set of
-							names, and take the <a>Dataset-UNION</a> over the <a>content</a> for
-							each individual name. Because of the Dataset-UNION operation, the second
-							argument of this extended content operation must be a
-							<a>dataset</a>.</p>
-						<p>Similarly, we define <dfn>Restrict-DEFAULT</dfn> on <a>named static data
-								structures</a> of k-th order, for some fixed k, as follows.</p>
-						<p> Restrict-DEFAULT(DSQ) = Distinct( [default( DSQ<sub>i</sub>)]<sub>i in
-									<i>I</i></sub> ) </p>
-						<p> = Distinct( Map( DSQ, (λx.default(content(x)) ) )</p>
-						<p class="ednote">We might as well include a combination union of default
-							and named.</p>
-						<p>Using the store history, we can form the "union" of histories of
-							repositories that are in the store (as named and/or default), because
-							the relative order of revisions of these repositories has been recorded
-							in the history of the store.</p>
-						<p> Let R<sub>i</sub> = content(name<sub>i</sub>, staticPart(S)), and
-								R<sub>j</sub> = content(name<sub>j</sub>, staticPart(S)), for some
-								name<sub>i</sub> and name<sub>j</sub> in names(S). Then </p>
-						<p> Dynamic-UNION(S, {name<sub>i</sub>, name<sub>j</sub>}) = Restrict(
-							dynamicPart( S ), {name<sub>i</sub>, name<sub>j</sub>} ) </p>
-						<p class="ednote">The intended semantics, under any entailment regime, of a
-							k+1-th Order <a>RDF Store</a> is derived from that of the corresponding
-							k+1-th Order RDF Repository, supplemented by that of its member k-th
-							Order Repositories, possibly augmented (e.g. in the provenance regime)
-							by entailments that link the two. </p>
-					</section>
+					</ol>
+					<p>Let <dfn>Distinct</dfn> be a basic operation on sequences that collapses
+						adjacent identical elements into a single element, producing a new sequence.
+						Let <dfn>Map</dfn> be a basic operation on sequences that applies a unary
+						function to every element of the sequence, producing a new sequence.</p>
+					<p>We define the basic operation <dfn>Restrict</dfn> whose signature is a first
+						argument of a <a>data sequence</a> of <a>named static data structures</a> of
+						k-th order, for some fixed k, and second argument a name or set of names,
+						and output is a <a>data sequence</a>.</p>
+					<p> Let DSQ = [ [n<sub>i</sub>, DSQ<sub>i</sub>, k+1]]<sub>i in <i>I</i></sub>.
+						Then </p>
+					<p> Restrict(DSQ, name) = Distinct( [content(name, DSQ<sub>i</sub>)]<sub>i in
+								<i>I</i></sub> ) </p>
+					<p> = Distinct( Map( DSQ, (λx.content(name, content(x)) ) )</p>
+					<p class="ednote">The definition above is for a single name. We need to extend
+						the definition to a set of names, by taking the Dataset-UNION over the set
+						{content(name, content(x})|name in names}. It would be helpful to have
+						Dataset-UNION defined on a set. A convenience method would be to define
+							<a>content</a> for a first argument that is a set of names, and take the
+							<a>Dataset-UNION</a> over the <a>content</a> for each individual name.
+						Because of the Dataset-UNION operation, the second argument of this extended
+						content operation must be a <a>dataset</a>.</p>
+					<p>Similarly, we define <dfn>Restrict-DEFAULT</dfn> on <a>named static data
+							structures</a> of k-th order, for some fixed k, as follows.</p>
+					<p> Restrict-DEFAULT(DSQ) = Distinct( [default( DSQ<sub>i</sub>)]<sub>i in
+								<i>I</i></sub> ) </p>
+					<p> = Distinct( Map( DSQ, (λx.default(content(x)) ) )</p>
+					<p class="ednote">We might as well include a combination union of default and
+						named.</p>
+					<p>Using the store history, we can form the "union" of histories of repositories
+						that are in the store (as named and/or default), because the relative order
+						of revisions of these repositories has been recorded in the history of the
+						store.</p>
+					<p> Let R<sub>i</sub> = content(name<sub>i</sub>, staticPart(S)), and
+							R<sub>j</sub> = content(name<sub>j</sub>, staticPart(S)), for some
+							name<sub>i</sub> and name<sub>j</sub> in names(S). Then </p>
+					<p> Dynamic-UNION(S, {name<sub>i</sub>, name<sub>j</sub>}) = Restrict(
+						dynamicPart( S ), {name<sub>i</sub>, name<sub>j</sub>} ) </p>
+					<p class="ednote">The intended semantics, under any entailment regime, of a
+						k+1-th Order <a>RDF Store</a> is derived from that of the corresponding
+						k+1-th Order RDF Repository, supplemented by that of its member k-th Order
+						Repositories, possibly augmented (e.g. in the provenance regime) by
+						entailments that link the two. </p>
 				</section>
-				<section id="def-streams">
-					<h3>Streams</h3>
-				</section>
-				<!--
-		<section id="def-term-segment">
-          <h4>Term Segment</h4>
-		  <p>The <dfn data-lt="Term Segments">Term Segment</dfn> (of a Store) is the mutable (write-only) set of 
-		       the RDF Terms known at a given time to appear 
-				or have appeared in the Named Repositories Store 
-				</a>.
-		  </p>	
-		  <p class="ednote">The Term Segment includes terms that might not currently appear in any statement in the current Revision of any 
-				RDF Repository in the Store.
-		  </p>
-		  <p class="ednote">Do we need this term?it appears to be connected with the iterator over the history of a Repository,
-		  which does not appear to be relevant for the abstract data model.
-		  </p>		  
-		</section>-->
-				<!--
-		<section id="def-term">
-          <h4>The Term</h4>
-		  <p>A <dfn data-lt="the terms">the term</dfn> is a (supertype) where (specialization)</a>.
-		  </p>	
-		  <p class="ednote">The intended semantics of a <a>the term</a> is (semantics)
-		  </p>
-		</section>
-		<section id="def-property">
-          <h4>the property</h4>
-		  <p>A <dfn data-lt="the properties">the property</dfn> (of a domain type) is a (range type) where (requirements)</a>.
-		  </p>	
-		  <p class="ednote">This property is a subproperty of @@@
-		  </p>
-		</section>		-->
-				<div style="text-align: left;">
-					<table class="thinborder" style="margin-left: auto; margin-right: auto;">
-						<caption id="new-datatypes-discarded-table"><b>Table B</b>: New datatypes
-							considered for this specification but probably not needed</caption>
-						<tbody>
-							<tr>
-								<td><b>Name</b></td>
-								<td><b>Definition</b>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+			</section>
+			<section id="def-streams">
+				<h3>Streams</h3>
 			</section>
 		</section>
 		<section id="abstract-syntactic-categories">
