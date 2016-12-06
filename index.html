@@ -760,6 +760,18 @@
 					<p>The function <dfn>next</dfn>(n; R) is defined provided <a>hasNext</a>(n; R)
 						is true, and has the value <a>name</a>( <a>succeedingVersion</a>(
 							<a>version</a>(n; R) ) ).</p>
+					<p>We define a Repository Constuctor as a basic operation
+								<dfn>Repository<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
+						following arguments.</p>
+					<ol>
+						<li>The <a>dataset</a> of order k-1 or less that is the static part of the
+							repository.</li>
+						<li>The ordered set of version names of the repository. </li>
+						<li>The mapping from the set of version names to <a>datasets</a> of order
+							k-1 or less that defines the versions of the repository. </li>
+					</ol>
+					<p>To satisfy the definition of <a>repository</a>, an additional requirement is
+						that the contents of adjacent versions MUST be distinct.</p>
 					<p class="ednote">To be clarified in the section on the extension of Eval to
 						repositories: there is an entailment regime, called e.g. "provenance
 						entailment regime", that has additional entailments beyond those of the
@@ -874,7 +886,19 @@
 								</ul>
 							</ul>
 						</li>
-						<!--  if name is in names(staticPart(S))
+					</ol>
+					<p>We define a constructor <dfn data-lt="constructor Store"
+							>Store<sub>k</sub></dfn> for <a>k-th order stores</a>, k = 2, 3, ...,
+						with the following arguments.</p>
+					<ol>
+						<li>The default (k-1)-th order repository of the store.</li>
+						<li>The set of repository names.</li>
+						<li>The mapping from repository names to (k-1)-th order repositories.</li>
+						<li>The set of store version names.</li>
+						<li>For each repository name, a partial functions from store version names
+							onto the names of versions of the associated repository.</li>
+					</ol>
+					<!--  if name is in names(staticPart(S))
 								      then isRepository( content(name, staticPart(S)) ) = true
 								and a dynamic part such that the dynamic part of each named
 								repository in the static part of the store is a restriction of the
@@ -884,35 +908,38 @@
 							<li>Further, if name is not in names(staticPart(S)), then Restrict(
 								dynamicPart(S), name) = [{}] </li>
 								-->
-					</ol>
+					<p>Given the sequence of store versions (i.e. the dynamic part of the store) and
+						the mappings from store version names to repository version names we can
+						reconstruct the dynamic parts of the repositories. To describe this
+						construction explicitly, we need a few additional basic operations.</p>
 					<p>Let <dfn>Distinct</dfn> be a basic operation on sequences that collapses
-						adjacent identical elements into a single element, producing a new sequence.
-						Let <dfn>Map</dfn> be a basic operation on sequences that applies a unary
+						adjacent identical elements into a single element, producing a new
+						sequence.</p>
+					<p> Let <dfn>Map</dfn> be a basic operation on sequences that applies a unary
 						function to every element of the sequence, producing a new sequence.</p>
 					<p>We define the basic operation <dfn>Restrict</dfn> whose signature is a first
-						argument of a <a>data sequence</a> of <a>named static data structures</a> of
-						k-th order, for some fixed k, and second argument a name or set of names,
-						and output is a <a>data sequence</a>.</p>
+						argument of a <a>data sequence</a> of <a>named datasets</a> of k-th order or
+						less, for some fixed k, and second argument a name or set of names, and
+						output is a <a>data sequence</a> of datasets of k-th order or less.</p>
 					<p> Let DSQ = [ [n<sub>i</sub>, DSQ<sub>i</sub>, k+1]]<sub>i in <i>I</i></sub>.
-						Then </p>
+						Let I<sub>m</sub> = {i|i in I such that m is in names(DSQ<sub>i</sub>)}.
+						Further let I<sub>M</sub> = Union<sub>m in M</sub> I<sub>m</sub>. Then </p>
 					<p> Restrict(DSQ, name) = Distinct( [content(name, DSQ<sub>i</sub>)]<sub>i in
-								<i>I</i></sub> ) </p>
+									<i>I<sub>name</sub></i></sub> ) </p>
 					<p> = Distinct( Map( DSQ, (λx.content(name, content(x)) ) )</p>
-					<p class="ednote">The definition above is for a single name. We need to extend
-						the definition to a set of names, by taking the Dataset-UNION over the set
-						{content(name, content(x})|name in names}. It would be helpful to have
-						Dataset-UNION defined on a set. A convenience method would be to define
-							<a>content</a> for a first argument that is a set of names, and take the
-							<a>Dataset-UNION</a> over the <a>content</a> for each individual name.
-						Because of the Dataset-UNION operation, the second argument of this extended
-						content operation must be a <a>dataset</a>.</p>
-					<p>Similarly, we define <dfn>Restrict-DEFAULT</dfn> on <a>named static data
-							structures</a> of k-th order, for some fixed k, as follows.</p>
+					<p> Restrict(DSQ, names) = Distinct( [ Dataset-UNION({content(name,
+							DSQ<sub>i</sub>)|name in names}) ]<sub>i in
+							<i>I<sub>names</sub></i></sub> ) </p>
+					<p> = Distinct( Map( DSQ, (λx.Dataset-UNION({content(name, content(x)|name in
+						names})) ) )</p>
+					<p>Similarly, we define <dfn>Restrict-DEFAULT</dfn> on a sequence of <a>named
+							static data structures</a> of k-th order, for some fixed k, as
+						follows.</p>
 					<p> Restrict-DEFAULT(DSQ) = Distinct( [default( DSQ<sub>i</sub>)]<sub>i in
 								<i>I</i></sub> ) </p>
 					<p> = Distinct( Map( DSQ, (λx.default(content(x)) ) )</p>
-					<p class="ednote">We might as well include a combination union of default and
-						named.</p>
+					<p class="ednote">Is there a need for a combination union of default and
+						named?</p>
 					<p>Using the store history, we can form the "union" of histories of repositories
 						that are in the store (as named and/or default), because the relative order
 						of revisions of these repositories has been recorded in the history of the
@@ -924,13 +951,31 @@
 						dynamicPart( S ), {name<sub>i</sub>, name<sub>j</sub>} ) </p>
 					<p class="ednote">The intended semantics, under any entailment regime, of a
 						k+1-th Order <a>RDF Store</a> is derived from that of the corresponding
-						k+1-th Order RDF Repository, supplemented by that of its member k-th Order
-						Repositories, possibly augmented (e.g. in the provenance regime) by
-						entailments that link the two. </p>
+						k+1-th Order RDF Repository (the dynamic part of the store), supplemented by
+						that of its member k-th Order Repositories, possibly augmented (e.g. in the
+						provenance regime) by entailments that link the two. </p>
+				</section>
+				<section>
+					<h4>Connection Between Repositories and Stores</h4>
+					<p>Every <a>k-th order store</a> can be converted into a k-th order repository
+						by keeping the dynamic part the same, and replacing the static part of the
+						store with the default part of the static part of the store. This
+						transformation loses information; in particular, it loses the names of
+						repository versions. However, the contents and order of repository versions
+						is not lost; this information is preserved in the dynamic part of the store,
+						and can be recovered using the <a>Restrict</a> operation.</p>
+					<p>Many <a>k-th order repositories</a> can be converted into a <a>k-th order
+							store</a> by supplying (or minting) the additional version names
+						necessary to generate (k-1)-th order repositories corresponding to the
+						(k-1)-th order named datasets in the repository version contents. The
+						primary requirement for this to be possible is that once a dataset name
+						disappears from a repository version, it cannot reappear in a later
+						version.</p>
 				</section>
 			</section>
 			<section id="def-streams">
 				<h3>Streams</h3>
+				<p>RDF Streams are defined in the document @@@</p>
 			</section>
 		</section>
 		<section id="abstract-syntactic-categories">
@@ -1810,7 +1855,7 @@ _:rn2 rsp:usesTimestampPredicate obs:effectiveDateTime.
 					<p>We build a second-order store ST<sub>FHIR, 2</sub> from the first-order
 						repositories R<sub>FHIR</sub> and R<sub>FHIR-m</sub> defined above. This is
 						done using the Store<sub>2</sub> constructor. The arguments of the
-							Store<sub>2</sub> constructor are: </p>
+							Store<sub>2</sub> constructor are as follows. </p>
 					<ul>
 						<li>The default first-order repository of the store, which in this case has
 							default graph G<sub>eff, 2</sub> and no versions. .</li>
