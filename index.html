@@ -384,7 +384,8 @@
 							>k-th order static RDF data structure</dfn> is a <a>data structure</a>
 						that is defined inductively as follows.</p>
 					<ul>
-						<li>A <dfn>zeroth-order static data structure</dfn> is an RDF Graph. </li>
+						<li>A <dfn>zeroth-order static data structure</dfn> is an RDF Graph or a
+							finite tuple of RDF graphs of size two or more. </li>
 						<li>A (k+1)-th order static data structure is a collection of data
 							structures of k-th order or less consisting of: <ul>
 								<li>an optional distinguished <a>data structure</a>, called the
@@ -398,14 +399,21 @@
 							</ul>
 						</li>
 					</ul>
-					<p>An RDF Graph is the only <a>static data structure</a> that has no named part,
-						and is equal to its default part.</p>
+					<p class="note">For convenience in definitions, we treat a typed entity of type
+						T as also belonging to the type of tuples of T's with length 1. </p>
+					<p>A zeroth-order static data structure (i.e. a finite tuple of RDF graphs) is
+						the only <a>static data structure</a> that has no named part, and is equal
+						to its default part.</p>
 					<p>A named graph is a first-order <a>static data structure</a>. It has no
 						default part and is equal to its named part.</p>
 					<p>An RDF dataset, as defined in [[!RDF-Concepts]] is either a zeroth- or
 						first-order <a>static data structure</a>. It always has a default part, its
 						default graph, which may be the empty graph. If it contains at least one
 						named graph, then it has a named part and its order is 1.</p>
+					<p>A <a>timestamped graph</a> as defined in <a href="">RDF Stream Abstract
+							Syntax and Semantics</a> is a first-order <a>static data structure</a>
+						having a pair of RDF graphs as its default part and one named graph as its
+						named part.</p>
 					<p>We define a number of syntactic operations on <a>static data structures</a>
 						as follows. Let DS be a <a>static data structure</a> and E be an arbitrary
 						entity. </p>
@@ -446,9 +454,9 @@
 							constructor that takes this set of properties as input parameters and
 							returns the corresponding static data structure. Let this constructor be
 							called <dfn data-lt="Static">Static<sub>k</sub></dfn> with domain
-								DS<sub>k-1</sub> x 2<sup>Names</sup> x PartialFunctions(Names =>
-								DS<sub>k-1</sub>) where DS<sub>k-1</sub> is the set of data
-							structures of order k-1 or less.</li>
+								(DS<sub>k-1</sub>)<sup>+</sup> x 2<sup>Names</sup> x
+							PartialFunctions(Names => DS<sub>k-1</sub>) where DS<sub>k-1</sub> is
+							the set of data structures of order k-1 or less.</li>
 					</ul>
 					<aside class="example"><p>The constructor <a>Static</a> can be used to
 							(abstractly) create a named data structure as follows.</p>
@@ -473,12 +481,13 @@
 								<a>dataset</a> of order k-1 or less.</li>
 					</ul>
 					<p class="note">Every RDF Graph is a zeroth-order RDF dataset, and every
-						zeroth-order RDF dataset is an RDF Graph.</p>
-					<p class="note"> A first-Order RDF Dataset is an RDF Dataset according to the
-						definition in [[!RDF11-Concepts]]. However not every RDF Dataset, in the
-						sense of [[!RDF11-Concepts]], is a first-order <a>dataset</a>, because it
-						may have zero named graphs. In that case it is a zeroth-order
-						<a>dataset</a>. </p>
+						zeroth-order RDF dataset is an RDF Graph or a finite tuple of RDF
+						graphs.</p>
+					<p class="note"> A first-Order RDF Dataset that contains no tuples of RDF graphs
+						of length 2 or more is an RDF Dataset according to the definition in
+						[[!RDF11-Concepts]]. However not every RDF Dataset, in the sense of
+						[[!RDF11-Concepts]], is a first-order <a>dataset</a>, because it may have
+						zero named graphs. In that case it is a zeroth-order <a>dataset</a>. </p>
 					<p class="note"> Hereafter in this document, "dataset", without modification,
 						means a <a>k-th Order RDF Dataset</a> for arbitrary k. When the original
 						concept of RDF Dataset is intended, we use the term <a>RDF 1.1 Dataset</a>
@@ -583,7 +592,10 @@
 					<aside>A Graph Store in the sense of [[!SPARQL11-Update]] is most closely
 						related, of the <a>data structures</a> considered in this document, to a
 							<a>data sequence</a> where each element is a <a>dataset</a> of first
-						order or less. </aside>
+						order or less. <p class="ednote">The tuples of RDF graphs in such a dataset
+							must all be of length 1. We don't yet have a short-hand way to specify
+							this specialized characteristic of a data structure. </p>
+					</aside>
 					<p>In the spirit of [[!SPARQL11-Update]], we define the <dfn>Revise</dfn>
 						operation as an explicit operation acting on a <a>terminating data
 							sequence</a> that applies a binary function to the greatest element of
@@ -623,7 +635,7 @@
 					<p>A <dfn
 							data-lt="k-th Order RDF Data Structures|k-th Order Data Structure|k-th Order Data Structures|Data Structure|Data Structures"
 							>k-th Order RDF Data Structure</dfn> is defined by cases as follows. </p>
-					<p>A k-th order RDF data strucutre is a collection of k-th order static data
+					<p>A k-th order RDF data structure is a collection of k-th order static data
 						structures </p>
 					<ul>
 						<li>The optional <dfn>static part</dfn> of DS is a k-th order static data
@@ -683,10 +695,10 @@
 							>k-th Order RDF Repository</dfn> is a special case of <a>k-th order RDF
 							data structure</a> that is defined by the following cases. </p>
 					<ol>
-						<li>A zeroth Order RDF Repository is an RDF Graph. </li>
+						<li>A zeroth Order RDF Repository is a zeroth-order <a>dataset</a>. </li>
 						<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>k-th order
-								dataset</a> for its static part and a <a>data sequence</a> of
-								<a>named k-th order datasets</a> for its dynamic part. The names of
+								dataset</a> for its static part and a non-empty <a>data sequence</a>
+							of <a>named k-th order datasets</a> for its dynamic part. The names of
 							the datasets in this sequence are unique. Further, the contents of
 							adjacent named datasets in the sequence are distinct.</li>
 					</ol>
@@ -844,8 +856,8 @@
 							>k-th Order RDF Store</dfn> is a special case of <a>k-th order data
 							structure</a> defined by cases: </p>
 					<ol>
-						<li>A zeroth-order RDF Store is an RDF Graph. </li>
-						<li>A first-order RDF Store is first-order dataset.</li>
+						<li>A zeroth-order RDF Store is a zeroth-order <a>repository</a>. </li>
+						<li>A first-order RDF Store is a first-order <a>repository</a>.</li>
 						<li> A (k+2)-th order RDF Store, k = 0, 1, ..., is a (k+2)-th order data
 							structure with the following properties. <ul>
 								<li>It has a static part whose default part is a (k+1)-th order
@@ -857,13 +869,6 @@
 								<li>The static and dynamic parts of a store St satisfy the following
 									consistency requirements.</li>
 								<ul>
-									<!--
-										<li>The names in any version of store are a subset of the
-											names of named repositories of the store.</li>
-										<li>The content of a name in any version of the dynamic part
-											of the store is a version of the repository having that
-											name according to the static part of the store.</li>
-											-->
 									<li>For every repository name n in names(staticPart(St)), there
 										is a monotonic partial mapping M<sub>n</sub> from
 										versionNames(St) onto versionNames( content(n,
@@ -876,9 +881,9 @@
 											M<sub>repname</sub>(stver). Then <br /> content(repname;
 										version(stver; St)) = version(repver; content(repname;
 										staticPart(St))) </li>
-									<li>There is a one-to-one monotonic correspondence
-											M<sub>default</sub> of version names of the Store to
-										version names of the default repository.</li>
+									<li>There is a monotonic mapping M<sub>default</sub> of version
+										names of the Store onto version names of the default
+										repository.</li>
 									<li>If stver in in versionNames(St), let repver =
 											M<sub>default</sub>(stver). Then <br />
 										default(version(stver; St)) = version(repver;
@@ -894,9 +899,12 @@
 						<li>The default (k-1)-th order repository of the store.</li>
 						<li>The set of repository names.</li>
 						<li>The mapping from repository names to (k-1)-th order repositories.</li>
-						<li>The set of store version names.</li>
-						<li>For each repository name, a partial functions from store version names
-							onto the names of versions of the associated repository.</li>
+						<li>The ordered set of store version names.</li>
+						<li>For each repository name, a monotonic partial function from an interval
+							of store version names onto the names of versions of the associated
+							repository.</li>
+						<li>The monotonic mapping from store version names onto version names of the
+							default repository.</li>
 					</ol>
 					<!--  if name is in names(staticPart(S))
 								      then isRepository( content(name, staticPart(S)) ) = true
@@ -1164,9 +1172,20 @@
 						follows.</p>
 					<p>In the case of two arguments DSP, DSP':</p>
 					<ul>
-						<li>If DSP and DSP' are both zeroth-order <a>datasets</a>, i.e., <a>RDF
-								Graphs</a>, then the result is the union of the sets of
-								<a>triples</a> in the two <a>graphs</a>. </li>
+						<li>If DSP and DSP' are both zeroth-order <a>datasets</a>, we have the
+							following cases: <ol>
+								<li>If both DSP and DSP' are <a>RDF Graphs</a>, then the result is
+									union of the sets of <a>triples</a> in the two
+									<a>graphs</a>.</li>
+								<li>If DSP and DSP' are tuples with K = max(<a>length</a>(DSP),
+									length(DSP')) &gt; 1, then the result is a tuple of length K
+									containing the element-wise application of Dataset-UNION for
+									element index k &le; min(length(DSP, length(DSP')), (i.e.
+										Dataset-UNION(<a>Element</a>(DSP, k), Element(DSP', k))) and
+									containing the corresponding element (from either DSP or DSP')
+									for index min(length(DSP), length(DSP')) &lt; k &le; K.</li>
+							</ol>
+						</li>
 						<li>If order(DSP) = order(DSP') = k &gt; 0, then <br /> Dataset-UNION(DSP,
 							DSP') = Static<sub>k</sub>( Dataset-UNION(default(DSP), default(DSP')),
 							names(DSP) ∪ names(DSP'), result-nameMap ) <br /> where result-nameMap =
@@ -1182,10 +1201,13 @@
 					</ul>
 					<p>In the case of a single argument S that is a set of <a>datasets</a> of order
 						k or less, the value is defined inductively as follows.</p>
+					<p class="ednote">We need to define a basic operation Element that extracts an
+						element of specified index from a tuple.</p>
 					<ul>
 						<li>if S = {}, then Dataset-UNION(S) = {}.</li>
-						<li>if order(s) = 0 for every s in S (i.e. s is an <a>RDF graph</a>), then
-							Dataset-UNION(S) = ∪<sub>s in S</sub>s.</li>
+						<li>if order(s) = 0 and length(s) &le; K for every s in S, then
+							Dataset-UNION(S) = [Dataset-UNION({Element(s, k)|s in S with length(s)
+							&ge; k})]<sub>k=1, ..., K</sub>.</li>
 						<li>if order(s) = k &gt; 0 for every s in S, then <br /> Dataset-UNION(S) =
 								Static<sub>k</sub>( result-default, result-names, result-nameMap )
 							<br /> where <br /> result-default = Dataset-UNION({default(s)|s in S})
