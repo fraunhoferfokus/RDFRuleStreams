@@ -693,7 +693,7 @@
 					<ol>
 						<li>A zeroth-order RDF Repository is a zeroth-order <a>dataset</a>. </li>
 						<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>dataset</a> of
-							k-th order or less for its static part and a non-empty <a>data
+							k-th order or less for its static part and an optional non-empty <a>data
 								sequence</a> of <a>named k-th order datasets</a> for its dynamic
 							part. The names of the datasets in this sequence are unique. Further,
 							the contents of adjacent named datasets in the sequence are
@@ -781,7 +781,8 @@
 					</ol>
 					<p>To satisfy the definition of <a>repository</a>, an additional requirement is
 						that the contents of adjacent versions MUST be distinct.</p>
-					<p>We further define a basic operation <dfn>Append2Repository</dfn> as follows.</p>
+					<p>We further define a basic operation <dfn>Append2Repository</dfn> as
+						follows.</p>
 					<p>The arguments of <a>Append2Repository<sub>k</sub></a> are</p>
 					<ol>
 						<li>The input repository to be modified, or a dataset of order (k-1)
@@ -793,7 +794,8 @@
 							repository version.</li>
 						<li>An <a>Append2Repository</a> operation cannot be vacuous; the contents of
 							the new repository version must be different than the contents of the
-							preceding version (i.e. the terminal version of the input repository).</li>
+							preceding version (i.e. the terminal version of the input
+							repository).</li>
 					</ol>
 					<p class="ednote">To be clarified in the section on the extension of Eval to
 						repositories: there is an entailment regime, called e.g. "provenance
@@ -929,18 +931,23 @@
 						<li>The input store to be modified </li>
 						<li>The new store version name, which must be distinct from previous store
 							version names.</li>
-						<li>A mapping from zero or one name (the new version name of the default
-							repository) to a dataset of order (k-2) or less.</li>
-						<li>A mapping from zero or more repository names to mappings from zero or
-							one new version names to datasets of order (k-2) or less. The repository
-							names may be repository names of the input store or may be new
-							repository names. </li>
-						<li>A set of zero or more repository names that are being dropped. This set
-							MUST be disjoint from the repository names in the previous item, and can
-							only include repository names of the input store.</li>
+						<li>A mapping M<sub>default</sub> from zero or one name (the new version
+							name of the default repository) to a dataset of order (k-2) or
+							less.</li>
+						<li>A mapping M<sub>named</sub> from zero or more repository names to
+							mappings from zero or one new version names to datasets of order (k-2)
+							or less. The repository names may be repository names of the input store
+							or may be new repository names. </li>
+						<li>A mapping M<sub>new</sub> from zero or more repository names to
+							repositories of order (k-1) or less having exactly one version. The
+							repository names MUST be new for the store. </li>
+						<li>A set S<sub>drop</sub> of zero or more repository names that are being
+							dropped. This set MUST be disjoint from the repository names in the
+							previous two items, and can only include repository names of the input
+							store.</li>
 						<li>An <a>Append2Store</a> operation cannot be vacuous; it must append to at
-							least one repository (default or named) or it must drop at least one
-							repository. </li>
+							least one repository (default or named) or add at least one new
+							named repository or drop at least one named repository. </li>
 					</ol>
 					<p>The semantics of <a>Append2Store</a> are defined in terms of the
 								<a>Store<sub>k</sub></a> constructor and the
