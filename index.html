@@ -1177,13 +1177,13 @@
 								<li>If both DSP and DSP' are <a>RDF Graphs</a>, then the result is
 									union of the sets of <a>triples</a> in the two
 									<a>graphs</a>.</li>
-								<li>If DSP and DSP' are tuples with K = max(<a>length</a>(DSP),
-									length(DSP')) &gt; 1, then the result is a tuple of length K
+								<li>If DSP and DSP' are tuples with J = max(<a>length</a>(DSP),
+									length(DSP')) &gt; 1, then the result is a tuple of length J
 									containing the element-wise application of Dataset-UNION for
-									element index k &le; min(length(DSP, length(DSP')), (i.e.
-										Dataset-UNION(<a>Element</a>(DSP, k), Element(DSP', k))) and
+									element index 0 &le; j &lt; min(length(DSP, length(DSP')), (i.e.
+										Dataset-UNION(<a>Element</a>(DSP, j), Element(DSP', j))) and
 									containing the corresponding element (from either DSP or DSP')
-									for index min(length(DSP), length(DSP')) &lt; k &le; K.</li>
+									for index min(length(DSP), length(DSP')) &le; j &lt; J.</li>
 							</ol>
 						</li>
 						<li>If order(DSP) = order(DSP') = k &gt; 0, then <br /> Dataset-UNION(DSP,
@@ -1205,9 +1205,9 @@
 						element of specified index from a tuple.</p>
 					<ul>
 						<li>if S = {}, then Dataset-UNION(S) = {}.</li>
-						<li>if order(s) = 0 and length(s) &le; K for every s in S, then
-							Dataset-UNION(S) = [Dataset-UNION({Element(s, k)|s in S with length(s)
-							&ge; k})]<sub>k=1, ..., K</sub>.</li>
+						<li>if order(s) = 0 and length(s) &le; J for every s in S, then
+							Dataset-UNION(S) = [Dataset-UNION({Element(s, j)|s in S with length(s)
+							&gt; j})]<sub>j=0, ..., J-1</sub>.</li>
 						<li>if order(s) = k &gt; 0 for every s in S, then <br /> Dataset-UNION(S) =
 								Static<sub>k</sub>( result-default, result-names, result-nameMap )
 							<br /> where <br /> result-default = Dataset-UNION({default(s)|s in S})
@@ -1641,11 +1641,11 @@ _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 _:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
 </pre>
 					<p>We construct a timestamped graph with the basic operation <a>TSGraph</a></p>
-					<p>TSG<sub>1, FHIR</sub> = TSGraph(TS<sub>1, FHIR</sub>, G'<sub>1,
-						FHIR</sub>)</p>
+					<p>TSG<sub>1, FHIR</sub> = <a>TSGraph</a>(TS<sub>1, FHIR</sub>, G'<sub>1,
+							FHIR</sub>)</p>
 					<p>Similarly,</p>
-					<p>TSG<sub>i, FHIR</sub> = TSGraph(TS<sub>i, FHIR</sub>, G'<sub>i,
-						FHIR</sub>)</p>
+					<p>TSG<sub>i, FHIR</sub> = <a>TSGraph</a>(TS<sub>i, FHIR</sub>, G'<sub>i,
+							FHIR</sub>)</p>
 					<p>The RDF stream can be abstractly constructed from its component timestamped
 						graphs using basic operations:</p>
 					<p>S<sub>FHIR</sub> = Cons(TSG<sub>3, FHIR</sub>, Cons(TSG<sub>2, FHIR</sub>,
