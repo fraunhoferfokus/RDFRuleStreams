@@ -781,6 +781,20 @@
 					</ol>
 					<p>To satisfy the definition of <a>repository</a>, an additional requirement is
 						that the contents of adjacent versions MUST be distinct.</p>
+					<p>We further define a basic operation <dfn>Append2Repository</dfn> as follows.</p>
+					<p>The arguments of <a>Append2Repository<sub>k</sub></a> are</p>
+					<ol>
+						<li>The input repository to be modified, or a dataset of order (k-1)
+							representing the static part of an "empty" repository with no
+							versions.</li>
+						<li>The new repository version name, which must be distinct from version
+							names of the input repository, if any.</li>
+						<li>The dataset of order (k-1) or less that is to be the content of the new
+							repository version.</li>
+						<li>An <a>Append2Repository</a> operation cannot be vacuous; the contents of
+							the new repository version must be different than the contents of the
+							preceding version (i.e. the terminal version of the input repository).</li>
+					</ol>
 					<p class="ednote">To be clarified in the section on the extension of Eval to
 						repositories: there is an entailment regime, called e.g. "provenance
 						entailment regime", that has additional entailments beyond those of the
@@ -904,6 +918,41 @@
 						<li>The monotonic mapping from store version names onto version names of the
 							default repository.</li>
 					</ol>
+					<p>In addition to constructing a store in its entirety with
+							<a>Store<sub>k</sub></a>, we define a basic operation
+							<dfn>Append2Store</dfn> which creates a store by adding a version to it.
+							<a>Append2Store</a> does not change the static part of a store, and it
+						specifies the new store version through new versions of its
+						repositories.</p>
+					<p>The arguments of <a>Append2Store<sub>k</sub></a> are</p>
+					<ol>
+						<li>The input store to be modified </li>
+						<li>The new store version name, which must be distinct from previous store
+							version names.</li>
+						<li>A mapping from zero or one name (the new version name of the default
+							repository) to a dataset of order (k-2) or less.</li>
+						<li>A mapping from zero or more repository names to mappings from zero or
+							one new version names to datasets of order (k-2) or less. The repository
+							names may be repository names of the input store or may be new
+							repository names. </li>
+						<li>A set of zero or more repository names that are being dropped. This set
+							MUST be disjoint from the repository names in the previous item, and can
+							only include repository names of the input store.</li>
+						<li>An <a>Append2Store</a> operation cannot be vacuous; it must append to at
+							least one repository (default or named) or it must drop at least one
+							repository. </li>
+					</ol>
+					<p>The semantics of <a>Append2Store</a> are defined in terms of the
+								<a>Store<sub>k</sub></a> constructor and the
+							<a>Append2Repository</a> basic operations, according to the following
+						cases.</p>
+					<ol>
+						<li>If the default repository mapping M<sub>default</sub> is not empty, then
+							let R<sub>default, new</sub> = Append2Repository(R<sub>default</sub>,
+								M<sub>default</sub>; otherwise R<sub>default, new</sub> =
+								R<sub>default</sub></li>
+
+					</ol>
 					<p>Given the sequence of store versions (i.e. the dynamic part of the store) and
 						the mappings from store version names to repository version names we can
 						reconstruct the dynamic parts of the repositories. To describe this
@@ -973,24 +1022,56 @@
 				<h3>Streams</h3>
 				<p>RDF Streams are defined in the document @@@</p>
 				<p>Here we define a datastructure and some operations that allow RDF Streams to be
-					emulated as zeroth or first-order data structures.</p>
-				<p>We define a constructor <dfn>TSGraph</dfn> for timestamped graphs with the
-					following arguments.</p>
-				<ol>
-					<li>An RDF graph, the default graph of the timestamped graph with the exception
-						of the timestamp triple.</li>
-					<li>An RDF graph containing exactly one triple, that being the timestamp
-						triple</li>
-					<li>An optional RDF graph which is the content of the named graph of the
-						timestamped graph.</li>
-				</ol>
-				<p>The value of <a>TSGraph</a> is defined in terms of other operations in the
-					following cases.</p>
-				<ul>
-					<li>TSGraph(G0, {n p t.}) = Tuple<sub>2</sub>(G0, {n p t.}) </li>
-					<li>TSGraph(G0, {n p t.}, G1) = Static<sub>1</sub>(Tuple<sub>2</sub>(G0, {n p
-						t.}), {n}, {n => G1}) </li>
-				</ul>
+					emulated as first or second-order data structures.</p>
+				<section id="def-timestamped-graph">
+					<h4>Timestamped Graphs as Second-Order Datasets</h4>
+					<p>We define a constructor <dfn>TSGraph</dfn> for timestamped graphs with the
+						following arguments.</p>
+					<ol>
+						<li>An RDF graph, the default graph of the timestamped graph with the
+							exception of the timestamp triple.</li>
+						<li>An RDF graph containing exactly one triple, that being the timestamp
+							triple</li>
+						<li>An optional RDF graph which is the content of the named graph of the
+							timestamped graph.</li>
+					</ol>
+					<p>The value of <a>TSGraph</a> is defined in terms of other operations in the
+						following cases.</p>
+					<ul>
+						<li>TSGraph(G0, {n p t.}) = Static<sub>1</sub>(G<sub>meta</sub>, {b}, {b =>
+							D0}) </li>
+						<li>TSGraph(G0, {n p t.}, G1) = Static<sub>2</sub>(G<sub>meta</sub>, {b}, {b
+							=> D1}) </li>
+						<li>where m is a fresh blank node and </li>
+						<li>D0 = Dataset-UNION(G0, {n p t.})</li>
+						<li>D1 = Static<sub>1</sub>(Dataset-UNION(G0, {n p t.}), {n}, {n => G1} ) </li>
+						<li>G<sub>meta</sub> = { b rsp:usesGraphName n. b rsp:usesTimestampPredicate
+							p. b rsp:usesTimestamp t. }</li>
+					</ul>
+					<p>To get back the parts of a timestamped graph, we define the following basic
+						operations as shortcuts for CONSTRUCT-form queries of the second-order
+						dataset representing the timestamped graph under simple entailment.</p>
+					<ul>
+						<li><dfn>timestampTriple</dfn>(TSG) = {n p t.}</li>
+						<li>other?</li>
+					</ul>
+				</section>
+				<section id="def-rdf-stream-as-store">
+					<h4>RDF Streams as Stores</h4>
+					<p>We now show how to emulate an RDF stream as a <a>store</a>.</p>
+					<section id="def-rdf-stream-as-second-order-store">
+						<h4>RDF Streams as Second-Order Stores</h4>
+						<p>In the case of an RDF stream where all elements are zeroth-order
+							timestamped graphs (containing no named graph), we construct a stream as
+							follows. </p>
+						<p> Suppose the stream consists of the timestamped graphs in the sequence
+								[TSG<sub>i</sub>] for i in an ordered set <i>I</i> where </p>
+						<p>TSG<sub>i</sub> = TSGraph(G0<sub>i</sub>, {n<sub>i</sub> p<sub>i</sub>
+								t<sub>i</sub>.}).</p>
+						<p>Let S<sub>i</sub> be the stream up to index i. Then</p>
+						<p>S<sub>i+1</sub> = Store<sub>2</sub>( )</p>
+					</section>
+				</section>
 			</section>
 		</section>
 		<section id="abstract-syntactic-categories">
