@@ -410,10 +410,19 @@
 						first-order <a>static data structure</a>. It always has a default part, its
 						default graph, which may be the empty graph. If it contains at least one
 						named graph, then it has a named part and its order is 1.</p>
-					<p>A <a>timestamped graph</a> as defined in <a href="">RDF Stream Abstract
-							Syntax and Semantics</a> is a first-order <a>static data structure</a>
-						having a pair of RDF graphs as its default part and one named graph as its
-						named part.</p>
+					<p>A <dfn data-lt="timestamped graphs">timestamped graph</dfn> is defined in
+							@@@<a href="">RDF Stream Abstract Syntax and Semantics</a> as an RDF
+						dataset with one named graph and a distinguished triple, the timestamp
+						triple, in its default graph having the name of the named graph as its
+						subject.</p>
+					<p>A <a>timestamped graph</a>can be represented as a first-order <a>static data
+							structure</a> having an ordered pair (tuple of length 2) of RDF graphs
+						as its default part (the graph with index 1 has the timestamp triple, while
+						the rest of the default graph is the element with index 0) and one named
+						graph as its named part, with the additional constraint that the name of the
+						named graph is the subject of the timestamp triple. In the special case that
+						the named graph of the timestamped graph is empty, we may also use a
+						zeroth-order structure as a simplified representation. </p>
 					<p>We define a number of syntactic operations on <a>static data structures</a>
 						as follows. Let DS be a <a>static data structure</a> and E be an arbitrary
 						entity. </p>
@@ -457,6 +466,16 @@
 								(DS<sub>k-1</sub>)<sup>+</sup> x 2<sup>Names</sup> x
 							PartialFunctions(Names => DS<sub>k-1</sub>) where DS<sub>k-1</sub> is
 							the set of data structures of order k-1 or less.</li>
+						<li>A constructor <dfn>Tuple</dfn><sub>J</sub>, J=1, 2, ... takes J
+							arguments and returns a tuple of length J having these entities as
+							elements.</li>
+						<li>A basic operation <dfn>Element</dfn> takes a tuple as its first argument
+							and a non-negative integer as second argument, and returns the element
+							of the tuple having that index. If the index is greater than or equal to
+							the length of the tuple, it is an error; the operation MUST NOT return
+							an empty graph.</li>
+						<li>A basic operation <dfn>length</dfn> returns the length of a tuple or
+							finite sequence.</li>
 					</ul>
 					<aside class="example"><p>The constructor <a>Static</a> can be used to
 							(abstractly) create a named data structure as follows.</p>
@@ -597,9 +616,10 @@
 							this specialized characteristic of a data structure. </p>
 					</aside>
 					<p>In the spirit of [[!SPARQL11-Update]], we define the <dfn>Revise</dfn>
-						operation as an explicit operation acting on a <a>terminating data
-							sequence</a> that applies a binary function to the greatest element of
-						the sequence, and to the sequence itself, and <a>Cons</a>es it onto the
+						operation as an explicit operation acting on a <dfn>terminating data
+							sequence</dfn> (i.e a <a>data sequence</a> where <a>hasGreatest</a> is
+						true) that applies a binary function to the greatest element of the
+						sequence, and to the sequence itself, and <a>Cons</a>es it onto the
 						sequence.</p>
 					<aside class="example">Consider a Graph Store which has been newly initialized
 						as the empty graph <p>GS = Cons({}, S<sub>0</sub>)</p>
@@ -984,6 +1004,25 @@
 			<section id="def-streams">
 				<h3>Streams</h3>
 				<p>RDF Streams are defined in the document @@@</p>
+				<p>Here we define a datastructure and some operations that allow RDF Streams to be
+					emulated as zeroth or first-order data structures.</p>
+				<p>We define a constructor <dfn>TSGraph</dfn> for timestamped graphs with the
+					following arguments.</p>
+				<ol>
+					<li>An RDF graph, the default graph of the timestamped graph with the exception
+						of the timestamp triple.</li>
+					<li>An RDF graph containing exactly one triple, that being the timestamp
+						triple</li>
+					<li>An optional RDF graph which is the content of the named graph of the
+						timestamped graph.</li>
+				</ol>
+				<p>The value of <a>TSGraph</a> is defined in terms of other operations in the
+					following cases.</p>
+				<ul>
+					<li>TSGraph(G0, {n p t.}) = Tuple<sub>2</sub>(G0, {n p t.}) </li>
+					<li>TSGraph(G0, {n p t.}, G1) = Static<sub>1</sub>(Tuple<sub>2</sub>(G0, {n p
+						t.}), {n}, {n => G1}) </li>
+				</ul>
 			</section>
 		</section>
 		<section id="abstract-syntactic-categories">
@@ -1201,8 +1240,6 @@
 					</ul>
 					<p>In the case of a single argument S that is a set of <a>datasets</a> of order
 						k or less, the value is defined inductively as follows.</p>
-					<p class="ednote">We need to define a basic operation Element that extracts an
-						element of specified index from a tuple.</p>
 					<ul>
 						<li>if S = {}, then Dataset-UNION(S) = {}.</li>
 						<li>if order(s) = 0 and length(s) &le; J for every s in S, then
@@ -1640,7 +1677,7 @@ _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 					<pre>
 _:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
 </pre>
-					<p>We construct a timestamped graph with the basic operation <a>TSGraph</a></p>
+					<p>We construct a timestamped graph with the constructor <a>TSGraph</a></p>
 					<p>TSG<sub>1, FHIR</sub> = <a>TSGraph</a>(TS<sub>1, FHIR</sub>, G'<sub>1,
 							FHIR</sub>)</p>
 					<p>Similarly,</p>
