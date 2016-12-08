@@ -998,7 +998,9 @@
 						store.</p>
 					<p> Let R<sub>i</sub> = content(name<sub>i</sub>, staticPart(S)), and
 							R<sub>j</sub> = content(name<sub>j</sub>, staticPart(S)), for some
-							name<sub>i</sub> and name<sub>j</sub> in names(S). Then </p>
+							name<sub>i</sub> and name<sub>j</sub> in names(S). Then the <dfn>dynamic
+							union</dfn> of named repositories [name<sub>i</sub>, R<sub>i</sub>, k]
+						and [name<sub>i</sub>, R<sub>i</sub>, k] in the context of store S is:</p>
 					<p> Dynamic-UNION(S, {name<sub>i</sub>, name<sub>j</sub>}) = Restrict(
 						dynamicPart( S ), {name<sub>i</sub>, name<sub>j</sub>} ) </p>
 					<p class="ednote">The intended semantics, under any entailment regime, of a
@@ -1011,21 +1013,29 @@
 						<p>The RDF Stream document defines window operations on streams. We define
 							here a basic operation, called <dfn>Restrict-FILTER</dfn> that performs
 							a more general transformation on stores, which can be specialized to
-							implement the window function.</p>
+							implement the window function on streams that are implemented through
+								<a>stores</a>.</p>
 						<p>The signature of <a>Restrict-FILTER</a> is like <a>Restrict</a>, except
 							it has an extra argument which is a pattern. The value of the operation
 							is a subsequence of the corresponding value of Restrict, but filtered to
 							include only those elements where there is a non-empty result from
 							applying the query to the contents of the associated version of the
 							store. </p>
-						<p class="ednote">The motivation for applying the query to the default
-							repository is that is where the metadata about the timestamp triple is
-							kept, in the store that emulates RDF Streams. However, there is no
-							reason why the query could not be applied to the contents of the
-							associated version of the entire store.</p>
-						<p class="ednote">To emulate the entire window operation, it is still
-							necessary to union the versions that come out of a Restrict-FILTER
-							operation, and then apply repetitively to get a new sequence.</p>
+						<p>We next define a basic operation <dfn>Sequence-UNION</dfn> that operates
+							on <a>data sequences</a> of datasets of k-th order or less. The result
+							is the value of applyling <a>Dataset-UNION</a> to the set of all
+							elements in the sequence. That is,</p>
+						<p>Sequence-UNION([D<sub>i</sub>]<sub>i in <i>I</i></sub>) =
+								Dataset-UNION({D<sub>i</sub>|i in <i>I</i>})</p>
+						<p>Finally, we define a basic operation <dfn>Window</dfn> that takes as
+							first argument a store, and second argument is a sequence of patterns.
+							For each pattern in the sequence, the operation Restrict-FILTER is
+							performed, and then Sequence-UNION is applied to the result, generating
+							a sequence of datasets as the final result.</p>
+						<p>That is,</p>
+						<p><a>Window</a>(ST, [P<sub>i</sub>]<sub>i in <i>I</i></sub>)=
+							[Sequence_UNION(Restrict_FILTER(ST, P<sub>i</sub>))]<sub>i in
+								<i>I</i></sub></p>
 					</section>
 				</section>
 				<section>
