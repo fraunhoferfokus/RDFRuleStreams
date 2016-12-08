@@ -1008,7 +1008,74 @@
 						k+1-th Order RDF Repository (the dynamic part of the store), supplemented by
 						that of its member k-th Order Repositories, possibly augmented (e.g. in the
 						provenance regime) by entailments that link the two. </p>
-					<section>
+				</section>
+				<section id="def-store-transformations">
+					<h4>Store Transformations</h4>
+					<section id="def-general-transformation">
+						<h5>General Store Transformation</h5>
+						<p>To streamline the definition of store transformations, we define two
+							reserved names, denoted as <dfn>DEFAULT</dfn> and <dfn>STATIC</dfn> that
+							will be used as the names, resp., of the default structure within
+								<a>static data structures</a> and of the static structure within
+							general <a>data structures</a></p>
+						<p>We define a basic operation <dfn>StoreTransformation</dfn><sub>k</sub>
+							with domain and range being <a>stores</a> of order k or less. The input
+							arguments of <a>StoreTransformation</a><sub>k</sub> are as follows. </p>
+						<ol>
+							<li>The input store ST of order k or less.</li>
+							<li>A set RP', possibly empty, of repository names of the output store.
+								Let RP'<sub>ext</sub> = RP' @@@union {DEFAULT}</li>
+							<li>An ordered set SV', possibly empty, of version names of the output
+								store. Let SV'<sub>ext</sub> = SV' @@@union {STATIC}</li>
+							<li>For each name n in RP'<sub>ext</sub>, an ordered set RV'(n),
+								possibly empty, of version names of the corresponding output named
+								or default repository. Let RV'(n)<sub>ext</sub> = RV(n)' @@@union
+								{STATIC}</li>
+							<li>A partial mapping M<sub>data</sub> on the set of ordered pairs
+									SV<sub>ext</sub> x RP<sub>ext</sub>, where SV is the set of
+								store version names of ST, SV<sub>ext</sub> is SV @@@union {STATIC},
+								RP is the set of repository names of ST, and RP<sub>ext</sub> is RP
+								@@@union {DEFAULT}. The range of this mapping is SV'<sub>ext</sub> x
+									RP'<sub>ext</sub>. This mapping describes the subsampling and
+								rearrangment of datasets from the input store to the output store,
+								possibly including dataset unions.</li>
+							<li>A monotonic partial mapping M'<sub>n</sub>, for each name n in
+									RP'<sub>ext</sub> from SV' onto RV(n)'. </li>
+						</ol>
+						<p>There are certain additional constraints on the arguments or output of
+								<a>StoreTransformation</a>, as follows.</p>
+						<ul>
+							<li>M'<sub>DEFAULT</sub> is a total mapping on SV'</li>
+							<li>Repository revisions cannot be vacuous. If the evaluation generates
+								"repositories" with vacuous revisions, these are deleted from the
+								output in order to have a valid output store.</li>
+							<li>Store revisions cannot be vacuous. If the evaluation generates a
+								"store" with vacuous revisions, these are deleted from the output in
+								order to have a valid output store.</li>
+						</ul>
+						<p>The semantics of <a>StoreTransformation</a><sub>k</sub> is defined in
+							terms of an evaluation of the constructor <a>Store</a><sub>k</sub> with
+							the following arguments.</p>
+						<ol>
+							<li>@@@</li>
+						</ol>
+						<aside class="example">
+							<p>The output store is equal to the input store when the following
+								hold.</p>
+							<ul>
+								<li>RP' = RP</li>
+								<li>SV' = SV</li>
+								<li>RV'(n) = RV(n) for every n in RP<sub>ext</sub></li>
+								<li>M<sub>data</sub> is the identity mapping on SV<sub>ext</sub> x
+										RP<sub>ext</sub>
+								</li>
+								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
+										RP'<sub>ext</sub> from SV' onto RV(n)', where M<sub>n</sub>
+									is the corresponding mapping in the input store.</li>
+							</ul>
+						</aside>
+					</section>
+					<section id="def-window-transformation">
 						<h5>Window Functions on Stores</h5>
 						<p>The RDF Stream document defines window operations on streams. We define
 							here a basic operation, called <dfn>Restrict-FILTER</dfn> that performs
