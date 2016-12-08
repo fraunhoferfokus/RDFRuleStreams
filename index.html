@@ -1010,13 +1010,22 @@
 						<h5>Window Functions on Stores</h5>
 						<p>The RDF Stream document defines window operations on streams. We define
 							here a basic operation, called <dfn>Restrict-FILTER</dfn> that performs
-							a similar transformation on stores.</p>
+							a more general transformation on stores, which can be specialized to
+							implement the window function.</p>
 						<p>The signature of <a>Restrict-FILTER</a> is like <a>Restrict</a>, except
 							it has an extra argument which is a pattern. The value of the operation
 							is a subsequence of the corresponding value of Restrict, but filtered to
 							include only those elements where there is a non-empty result from
 							applying the query to the contents of the associated version of the
-							default repository. </p>
+							store. </p>
+						<p class="ednote">The motivation for applying the query to the default
+							repository is that is where the metadata about the timestamp triple is
+							kept, in the store that emulates RDF Streams. However, there is no
+							reason why the query could not be applied to the contents of the
+							associated version of the entire store.</p>
+						<p class="ednote">To emulate the entire window operation, it is still
+							necessary to union the versions that come out of a Restrict-FILTER
+							operation, and then apply repetitively to get a new sequence.</p>
 					</section>
 				</section>
 				<section>
