@@ -946,8 +946,8 @@
 							previous two items, and can only include repository names of the input
 							store.</li>
 						<li>An <a>Append2Store</a> operation cannot be vacuous; it must append to at
-							least one repository (default or named) or add at least one new
-							named repository or drop at least one named repository. </li>
+							least one repository (default or named) or add at least one new named
+							repository or drop at least one named repository. </li>
 					</ol>
 					<p>The semantics of <a>Append2Store</a> are defined in terms of the
 								<a>Store<sub>k</sub></a> constructor and the
@@ -972,7 +972,7 @@
 					<p>We define the basic operation <dfn>Restrict</dfn> whose signature is a first
 						argument of a <a>data sequence</a> of <a>named datasets</a> of k-th order or
 						less, for some fixed k, and second argument a name or set of names, and
-						output is a <a>data sequence</a> of datasets of k-th order or less.</p>
+						output is a <a>data sequence</a> of datasets of (k-1)-th order or less.</p>
 					<p> Let DSQ = [ [n<sub>i</sub>, DSQ<sub>i</sub>, k+1]]<sub>i in <i>I</i></sub>.
 						Let I<sub>m</sub> = {i|i in I such that m is in names(DSQ<sub>i</sub>)}.
 						Further let I<sub>M</sub> = Union<sub>m in M</sub> I<sub>m</sub>. Then </p>
@@ -1006,6 +1006,18 @@
 						k+1-th Order RDF Repository (the dynamic part of the store), supplemented by
 						that of its member k-th Order Repositories, possibly augmented (e.g. in the
 						provenance regime) by entailments that link the two. </p>
+					<section>
+						<h5>Window Functions on Stores</h5>
+						<p>The RDF Stream document defines window operations on streams. We define
+							here a basic operation, called <dfn>Restrict-FILTER</dfn> that performs
+							a similar transformation on stores.</p>
+						<p>The signature of <a>Restrict-FILTER</a> is like <a>Restrict</a>, except
+							it has an extra argument which is a pattern. The value of the operation
+							is a subsequence of the corresponding value of Restrict, but filtered to
+							include only those elements where there is a non-empty result from
+							applying the query to the contents of the associated version of the
+							default repository. </p>
+					</section>
 				</section>
 				<section>
 					<h4>Connection Between Repositories and Stores</h4>
