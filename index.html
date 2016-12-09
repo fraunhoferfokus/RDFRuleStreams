@@ -883,29 +883,27 @@
 									called named repositories of the store. </li>
 								<li>It has a dynamic part which is a non-empty <a>data sequence</a>
 									whose elements are named (k+1)-th order datasets, called
-									versions of the store.</li>
+									versions of the store. The ordered set SV of the names of these
+									versions are the <dfn>version names of the store</dfn>.</li>
 								<li>The static and dynamic parts of a store St satisfy the following
 									consistency requirements.</li>
 								<ul>
 									<li>For every repository name n in names(staticPart(St)), there
-										is a monotonic partial mapping M<sub>n</sub> from
-										versionNames(St) onto versionNames( content(n,
-										staticPart(St))); that is, from version names of the store
-										to version names of the named repository of the store with
-										name n. </li>
+										is a monotonic partial mapping M<sub>n</sub> from SV onto
+											<a>versionNames</a>( content(n, staticPart(St))); that
+										is, from version names of the store to version names of the
+										named repository of the store with name n. </li>
 									<li>The domain of M<sub>n</sub>, dom(M<sub>n</sub>), is an
-										interval in versionNames(St).</li>
+										interval in SV.</li>
 									<li>If stver is in dom(M<sub>repname</sub>), let repver =
 											M<sub>repname</sub>(stver). Then <br /> content(repname;
 											<a>versionContent</a>(stver; St)) =
 											<a>versionContent</a>(repver; content(repname;
 										staticPart(St))) </li>
-									<li>There is a monotonic mapping M<sub>default</sub> of version
-										names of the Store onto version names of the default
-										repository.</li>
-									<li>If stver in in versionNames(St), let repver =
-											M<sub>default</sub>(stver). Then <br />
-											default(<a>versionContent</a>(stver; St)) =
+									<li>There is a monotonic mapping M<sub>default</sub> of SV onto
+										version names of the default repository.</li>
+									<li>If stver in SV, let repver = M<sub>default</sub>(stver).
+										Then <br /> default(<a>versionContent</a>(stver; St)) =
 											<a>versionContent</a>(repver; default(Static(St))) </li>
 								</ul>
 							</ul>
@@ -1020,8 +1018,12 @@
 					<h4>Store Transformations</h4>
 					<section id="def-general-transformation">
 						<h5>General Store Transformation</h5>
-						<p>For store ST, let <dfn>versionNames</dfn>(ST) be the set of store version
-							names.</p>
+						<p>For store ST, we denote the ordered set of store version names as
+								<a>versionNames</a>(ST).</p>
+						<p class="note">The function <a>versionNames</a> is defined above for
+							repositories. The notation <a>versionNames</a>(ST) is an extensions of
+							this function such that <a>versionNames</a>(ST) =
+								<a>versionNames</a>(<a>dynamicPart</a>(ST))</p>
 						<p>To streamline the definition of store transformations, we define two
 							reserved names, denoted as <dfn>DEFAULT</dfn> and <dfn>STATIC</dfn> that
 							will be used as the names, resp., of the default structure within
