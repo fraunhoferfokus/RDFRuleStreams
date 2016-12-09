@@ -423,7 +423,7 @@
 							it is false.</li>
 						<li><dfn>hasNamed</dfn>(DS) is true if DS has a named part; otherwise, it is
 							false.</li>
-						<li><dfn>default</dfn>(DS) is defined on all static data structures that
+						<li><dfn>defaultPart</dfn>(DS) is defined on all static data structures that
 							have a default part (hasDefault(DS) is true); otherwise it is undefined.
 							When defined, its value is the default part of DS.</li>
 						<li><dfn>named</dfn>(DS) is defined on all static data structures that have
@@ -452,13 +452,13 @@
 							content(name, DS) for each name in names(DS). Therefore we may define a
 							constructor that takes this set of properties as input parameters and
 							returns the corresponding static data structure. Let this constructor be
-							called <dfn data-lt="Static">Static<sub>k</sub></dfn> with domain
-								DS<sub>k-1</sub> x 2<sup>Names</sup> x PartialFunctions(Names =>
-								DS<sub>k-1</sub>) where DS<sub>k-1</sub> is the set of data
-							structures of order k-1 or less.</li>
+							called <dfn>Static<sub>k</sub></dfn> with domain DS<sub>k-1</sub> x
+								2<sup>Names</sup> x PartialFunctions(Names => DS<sub>k-1</sub>)
+							where DS<sub>k-1</sub> is the set of data structures of order k-1 or
+							less.</li>
 					</ul>
-					<aside class="example"><p>The constructor <a>Static</a> can be used to
-							(abstractly) create a named data structure as follows.</p>
+					<aside class="example"><p>The constructor <a>Static<sub>k</sub></a> can be used
+							to (abstractly) create a named data structure as follows.</p>
 						<p>If ND = Static<sub>k</sub>({}, {n}, {n => DS }), then isNamed(ND) is
 							true, names(ND) = {n} and content(n, ND) = DS.</p>
 					</aside>
@@ -474,8 +474,8 @@
 							>k-th Order RDF Dataset</dfn> is a <a>k-th order static data
 							structure</a> DS with the following properties. </p>
 					<ul>
-						<li>If k &gt; 0, then <a>default</a>(DS) is a <a>dataset</a> of order k-1 or
-							less.</li>
+						<li>If k &gt; 0, then <a>defaultPart</a>(DS) is a <a>dataset</a> of order
+							k-1 or less.</li>
 						<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is a
 								<a>dataset</a> of order k-1 or less.</li>
 					</ul>
@@ -508,8 +508,9 @@
 						<li><dfn>isDataset</dfn>(E) is true if E is a <a>dataset</a>; otherwise it
 							is false.</li>
 					</ul>
-					<p class="note">The constructor <a>Static</a> defined for general static data
-						structures works as well for <a>datasets</a> of arbitrary order.</p>
+					<p class="note">The constructor <a>Static<sub>k</sub></a> defined for general
+						static data structures works as well for <a>datasets</a> of arbitrary
+						order.</p>
 					<p class="ednote">We need an extension of the content operation to sets of
 						names, but it depends on the extension of Dataset-UNION to k-th order
 						datasets and to sets of arguments. </p>
@@ -1024,18 +1025,18 @@
 						<ol>
 							<li>The input store ST of order k or less.</li>
 							<li>A set RP', possibly empty, of repository names of the output store.
-								Let RP'<sub>ext</sub> = RP' @@@union {DEFAULT}</li>
+								Let RP'<sub>ext</sub> = RP' ∪ {DEFAULT}</li>
 							<li>An ordered set SV', possibly empty, of version names of the output
-								store. Let SV'<sub>ext</sub> = SV' @@@union {STATIC}</li>
+								store. Let SV'<sub>ext</sub> = SV' ∪ {STATIC}</li>
 							<li>For each name n in RP'<sub>ext</sub>, an ordered set RV'(n),
 								possibly empty, of version names of the corresponding output named
-								or default repository. Let RV'(n)<sub>ext</sub> = RV(n)' @@@union
+								or default repository. Let RV'(n)<sub>ext</sub> = RV(n)' ∪
 								{STATIC}</li>
 							<li>A partial mapping M<sub>data</sub> on the set of ordered pairs
 									SV<sub>ext</sub> x RP<sub>ext</sub>, where SV is the set of
-								store version names of ST, SV<sub>ext</sub> is SV @@@union {STATIC},
-								RP is the set of repository names of ST, and RP<sub>ext</sub> is RP
-								@@@union {DEFAULT}. The range of this mapping is SV'<sub>ext</sub> x
+								store version names of ST, SV<sub>ext</sub> is SV ∪ {STATIC}, RP is
+								the set of repository names of ST, and RP<sub>ext</sub> is RP ∪
+								{DEFAULT}. The range of this mapping is SV'<sub>ext</sub> x
 									RP'<sub>ext</sub>. This mapping describes the subsampling and
 								rearrangment of datasets from the input store to the output store,
 								possibly including dataset unions.</li>
@@ -1080,12 +1081,33 @@
 								hold.</p>
 							<ul>
 								<li>RP' = RP</li>
-								<li>SV' is a subset of SV</li>
+								<li>SV' is a subset of SV (only necessary to have a proper subset
+									when the subsampling results in a vacuous store revision)</li>
 								<li>RV'(n) is a subset of RV(n) for every n in RP<sub>ext</sub></li>
-								<li>M<sub>data</sub>(n, m)[0] &le; n, M<sub>data</sub>(n, m)[1] = m </li>
+								<li>M<sub>data</sub>(n, m)[0] &ge; n, M<sub>data</sub>(n, m)[1] = m </li>
 								<li>M'<sub>n</sub>(m) &le; M<sub>n</sub>(m), for each name n in
 										RP'<sub>ext</sub> and each m in SV', where M<sub>n</sub> is
 									the corresponding mapping in the input store.</li>
+							</ul>
+						</aside>
+						<aside class="example">
+							<p>The output store is equal to the input store except for the dynamic
+								union of two named repositories into a new named repository when the
+								following hold.</p>
+							<ul>
+								<li>RP' = (RP ∪ {r'}) - {r1, r2} where r1, r2 are the names of the
+									repositories that are unioned, and r' is the (new) name of the
+									result of the union.</li>
+								<li>SV' is a subset of SV (only necessary to have a proper subset
+									when the dynamic union results in a vacuous store revision)</li>
+								<li>RV'(n) = RV(n) for every n in RP<sub>ext</sub> - {r1, r2}</li>
+								<li>M<sub>data</sub> is the identity mapping on SV<sub>ext</sub> x
+										RP<sub>ext</sub> - {r1, r2}, while M<sub>data</sub>(n, r1) =
+										M<sub>data</sub>(n, r2) = [n, r'] for all n in
+										SV'<sub>ext</sub>
+								</li>
+								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
+										RP'<sub>ext</sub> - {r1, r2}.</li>
 							</ul>
 						</aside>
 					</section>
