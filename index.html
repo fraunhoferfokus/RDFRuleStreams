@@ -710,9 +710,9 @@
 						repository plays the role of background knowledge, which is unioned with
 						every snapshot prior to query.</p>
 					<p>Let R be a k-th order repository.</p>
-					<p>Each element of the dynamic part of R is called a <a>version</a> of R. The
-						function <dfn>isVersionOf</dfn>(U, R) is defined for all entities U, and is
-						true exactly when <a>isMemberOf</a>(U, dynamicPart(R)) is true. </p>
+					<p>Each element of the dynamic part of R is called a <dfn>version</dfn> of R.
+						The function <dfn>isVersionOf</dfn>(U, R) is defined for all entities U, and
+						is true exactly when <a>isMemberOf</a>(U, dynamicPart(R)) is true. </p>
 					<p class="ednote">As written, a <a>version</a> is a named dataset. It may seem
 						more intuitive to refer to the content of that named dataset as the version.
 						However, it is quite possible for two (non-adjacent) versions to have the
@@ -756,11 +756,11 @@
 					<p class="note">Because of the requirement for total order in the dynamic part,
 						version structures do not branch.</p>
 					<p> The dynamic part MAY be finite, semi-infinite, or bi-infinite.</p>
-					<p>The set of version names of a repository R is denoted by
+					<p>The ordered set of version names of a repository R is denoted by
 							<dfn>versionNames</dfn>(R). </p>
 					<p>The function <dfn>isVersionNameOf</dfn>(n, R) is true if n is a member of
 							<a>versionNames</a>(R); otherwise, it is false.</p>
-					<p>The function <dfn>version</dfn>(n; R) is defined provided
+					<p>The function <dfn>versionContent</dfn>(n; R) is defined provided
 							<a>isVersionNameOf</a>(n, R) is true, with value being the element (a
 						named k-th order dataset) of the dynamic part of R having name n. Otherwise,
 						the function is undefined.</p>
@@ -770,6 +770,9 @@
 					<p>The function <dfn>next</dfn>(n; R) is defined provided <a>hasNext</a>(n; R)
 						is true, and has the value <a>name</a>( <a>succeedingVersion</a>(
 							<a>version</a>(n; R) ) ).</p>
+					<p class="ednote">Redefine the functions hasNext and next in terms of the
+						ordered set of version names. Then it is not necessary to have the function
+						version(n;R).</p>
 					<p>We define a Repository Constuctor as a basic operation
 								<dfn>Repository<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
 						following arguments.</p>
@@ -894,15 +897,16 @@
 										interval in versionNames(St).</li>
 									<li>If stver is in dom(M<sub>repname</sub>), let repver =
 											M<sub>repname</sub>(stver). Then <br /> content(repname;
-										version(stver; St)) = version(repver; content(repname;
+											<a>versionContent</a>(stver; St)) =
+											<a>versionContent</a>(repver; content(repname;
 										staticPart(St))) </li>
 									<li>There is a monotonic mapping M<sub>default</sub> of version
 										names of the Store onto version names of the default
 										repository.</li>
 									<li>If stver in in versionNames(St), let repver =
 											M<sub>default</sub>(stver). Then <br />
-										default(version(stver; St)) = version(repver;
-										default(Static(St))) </li>
+											default(<a>versionContent</a>(stver; St)) =
+											<a>versionContent</a>(repver; default(Static(St))) </li>
 								</ul>
 							</ul>
 						</li>
@@ -961,8 +965,9 @@
 								R<sub>default</sub></li>
 
 					</ol>
+					<!--
 					<p>Given the sequence of store versions (i.e. the dynamic part of the store) and
-						the mappings from store version names to repository version names we can
+						the mappings from store version names to repository version names, we can
 						reconstruct the dynamic parts of the repositories. To describe this
 						construction explicitly, we need a few additional basic operations.</p>
 					<p>Let <dfn>Distinct</dfn> be a basic operation on sequences that collapses
@@ -1004,6 +1009,7 @@
 						and [name<sub>i</sub>, R<sub>i</sub>, k] in the context of store S is:</p>
 					<p> Dynamic-UNION(S, {name<sub>i</sub>, name<sub>j</sub>}) = Restrict(
 						dynamicPart( S ), {name<sub>i</sub>, name<sub>j</sub>} ) </p>
+						-->
 					<p class="ednote">The intended semantics, under any entailment regime, of a
 						k+1-th Order <a>RDF Store</a> is derived from that of the corresponding
 						k+1-th Order RDF Repository (the dynamic part of the store), supplemented by
@@ -1014,39 +1020,54 @@
 					<h4>Store Transformations</h4>
 					<section id="def-general-transformation">
 						<h5>General Store Transformation</h5>
+						<p>For store ST, let <dfn>versionNames</dfn>(ST) be the set of store version
+							names.</p>
 						<p>To streamline the definition of store transformations, we define two
 							reserved names, denoted as <dfn>DEFAULT</dfn> and <dfn>STATIC</dfn> that
 							will be used as the names, resp., of the default structure within
 								<a>static data structures</a> and of the static structure within
 							general <a>data structures</a></p>
+						<p>For a set s of names, let <dfn>Ext-STATIC</dfn>(S) = S ∪ {STATIC}, and
+								<dfn>Ext-DEFAULT</dfn>(S) = S ∪ {DEFAULT}.</p>
+						<p>For store ST, let <dfn>namePairs</dfn>(ST) be a subset of
+								<a>Ext-STATIC</a>(<a>versionNames</a>(ST)) x
+								<a>Ext-DEFAULT</a>(<a>names</a>(<a>staticPart</a>(ST))) such that
+							[stver, repo] is in NP provided stver is a member of
+								<a>Ext-STATIC</a>(<a>versionNames</a>(ST)) and repo is in
+								<a>names</a>(<a>versionContent</a>(stver; ST).</p>
 						<p>We define a basic operation <dfn>StoreTransformation</dfn><sub>k</sub>
 							with domain and range being <a>stores</a> of order k or less. The input
 							arguments of <a>StoreTransformation</a><sub>k</sub> are as follows. </p>
 						<ol>
-							<li>The input store ST of order k or less.</li>
-							<li>A set RP', possibly empty, of repository names of the output store.
-								Let RP'<sub>ext</sub> = RP' ∪ {DEFAULT}</li>
+							<li>The input store ST of order k or less. Let SV =
+								<a>versionNames</a>(ST), SV<sub>ext</sub>= <a>Ext-STATIC</a>(SV), RP
+								= names(static(ST)), and RP<sub>ext</sub> = Ext-DEFAULT(RP). Let NP
+								= <a>namePairs</a>(ST). SV is the set of store version names of the
+								input store, while RP is the set of repository names of the input
+								store. NP is the set of pairs of names - the first name being a
+								store version name and the second name being the name of a repositry
+								present in that store version.</li>
 							<li>An ordered set SV', possibly empty, of version names of the output
-								store. Let SV'<sub>ext</sub> = SV' ∪ {STATIC}</li>
+								store. Let SV'<sub>ext</sub> = <a>Ext-STATIC</a>(SV').</li>
+							<li>A set RP', possibly empty, of repository names of the output store.
+								Let RP'<sub>ext</sub> is Ext-DEFAULT(RP)</li>
 							<li>For each name n in RP'<sub>ext</sub>, an ordered set RV'(n),
 								possibly empty, of version names of the corresponding output named
-								or default repository. Let RV'(n)<sub>ext</sub> = RV(n)' ∪
-								{STATIC}</li>
-							<li>A partial mapping M<sub>data</sub> on the set of ordered pairs
-									SV<sub>ext</sub> x RP<sub>ext</sub>, where SV is the set of
-								store version names of ST, SV<sub>ext</sub> is SV ∪ {STATIC}, RP is
-								the set of repository names of ST, and RP<sub>ext</sub> is RP ∪
-								{DEFAULT}. The range of this mapping is SV'<sub>ext</sub> x
-									RP'<sub>ext</sub>. This mapping describes the subsampling and
-								rearrangment of datasets from the input store to the output store,
-								possibly including dataset unions.</li>
+								or default repository. Let RV'(n)<sub>ext</sub> =
+								Ext-STATIC(RV'(n)).</li>
 							<li>A monotonic partial mapping M'<sub>n</sub>, for each name n in
-									RP'<sub>ext</sub> from SV' onto RV(n)'. </li>
+									RP'<sub>ext</sub> from an interval of SV' onto RV'(n). Let NP' =
+								{[m, n] | n in RP'<sub>ext</sub>, m in dom(M'<sub>n</sub>) }, the
+								set of <a>namePairs</a> of the output store.</li>
+							<li>A relation Rel<sub>data</sub> on NP x NP'. This relation describes
+								the subsampling, duplication, and rearrangment of datasets from the
+								input store to the output store, possibly including dataset
+								unions.</li>
 						</ol>
 						<p>There are certain additional constraints on the arguments or output of
 								<a>StoreTransformation</a>, as follows.</p>
 						<ul>
-							<li>M'<sub>DEFAULT</sub> is a total mapping on SV'</li>
+							<li>M'<sub>DEFAULT</sub> is a total mapping on SV'.</li>
 							<li>Repository revisions cannot be vacuous. If the evaluation generates
 								"repositories" with vacuous revisions, these are deleted from the
 								output in order to have a valid output store.</li>
@@ -1054,12 +1075,31 @@
 								"store" with vacuous revisions, these are deleted from the output in
 								order to have a valid output store.</li>
 						</ul>
-						<p>The semantics of <a>StoreTransformation</a><sub>k</sub> is defined in
-							terms of an evaluation of the constructor <a>Store</a><sub>k</sub> with
-							the following arguments.</p>
+						<p>The semantics of <a>StoreTransformation</a><sub>k</sub> is defined as
+							follows. For (input) store ST, let</p>
+						<ul>
+							<li>DS<sub>m, n</sub> = content(n, versionContent(m, ST)) for each [m,
+								n] in NP. </li>
+							<li> DS'<sub>m', n'</sub> = Dataset-UNION({DS<sub>m, n</sub> | [ [m, n],
+								[m', n']] in Rel<sub>data</sub>})</li>
+							<li>R'<sub>n'</sub> = <a>Repository<sub>k-1</sub></a>(DS'<sub>STATIC,
+									n'</sub>, RV'(n'), { m' => DS'<sub>m',n'</sub> | [m', n'] in
+								NP'} ), for n' in RP'<sub>ext</sub></li>
+						</ul>
+						<p>Then the value of <a>StoreTransformation<sub>k</sub></a>(ST, SV', RP',
+							RV', M', Rel<sub>data</sub>) is equal to the value of the constructor
+								<a>Store</a><sub>k</sub> with the following arguments.</p>
 						<ol>
-							<li>@@@</li>
+							<li>the default repository R'<sub>DEFAULT</sub> of the output store</li>
+							<li>RP'</li>
+							<li>{n => R'<sub>n</sub> | n in RP'}</li>
+							<li>SV'</li>
+							<li>{M'<sub>n</sub> | n in RP'}</li>
+							<li>M'<sub>DEFAULT</sub></li>
 						</ol>
+						<p class="ednote">All constructors need to be fixed to use mappings over
+							extended sets of names, e.g. extended with DEFAULT or STATIC, as
+							appropriate.</p>
 						<aside class="example">
 							<p>The output store is equal to the input store when the following
 								hold.</p>
@@ -1067,7 +1107,7 @@
 								<li>RP' = RP</li>
 								<li>SV' = SV</li>
 								<li>RV'(n) = RV(n) for every n in RP<sub>ext</sub></li>
-								<li>M<sub>data</sub> is the identity mapping on SV<sub>ext</sub> x
+								<li>Rel<sub>data</sub> is the identity mapping on SV<sub>ext</sub> x
 										RP<sub>ext</sub>
 								</li>
 								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
@@ -1084,7 +1124,8 @@
 								<li>SV' is a subset of SV (only necessary to have a proper subset
 									when the subsampling results in a vacuous store revision)</li>
 								<li>RV'(n) is a subset of RV(n) for every n in RP<sub>ext</sub></li>
-								<li>M<sub>data</sub>(n, m)[0] &ge; n, M<sub>data</sub>(n, m)[1] = m </li>
+								<li>Rel<sub>data</sub>(n, m)[0] &ge; n, M<sub>data</sub>(n, m)[1] =
+									m </li>
 								<li>M'<sub>n</sub>(m) &le; M<sub>n</sub>(m), for each name n in
 										RP'<sub>ext</sub> and each m in SV', where M<sub>n</sub> is
 									the corresponding mapping in the input store.</li>
@@ -1101,7 +1142,7 @@
 								<li>SV' is a subset of SV (only necessary to have a proper subset
 									when the dynamic union results in a vacuous store revision)</li>
 								<li>RV'(n) = RV(n) for every n in RP<sub>ext</sub> - {r1, r2}</li>
-								<li>M<sub>data</sub> is the identity mapping on SV<sub>ext</sub> x
+								<li>Rel<sub>data</sub> is the identity mapping on SV<sub>ext</sub> x
 										RP<sub>ext</sub> - {r1, r2}, while M<sub>data</sub>(n, r1) =
 										M<sub>data</sub>(n, r2) = [n, r'] for all n in
 										SV'<sub>ext</sub>
@@ -1407,14 +1448,14 @@
 						<li>If order(DSP) = order(DSP') = k &gt; 0, then <br /> Dataset-UNION(DSP,
 							DSP') = Static<sub>k</sub>( Dataset-UNION(default(DSP), default(DSP')),
 							names(DSP) ∪ names(DSP'), result-nameMap ) <br /> where result-nameMap =
-							<br /> { name = > content(name, DSP)| name in names(DSP) - names(DSP')}
-							∪ <br /> { name = > content(name, DSP')| name in names(DSP') -
+							<br /> { name = > content(name, DSP) | name in names(DSP) - names(DSP')}
+							∪ <br /> { name = > content(name, DSP') | name in names(DSP') -
 							names(DSP)} ∪ <br /> { name = > Dataset-UNION( content(name, DSP),
-							content(name, DSP'))| name in names(DSP) &amp; names(DSP')} </li>
+							content(name, DSP')) | name in names(DSP) &amp; names(DSP')} </li>
 						<li>If order(DSP') &lt; order(DSP) = k, then <br /> Dataset-UNION(DSP, DSP')
 							= Dataset-UNION(DSP', DSP) = Static<sub>k</sub>(
 							Dataset-UNION(default(DSP), DSP'), names(DSP) , result-nameMap ) <br />
-							where result-nameMap = { name = > content(name, DSP)| name in
+							where result-nameMap = { name = > content(name, DSP) | name in
 							names(DSP)} </li>
 					</ul>
 					<p>In the case of a single argument S that is a set of <a>datasets</a> of order
