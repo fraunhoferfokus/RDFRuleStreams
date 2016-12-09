@@ -1109,9 +1109,7 @@
 								<li>RP' = RP</li>
 								<li>SV' = SV</li>
 								<li>RV'(n) = RV(n) for every n in RP<sub>ext</sub></li>
-								<li>Rel<sub>data</sub> is the identity mapping on SV<sub>ext</sub> x
-										RP<sub>ext</sub>
-								</li>
+								<li>Rel<sub>data</sub> is the identity relation on NP x NP </li>
 								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
 										RP'<sub>ext</sub>, where M<sub>n</sub> is the corresponding
 									mapping in the input store.</li>
@@ -1123,11 +1121,10 @@
 								hold.</p>
 							<ul>
 								<li>RP' = RP</li>
-								<li>SV' is a subset of SV (only necessary to have a proper subset
-									when the subsampling results in a vacuous store revision)</li>
+								<li>SV' = SV</li>
 								<li>RV'(n) is a subset of RV(n) for every n in RP<sub>ext</sub></li>
-								<li>Rel<sub>data</sub>(n, m)[0] &ge; n, M<sub>data</sub>(n, m)[1] =
-									m </li>
+								<li>if [[m, n], [m', n']] belongs to Rel<sub>data</sub>, then m'
+									&ge; m, n' = n</li>
 								<li>M'<sub>n</sub>(m) &le; M<sub>n</sub>(m), for each name n in
 										RP'<sub>ext</sub> and each m in SV', where M<sub>n</sub> is
 									the corresponding mapping in the input store.</li>
@@ -1141,14 +1138,13 @@
 								<li>RP' = (RP ∪ {r'}) - {r1, r2} where r1, r2 are the names of the
 									repositories that are unioned, and r' is the (new) name of the
 									result of the union.</li>
-								<li>SV' is a subset of SV (only necessary to have a proper subset
-									when the dynamic union results in a vacuous store revision)</li>
+								<li>SV' = SV</li>
 								<li>RV'(n) = RV(n) for every n in RP<sub>ext</sub> - {r1, r2}</li>
-								<li>Rel<sub>data</sub> is the identity mapping on SV<sub>ext</sub> x
-										RP<sub>ext</sub> - {r1, r2}, while M<sub>data</sub>(n, r1) =
-										M<sub>data</sub>(n, r2) = [n, r'] for all n in
-										SV'<sub>ext</sub>
-								</li>
+								<li>if n is in RP - {r1, r2}, then [[m, n], [m', n']] belongs to
+										Rel<sub>data</sub> iff m' = m and n' = n.</li>
+								<li>if n is in {r1, r2}, then [[m, n], [m', n']] belongs to
+										Rel<sub>data</sub> only if n' = r', [m, n] is in NP, and m'
+									= m . </li>
 								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
 										RP'<sub>ext</sub> - {r1, r2}.</li>
 							</ul>
