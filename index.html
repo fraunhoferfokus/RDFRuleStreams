@@ -1082,11 +1082,11 @@
 						<ul>
 							<li>DS<sub>m, n</sub> = content(n, versionContent(m, ST)) for each [m,
 								n] in NP. </li>
-							<li> DS'<sub>m', n'</sub> = Dataset-UNION({DS<sub>m, n</sub> | [ [m, n],
-								[m', n']] in Rel<sub>data</sub>})</li>
-							<li>R'<sub>n'</sub> = <a>Repository<sub>k-1</sub></a>(DS'<sub>STATIC,
-									n'</sub>, RV'(n'), { m' => DS'<sub>m',n'</sub> | [m', n'] in
-								NP'} ), for n' in RP'<sub>ext</sub></li>
+							<li> DS'<sub>p', n'</sub> = Dataset-UNION({DS<sub>m, n</sub> | [ [m, n],
+								[m', n']] in Rel<sub>data</sub>, M'<sub>n'</sub>(m') = p'})</li>
+							<li>R'<sub>n'</sub> = <a>Repository<sub>k-1</sub></a>( DS'<sub>STATIC,
+									n'</sub>, RV'(n'), { p' => DS'<sub>p',n'</sub> | p' in RV'(n') }
+								), for n' in RP'<sub>ext</sub></li>
 						</ul>
 						<p>Then the value of <a>StoreTransformation<sub>k</sub></a>(ST, SV', RP',
 							RV', M', Rel<sub>data</sub>) is equal to the value of the constructor
@@ -1101,7 +1101,7 @@
 						</ol>
 						<p class="ednote">All constructors need to be fixed to use mappings over
 							extended sets of names, e.g. extended with DEFAULT or STATIC, as
-							appropriate.</p>
+							appropriate. Store<sub>k</sub>(RP, R, SV, M)</p>
 						<aside class="example">
 							<p>The output store is equal to the input store when the following
 								hold.</p>
@@ -1109,11 +1109,19 @@
 								<li>RP' = RP</li>
 								<li>SV' = SV</li>
 								<li>RV'(n) = RV(n) for every n in RP<sub>ext</sub></li>
-								<li>Rel<sub>data</sub> is the identity relation on NP x NP </li>
+								<li>Rel<sub>data</sub> is the identity relation on NP x NP, denoted
+										<i>IDR</i><sub>NP</sub>
+								</li>
 								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
 										RP'<sub>ext</sub>, where M<sub>n</sub> is the corresponding
 									mapping in the input store.</li>
 							</ul>
+							<p>That is,</p>
+							<p>ST = StoreTransformation<sub>k</sub>(ST, RP, SV, RV,
+								IDR<sub>NP</sub>, M ) where k = order(ST), RP = names(static(ST)),
+								SV = versionNames(ST), RV = { n => RV<sub>n</sub> | n is in RP and
+									RV<sub>n</sub> = versionNames( content(n, static(ST) ) }, NP =
+								namePairs(ST), M = versionNameMap(ST).</p>
 						</aside>
 						<aside class="example">
 							<p>The output store is equal to the input store except for subsampling
@@ -1123,12 +1131,15 @@
 								<li>RP' = RP</li>
 								<li>SV' = SV</li>
 								<li>RV'(n) is a subset of RV(n) for every n in RP<sub>ext</sub></li>
-								<li>if [[m, n], [m', n']] belongs to Rel<sub>data</sub>, then m'
-									&ge; m, n' = n</li>
-								<li>M'<sub>n</sub>(m) &le; M<sub>n</sub>(m), for each name n in
-										RP'<sub>ext</sub> and each m in SV', where M<sub>n</sub> is
-									the corresponding mapping in the input store.</li>
+								<li>M'<sub>n</sub>(m') = max( { p | m &le; m' and p =
+									M<sub>n</sub>(m) is in RV'(n) } ).</li>
+								<li> Rel<sub>data</sub> = {[[m', n], [m, n]] | [m, n] is in NP and
+										M'<sub>n</sub>(m') = M<sub>n</sub>(m) } </li>
 							</ul>
+							<li>Let <dfn>Subsample</dfn>(ST, RV') =
+										<a>StoreTransformation<sub>k</sub></a>(ST, RP, SV, RV',
+									Rel<sub>data</sub>, M') with Rel<sub>data</sub> and M' as
+								defined above.</li>
 						</aside>
 						<aside class="example">
 							<p>The output store is equal to the input store except for the dynamic
@@ -1148,6 +1159,51 @@
 								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
 										RP'<sub>ext</sub> - {r1, r2}.</li>
 							</ul>
+							<p>Let <dfn>Dynamic-UNION</dfn>(ST, R, r', RV'(r')) =
+										<a>StoreTransformation<sub>k</sub>(ST, RP', SV, RV',
+										Rel<sub>data</sub>, M') with RP', RP', Rel<sub>data</sub>
+									and M' as defined above.</a>
+							</p>
+						</aside>
+						<aside class="example" id="ex-rename" title="Renaming Operation">
+							<p> A new store may be created using a name substitution Subst that maps
+								all names that appear in the store to names. Since names may be used
+								both in the structural aspects, e.g. version or repository names,
+								and in the content, then both must be subject to the
+								substitution.</p>
+							<p>Subst may not substitute for or with the reserved names DEFAULT or
+								STATIC.</p>
+							<p>Substitutions into an ordered set preserve the order, e.g as if the
+								order assertions were materialized and subject to substitution.</p>
+							<p><dfn>Rename(ST, Subst)</dfn> = <a>Store<sub>k</sub></a>(Subst(RP),
+								Subst(R), Subst(SV), Subst(M)) where Subst is a name substitution
+								mapping.</p>
+							<p>The name-substituted store will entail a substituted version of the
+								entailments of the original store in simple and structural
+								entailment regimes.</p>
+						</aside>
+						<aside class="example" id="ex-window" title="Count-Based Window Operation">
+							<p> We define some auxiliary functions to assist with count-based window
+								operations. </p>
+							<p> Let <dfn>Comb<sub>p</sub></dfn>(A, a) select from a totally-ordered
+								set A containing element a the elements of A that are offset, with
+								respect to order, an integer multiple of p from element a. That is,
+								elements b such that there are exactly k * (p) elements c with a
+								&lt; c &le; b or b &lt; c &le; a. </p>
+							<p>Let Interval<sub>n</sub>(A) be the ordered set of all intervals of
+								length n in A, with order by minimal element, and
+									Interval<sub>n</sub>(A, a) be the interval of length n in A
+								whose minimal element is a.</p>
+							<p>We define a basic operation <dfn>Window</dfn><sub>n, p</sub>(A, a) =
+									Comb<sub>p</sub>( Interval<sub>n</sub>(A),
+								Interval<sub>n</sub>(A, a) ) where n and p are positive integers,
+								and A is a totally-ordered set, and a is an element in A.</p>
+							<p>We define WindowRel<sub>n, p</sub>(NP) = {
+								[[m', n], [m, n]] |
+								[m, n] is in NP and @@@
+								}
+							
+							</p>
 						</aside>
 					</section>
 					<section id="def-window-transformation">
