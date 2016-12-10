@@ -1154,8 +1154,8 @@
 								<li>if n is in RP - {r1, r2}, then [[m, n], [m', n']] belongs to
 										Rel<sub>data</sub> iff m' = m and n' = n.</li>
 								<li>if n is in {r1, r2}, then [[m, n], [m', n']] belongs to
-										Rel<sub>data</sub> only if n' = r', [m, n] is in NP, and m'
-									= m . </li>
+										Rel<sub>data</sub> iff n' = r', [m, n] is in NP, and m' = m
+									. </li>
 								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
 										RP'<sub>ext</sub> - {r1, r2}.</li>
 							</ul>
@@ -1194,16 +1194,30 @@
 								length n in A, with order by minimal element, and
 									Interval<sub>n</sub>(A, a) be the interval of length n in A
 								whose minimal element is a.</p>
+							<p>Let Floor<sub>n</sub>(A, a) = { m' => m | m' is in
+									Interval<sub>n</sub>(A, m) and m is in Comb<sub>n</sub>(A, a)
+								}</p>
+							<!--
 							<p>We define a basic operation <dfn>Window</dfn><sub>n, p</sub>(A, a) =
 									Comb<sub>p</sub>( Interval<sub>n</sub>(A),
 								Interval<sub>n</sub>(A, a) ) where n and p are positive integers,
 								and A is a totally-ordered set, and a is an element in A.</p>
-							<p>We define WindowRel<sub>n, p</sub>(NP) = {
-								[[m', n], [m, n]] |
-								[m, n] is in NP and @@@
-								}
-							
-							</p>
+								-->
+							<p>We define WindowRel<sub>q, p</sub>(V, v0) = { [v, v'] | if v' is in
+									Comb<sub>p</sub>(V, v0) and v is in Interval<sub>q</sub>(V, v')
+								} </p>
+							<p>Let [[m, n], [m', n]] belong to WindowRel<sub>p, q</sub>(ST, N, v0) if
+								[m, n] is in NP, n is in N = dom v0, v' is in RV'<sub>n</sub> =
+									Comb<sub>q</sub>(RV<sub>n</sub>, v0<sub>n</sub>), v is in
+									Interval<sub>p</sub>(RV<sub>n</sub>, v') where v =
+								M<sub>n</sub>(m), v' = M<sub>n</sub>(m'). </p>
+							<p>Let <dfn>Window</dfn>(ST, n, p, q, rv0) =
+									StoreTransformation<sub>k</sub>( ST, RV<sub>n</sub>', {n},
+									RV<sub>n</sub>', <i>IDM</i>, WindowRel<sub>q,
+									p</sub>(St, {n}, {n => rv0})) where @@@</p>
+							<p class="ednote">If we use an expression rather than interval of fixed
+								size, we can work towards semantic windowing based on a query of the
+								structural metadata.</p>
 						</aside>
 					</section>
 					<section id="def-window-transformation">
