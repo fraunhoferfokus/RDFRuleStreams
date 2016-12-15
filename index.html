@@ -445,7 +445,7 @@
 						<li>If n is a member of names(DS), then <dfn>content</dfn>(n, DS) is defined
 							as the content of the named data structure in named(DS) having the name
 							n; otherwise, it is defined as the empty set. If <a>isNamed</a>(DS) is
-							true, then content(DS) = content(name(DS), DS).</li>
+							true, then we define content(DS) = content(name(DS), DS).</li>
 						<li><dfn>nameMap(DS)</dfn> is the function defined on names(DS) that maps
 							name to content(name, DS).</li>
 						<li>A static data structure DS with order k &gt; 0 is uniquely determined by
@@ -453,15 +453,17 @@
 							content(name, DS) for each name in names(DS). Therefore we may define a
 							constructor that takes this set of properties as input parameters and
 							returns the corresponding static data structure. Let this constructor be
-							called <dfn>Static<sub>k</sub></dfn> with domain DS<sub>k-1</sub> x
-								2<sup>Names</sup> x PartialFunctions(Names => DS<sub>k-1</sub>)
-							where DS<sub>k-1</sub> is the set of data structures of order k-1 or
-							less.</li>
+							called <dfn>Static<sub>k</sub></dfn> with domain DS<sub>&lt; k-1</sub> x
+								2<sup>Names</sup> x PartialFunctions(Names => DS<sub>&lt; k-1</sub>)
+							where DS<sub>&lt; k-1</sub> is the set of data structures of order k-1
+							or less.</li>
 					</ul>
 					<aside class="example"><p>The constructor <a>Static<sub>k</sub></a> can be used
-							to (abstractly) create a named data structure as follows.</p>
-						<p>If ND = Static<sub>k</sub>({}, {n}, {n => DS }), then isNamed(ND) is
-							true, names(ND) = {n} and content(n, ND) = DS.</p>
+							to (abstractly) create a <a>named data structure</a> as follows.</p>
+						<p>Let DS be <a>data structure</a> of order k-1 or less, and set ND =
+								Static<sub>k</sub>({}, {n}, {n => DS }). Then isNamed(ND) is true,
+							names(ND) = {n}, name(ND) = n, content(n, ND) = DS, and order(ND) =
+							k.</p>
 					</aside>
 					<aside>The concrete syntax for building a static data structure depends on the
 						extension of Update Operations, e.g. the <a>OpInsertData</a> Update
@@ -643,10 +645,10 @@
 					</ul>
 					<p>A <dfn
 							data-lt="named k-th order data structure|named data structure|named data structures"
-							>named k-th order data structures</dfn>, is a k+1-th order <a>static
-							data structure</a> that is an ordered tuple [n, DS, k] where n is the
-						name of the named data structure and data structure DS, of order k or less,
-						is the content of the named data structure. </p>
+							>named k-th order data structures</dfn> is a k+1-th order <a>static data
+							structure</a> that is an ordered tuple [n, DS, k] where n is the name of
+						the named data structure and data structure DS, of order k or less, is the
+						content of the named data structure. </p>
 					<p class="ednote">The third argument should be optional; otherwise, a named
 						graph is not actually a named data structure. If the third argument is not
 						given, then the order of the named data structure is one more than the order
@@ -659,6 +661,18 @@
 						structure. Note that the content of DS2 would still be G, a zeroth-order
 						data structure. The syntax [DEFAULT, G] as a stand-alone term would have to
 						be disallowed, as it is not a named graph.</p>
+					<p class="ednote">A third way to define named structures is in a more vague way
+						than this, similar to the other definitions, where we don't refer to a
+						particular structure (set, tuple, etc.) except in special cases.. In this
+						approach, a named data structure ND is simply a static data structure, of
+						order 1 or more, for which <a>isNamed</a>(ND) is true. It is required that
+							<a>hasDefault</a>(ND) is false, <a>hasNamed</a>(ND) is true, DS =
+							<a>named</a>(DS), and <a>names</a> is a set with one member, that member
+						being equal to name(DS). Letting contents(DS) = contents(name(DS),DS), then
+						it further holds that order(contents(DS)) &lt; order(DS). When
+						<a>order</a>(ND) = order(contents(ND))+1, then ND <i>is</i> a pair,
+						[name(ND), contents(ND)]. When order(ND) = 1, then ND <i>is</i> a named
+						graph.</p>
 					<p class="note">Because <a>named data structures</a> are by definition <a>static
 							data structures</a>, then all functions defined on static data
 						structures are defined on named data structures.</p>
