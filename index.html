@@ -1325,11 +1325,10 @@
 							D0}) </li>
 						<li>TSGraph(G0, {n p t.}, G1) = Static<sub>2</sub>(G<sub>meta</sub>, {b}, {b
 							=> D1}) </li>
-						<li>where m is a fresh blank node and </li>
+						<li>where b is a fresh blank node and </li>
 						<li>D0 = Dataset-UNION(G0, {n p t.})</li>
 						<li>D1 = Static<sub>1</sub>(Dataset-UNION(G0, {n p t.}), {n}, {n => G1} ) </li>
-						<li>G<sub>meta</sub> = { b rsp:usesGraphName n. b rsp:usesTimestampPredicate
-							p. b rsp:usesTimestamp t. }</li>
+						<li>with the requirement that G0 contain no triples using the predicate p.</li>
 					</ul>
 					<p>To get back the parts of a timestamped graph, we define the following basic
 						operations as shortcuts for CONSTRUCT-form queries of the second-order
