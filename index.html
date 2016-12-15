@@ -410,9 +410,9 @@
 							@@@<a href="">RDF Stream Abstract Syntax and Semantics</a> as an RDF
 						dataset with one named graph and a distinguished triple, the timestamp
 						triple, in its default graph having the name of the named graph as its
-						subject.</p>
-					<p class="ednote">A <a>timestamped graph</a>can be represented as a second-order
-							<a>static data structure</a> how?</p>
+						subject. A timestamped graph may be emulated by a dataset of second order or
+						less, as described in Section <a
+							href="#def-rdf-stream-as-second-order-store"></a></p>
 					<p>We define a number of syntactic operations on <a>static data structures</a>
 						as follows. Let DS be a <a>static data structure</a> and E be an arbitrary
 						entity. </p>
@@ -821,7 +821,7 @@
 						that the contents of adjacent versions MUST be distinct.</p>
 					<p>We further define a basic operation <dfn>Append2Repository</dfn> as
 						follows.</p>
-					<p>The arguments of <a>Append2Repository<sub>k</sub></a> are</p>
+					<p>The arguments of <a>Append2Repository</a><sub>k</sub> are</p>
 					<ol>
 						<li>The input repository to be modified, or a dataset of order (k-1)
 							representing the static part of an "empty" repository with no
@@ -963,7 +963,7 @@
 							<a>Append2Store</a> does not change the static part of a store, and it
 						specifies the new store version through new versions of its
 						repositories.</p>
-					<p>The arguments of <a>Append2Store<sub>k</sub></a> are</p>
+					<p>The arguments of <a>Append2Store</a><sub>k</sub> are</p>
 					<ol>
 						<li>The input store to be modified </li>
 						<li>The new store version name, which must be distinct from previous store
@@ -1253,6 +1253,7 @@
 								structural metadata.</p>
 						</aside>
 					</section>
+					<!--
 					<section id="def-window-transformation">
 						<h5>Window Functions on Stores</h5>
 						<p>The RDF Stream document defines window operations on streams. We define
@@ -1282,6 +1283,7 @@
 							[Sequence_UNION(Restrict_FILTER(ST, P<sub>i</sub>))]<sub>i in
 								<i>I</i></sub></p>
 					</section>
+					-->
 				</section>
 				<section>
 					<h4>Connection Between Repositories and Stores</h4>
@@ -1328,7 +1330,9 @@
 						<li>where b is a fresh blank node and </li>
 						<li>D0 = Dataset-UNION(G0, {n p t.})</li>
 						<li>D1 = Static<sub>1</sub>(Dataset-UNION(G0, {n p t.}), {n}, {n => G1} ) </li>
-						<li>with the requirement that G0 contain no triples using the predicate p.</li>
+						<li>G<sub>meta</sub> = { b rsp:usesTimestampPredicate p}</li>
+						<li>with the requirement that G0 contain no triples using the predicate
+							p.</li>
 					</ul>
 					<p>To get back the parts of a timestamped graph, we define the following basic
 						operations as shortcuts for CONSTRUCT-form queries of the second-order
