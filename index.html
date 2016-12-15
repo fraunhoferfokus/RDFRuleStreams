@@ -445,7 +445,8 @@
 						<li>If n is a member of names(DS), then <dfn>content</dfn>(n, DS) is defined
 							as the content of the named data structure in named(DS) having the name
 							n; otherwise, it is defined as the empty set. If <a>isNamed</a>(DS) is
-							true, then we define content(DS) = content(name(DS), DS).</li>
+							true, then we define <dfn>content(DS)</dfn> = content(name(DS),
+							DS).</li>
 						<li><dfn>nameMap(DS)</dfn> is the function defined on names(DS) that maps
 							name to content(name, DS).</li>
 						<li>A static data structure DS with order k &gt; 0 is uniquely determined by
@@ -1117,11 +1118,11 @@
 								n] in NP. </li>
 							<li> DS'<sub>p', n'</sub> = Dataset-UNION({DS<sub>m, n</sub> | [ [m, n],
 								[m', n']] in Rel<sub>data</sub>, M'<sub>n'</sub>(m') = p'})</li>
-							<li>R'<sub>n'</sub> = <a>Repository<sub>k-1</sub></a>( DS'<sub>STATIC,
+							<li>R'<sub>n'</sub> = <a>Repository</a><sub>k-1</sub>( DS'<sub>STATIC,
 									n'</sub>, RV'(n'), { p' => DS'<sub>p',n'</sub> | p' in RV'(n') }
 								), for n' in RP'<sub>ext</sub></li>
 						</ul>
-						<p>Then the value of <a>StoreTransformation<sub>k</sub></a>(ST, SV', RP',
+						<p>Then the value of <a>StoreTransformation</a><sub>k</sub>(ST, SV', RP',
 							RV', M', Rel<sub>data</sub>) is equal to the value of the constructor
 								<a>Store</a><sub>k</sub> with the following arguments.</p>
 						<ol>
@@ -1170,7 +1171,7 @@
 										M'<sub>n</sub>(m') = M<sub>n</sub>(m) } </li>
 							</ul>
 							<li>Let <dfn>Subsample</dfn>(ST, RV') =
-										<a>StoreTransformation<sub>k</sub></a>(ST, RP, SV, RV',
+									<a>StoreTransformation</a><sub>k</sub>(ST, RP, SV, RV',
 									Rel<sub>data</sub>, M') with Rel<sub>data</sub> and M' as
 								defined above.</li>
 						</aside>
@@ -1193,10 +1194,9 @@
 										RP'<sub>ext</sub> - {r1, r2}.</li>
 							</ul>
 							<p>Let <dfn>Dynamic-UNION</dfn>(ST, R, r', RV'(r')) =
-										<a>StoreTransformation<sub>k</sub>(ST, RP', SV, RV',
-										Rel<sub>data</sub>, M') with RP', RP', Rel<sub>data</sub>
-									and M' as defined above.</a>
-							</p>
+									<a>StoreTransformation</a><sub>k</sub>(ST, RP', SV, RV',
+									Rel<sub>data</sub>, M') with RP', RP', Rel<sub>data</sub> and M'
+								as defined above. </p>
 						</aside>
 						<aside class="example" id="ex-rename" title="Renaming Operation">
 							<p> A new store may be created using a name substitution Subst that maps
