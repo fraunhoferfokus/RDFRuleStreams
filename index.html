@@ -437,8 +437,9 @@
 							integer, and this is the value of the function
 							<dfn>order</dfn>(DS).</li>
 						<li><dfn>isNamed</dfn>(DS) is true if DS is a <a>named data structure</a>;
-							otherwise, it is false. In this case, the cardinality of <a>names</a>(DS) is
-							1, <a>hasDefault</a>(DS) is false, <a>hasNamed</a>(DS) is true, and DS = <a>named</a>(DS).</li>
+							otherwise, it is false. In this case, the cardinality of
+							<a>names</a>(DS) is 1, <a>hasDefault</a>(DS) is false,
+							<a>hasNamed</a>(DS) is true, and DS = <a>named</a>(DS).</li>
 						<li>If <a>isNamed</a>(DS) is true, then <dfn>name</dfn>(DS) is its
 							name.</li>
 						<li>If n is a member of names(DS), then <dfn>content</dfn>(n, DS) is defined
@@ -642,9 +643,27 @@
 					</ul>
 					<p>A <dfn
 							data-lt="named k-th order data structure|named data structure|named data structures"
-							>named k-th order data structures</dfn>, is an ordered tuple [n, DS, k]
-						where n is the name of the named data structure and data structure DS, of
-						order k or less, is the content of the named data structure. </p>
+							>named k-th order data structures</dfn>, is a k+1-th order <a>static
+							data structure</a> that is an ordered tuple [n, DS, k] where n is the
+						name of the named data structure and data structure DS, of order k or less,
+						is the content of the named data structure. </p>
+					<p class="ednote">The third argument should be optional; otherwise, a named
+						graph is not actually a named data structure. If the third argument is not
+						given, then the order of the named data structure is one more than the order
+						of its content. </p>
+					<p class="ednote">There is another way to accomplish the same effect as the
+						third argument, using the reserved name DEFAULT. Let G be a graph. A
+						conventional named graph is DS1 = [n, G], a first-order data structure. DS2
+						= [n, G, 1] is a second-order data structure. So, instead of [n, G, 1], we
+						could write DS2 = [n, [DEFAULT, G]] to construct a second-order data
+						structure. Note that the content of DS2 would still be G, a zeroth-order
+						data structure. The syntax [DEFAULT, G] as a stand-alone term would have to
+						be disallowed, as it is not a named graph.</p>
+					<p class="note">Because <a>named data structures</a> are by definition <a>static
+							data structures</a>, then all functions defined on static data
+						structures are defined on named data structures.</p>
+					<p class="note">The third argument of the tuple of a named data structure
+						determines the order of the structure: <a>order</a>([n, DS, k]) = k+1 .</p>
 					<p>We define a number of syntactic operations on <a>data structures</a> as
 						follows. Let DS be a <a>data structure</a>. </p>
 					<ul>
@@ -1206,15 +1225,15 @@
 							<p>We define WindowRel<sub>q, p</sub>(V, v0) = { [v, v'] | if v' is in
 									Comb<sub>p</sub>(V, v0) and v is in Interval<sub>q</sub>(V, v')
 								} </p>
-							<p>Let [[m, n], [m', n]] belong to WindowRel<sub>p, q</sub>(ST, N, v0) if
-								[m, n] is in NP, n is in N = dom v0, v' is in RV'<sub>n</sub> =
+							<p>Let [[m, n], [m', n]] belong to WindowRel<sub>p, q</sub>(ST, N, v0)
+								if [m, n] is in NP, n is in N = dom v0, v' is in RV'<sub>n</sub> =
 									Comb<sub>q</sub>(RV<sub>n</sub>, v0<sub>n</sub>), v is in
 									Interval<sub>p</sub>(RV<sub>n</sub>, v') where v =
 								M<sub>n</sub>(m), v' = M<sub>n</sub>(m'). </p>
 							<p>Let <dfn>Window</dfn>(ST, n, p, q, rv0) =
 									StoreTransformation<sub>k</sub>( ST, RV<sub>n</sub>', {n},
-									RV<sub>n</sub>', <i>IDM</i>, WindowRel<sub>q,
-									p</sub>(St, {n}, {n => rv0})) where @@@</p>
+									RV<sub>n</sub>', <i>IDM</i>, WindowRel<sub>q, p</sub>(St, {n},
+								{n => rv0})) where @@@</p>
 							<p class="ednote">If we use an expression rather than interval of fixed
 								size, we can work towards semantic windowing based on a query of the
 								structural metadata.</p>
