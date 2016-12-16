@@ -704,6 +704,10 @@
 							sequence</a>. In particular, it is a sequence of k-th order <a>static
 							data structures</a>. We define this special case of <a>data sequence</a>
 						to be a <dfn>k-th order data sequence</dfn>.</p>
+					<p>We extend the functions defined earlier on static data structures to data
+						structures where <a>hasStatic</a> is true according to the following
+						example: <a>names</a>(DS) = <a>names</a>(<a>staticPart</a>(DS)), and so
+						on.</p>
 					<p class="ednote">I have reverted to the terminology "static" and "dynamic"
 						because using "unordered" and "ordered" has a collision with the "order" of
 						the structure. However this terminology is not entirely satisfactory, for
@@ -1262,10 +1266,9 @@
 								size, we can work towards semantic windowing based on a query of the
 								structural metadata.</p>
 						</aside>
-						<aside class="example" title="Repository Extraction">
-							The <dfn>Restrict</dfn> operation takes a store and a repository name,
-							returnsing
-						</aside>
+						<aside class="example" title="Repository Extraction"> The
+								<dfn>Restrict</dfn> operation takes a store and a repository name,
+							returnsing </aside>
 					</section>
 					<!--
 					<section id="def-window-transformation">
