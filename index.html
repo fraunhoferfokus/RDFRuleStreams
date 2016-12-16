@@ -597,7 +597,7 @@
 							<a>data sequence</a> where each element is a <a>dataset</a> of first
 						order or less. </aside>
 					<p>In the spirit of [[!SPARQL11-Update]], we define the <dfn>Revise</dfn>
-						operation as an explicit operation acting on a <dfn>terminating data
+						operation as an explicit operation acting on a <dfn>terminated data
 							sequence</dfn> (i.e a <a>data sequence</a> where <a>hasGreatest</a> is
 						true) that applies a binary function to the greatest element of the
 						sequence, and to the sequence itself, and <a>Cons</a>es it onto the
@@ -1078,15 +1078,17 @@
 							<li>The input store ST of order k or less. Let SV =
 								<a>versionNames</a>(ST), SV<sub>ext</sub>= <a>Ext-STATIC</a>(SV), RP
 								= names(static(ST)), and RP<sub>ext</sub> = Ext-DEFAULT(RP). Let NP
-								= <a>namePairs</a>(ST). SV is the set of store version names of the
-								input store, while RP is the set of repository names of the input
-								store. NP is the set of pairs of names - the first name being a
-								store version name and the second name being the name of a repositry
-								present in that store version.</li>
+								= <a>namePairs</a>(ST), and RV(n) = <a>versionNames</a>(content(n,
+								ST)). <br /> Note: SV is the set of store version names of the input
+								store, while RP is the set of repository names of the input store.
+								NP is the set of pairs of names - the first name being a store
+								version name and the second name being the name of a repositry
+								present in that store version. RV(n) is the ordered set of version
+								names of the repository with name n.</li>
 							<li>An ordered set SV', possibly empty, of version names of the output
 								store. Let SV'<sub>ext</sub> = <a>Ext-STATIC</a>(SV').</li>
 							<li>A set RP', possibly empty, of repository names of the output store.
-								Let RP'<sub>ext</sub> is Ext-DEFAULT(RP)</li>
+								Let RP'<sub>ext</sub> = Ext-DEFAULT(RP')</li>
 							<li>For each name n in RP'<sub>ext</sub>, an ordered set RV'(n),
 								possibly empty, of version names of the corresponding output named
 								or default repository. Let RV'(n)<sub>ext</sub> =
@@ -1128,15 +1130,15 @@
 						<ol>
 							<li>the default repository R'<sub>DEFAULT</sub> of the output store</li>
 							<li>RP'</li>
-							<li>{n => R'<sub>n</sub> | n in RP'}</li>
+							<li>{n' => R'<sub>n'</sub> | n' in RP'}</li>
 							<li>SV'</li>
-							<li>{M'<sub>n</sub> | n in RP'}</li>
-							<li>M'<sub>DEFAULT</sub></li>
+							<li>{n' => M'(n') | n' in RP'}</li>
+							<li>M'(DEFAULT)</li>
 						</ol>
 						<p class="ednote">All constructors need to be fixed to use mappings over
 							extended sets of names, e.g. extended with DEFAULT or STATIC, as
 							appropriate. Store<sub>k</sub>(RP, R, SV, M)</p>
-						<aside class="example">
+						<aside class="example" title="Identity Transformation">
 							<p>The output store is equal to the input store when the following
 								hold.</p>
 							<ul>
@@ -1157,7 +1159,7 @@
 									RV<sub>n</sub> = versionNames( content(n, static(ST) ) }, NP =
 								namePairs(ST), M = versionNameMap(ST).</p>
 						</aside>
-						<aside class="example">
+						<aside class="example" title="Subsampling a Store">
 							<p>The output store is equal to the input store except for subsampling
 								of the versions in one or more repositories when the following
 								hold.</p>
@@ -1175,7 +1177,7 @@
 									Rel<sub>data</sub>, M') with Rel<sub>data</sub> and M' as
 								defined above.</li>
 						</aside>
-						<aside class="example">
+						<aside class="example" title="Dynamic Union of Two Repositories">
 							<p>The output store is equal to the input store except for the dynamic
 								union of two named repositories into a new named repository when the
 								following hold.</p>
@@ -1245,12 +1247,24 @@
 									Interval<sub>p</sub>(RV<sub>n</sub>, v') where v =
 								M<sub>n</sub>(m), v' = M<sub>n</sub>(m'). </p>
 							<p>Let <dfn>Window</dfn>(ST, n, p, q, rv0) =
-									StoreTransformation<sub>k</sub>( ST, RV<sub>n</sub>', {n},
-									RV<sub>n</sub>', <i>IDM</i>, WindowRel<sub>q, p</sub>(St, {n},
-								{n => rv0})) where @@@</p>
+									<a>StoreTransformation</a><sub>k</sub>( ST, RV'<sub>n</sub>,
+								{n}, {DEFAULT->{}, n=>RV'<sub>n</sub>}, {DEFAULT=>{}, n=>
+									<i>IDM</i><sub>n</sub>}, WindowRel<sub>q, p</sub>(ST, {n}, {n =>
+								rv0})) where</p>
+							<ul>
+								<li>RV'<sub>n</sub> = Comb<sub>q</sub>(RV<sub>n</sub>,
+										v0<sub>n</sub>)</li>
+								<li>RV<sub>n</sub> = <a>versionNames</a>(content(n, ST))</li>
+								<li><i>IDM</i><sub>n</sub> is the identity mapping on
+										RV'<sub>n</sub></li>
+							</ul>
 							<p class="ednote">If we use an expression rather than interval of fixed
 								size, we can work towards semantic windowing based on a query of the
 								structural metadata.</p>
+						</aside>
+						<aside class="example" title="Repository Extraction">
+							The <dfn>Restrict</dfn> operation takes a store and a repository name,
+							returnsing
 						</aside>
 					</section>
 					<!--
