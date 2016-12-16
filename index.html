@@ -1002,8 +1002,9 @@
 					<ol>
 						<li>If the default repository mapping M<sub>default</sub> is not empty, then
 							let R<sub>default, new</sub> = Append2Repository(R<sub>default</sub>,
-								M<sub>default</sub>; otherwise R<sub>default, new</sub> =
+								M<sub>default</sub>); otherwise R<sub>default, new</sub> =
 								R<sub>default</sub></li>
+						<li>@@@</li>
 
 					</ol>
 					<!--
@@ -1392,10 +1393,14 @@
 								[TSG<sub>i</sub>] for i in an ordered set <i>I</i> where </p>
 						<p>TSG<sub>i</sub> = TSGraph(G0<sub>i</sub>, {n<sub>i</sub> p<sub>i</sub>
 								t<sub>i</sub>.}).</p>
-						<p>Let S<sub>i</sub> be the stream up to index i. Then</p>
+						<p>Let S<sub>i</sub> be the stream emulation up to index i, using repository
+							name rn. Then</p>
 						<p>S<sub>i+1</sub> = <a>Append2Store</a><sub>2</sub>(ST, sv<sub>i+1</sub>,
 								{sv<sub>i+1</sub> => G<sub>DEFAULT, i+1</sub>}, {rn =>
-								{sv<sub>i+1</sub> => G<sub>rn, i+1</sub>}}, {}, {} )</p>
+								{sv<sub>i+1</sub> => G0<sub>i+1</sub>}} &cup; {n<sub>i+1</sub>
+								p<sub>i+1</sub> t<sub>i+1</sub>.}, {}, {} )</p>
+						<p>where sv<sub>i+1</sub> is a fresh name for the store version and </p>
+						<p>G<sub>DEFAULT, i+1</sub> = defaultPart(TSG<sub>i+1</sub>)</p>
 					</section>
 				</section>
 			</section>
