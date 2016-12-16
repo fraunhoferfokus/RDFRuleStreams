@@ -822,7 +822,11 @@
 							k-1 or less that defines the versions of the repository. </li>
 					</ol>
 					<p>To satisfy the definition of <a>repository</a>, an additional requirement is
-						that the contents of adjacent versions MUST be distinct.</p>
+						that the contents of adjacent versions MUST be distinct. Therefore, the
+								<a>Repository<sub>k</sub></a> constructor carries out a
+						reconciliation step that removes any version whose content is identical to
+						that of its preceding version. This reconciliation may reduce the set of
+						version names, in case of such version duplication.</p>
 					<p>We further define a basic operation <dfn>Append2Repository</dfn> as
 						follows.</p>
 					<p>The arguments of <a>Append2Repository</a><sub>k</sub> are</p>
@@ -919,10 +923,11 @@
 									repository, called the default repository of the store, and
 									whose named part consists of named (k+1)-th order repositories,
 									called named repositories of the store. </li>
-								<li>It has a dynamic part which is a non-empty <a>data sequence</a>
-									whose elements are named (k+1)-th order datasets, called
-									versions of the store. The ordered set SV of the names of these
-									versions are the <dfn>version names of the store</dfn>.</li>
+								<li>It has an optional dynamic part which is a non-empty <a>data
+										sequence</a> whose elements are named (k+1)-th order
+									datasets, called versions of the store. The ordered set SV of
+									the names of these versions are the <dfn>version names of the
+										store</dfn>.</li>
 								<li>The static and dynamic parts of a store St satisfy the following
 									consistency requirements.</li>
 								<ul>
@@ -986,10 +991,10 @@
 							dropped. This set MUST be disjoint from the repository names in the
 							previous two items, and can only include repository names of the input
 							store.</li>
-						<li>An <a>Append2Store</a> operation cannot be vacuous; it must append to at
-							least one repository (default or named) or add at least one new named
-							repository or drop at least one named repository. </li>
 					</ol>
+					<p>An <a>Append2Store</a> operation cannot be vacuous; it must append to at
+						least one repository (default or named) or add at least one new named
+						repository or drop at least one named repository. </p>
 					<p>The semantics of <a>Append2Store</a> are defined in terms of the
 								<a>Store<sub>k</sub></a> constructor and the
 							<a>Append2Repository</a> basic operations, according to the following
@@ -1118,7 +1123,8 @@
 								order to have a valid output store.</li>
 						</ul>
 						<p>The semantics of <a>StoreTransformation</a><sub>k</sub> is defined as
-							follows. For (input) store ST, let</p>
+							follows. For (input) store (ST, SV', RP', RV', M', Rel<sub>data</sub>),
+							let</p>
 						<ul>
 							<li>DS<sub>m, n</sub> = content(n, versionContent(m, ST)) for each [m,
 								n] in NP. </li>
@@ -1127,6 +1133,9 @@
 							<li>R'<sub>n'</sub> = <a>Repository</a><sub>k-1</sub>( DS'<sub>STATIC,
 									n'</sub>, RV'(n'), { p' => DS'<sub>p',n'</sub> | p' in RV'(n') }
 								), for n' in RP'<sub>ext</sub></li>
+							<li>M'' is the mapping M' composed with the version name substitution
+								arising from the reconciliation of vacuous revisions in the
+								construction of repositories R'.</li>
 						</ul>
 						<p>Then the value of <a>StoreTransformation</a><sub>k</sub>(ST, SV', RP',
 							RV', M', Rel<sub>data</sub>) is equal to the value of the constructor
@@ -1136,8 +1145,8 @@
 							<li>RP'</li>
 							<li>{n' => R'<sub>n'</sub> | n' in RP'}</li>
 							<li>SV'</li>
-							<li>{n' => M'(n') | n' in RP'}</li>
-							<li>M'(DEFAULT)</li>
+							<li>{n' => M''(n') | n' in RP'}</li>
+							<li>M''(DEFAULT)</li>
 						</ol>
 						<p class="ednote">All constructors need to be fixed to use mappings over
 							extended sets of names, e.g. extended with DEFAULT or STATIC, as
@@ -1266,9 +1275,20 @@
 								size, we can work towards semantic windowing based on a query of the
 								structural metadata.</p>
 						</aside>
-						<aside class="example" title="Repository Extraction"> The
-								<dfn>Restrict</dfn> operation takes a store and a repository name,
-							returnsing </aside>
+						<aside class="example" title="Repository Extraction">
+							<p>The <dfn>Repository-EXTRACT</dfn> operation takes a store ST and a
+								set of repository names N, returning a substore that contains only
+								repositories whose names are in N.</p>
+							<p>Repository-EXTRACT<sub>k</sub>(ST, N) =
+									<a>StoreTransformation</a><sub>k</sub>(ST, SV, RP', RV', M',
+									Rel<sub>data</sub>) </p>
+							<p>where</p>
+							<ul>
+								<li>RP' = RP &cap; N </li>
+								<li>RV' is the restriction of RV to RP'</li>
+								<li>M' is the restriction of M to RP'<sub>ext</sub></li>
+							</ul>
+						</aside>
 					</section>
 					<!--
 					<section id="def-window-transformation">
@@ -1311,6 +1331,7 @@
 						repository versions. However, the contents and order of repository versions
 						is not lost; this information is preserved in the dynamic part of the store,
 						and can be recovered using the <a>Restrict</a> operation.</p>
+					<p class="ednote">Restrict operator needs to be (re)-defined.</p>
 					<p>Many <a>k-th order repositories</a> can be converted into a <a>k-th order
 							store</a> by supplying (or minting) the additional version names
 						necessary to generate (k-1)-th order repositories corresponding to the
@@ -1372,7 +1393,9 @@
 						<p>TSG<sub>i</sub> = TSGraph(G0<sub>i</sub>, {n<sub>i</sub> p<sub>i</sub>
 								t<sub>i</sub>.}).</p>
 						<p>Let S<sub>i</sub> be the stream up to index i. Then</p>
-						<p>S<sub>i+1</sub> = Store<sub>2</sub>( )</p>
+						<p>S<sub>i+1</sub> = <a>Append2Store</a><sub>2</sub>(ST, sv<sub>i+1</sub>,
+								{sv<sub>i+1</sub> => G<sub>DEFAULT, i+1</sub>}, {rn =>
+								{sv<sub>i+1</sub> => G<sub>rn, i+1</sub>}}, {}, {} )</p>
 					</section>
 				</section>
 			</section>
@@ -1547,9 +1570,9 @@
 					<p>The Dataset-UNION operation constructs a new <a>RDF 1.1 Dataset</a> from two
 						existing <a>RDF 1.1 Datasets</a> by forming the union of the <a>default
 							graphs</a>, and taking the union of the sets of <a>named graphs</a>,
-						with the exception that if the sets of <a>graph names</a> of the two <a>RDF
-							1.1 datasets</a> have a non-empty intersection, the <a>graphs</a> with
-						names in that intersection must be combined by set union. </p>
+						with the exception that if the sets of graph names of the two <a>RDF 1.1
+							datasets</a> have a non-empty intersection, the <a>graphs</a> with names
+						in that intersection must be combined by set union. </p>
 					<p> We extend the Dataset-UNION operation to <a>k-th Order RDF Datasets</a>.
 						Also, the names are extended from IRIs to also allow <a>blank node</a>
 						names. </p>
@@ -1608,7 +1631,7 @@
 						our definitions There is no precedent for such definitions, since the Update
 						spec does not define a union operation on Graph Stores. </p>
 					<p class="ednote">We do define a special case of "union" for <a>repositories</a>
-						that are all members of the same <a>store</a> using the <a>Restrict</a>
+						that are all members of the same <a>store</a> using the <a>Dynamic-UNION</a>
 						operation.</p>
 				</section>
 				<section>
