@@ -251,9 +251,23 @@
 						disjoint parts: <a>static data structures</a>, <a>data sequences</a>, and
 						all other data structures, i.e. those data structures having both a
 							<a>static part</a> and a <a>dynamic part</a>. The existing types of RDF
-						graph, named graph and RDF 1.1 dataset are subsumed by the <a>static
-							data structure</a> type, and more particularly, by the type of <a>k-th
-							order datasets</a>.</figcaption>
+						graph, named graph and RDF 1.1 dataset are subsumed by the <a>static data
+							structure</a> type, and more particularly, by the type of <a>k-th order
+							datasets</a>.</figcaption>
+				</figure>
+				<figure id="repository-types">
+					<img src="repository-types.svg" alt="" />
+					<figcaption>The <a>repository</a> type is subsumed by the <a>data structure</a>
+						type. According to the definition, the dynamic part of a repository is
+						optional; the motivation for this is the initialization of a repository with
+						static content prior to specifying an initial version. The result of this
+						design decision is that all k-th order datasets are m-th order repositories,
+						for m &gt; k. The definition further states that RDF graphs are zeroth order
+						repositories. This a flaw in the definition, because the function
+							<a>order</a> does not have a deterministic value when applied to a
+							<a>dataset</a>. Options for fixing the repository definition are
+						discussed in the Editorial Note that follows the definition of
+							<a>repository</a>. </figcaption>
 				</figure>
 			</section>
 			<section id="existing-datastructuretypes">
@@ -383,7 +397,8 @@
 				<h3>RDF Datasets</h3>
 				<section id="def-rdf-dataset">
 					<h3>RDF Dataset</h3>
-					<p class="ednote">perhaps use "W3C RDF dataset" and similar for thse classes?<p>
+					<p class="ednote">perhaps use "W3C RDF dataset" and similar for thse
+						classes?</p>
 					<p>Recall that an <a>RDF dataset</a> is a collection of <a>RDF graphs</a>, and
 						comprises:</p>
 					<ul>
@@ -413,7 +428,8 @@
 							</ul>
 						</li>
 					</ul>
-					<p class="ednote">perhaps use "W3C RDF dataset" and similar for these classes?<p>
+					<p class="ednote">perhaps use "W3C RDF dataset" and similar for these
+						classes?</p>
 					<p>An RDF Graph is the only <a>static data structure</a> that has no named part,
 						and is equal to its default part.</p>
 					<p>A named graph is a first-order <a>static data structure</a>. It has no
@@ -455,10 +471,10 @@
 						<li><dfn>isNamed</dfn>(DS) is true if DS is a <a>named data structure</a>;
 							otherwise, it is false. In this case, the cardinality of
 							<a>names</a>(DS) is 1, <a>hasDefault</a>(DS) is false,
-							<a>hasNamed</a>(DS) is true, and DS = <a>named</a>(DS).
-							<p class="ednote">
-							? “the named part of DS” is the "named data structures in DS”
-							 yet "DS = named(DS)”, that is the whole is the same is its named part.</p>
+							<a>hasNamed</a>(DS) is true, and DS = <a>named</a>(DS). <p
+								class="ednote"> ? “the named part of DS” is the "named data
+								structures in DS” yet "DS = named(DS)”, that is the whole is the
+								same is its named part.</p>
 						</li>
 						<li>If <a>isNamed</a>(DS) is true, then <dfn>name</dfn>(DS) is its
 							name.</li>
@@ -490,37 +506,121 @@
 						extension of Update Operations, e.g. the <a>OpInsertData</a> Update
 						Operation, and the extension of the <a>pattern</a> syntax to express k-th
 						order patterns, including k-th order named patterns.</aside>
-					<p class="ednote"> in general, when the structure constituents are of the same order and when of a lesser order
-						is not clear. neither is , why.</p>
+					<p class="ednote"> in general, when the structure constituents are of the same
+						order and when of a lesser order is not clear. neither is , why.</p>
 					<table style="font: monospace;">
-						<tr><th>type</th><td></td><th>definition</th></tr>
-						<tr><td>structure<sub>i</sub></td><td>::=</td><td>(structure<sub>i-1</sub> x named-structure<sub>i-1</sub> *)</td></tr>
-						<tr><td>named-structure<sub>i</sub></td><td>::=</td><td>(nil x named-structure<sub>i</sub>)</td></tr>
-						<tr><td>w3c:rdf-graph</td><td>::=</td><td>structure<sub>0</sub></td></tr>
-						<tr><td>w3c:rdf-named-graph</td><td>::=</td><td>
-							<table>	<tr><td colspan="2">named-structure<sub>1</sub></td></tr>
-								<tr><td>::=</td><td>(nil x ((name x structure<sub>0</sub>)))</td></tr>
-								<tr><td>::=</td><td>((name x structure<sub>0</sub>))</td></tr>
-								<tr><td>::=</td><td>(name x structure<sub>0</sub>)</td></tr>
-							</table></td></tr>
-						<tr><td>w3c:rdf-dataset</td><td>::=</td><td>(structure<sub>0</sub> x ((name x structure<sub>0</sub>))) - with variations </td></tr>
-						<tr><td>timestamped-graph</td><td>::=</td><td>(((n P t)) x ((n x w3c:rdf-graph))) - here an order 1 structure</td></tr>
-						<tr><td>sequence<sub>i</sub></td><td>::=</td><td>[structure<sub>i</sub> . sequence<sub>i</sub>] + []</tr>
-						<tr><td>dataset-structure<sub>i</sub></td><td>::=</td><td>(structure<sub>i-1</sub> x ((name x structure<sub>i-1</sub>))) - with variations </td></tr>
-						<tr><td>named-dataset-structure<sub>i</sub></td><td>::=</td><td>(nil x ((name x dataset-structure<sub>i</sub>))) - with variations </td></tr>
-						<tr><td>data-structure<sub>i</sub></td><td>::=</td><td>(structure<sub>i</sub> x sequence<sub>i</sub>) </td></tr>
-						<tr><td>named-data-structure<sub>i</sub></td><td>::=</td><td>{n, structure<sub>i-1</sub>, k} </td></tr>
-						<tr><td>named-dataset-structure<sub>i</sub></td><td>::=</td><td>(nil x ((name x dataset-structure<sub>i</sub>))) - with variations </td></tr>
-						<tr><td>repository<sub>i</sub></td><td>::=</td><td>?</td></tr>
-						<tr><td>named-repository<sub>i</sub></td><td>::=</td><td>?</td></tr>
-						<tr><td>store<sub>i</sub></td><td>::=</td><td>?</td></tr>
-						<tr><td>stream<sub>i</sub></td><td>::=</td><td>?</td></tr>
+						<tr>
+							<th>type</th>
+							<td></td>
+							<th>definition</th>
+						</tr>
+						<tr>
+							<td>structure<sub>i</sub></td>
+							<td>::=</td>
+							<td>(structure<sub>i-1</sub> x named-structure<sub>i-1</sub> *)</td>
+						</tr>
+						<tr>
+							<td>named-structure<sub>i</sub></td>
+							<td>::=</td>
+							<td>(nil x named-structure<sub>i</sub>)</td>
+						</tr>
+						<tr>
+							<td>w3c:rdf-graph</td>
+							<td>::=</td>
+							<td>structure<sub>0</sub></td>
+						</tr>
+						<tr>
+							<td>w3c:rdf-named-graph</td>
+							<td>::=</td>
+							<td>
+								<table>
+									<tr>
+										<td colspan="2">named-structure<sub>1</sub></td>
+									</tr>
+									<tr>
+										<td>::=</td>
+										<td>(nil x ((name x structure<sub>0</sub>)))</td>
+									</tr>
+									<tr>
+										<td>::=</td>
+										<td>((name x structure<sub>0</sub>))</td>
+									</tr>
+									<tr>
+										<td>::=</td>
+										<td>(name x structure<sub>0</sub>)</td>
+									</tr>
+								</table></td>
+						</tr>
+						<tr>
+							<td>w3c:rdf-dataset</td>
+							<td>::=</td>
+							<td>(structure<sub>0</sub> x ((name x structure<sub>0</sub>))) - with
+								variations </td>
+						</tr>
+						<tr>
+							<td>timestamped-graph</td>
+							<td>::=</td>
+							<td>(((n P t)) x ((n x w3c:rdf-graph))) - here an order 1 structure</td>
+						</tr>
+						<tr>
+							<td>sequence<sub>i</sub></td>
+							<td>::=</td>
+							<td>[structure<sub>i</sub> . sequence<sub>i</sub>] + []</td>
+						</tr>
+						<tr>
+							<td>dataset-structure<sub>i</sub></td>
+							<td>::=</td>
+							<td>(structure<sub>i-1</sub> x ((name x structure<sub>i-1</sub>))) -
+								with variations </td>
+						</tr>
+						<tr>
+							<td>named-dataset-structure<sub>i</sub></td>
+							<td>::=</td>
+							<td>(nil x ((name x dataset-structure<sub>i</sub>))) - with variations
+							</td>
+						</tr>
+						<tr>
+							<td>data-structure<sub>i</sub></td>
+							<td>::=</td>
+							<td>(structure<sub>i</sub> x sequence<sub>i</sub>) </td>
+						</tr>
+						<tr>
+							<td>named-data-structure<sub>i</sub></td>
+							<td>::=</td>
+							<td>{n, structure<sub>i-1</sub>, k} </td>
+						</tr>
+						<tr>
+							<td>named-dataset-structure<sub>i</sub></td>
+							<td>::=</td>
+							<td>(nil x ((name x dataset-structure<sub>i</sub>))) - with variations
+							</td>
+						</tr>
+						<tr>
+							<td>repository<sub>i</sub></td>
+							<td>::=</td>
+							<td>?</td>
+						</tr>
+						<tr>
+							<td>named-repository<sub>i</sub></td>
+							<td>::=</td>
+							<td>?</td>
+						</tr>
+						<tr>
+							<td>store<sub>i</sub></td>
+							<td>::=</td>
+							<td>?</td>
+						</tr>
+						<tr>
+							<td>stream<sub>i</sub></td>
+							<td>::=</td>
+							<td>?</td>
+						</tr>
 					</table>
 				</section>
 				<section id="def-kth-order-dataset">
 					<h4>k-th order RDF Dataset</h4>
-					<p class="ednote">perhaps use "Stream RDF dataset" "RDF stream dataset" "RDF dataset structure" or  similar for these classes?<p>
-					
+					<p class="ednote">perhaps use "Stream RDF dataset" "RDF stream dataset" "RDF
+						dataset structure" or similar for these classes?</p>
 					<p>A <dfn
 							data-lt="k-th Order RDF Datasets|k-th Order Dataset|k-th Order Datasets|Dataset|Datasets"
 							>k-th Order RDF Dataset</dfn> is a <a>k-th order static data
@@ -541,8 +641,7 @@
 					<p class="note"> Hereafter in this document, "dataset", without modification,
 						means a <a>k-th Order RDF Dataset</a> for arbitrary k. When the original
 						concept of RDF Dataset is intended, we use the term <a>RDF 1.1 Dataset</a>
-						for clarity. 
-					(see notes, above)</p>
+						for clarity. (see notes, above)</p>
 					<p class="ednote">To be clarified in a separate semantics section: just as there
 						is not a single recommended semantics for RDF 1.1 Datasets, it is important
 						to be inclusive regarding possible semantics for k-th Order RDF Datasets. An
@@ -552,12 +651,9 @@
 							data-lt="Named k-th Order RDF Datasets|Named Dataset|Named Datasets|Named k-th Order Dataset|Named k-th Order Datasets"
 							>Named k-th Order RDF Dataset</dfn> is a named <a>static data
 							structure</a> whose content is a <a>k-th order dataset</a>.</p>
-					<p class="ednote">
-						this is confusing.
-						for "k-th Order RDF Dataset", "For every n in names(DS), content(n, DS) is a dataset of order k-1 or less."
-						here, however, it is of order "k".
-						?
-					</p>
+					<p class="ednote"> this is confusing. for "k-th Order RDF Dataset", "For every n
+						in names(DS), content(n, DS) is a dataset of order k-1 or less." here,
+						however, it is of order "k". ? </p>
 					<p class="note"> Hereafter in this document, <a>named dataset</a>, without
 						modification, means a <a>named k-th Order RDF dataset</a> where k is not
 						specified. </p>
@@ -793,12 +889,62 @@
 							the contents of adjacent named datasets in the sequence are
 							distinct.</li>
 					</ol>
-					<p class="note">A k-th Order RDF Repository may be viewed as a k-th Order RDF
-						Dataset with the additional structure of a total order on its <a>named
-							datasets</a>. However, the additional requirements on adjacent contents
-						being distinct emphasizes the motivation of this definition as a model of a
-						mutable dataset, where each element of the sequence describes a named
-						"snapshot" of the dataset.</p>
+					<p class="ednote">The motivation for allowing the dynamic part of a repository
+						to be optional is to allow a repository to be initialized with its static
+						part without specifying an initial version. However, this provision leads to
+						problems in deterministically specifying the order of a repository that has
+						no dynamic part. For example, a first-order dataset could be the static part
+						of an m-th order repository, for any m &gt; 1. As a dataset, its order would
+						be 1, but as a repository its order would be 2 or higher. Possible options
+						to fix this are as follows:</p>
+					<ol>
+						<li>Make the dynamic part of a k-th repository required when k &gt; 0, as a
+							non-empty sequence of named (k-1)-th order datasets. The dynamic part
+							must therefore contain at least one version, a named dataset with a
+							defined order. The order of the repository is then equal to the order of
+							the version. </li>
+						<li>Make the dynamic part required as above, but allow it to be an empty
+							sequence with a specified type. This would require redefining or
+							specializing the <a>data sequence</a> type so that we have data
+							sequences of specified element type. As currently defined, <a>data
+								sequences</a> do not have any specific type for their elements.</li>
+						<li>Each of the previous two options could be made more flexible by allowing
+							the static part of the repository to be optional for k &gt; 0. This
+							would permit certain data sequences to be repositories, e.g. data
+							sequences whose elements are named time-stamped graphs. Note: athough
+							such a representation might be advantageous for individual streams, it
+							would not be helpful with synchronizing streams.</li>
+						<li>For simplicity, we could eliminate the zeroth-order repository. It does
+							not appear to be needed. In particular, it is not needed for the
+							recursive definition of repositories, since those are built up from
+							k-1-th order <i>datasets</i>. Further, zeroth order repositories would
+							be needed for the definition of first-order stores. But these turn out
+							to be simply first-order datasets (no dynamic part to the repositories,
+							so no dynamic part to the store). So the definition of stores could
+							start at k=2.</li>
+					</ol>
+					<figure id="repository-types-fix-1">
+						<img src="repository-types-fix-1.svg" alt="" />
+						<figcaption>Shows the type hierarchy if option 1 or 2 above is adopted. The
+							distinction between requiring a non-empty dynamic part or requiring a
+							dynamic part that might be an empty sequence is not visible in this
+							diagram. The distinction would appear in the data sequence type
+							hierarchy, where typed data sequence would need to be defined for option
+							2.</figcaption>
+					</figure>
+					<figure id="repository-types-fix-3">
+						<img src="repository-types-fix-3.svg" alt="" />
+						<figcaption>Shows the type hierarchy if option 3 above is adopted. This
+							shows the presence of repositories having no static part. That is, they
+							are data sequences. Option 4 looks similar, but the Zeroth-Order
+							Repository is omitted.</figcaption>
+					</figure>
+					<p class="note">A k-th Order RDF Repository, k &ge; 0, may be viewed as a k-th
+						Order RDF Dataset with the additional structure of a total order on its
+							<a>named datasets</a>. However, the additional requirements on adjacent
+						contents being distinct emphasizes the motivation of this definition as a
+						model of a mutable dataset, where each element of the sequence describes a
+						named "snapshot" of the dataset.</p>
 					<p class="ednote">To be clarified in Eval section: The static part of the
 						repository plays the role of background knowledge, which is unioned with
 						every snapshot prior to query.</p>
