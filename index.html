@@ -147,6 +147,7 @@
 				Group. </p>
 			<p class="warning"> This specification is incomplete. </p>
 		</section>
+		<section id="tof"></section>
 		<!-- INTRODUCTION -->
 		<section class="informative" id="intro">
 			<h2>Introduction</h2>
@@ -242,6 +243,19 @@
 			<p>In this section, we review the data structure types defined in other recommendations
 				and state the definitions of new data structure types that support the signature
 				definitions of new algebra operators.s</p>
+			<section id="overview-datastructuretypes">
+				<h3>Overview</h3>
+				<figure id="datastructure-and-existing-static-types">
+					<img src="datastructure-and-existing-static-types.svg" alt="" />
+					<figcaption>The top type <a>data structure</a> may be decomposed into three
+						disjoint parts: <a>static data structures</a>, <a>data sequences</a>, and
+						all other data structures, i.e. those data structures having both a
+							<a>static part</a> and a <a>dynamic part</a>. The existing types of RDF
+						graph, named graph and RDF 1.1 dataset are subsumed by the <a>static
+							data structure</a> type, and more particularly, by the type of <a>k-th
+							order datasets</a>.</figcaption>
+				</figure>
+			</section>
 			<section id="existing-datastructuretypes">
 				<h3>Existing Data Structure Types</h3>
 				<p class="ednote">For now, I keep this table here as a summary of definitions and
