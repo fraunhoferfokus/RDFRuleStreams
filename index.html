@@ -473,15 +473,14 @@
 					
 					<table style="font: monospace;">
 						<tr><th>type</th><td></td><th>definition</th></tr>
-						<tr><td>structure_i</td><td>(structure_i-1 x named_structure_1-1 *)</td></tr>
-<tr><td>w3c:rdf-graph</td><td>::=</td><td>structure<sub>0</sub></td></tr>
-<tr><td>w3c:rdf-named-graph</td><td>::=</td><td>named-structure<sub>1</sub></td></tr>
-<tr><td></td><td>::=</td><td>(nil x ((name x structure<sub>0</sub>)))</td></tr>
-<tr><td></td><td>::=</td><td>((name x structure<sub>0</sub>))</td></tr>
-<tr><td></td><td>::=</td><td>(name x structure<sub>0</sub>)</td></tr>
-<tr><td>w3c:rdf-dataset</td><td>::=</td><td>(structure<sub>0</sub> x ((name x structure<sub>0</sub>))) - with variations </td></tr>
-<tr><td>timestamped-graph</td><td>::=</td><td>(((n P t)) x ((n x w3c:rdf-graph))) - here a 
-							</td></tr>
+						<tr><td>structure<sub>i</sub></td><td>::=</td><td>(structure<sub>i-1</sub> x named_structure<sub>i-1</sub> *)</td></tr>
+						<tr><td>w3c:rdf-graph</td><td>::=</td><td>structure<sub>0</sub></td></tr>
+						<tr><td>w3c:rdf-named-graph</td><td>::=</td><td>named-structure<sub>1</sub></td></tr>
+						<tr><td></td><td>::=</td><td>(nil x ((name x structure<sub>0</sub>)))</td></tr>
+						<tr><td></td><td>::=</td><td>((name x structure<sub>0</sub>))</td></tr>
+						<tr><td></td><td>::=</td><td>(name x structure<sub>0</sub>)</td></tr>
+						<tr><td>w3c:rdf-dataset</td><td>::=</td><td>(structure<sub>0</sub> x ((name x structure<sub>0</sub>))) - with variations </td></tr>
+						<tr><td>timestamped-graph</td><td>::=</td><td>(((n P t)) x ((n x w3c:rdf-graph))) - here an order 1 structure</td></tr>
 					</table>
 				</section>
 				<section id="def-kth-order-dataset">
