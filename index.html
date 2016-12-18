@@ -251,18 +251,21 @@
 					<li><a>k-th order dataset</a>, k = 0, 1, ...</li>
 					<li><a>k-th order repository</a>, k = 1, 2, ...</li>
 					<li><a>k-th order store</a>, k = 2, 3, ...</li>
-					<li><a>named data structure</a>, including <a>named dataset</a> and <a>named
-							repository</a>.</li>
+					<!--<li><a>named data structure</a>, including <a>named dataset</a> and <a>named
+							repository</a>.</li>-->
+					<li>k-th order solitary data structures, k = 1, 2, ...</li>
 				</ul>
 				<figure id="datastructure-and-existing-static-types">
 					<img src="datastructure-and-existing-static-types.svg" alt="" />
-					<figcaption>The top type <a>data structure</a> may be decomposed into three
-						disjoint parts: <a>static data structures</a>, <a>data sequences</a>, and
-						all other data structures, i.e. those data structures having both a
-							<a>static part</a> and a <a>dynamic part</a>. The existing types of RDF
-						graph, named graph and RDF 1.1 dataset are subsumed by the <a>static data
-							structure</a> type, and more particularly, by the type of <a>k-th order
-							datasets</a>.</figcaption>
+					<figcaption>The top type <a>k-th order data structure</a> may be decomposed into
+						three disjoint parts: <a>k-th order associative data structures</a>, <a>k-th
+							order data sequences</a>, and non-degenerate k-th order data structures,
+						i.e. those k-th order data structures having both an <a>associaive part</a>
+						and a <a>sequential part</a>. The existing type of RDF graph is subsumed by
+						the <a>static data structure</a> type, and more particularly, by the type of
+							<a>zeroth order set-structures</a>. RDF Datasets are not directly
+						represented in this type system, but are emulated by certain set-structures
+						of order 1 or less.</figcaption>
 				</figure>
 				<figure id="repository-types">
 					<img src="repository-types-fix-4.svg" alt="" />
@@ -568,58 +571,122 @@
 							<th>definition</th>
 						</tr>
 						<tr>
-							<td>structure<sub>i</sub></td>
+							<td>Nat</td>
 							<td>::=</td>
-							<td>(structure<sub>i-1</sub> x named-structure<sub>i-1</sub> *)</td>
+							<td>set of Natural Numbers</td>
 						</tr>
 						<tr>
-							<td>named-structure<sub>i</sub></td>
+							<td>2<sup>X</sup></td>
 							<td>::=</td>
-							<td>(nil x named-structure<sub>i</sub>)</td>
+							<td>set of subsets of X</td>
 						</tr>
 						<tr>
-							<td>w3c:rdf-graph</td>
+							<td>X<sup>*</sup></td>
 							<td>::=</td>
-							<td>structure<sub>0</sub></td>
+							<td>finite sequences of X, including the empty sequence</td>
 						</tr>
 						<tr>
-							<td>w3c:rdf-named-graph</td>
+							<td>X<sup>+</sup></td>
 							<td>::=</td>
-							<td>
-								<table>
-									<tr>
-										<td colspan="2">named-structure<sub>1</sub></td>
-									</tr>
-									<tr>
-										<td>::=</td>
-										<td>(nil x ((name x structure<sub>0</sub>)))</td>
-									</tr>
-									<tr>
-										<td>::=</td>
-										<td>((name x structure<sub>0</sub>))</td>
-									</tr>
-									<tr>
-										<td>::=</td>
-										<td>(name x structure<sub>0</sub>)</td>
-									</tr>
-								</table></td>
+							<td>non-empty finite sequences of X</td>
 						</tr>
 						<tr>
-							<td>w3c:rdf-dataset</td>
+							<td>1</td>
 							<td>::=</td>
-							<td>(structure<sub>0</sub> x ((name x structure<sub>0</sub>))) - with
-								variations </td>
+							<td>{{}}</td>
 						</tr>
 						<tr>
-							<td>timestamped-graph</td>
+							<td>Partial:X=>Y</td>
 							<td>::=</td>
-							<td>(((n P t)) x ((n x w3c:rdf-graph))) - here an order 1 structure</td>
+							<td>partial functions from X to Y</td>
 						</tr>
 						<tr>
-							<td>sequence<sub>i</sub></td>
+							<td>associative<sub>0</sub></td>
 							<td>::=</td>
-							<td>[structure<sub>i</sub> . sequence<sub>i</sub>] + []</td>
+							<td>RDF Graph</td>
 						</tr>
+						<tr>
+							<td>associative<sub>k</sub>, k &gt; 0</td>
+							<td>::=</td>
+							<td>[Nat, 2<sup>RDF-Name</sup> - 1, Partial:(RDF-Name &cup;
+									{DEFAULT})=>structure<sub>&le; k-1</sub>]</td>
+						</tr>
+						<tr>
+							<td>set-structure<sub>0</sub></td>
+							<td>::=</td>
+							<td>RDF Graph</td>
+						</tr>
+						<tr>
+							<td>set-structure<sub>k</sub>, k &gt; 0</td>
+							<td>::=</td>
+							<td>[Nat, 2<sup>RDF-Name</sup> - 1, Partial:(RDF-Name &cup;
+									{DEFAULT})=>set-structure<sub>k-1</sub>]</td>
+						</tr>
+						<tr>
+							<td>Seq(X)</td>
+							<td>::=</td>
+							<td>X<sup>*</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
+									X<sup>Z</sup> (i.e. finite, semi-infinite, and bi-infinite
+								sequences of X's)</td>
+						</tr>
+						<tr>
+							<td>Seq<sup>+</sup>(X)</td>
+							<td>::=</td>
+							<td>X<sup>+</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
+									X<sup>Z</sup> (i.e. non-empty finite, semi-infinite, and
+								bi-infinite sequences of X's)</td>
+						</tr>
+						<tr>
+							<td>sequence</td>
+							<td>::=</td>
+							<td>Seq(structure)</td>
+						</tr>
+						<tr>
+							<td>sequence<sub>k</sub></td>
+							<td>::=</td>
+							<td>{x &in; Seq<sup>+</sup>(structure) | order(x) = k}</td>
+						</tr>
+						<tr>
+							<td>structure<sub>k</sub>, k &ge; 0</td>
+							<td>::=</td>
+							<td>associative<sub>k</sub> &cup; sequence<sub>k</sub> &cup;
+									(associative<sub>&le; k</sub> x sequence<sub>k</sub>) &cup;
+									(associative<sub>k</sub> x sequence<sub>&le; k</sub>)</td>
+						</tr>
+						<tr>
+							<td>structure<sub>&le; k</sub>, k &ge; 0</td>
+							<td>::=</td>
+							<td>&cup;<sub>i &le; k</sub> structure<sub>i</sub></td>
+						</tr>
+						<tr>
+							<td>associative<sub>&le; k</sub>, k &ge; 0</td>
+							<td>::=</td>
+							<td>&cup;<sub>i &le; k</sub> associative<sub>i</sub></td>
+						</tr>
+						<tr>
+							<td>set-structure<sub>&le; k</sub>, k &ge; 0</td>
+							<td>::=</td>
+							<td>&cup;<sub>i &le; k</sub> set-structure<sub>i</sub></td>
+						</tr>
+						<tr>
+							<td>sequence<sub>&le; k</sub>, k &ge; 0</td>
+							<td>::=</td>
+							<td>&cup;<sub>i &le; k</sub> sequence<sub>i</sub></td>
+						</tr>
+						<tr>
+							<td>solitary-set-structure<sub>k</sub>, k &gt; 0</td>
+							<td>::=</td>
+							<td>{x &in; set-structure<sub>k</sub> | cardinality(names(x)) = 1 and
+								hasDefault(x) = False}</td>
+						</tr>
+						<tr>
+							<td>repository<sub>k</sub>, k &gt; 0</td>
+							<td>::=</td>
+							<td>Seq<sup>+</sup>(solitary-set-structure<sub>k</sub>) &cup;
+									(set-structure<sub>&le; k-1</sub> x
+									Seq<sup>+</sup>(solitary-set-structure<sub>k</sub>) )</td>
+						</tr>
+						<!-- Not done yet
 						<tr>
 							<td>dataset-structure<sub>i</sub></td>
 							<td>::=</td>
@@ -668,6 +735,7 @@
 							<td>::=</td>
 							<td>?</td>
 						</tr>
+						-->
 					</table>
 				</section>
 				<section id="def-kth-order-dataset">
@@ -903,7 +971,7 @@
 						structure DS is the content of the named data structure. </p>
 					<p class="ednote">Alternate Definition, cont.: A <dfn
 							data-lt="k-th order named datasets">k-th order named dataset</dfn> is a
-						<a>k-th order named data structure</a> whose content is a dataset.</p>
+							<a>k-th order named data structure</a> whose content is a dataset.</p>
 					<p>We define a number of syntactic operations on <a>data structures</a> as
 						follows. Let DS be a <a>data structure</a>. </p>
 					<ul>
