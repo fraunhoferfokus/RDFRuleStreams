@@ -233,8 +233,8 @@
 				<h3>Restrictions on SPARQL Query Language</h3> For simplicity, we use here a subset
 				of the SPARQL Query language, with the aim to minimize ambiguity of semantics.
 				Constraints are: <ol>
-					<li>The Sample aggregation operator is not allowed either explicitly or
-						implicitly.</li>
+					<li>The Saimplicitlymple aggregation operator is not allowed either explicitly
+						or .</li>
 				</ol>
 			</section>
 		</section>
@@ -244,7 +244,16 @@
 				and state the definitions of new data structure types that support the signature
 				definitions of new algebra operators.s</p>
 			<section id="overview-datastructuretypes">
-				<h3>Overview</h3>
+				<h3>Overview</h3> This document introduces several new datatypes, including: <ul>
+					<li><a>k-th order data structure</a>, k = 0, 1, ...</li>
+					<li><a>k-th order static data structure</a>, k = 0, 1, ...</li>
+					<li><a>k-th order data sequence</a>, k = 0, 1, ...</li>
+					<li><a>k-th order dataset</a>, k = 0, 1, ...</li>
+					<li><a>k-th order repository</a>, k = 1, 2, ...</li>
+					<li><a>k-th order store</a>, k = 2, 3, ...</li>
+					<li><a>named data structure</a>, including <a>named dataset</a> and <a>named
+							repository</a>.</li>
+				</ul>
 				<figure id="datastructure-and-existing-static-types">
 					<img src="datastructure-and-existing-static-types.svg" alt="" />
 					<figcaption>The top type <a>data structure</a> may be decomposed into three
@@ -263,6 +272,12 @@
 						order datasets, k = 1, 2, ... A repository may also have an optional static
 						part, consisting of a dataset of order k-1 or less; if there is no static
 						part, then the repository is a <a>data sequence</a>. </figcaption>
+				</figure>
+				<figure id="store-types">
+					<img src="store-types.svg" alt="" />
+					<figcaption>The <a>store</a> type is subsumed by the <a>data structure</a> type.
+						According to the definition, a store must have both a <a>static part</a> and
+						a <a>dynamic part</a>. </figcaption>
 				</figure>
 			</section>
 			<section id="existing-datastructuretypes">
@@ -1103,54 +1118,48 @@
 					<h4>k-th Order RDF Store</h4>
 					<p>A <dfn
 							data-lt="k-th Order RDF Stores|k-th Order Store|k-th Order Stores|RDF Store|RDF Stores|Store|Stores"
-							>k-th Order RDF Store</dfn> is a special case of <a>k-th order data
-							structure</a> defined by cases: </p>
-					<ol>
-						<li>A zeroth-order RDF Store is a zeroth-order <a>repository</a>. </li>
-						<li>A first-order RDF Store is a first-order <a>repository</a>.</li>
-						<li> A (k+2)-th order RDF Store, k = 0, 1, ..., is a (k+2)-th order data
-							structure with the following properties. <ul>
-								<li>It has a static part whose default part is a (k+1)-th order
-									repository, called the default repository of the store, and
-									whose named part consists of named (k+1)-th order repositories,
-									called named repositories of the store. </li>
-								<li>It has an optional dynamic part which is a non-empty <a>data
-										sequence</a> whose elements are named (k+1)-th order
-									datasets, called versions of the store. The ordered set SV of
-									the names of these versions are the <dfn>version names of the
-										store</dfn>.</li>
-								<li>The static and dynamic parts of a store St satisfy the following
-									consistency requirements.</li>
-								<ul>
-									<li>For every repository name n in names(staticPart(St)), there
-										is a monotonic partial mapping M<sub>n</sub> from SV onto
-											<a>versionNames</a>( content(n, staticPart(St))); that
-										is, from version names of the store to version names of the
-										named repository of the store with name n. </li>
-									<li>The domain of M<sub>n</sub>, dom(M<sub>n</sub>), is an
-										interval in SV.</li>
-									<li>If stver is in dom(M<sub>repname</sub>), let repver =
-											M<sub>repname</sub>(stver). Then <br /> content(repname;
-											<a>versionContent</a>(stver; St)) =
-											<a>versionContent</a>(repver; content(repname;
-										staticPart(St))) </li>
-									<li>There is a monotonic mapping M<sub>default</sub> of SV onto
-										version names of the default repository.</li>
-									<li>If stver in SV, let repver = M<sub>default</sub>(stver).
-										Then <br /> default(<a>versionContent</a>(stver; St)) =
-											<a>versionContent</a>(repver; default(Static(St))) </li>
-								</ul>
+							>k-th Order RDF Store</dfn>, k &ge; 2, is a special case of <a>k-th
+							order data structure</a>.</p>
+					<p> A (k+2)-th order RDF Store, k = 0, 1, ..., is a (k+2)-th order data
+						structure with the following properties. <ul>
+							<li>It has a static part whose optional default part is a (k+1)-th order
+								repository, called the default repository of the store, and whose
+								named part consists of one or more named (k+1)-th order
+								repositories, called named repositories of the store. </li>
+							<li>It has a dynamic part which is a non-empty <a>data sequence</a>
+								whose elements are named (k+1)-th order datasets, called versions of
+								the store. The ordered set SV of the names of these versions are the
+									<dfn>version names of the store</dfn>.</li>
+							<li>The static and dynamic parts of a store St satisfy the following
+								consistency requirements.</li>
+							<ul>
+								<li>For every repository name n in names(staticPart(St)), there is a
+									monotonic partial mapping M<sub>n</sub> from SV onto
+										<a>versionNames</a>( content(n, staticPart(St))); that is,
+									from version names of the store to version names of the named
+									repository of the store with name n. </li>
+								<li>The domain of M<sub>n</sub>, dom(M<sub>n</sub>), is an interval
+									in SV.</li>
+								<li>If stver is in dom(M<sub>repname</sub>), let repver =
+										M<sub>repname</sub>(stver). Then <br /> content(repname;
+										<a>versionContent</a>(stver; St)) =
+									<a>versionContent</a>(repver; content(repname; staticPart(St))) </li>
+								<li>There is a monotonic mapping M<sub>default</sub> of SV onto
+									version names of the default repository.</li>
+								<li>If stver in SV, let repver = M<sub>default</sub>(stver). Then
+									<br /> default(<a>versionContent</a>(stver; St)) =
+										<a>versionContent</a>(repver; default(Static(St))) </li>
 							</ul>
-						</li>
-					</ol>
+						</ul>
+					</p>
 					<p>We define a constructor <dfn data-lt="constructor Store"
 							>Store<sub>k</sub></dfn> for <a>k-th order stores</a>, k = 2, 3, ...,
 						with the following arguments.</p>
 					<ol>
-						<li>The default (k-1)-th order repository of the store.</li>
-						<li>The set of repository names.</li>
+						<li>The default (k-1)-th order repository of the store, or NONE.</li>
+						<li>The non-empty set of repository names.</li>
 						<li>The mapping from repository names to (k-1)-th order repositories.</li>
-						<li>The set of store version names.</li>
+						<li>The non-empty set of store version names.</li>
 						<li>For each repository name, a monotonic partial function from an interval
 							of store version names onto the names of versions of the associated
 							repository.</li>
@@ -1165,7 +1174,7 @@
 						repositories.</p>
 					<p>The arguments of <a>Append2Store</a><sub>k</sub> are</p>
 					<ol>
-						<li>The input store to be modified </li>
+						<li>The k-th order input store to be modified </li>
 						<li>The new store version name, which must be distinct from previous store
 							version names.</li>
 						<li>A mapping M<sub>default</sub> from zero or one name (the new version
