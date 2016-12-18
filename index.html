@@ -606,10 +606,15 @@
 							<td>RDF Graph</td>
 						</tr>
 						<tr>
+							<td>Assoc<sub>k</sub>(X), k &gt; 0</td>
+							<td>::=</td>
+							<td>[Nat, 2<sup>RDF-Name</sup> - 1, Partial:(RDF-Name &cup; {DEFAULT})
+								=> X]</td>
+						</tr>
+						<tr>
 							<td>associative<sub>k</sub>, k &gt; 0</td>
 							<td>::=</td>
-							<td>[Nat, 2<sup>RDF-Name</sup> - 1, Partial:(RDF-Name &cup;
-									{DEFAULT})=>structure<sub>&le; k-1</sub>]</td>
+							<td>Assoc<sub>k</sub>(structure<sub>&le; k-1</sub>)</td>
 						</tr>
 						<tr>
 							<td>set-structure<sub>0</sub></td>
@@ -619,8 +624,7 @@
 						<tr>
 							<td>set-structure<sub>k</sub>, k &gt; 0</td>
 							<td>::=</td>
-							<td>[Nat, 2<sup>RDF-Name</sup> - 1, Partial:(RDF-Name &cup;
-								{DEFAULT})=>set-structure<sub>&le; k-1</sub>]</td>
+							<td>Assoc<sub>k</sub>(set-structure<sub>&le; k-1</sub>)</td>
 						</tr>
 						<tr>
 							<td>Seq(X)</td>
@@ -685,11 +689,27 @@
 								hasDefault(x) = False}</td>
 						</tr>
 						<tr>
-							<td>repository<sub>k</sub>, k &gt; 0</td>
-							<td>::=</td>
+							<td>repository<sub>k</sub>, k &ge; 1</td>
+							<td>::&lt;</td>
 							<td>Seq<sup>+</sup>(solitary-set-structure<sub>k</sub>) &cup;
 									(set-structure<sub>&le; k-1</sub> x
 									Seq<sup>+</sup>(solitary-set-structure<sub>k</sub>) )</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>Note: there are additional constraints on repositories.</td>
+						</tr>
+						<tr>
+							<td>store<sub>k</sub>, k &ge; 2</td>
+							<td>::&lt;</td>
+							<td> (Assoc<sub>k</sub>(repository<sub>k-1</sub>) x
+									Seq<sup>+</sup>(solitary-set-structure<sub>k</sub>) )</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>Note: there are additional constraints on stores.</td>
 						</tr>
 						<!-- Not done yet
 						<tr>
