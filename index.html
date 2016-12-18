@@ -408,7 +408,8 @@
 				<section id="def-rdf-dataset">
 					<h3>RDF Dataset</h3>
 					<p class="ednote">perhaps use "W3C RDF dataset" and similar for thse
-						classes?</p>
+						classes?
+					? switch this and the immediatly succeeding section</p>
 					<p>Recall that an <a>RDF dataset</a> is a collection of <a>RDF graphs</a>, and
 						comprises:</p>
 					<ul>
@@ -924,6 +925,8 @@
 									sequences</a> do not have any specific type for their
 								elements.</li>
 						</ol>
+						<p>The initial version could always be a singleton empty dataset with a canonical name.
+						</p>
 					</aside>
 					<!--<figure id="repository-types-fix-1">
 						<img src="repository-types-fix-1.svg" alt="" />
@@ -962,7 +965,8 @@
 						more intuitive to refer to the content of that named dataset as the version.
 						However, it is quite possible for two (non-adjacent) versions to have the
 						same content (i.e. a rollback). If we used only the content as the version,
-						then it would not be clear which of these versions we were referring to.</p>
+						then it would not be clear which of these versions we were referring to. <br />
+						Given this provision, as noted elsewhere, why must adjacent versions be unique?</p>
 					<p>We say a version U is a <dfn>previous version</dfn> of version V in the
 						context of R if <a>previousTo</a>(U, V; dynamicPart(R)) is true, and
 						similarly V is called a <dfn>following version</dfn> of U in the context of
@@ -971,7 +975,7 @@
 						isVersionOf(V, R) = true), and has the value <a>previousTo</a>(U, V;
 						dynamicPart(R)); otherwise, it is undefined.</p>
 					<p>An <dfn>initial version</dfn> of a repository is a version that does not have
-						a previous version. A repository MAY have an initial version.</p>
+						a previous version. A repository <del>MAY</del> MUST have an initial version.</p>
 					<p> The function <dfn>hasInitialVersion(R)</dfn> is defined and has the value of
 							<a>hasLeast</a>(<a>dynamicPart</a>(R)). </p>
 					<p class="note">If the dynamic part of a repositoriy has an initial version,
@@ -1000,7 +1004,9 @@
 						it is false. </p>
 					<p class="note">Because of the requirement for total order in the dynamic part,
 						version structures do not branch.</p>
-					<p> The dynamic part MAY be finite, semi-infinite, or bi-infinite.</p>
+					<p> The dynamic part MAY be finite or semi-infinite<del>, semi-infinite, or bi-infinite</del>.</p>
+					<p style="ednote">If there must always be an initial version and the construction operator add successors only, then
+						is bi-infinit possible?<p>
 					<p>The ordered set of version names of a repository R is denoted by
 							<dfn>versionNames</dfn>(R). </p>
 					<p>The function <dfn>isVersionNameOf</dfn>(n, R) is true if n is a member of
