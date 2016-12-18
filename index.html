@@ -256,18 +256,13 @@
 							datasets</a>.</figcaption>
 				</figure>
 				<figure id="repository-types">
-					<img src="repository-types.svg" alt="" />
+					<img src="repository-types-fix-4.svg" alt="" />
 					<figcaption>The <a>repository</a> type is subsumed by the <a>data structure</a>
-						type. According to the definition, the dynamic part of a repository is
-						optional; the motivation for this is the initialization of a repository with
-						static content prior to specifying an initial version. The result of this
-						design decision is that all k-th order datasets are m-th order repositories,
-						for m &gt; k. The definition further states that RDF graphs are zeroth order
-						repositories. This a flaw in the definition, because the function
-							<a>order</a> does not have a deterministic value when applied to a
-							<a>dataset</a>. Options for fixing the repository definition are
-						discussed in the Editorial Note that follows the definition of
-							<a>repository</a>. </figcaption>
+						type. According to the definition, the dynamic part of a <a>k-th order
+							repository</a> is a non-empty sequence whose elements are named (k-1)-th
+						order datasets, k = 1, 2, ... A repository may also have an optional static
+						part, consisting of a dataset of order k-1 or less; if there is no static
+						part, then the repository is a <a>data sequence</a>. </figcaption>
 				</figure>
 			</section>
 			<section id="existing-datastructuretypes">
@@ -881,49 +876,41 @@
 							>k-th Order RDF Repository</dfn> is a special case of <a>k-th order RDF
 							data structure</a> that is defined by the following cases. </p>
 					<ol>
-						<li>A zeroth-order RDF Repository is a zeroth-order <a>dataset</a>. </li>
-						<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>dataset</a> of
-							k-th order or less for its static part and an optional non-empty <a>data
-								sequence</a> of <a>named k-th order datasets</a> for its dynamic
-							part. The names of the datasets in this sequence are unique. Further,
-							the contents of adjacent named datasets in the sequence are
-							distinct.</li>
+						<!--<li>A zeroth-order RDF Repository is a zeroth-order <a>dataset</a>. </li>-->
+						<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has an optional
+								<a>dataset</a> of k-th order or less for its static part and
+							a<!--n optional--> non-empty <a>data sequence</a> of <a>named k-th order
+								datasets</a> for its dynamic part. The names of the datasets in this
+							sequence are unique. Further, the contents of adjacent named datasets in
+							the sequence are distinct.</li>
 					</ol>
-					<p class="ednote">The motivation for allowing the dynamic part of a repository
-						to be optional is to allow a repository to be initialized with its static
-						part without specifying an initial version. However, this provision leads to
-						problems in deterministically specifying the order of a repository that has
-						no dynamic part. For example, a first-order dataset could be the static part
-						of an m-th order repository, for any m &gt; 1. As a dataset, its order would
-						be 1, but as a repository its order would be 2 or higher. Possible options
-						to fix this are as follows:</p>
-					<ol>
-						<li>Make the dynamic part of a k-th repository required when k &gt; 0, as a
-							non-empty sequence of named (k-1)-th order datasets. The dynamic part
-							must therefore contain at least one version, a named dataset with a
-							defined order. The order of the repository is then equal to the order of
-							the version. </li>
-						<li>Make the dynamic part required as above, but allow it to be an empty
-							sequence with a specified type. This would require redefining or
-							specializing the <a>data sequence</a> type so that we have data
-							sequences of specified element type. As currently defined, <a>data
-								sequences</a> do not have any specific type for their elements.</li>
-						<li>Each of the previous two options could be made more flexible by allowing
-							the static part of the repository to be optional for k &gt; 0. This
-							would permit certain data sequences to be repositories, e.g. data
-							sequences whose elements are named time-stamped graphs. Note: athough
-							such a representation might be advantageous for individual streams, it
-							would not be helpful with synchronizing streams.</li>
-						<li>For simplicity, we could eliminate the zeroth-order repository. It does
-							not appear to be needed. In particular, it is not needed for the
-							recursive definition of repositories, since those are built up from
-							k-1-th order <i>datasets</i>. Further, zeroth order repositories would
-							be needed for the definition of first-order stores. But these turn out
-							to be simply first-order datasets (no dynamic part to the repositories,
-							so no dynamic part to the store). So the definition of stores could
-							start at k=2.</li>
-					</ol>
-					<figure id="repository-types-fix-1">
+					<aside class="ednote">
+						<p>The motivation for allowing the dynamic part of a repository to be
+							optional in the previous version of the definition was to allow a
+							repository to be initialized with its static part without specifying an
+							initial version. However, this provision led to problems in
+							deterministically specifying the order of a repository that has no
+							dynamic part. For example, a first-order dataset could have been the
+							static part of an m-th order repository, for any m &gt; 1. As a dataset,
+							its order would be 1, but as a repository its order would be 2 or
+							higher. To fix this problem, the current version of the definition makes
+							the dynamic part required, with at least one element that is a named
+							k-th order dataset. Further, the definition was changed to make the
+							static part optional, so that pure data sequences of named datasets
+							could be considered repositories as well. Finally, the zeroth-order
+							repository, which was just an RDF graph, has been omitted, since it was
+							no longer compatible with a structure that had a required dynamic part
+							for positive orders. Other options considered were:</p>
+						<ol>
+							<li>Make the dynamic part required as above, but allow it to be an empty
+								sequence with a specified type. This would require redefining or
+								specializing the <a>data sequence</a> type so that we have data
+								sequences of specified element type. As currently defined, <a>data
+									sequences</a> do not have any specific type for their
+								elements.</li>
+						</ol>
+					</aside>
+					<!--<figure id="repository-types-fix-1">
 						<img src="repository-types-fix-1.svg" alt="" />
 						<figcaption>Shows the type hierarchy if option 1 or 2 above is adopted. The
 							distinction between requiring a non-empty dynamic part or requiring a
@@ -940,10 +927,10 @@
 					</figure>
 					<figure id="repository-types-fix-4">
 						<img src="repository-types-fix-4.svg" alt="" />
-						<figcaption>Shows the type hierarchy if option 4 above is adopted. The Zeroth-Order
-							Repository is omitted.</figcaption>
-					</figure>
-					<p class="note">A k-th Order RDF Repository, k &ge; 0, may be viewed as a k-th
+						<figcaption>Shows the type hierarchy if option 4 above is adopted. The
+							Zeroth-Order Repository is omitted.</figcaption>
+					</figure>-->
+					<p class="note">A k-th Order RDF Repository, k &gt; 0, may be viewed as a k-th
 						Order RDF Dataset with the additional structure of a total order on its
 							<a>named datasets</a>. However, the additional requirements on adjacent
 						contents being distinct emphasizes the motivation of this definition as a
@@ -1021,7 +1008,8 @@
 						following arguments.</p>
 					<ol>
 						<li>The <a>dataset</a> of order k-1 or less that is the static part of the
-							repository.</li>
+							repository, or the reserved word NONE, indicating the repository has no
+							static part.</li>
 						<li>The ordered set of version names of the repository. </li>
 						<li>The mapping from the set of version names to <a>datasets</a> of order
 							k-1 or less that defines the versions of the repository. </li>
@@ -1034,13 +1022,11 @@
 						version names, in case of such version duplication.</p>
 					<p>We further define a basic operation <dfn>Append2Repository</dfn> as
 						follows.</p>
-					<p>The arguments of <a>Append2Repository</a><sub>k</sub> are</p>
+					<p>The arguments of <a>Append2Repository</a><sub>k</sub>, k = 1, 2, ..., are</p>
 					<ol>
-						<li>The input repository to be modified, or a dataset of order (k-1)
-							representing the static part of an "empty" repository with no
-							versions.</li>
+						<li>The k-th order input repository to be modified.</li>
 						<li>The new repository version name, which must be distinct from version
-							names of the input repository, if any.</li>
+							names of the input repository.</li>
 						<li>The dataset of order (k-1) or less that is to be the content of the new
 							repository version.</li>
 						<li>An <a>Append2Repository</a> operation cannot be vacuous; the contents of
