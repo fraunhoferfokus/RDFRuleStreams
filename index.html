@@ -407,9 +407,17 @@
 				<h3>RDF Datasets</h3>
 				<section id="def-rdf-dataset">
 					<h3>RDF Dataset</h3>
-					<p class="ednote">perhaps use "W3C RDF dataset" and similar for thse
-						classes?
-					? switch this and the immediatly succeeding section</p>
+					<p class="ednote">perhaps use "W3C RDF dataset" and similar for thse classes?
+						<br />Assuming we want to propose these concepts be accepted by W3C, then
+						they will also become "W3C" whatevers, and then the qualifier "W3C" is not
+						so meaningful anymore.
+						<br />Yes, but we need some way to eliminate insigificant terms, while retaining the distinction
+						between types from recommendations and types we introduce.
+						Thes all pertain to RDF, some are from recommendations, ours are not.
+						? Use the "RDF" qualifier and enquote or bold-face and link all terms from recommendations while using no
+						qualifier for stream terms?
+						<br />? switch this and the immediatly succeeding section
+					</p>
 					<p>Recall that an <a>RDF dataset</a> is a collection of <a>RDF graphs</a>, and
 						comprises:</p>
 					<ul>
@@ -439,8 +447,10 @@
 							</ul>
 						</li>
 					</ul>
-					<p class="ednote">perhaps use "W3C RDF dataset" and similar for these
-						classes?</p>
+					<p class="ednote">perhaps use "W3C RDF dataset" and similar for these classes?
+						<br />We don't change or extend the definition of graph, so there is no need
+						for an extra qualifier. After this point, I usually drop the "RDF" and just
+						say "graph".</p>
 					<p>An RDF Graph is the only <a>static data structure</a> that has no named part,
 						and is equal to its default part.</p>
 					<p>A named graph is a first-order <a>static data structure</a>. It has no
@@ -468,10 +478,11 @@
 							false.</li>
 						<li><dfn>defaultPart</dfn>(DS) is defined on all static data structures that
 							have a default part (hasDefault(DS) is true); otherwise it is undefined.
-							When defined, its value is the default part of DS.</li>
+							When defined, its value is the default part of DS (possibly DS
+							itself).</li>
 						<li><dfn>named</dfn>(DS) is defined on all static data structures that have
 							a named part (hasNamed(DS) is true); otherwise it is undefined. When
-							defined, its value is the named part of DS.</li>
+							defined, its value is the named part of DS (possibly DS itself).</li>
 						<li><dfn>names</dfn>(DS) is defined on all <a>static data structures</a>. If
 								<a>hasNamed</a>(DS) is true, then its value is the set of names of
 							the named data structures in DS; otherwise, its value is the empty
@@ -485,7 +496,16 @@
 							<a>hasNamed</a>(DS) is true, and DS = <a>named</a>(DS). <p
 								class="ednote"> ? “the named part of DS” is the "named data
 								structures in DS” yet "DS = named(DS)”, that is the whole is the
-								same is its named part.</p>
+								same is its named part. <br /> The precise wording of the definition
+								is "The data structure consisting of only these named data
+								structures is called the <a>named part</a> of the data structure."
+								If there is no default part, then the named part is the whole thing.
+								The parts extracted by these functions -- staticPart, dynamicPart,
+								defaultPart, and named (which probably should be called namedPart
+								for consistency) -- are not necessarily proper parts, they can be
+								the whole thing, for certain inputs. Note that if you want the
+									<a>contents</a> of a named data structure, the function to use
+								is <a>contents</a>, not <a>named</a>.</p>
 						</li>
 						<li>If <a>isNamed</a>(DS) is true, then <dfn>name</dfn>(DS) is its
 							name.</li>
@@ -518,7 +538,36 @@
 						Operation, and the extension of the <a>pattern</a> syntax to express k-th
 						order patterns, including k-th order named patterns.</aside>
 					<p class="ednote"> in general, when the structure constituents are of the same
-						order and when of a lesser order is not clear. neither is , why.</p>
+						order and when of a lesser order is not clear. neither is , why. <br />Here
+						are some cases:</p>
+					<ul>
+						<li>The default part of a <a>static data structure</a>, including
+								<a>datasets</a>, is usually of lower order, while the named part, if
+							it exists, is of the same order. The exception is an RDF graph
+							(zeroth-order dataset), which is equal to its default part, and so they
+							have the same order, which is 0. The order reflects the maximum number
+							of names that can be "attached" to a triple in the structure - 0 for a
+							graph, 1 for a named graph, and so on. I include the occurrences of
+							DEFAULT in this reckoning.</li>
+						<li>The order function has not been defined on general <a>data
+							sequences</a>. If I would define it, I would make it the maximum order
+							of all of its elements, assuming that maximum exists. This is consistent
+							with the notion that order reflects the maximum number of names that can
+							be "attached" to a triple.</li>
+						<li>The contents of a <a>named data structure</a> have order that is less
+							than the original. That is because at least one name has been "detached"
+							from the triples when the contents are extracted. For example, a named
+							graph has order 1 (1 name attached to each triple), while the contents,
+							a graph, has order 0. </li>
+						<li>The static part of a repository is of lower order, while the elements of
+							the dynamic part (versions) are named datasets that have the same order
+							as the repository. The version contents have order less than the order
+							of the repository.</li>
+						<li>A store with order k+2 can have a default repository of order k+1, and
+							k+2-th order named repositories (the contents of the named repository is
+							order k+1 or less). The repositories that are the contents of the named
+							repository have order less than that of the store. </li>
+					</ul>
 					<table style="font: monospace;">
 						<tr>
 							<th>type</th>
@@ -631,7 +680,10 @@
 				<section id="def-kth-order-dataset">
 					<h4>k-th order RDF Dataset</h4>
 					<p class="ednote">perhaps use "Stream RDF dataset" "RDF stream dataset" "RDF
-						dataset structure" or similar for these classes?</p>
+						dataset structure" or similar for these classes? <br />"dataset structure"
+						might work, I guess, to distingush from the RDF Dataset defined in RDF 1.1.
+						If we take our way of emulating RDF Streams and make it a type, then we
+						could call it an RDF Stream Store.</p>
 					<p>A <dfn
 							data-lt="k-th Order RDF Datasets|k-th Order Dataset|k-th Order Datasets|Dataset|Datasets"
 							>k-th Order RDF Dataset</dfn> is a <a>k-th order static data
@@ -661,10 +713,21 @@
 					<p>A <dfn
 							data-lt="Named k-th Order RDF Datasets|Named Dataset|Named Datasets|Named k-th Order Dataset|Named k-th Order Datasets"
 							>Named k-th Order RDF Dataset</dfn> is a named <a>static data
-							structure</a> whose content is a <a>k-th order dataset</a>.</p>
+							structure</a> of order k+1 whose content is a <a>dataset</a> of order k
+						or less.</p>
+					<p class="example" title="Named Graph">A named graph is a named zeroth-order RDF
+						dataset. Note that the order of a named graph is 1.</p>
 					<p class="ednote"> this is confusing. for "k-th Order RDF Dataset", "For every n
 						in names(DS), content(n, DS) is a dataset of order k-1 or less." here,
-						however, it is of order "k". ? </p>
+						however, it is of order "k". ? <br />I see your point. The order works out
+						that way because a named k-th order dataset has order k+1 (since order has
+						to do with counting names attached to triples, and the naming "process"
+						attaches one or more names to the triples that are in the contents.) As an
+						example, a named graph is a named zeroth-order dataset, and it itself is a
+						first-order dataset. We could instead refer to a (k+1)-th order named
+						dataset. For example, a named graph would be called a first-order named
+						dataset. Since this terminology is used many times in the document, I would
+						like to discuss this with you before making the change globally.</p>
 					<p class="note"> Hereafter in this document, <a>named dataset</a>, without
 						modification, means a <a>named k-th Order RDF dataset</a> where k is not
 						specified. </p>
@@ -677,9 +740,6 @@
 					<p class="note">The constructor <a>Static<sub>k</sub></a> defined for general
 						static data structures works as well for <a>datasets</a> of arbitrary
 						order.</p>
-					<p class="ednote">We need an extension of the content operation to sets of
-						names, but it depends on the extension of Dataset-UNION to k-th order
-						datasets and to sets of arguments. </p>
 					<p>If N is a set of names and DS is a <a>k-th order dataset</a>, then
 							<dfn>content-UNION</dfn>(N, DS) is defined as
 						<a>Dataset-UNION</a>({content(n, DS)|n is in N}) .</p>
@@ -841,6 +901,16 @@
 						structures are defined on named data structures.</p>
 					<p class="note">The third argument of the tuple of a named data structure
 						determines the order of the structure: <a>order</a>([n, DS, k]) = k+1 .</p>
+					<p class="ednote">Alternate Definition: A <dfn
+							data-lt="k-th order named data structures|named data structure|named data structures"
+							>k-th order named data structure</dfn> is a k-th order <a>static data
+							structure</a> that is an ordered pair [n, DS] (in the case that
+						order(DS) = k-1) or an ordered tuple [n, DS, k-1] (in the case that
+						order(DS) &lt; k-1) where n is the name of the named data structure and data
+						structure DS is the content of the named data structure. </p>
+					<p class="ednote">Alternate Definition, cont.: A <dfn
+							data-lt="k-th order named datasets">k-th order named dataset</dfn> is a
+						<a>k-th order named data structure</a> whose content is a dataset.</p>
 					<p>We define a number of syntactic operations on <a>data structures</a> as
 						follows. Let DS be a <a>data structure</a>. </p>
 					<ul>
