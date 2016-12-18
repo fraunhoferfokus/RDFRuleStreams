@@ -620,7 +620,7 @@
 							<td>set-structure<sub>k</sub>, k &gt; 0</td>
 							<td>::=</td>
 							<td>[Nat, 2<sup>RDF-Name</sup> - 1, Partial:(RDF-Name &cup;
-									{DEFAULT})=>set-structure<sub>k-1</sub>]</td>
+								{DEFAULT})=>set-structure<sub>&le; k-1</sub>]</td>
 						</tr>
 						<tr>
 							<td>Seq(X)</td>
@@ -657,6 +657,11 @@
 							<td>structure<sub>&le; k</sub>, k &ge; 0</td>
 							<td>::=</td>
 							<td>&cup;<sub>i &le; k</sub> structure<sub>i</sub></td>
+						</tr>
+						<tr>
+							<td>structure</td>
+							<td>::=</td>
+							<td>&cup;<sub>k &ge; 0</sub> structure<sub>k</sub></td>
 						</tr>
 						<tr>
 							<td>associative<sub>&le; k</sub>, k &ge; 0</td>
