@@ -246,7 +246,7 @@
 			<section id="overview-datastructuretypes">
 				<h3>Overview</h3> This document introduces several new datatypes, including: <ul>
 					<li><a>k-th order data structure</a>, k = 0, 1, ...</li>
-					<li><a>k-th order static data structure</a>, k = 0, 1, ...</li>
+					<li><a>k-th order associative data structure</a>, k = 0, 1, ...</li>
 					<li><a>k-th order data sequence</a>, k = 0, 1, ...</li>
 					<li><a>k-th order dataset</a>, k = 0, 1, ...</li>
 					<li><a>k-th order repository</a>, k = 1, 2, ...</li>
@@ -255,14 +255,14 @@
 							repository</a>.</li>-->
 					<li>k-th order solitary data structures, k = 1, 2, ...</li>
 				</ul>
-				<figure id="datastructure-and-existing-static-types">
-					<img src="datastructure-and-existing-static-types.svg" alt="" />
+				<figure id="datastructure-and-existing-associative-types">
+					<img src="datastructure-and-existing-associative-types.svg" alt="" />
 					<figcaption>The top type <a>k-th order data structure</a> may be decomposed into
 						three disjoint parts: <a>k-th order associative data structures</a>, <a>k-th
 							order data sequences</a>, and non-degenerate k-th order data structures,
 						i.e. those k-th order data structures having both an <a>associaive part</a>
 						and a <a>sequential part</a>. The existing type of RDF graph is subsumed by
-						the <a>static data structure</a> type, and more particularly, by the type of
+						the <a>associative data structure</a> type, and more particularly, by the type of
 							<a>zeroth order set-structures</a>. RDF Datasets are not directly
 						represented in this type system, but are emulated by certain set-structures
 						of order 1 or less.</figcaption>
@@ -272,14 +272,14 @@
 					<figcaption>The <a>repository</a> type is subsumed by the <a>data structure</a>
 						type. According to the definition, the dynamic part of a <a>k-th order
 							repository</a> is a non-empty sequence whose elements are named (k-1)-th
-						order datasets, k = 1, 2, ... A repository may also have an optional static
-						part, consisting of a dataset of order k-1 or less; if there is no static
+						order datasets, k = 1, 2, ... A repository may also have an optional associative
+						part, consisting of a dataset of order k-1 or less; if there is no associative
 						part, then the repository is a <a>data sequence</a>. </figcaption>
 				</figure>
 				<figure id="store-types">
 					<img src="store-types.svg" alt="" />
 					<figcaption>The <a>store</a> type is subsumed by the <a>data structure</a> type.
-						According to the definition, a store must have both a <a>static part</a> and
+						According to the definition, a store must have both a <a>associative part</a> and
 						a <a>dynamic part</a>. </figcaption>
 				</figure>
 			</section>
@@ -422,21 +422,21 @@
 					</ul>
 					<p>We generalize this concept below to accommodate more complex structures.</p>
 				</section>
-				<section id="def-k-th-order-static-data-structure">
-					<h4>k-th Order Static RDF Data Structures</h4>
+				<section id="def-k-th-order-associative-data-structure">
+					<h4>k-th Order Associative RDF Data Structures</h4>
 					<p>A <dfn
-							data-lt="k-th order static RDF data structures|k-th order static data structure|k-th order static data structures|static data structure|static data structures"
-							>k-th order static RDF data structure</dfn> is a <a>data structure</a>
+							data-lt="k-th order associative RDF data structures|k-th order associative data structure|k-th order associative data structures|associative data structure|associative data structures"
+							>k-th order associative RDF data structure</dfn> is a <a>data structure</a>
 						that is defined inductively as follows.</p>
 					<ul>
-						<li>A <dfn>zeroth-order static data structure</dfn> is an RDF Graph. </li>
-						<li>A (k+1)-th order static data structure is a collection of data
+						<li>A <dfn>zeroth-order associative data structure</dfn> is an RDF Graph. </li>
+						<li>A (k+1)-th order associative data structure is a collection of data
 							structures of k-th order or less consisting of: <ul>
 								<li>an optional distinguished <a>data structure</a>, called the
-										<dfn>default part</dfn> of the static data structure, of
+										<dfn>default part</dfn> of the associative data structure, of
 									order k or less. </li>
 								<li>one or more <a>named k-th order data structures</a>. The names
-									of the named data structures are unique within the static data
+									of the named data structures are unique within the associative data
 									structure. The data structure consisting of only these named
 									data structures is called the <dfn>named part</dfn> of the data
 									structure. </li>
@@ -447,12 +447,12 @@
 						<br />We don't change or extend the definition of graph, so there is no need
 						for an extra qualifier. After this point, I usually drop the "RDF" and just
 						say "graph".</p>
-					<p>An RDF Graph is the only <a>static data structure</a> that has no named part,
+					<p>An RDF Graph is the only <a>associative data structure</a> that has no named part,
 						and is equal to its default part.</p>
-					<p>A named graph is a first-order <a>static data structure</a>. It has no
+					<p>A named graph is a first-order <a>associative data structure</a>. It has no
 						default part and is equal to its named part.</p>
 					<p>An RDF dataset, as defined in [[!RDF-Concepts]] is either a zeroth- or
-						first-order <a>static data structure</a>. It always has a default part, its
+						first-order <a>associative data structure</a>. It always has a default part, its
 						default graph, which may be the empty graph. If it contains at least one
 						named graph, then it has a named part and its order is 1.</p>
 					<p>A <dfn data-lt="timestamped graphs">timestamped graph</dfn> is defined in
@@ -462,28 +462,28 @@
 						subject. A timestamped graph may be emulated by a dataset of second order or
 						less, as described in Section <a
 							href="#def-rdf-stream-as-second-order-store"></a></p>
-					<p>We define a number of syntactic operations on <a>static data structures</a>
-						as follows. Let DS be a <a>static data structure</a> and E be an arbitrary
+					<p>We define a number of syntactic operations on <a>associative data structures</a>
+						as follows. Let DS be a <a>associative data structure</a> and E be an arbitrary
 						entity. </p>
 					<ul>
-						<li><dfn>isStatic</dfn>(E) is true if E is a <a>static data structure</a>;
+						<li><dfn>isAssociative</dfn>(E) is true if E is a <a>associative data structure</a>;
 							otherwise it is false.</li>
 						<li><dfn>hasDefault</dfn>(DS) is true if DS has a default part; otherwise,
 							it is false.</li>
 						<li><dfn>hasNamed</dfn>(DS) is true if DS has a named part; otherwise, it is
 							false.</li>
-						<li><dfn>defaultPart</dfn>(DS) is defined on all static data structures that
+						<li><dfn>defaultPart</dfn>(DS) is defined on all associative data structures that
 							have a default part (hasDefault(DS) is true); otherwise it is undefined.
 							When defined, its value is the default part of DS (possibly DS
 							itself).</li>
-						<li><dfn>named</dfn>(DS) is defined on all static data structures that have
+						<li><dfn>named</dfn>(DS) is defined on all associative data structures that have
 							a named part (hasNamed(DS) is true); otherwise it is undefined. When
 							defined, its value is the named part of DS (possibly DS itself).</li>
-						<li><dfn>names</dfn>(DS) is defined on all <a>static data structures</a>. If
+						<li><dfn>names</dfn>(DS) is defined on all <a>associative data structures</a>. If
 								<a>hasNamed</a>(DS) is true, then its value is the set of names of
 							the named data structures in DS; otherwise, its value is the empty
 							set.</li>
-						<li>Every static data structure DS has a well-defined order, a non-negative
+						<li>Every associative data structure DS has a well-defined order, a non-negative
 							integer, and this is the value of the function
 							<dfn>order</dfn>(DS).</li>
 						<li><dfn>isNamed</dfn>(DS) is true if DS is a <a>named data structure</a>;
@@ -496,7 +496,7 @@
 								is "The data structure consisting of only these named data
 								structures is called the <a>named part</a> of the data structure."
 								If there is no default part, then the named part is the whole thing.
-								The parts extracted by these functions -- staticPart, dynamicPart,
+								The parts extracted by these functions -- associativePart, dynamicPart,
 								defaultPart, and named (which probably should be called namedPart
 								for consistency) -- are not necessarily proper parts, they can be
 								the whole thing, for certain inputs. Note that if you want the
@@ -512,24 +512,24 @@
 							DS).</li>
 						<li><dfn>nameMap(DS)</dfn> is the function defined on names(DS) that maps
 							name to content(name, DS).</li>
-						<li>A static data structure DS with order k &gt; 0 is uniquely determined by
+						<li>A associative data structure DS with order k &gt; 0 is uniquely determined by
 							the following properties: default(DS), names( DS), and the value of
 							content(name, DS) for each name in names(DS). Therefore we may define a
 							constructor that takes this set of properties as input parameters and
-							returns the corresponding static data structure. Let this constructor be
-							called <dfn>Static<sub>k</sub></dfn> with domain DS<sub>&lt; k-1</sub> x
+							returns the corresponding associative data structure. Let this constructor be
+							called <dfn>Associative<sub>k</sub></dfn> with domain DS<sub>&lt; k-1</sub> x
 								2<sup>Names</sup> x PartialFunctions(Names => DS<sub>&lt; k-1</sub>)
 							where DS<sub>&lt; k-1</sub> is the set of data structures of order k-1
 							or less.</li>
 					</ul>
-					<aside class="example"><p>The constructor <a>Static<sub>k</sub></a> can be used
+					<aside class="example"><p>The constructor <a>Associative<sub>k</sub></a> can be used
 							to (abstractly) create a <a>named data structure</a> as follows.</p>
 						<p>Let DS be <a>data structure</a> of order k-1 or less, and set ND =
-								Static<sub>k</sub>({}, {n}, {n => DS }). Then isNamed(ND) is true,
+								Associative<sub>k</sub>({}, {n}, {n => DS }). Then isNamed(ND) is true,
 							names(ND) = {n}, name(ND) = n, content(n, ND) = DS, and order(ND) =
 							k.</p>
 					</aside>
-					<aside>The concrete syntax for building a static data structure depends on the
+					<aside>The concrete syntax for building a associative data structure depends on the
 						extension of Update Operations, e.g. the <a>OpInsertData</a> Update
 						Operation, and the extension of the <a>pattern</a> syntax to express k-th
 						order patterns, including k-th order named patterns.</aside>
@@ -537,7 +537,7 @@
 						order and when of a lesser order is not clear. neither is , why. <br />Here
 						are some cases:</p>
 					<ul>
-						<li>The default part of a <a>static data structure</a>, including
+						<li>The default part of a <a>associative data structure</a>, including
 								<a>datasets</a>, is usually of lower order, while the named part, if
 							it exists, is of the same order. The exception is an RDF graph
 							(zeroth-order dataset), which is equal to its default part, and so they
@@ -555,7 +555,7 @@
 							from the triples when the contents are extracted. For example, a named
 							graph has order 1 (1 name attached to each triple), while the contents,
 							a graph, has order 0. </li>
-						<li>The static part of a repository is of lower order, while the elements of
+						<li>The associative part of a repository is of lower order, while the elements of
 							the dynamic part (versions) are named datasets that have the same order
 							as the repository. The version contents have order less than the order
 							of the repository.</li>
@@ -772,7 +772,7 @@
 						could call it an RDF Stream Store.</p>
 					<p>A <dfn
 							data-lt="k-th Order RDF Datasets|k-th Order Dataset|k-th Order Datasets|Dataset|Datasets"
-							>k-th Order RDF Dataset</dfn> is a <a>k-th order static data
+							>k-th Order RDF Dataset</dfn> is a <a>k-th order associative data
 							structure</a> DS with the following properties. </p>
 					<ul>
 						<li>If k &gt; 0, then <a>defaultPart</a>(DS) is a <a>dataset</a> of order
@@ -798,7 +798,7 @@
 						single <a>RDF Surface (sensu Pat Hayes)</a>, i.e. do they share blank nodes. </p>
 					<p>A <dfn
 							data-lt="Named k-th Order RDF Datasets|Named Dataset|Named Datasets|Named k-th Order Dataset|Named k-th Order Datasets"
-							>Named k-th Order RDF Dataset</dfn> is a named <a>static data
+							>Named k-th Order RDF Dataset</dfn> is a named <a>associative data
 							structure</a> of order k+1 whose content is a <a>dataset</a> of order k
 						or less.</p>
 					<p class="example" title="Named Graph">A named graph is a named zeroth-order RDF
@@ -823,8 +823,8 @@
 						<li><dfn>isDataset</dfn>(E) is true if E is a <a>dataset</a>; otherwise it
 							is false.</li>
 					</ul>
-					<p class="note">The constructor <a>Static<sub>k</sub></a> defined for general
-						static data structures works as well for <a>datasets</a> of arbitrary
+					<p class="note">The constructor <a>Associative<sub>k</sub></a> defined for general
+						associative data structures works as well for <a>datasets</a> of arbitrary
 						order.</p>
 					<p>If N is a set of names and DS is a <a>k-th order dataset</a>, then
 							<dfn>content-UNION</dfn>(N, DS) is defined as
@@ -944,17 +944,17 @@
 					<p>A <dfn
 							data-lt="k-th Order RDF Data Structures|k-th Order Data Structure|k-th Order Data Structures|Data Structure|Data Structures"
 							>k-th Order RDF Data Structure</dfn> is defined by cases as follows. </p>
-					<p>A k-th order RDF data structure is a collection of k-th order static data
+					<p>A k-th order RDF data structure is a collection of k-th order associative data
 						structures </p>
 					<ul>
-						<li>The optional <dfn>static part</dfn> of DS is a k-th order static data
+						<li>The optional <dfn>associative part</dfn> of DS is a k-th order associative data
 							structure.</li>
-						<li>The <dfn>dynamic part</dfn> of DS, which is optional if DS has a static
-							part, is a sequence of k-th order static data structures.</li>
+						<li>The <dfn>dynamic part</dfn> of DS, which is optional if DS has a associative
+							part, is a sequence of k-th order associative data structures.</li>
 					</ul>
 					<p>A <dfn
 							data-lt="named k-th order data structure|named data structure|named data structures"
-							>named k-th order data structures</dfn> is a k+1-th order <a>static data
+							>named k-th order data structures</dfn> is a k+1-th order <a>associative data
 							structure</a> that is an ordered tuple [n, DS, k] where n is the name of
 						the named data structure and data structure DS, of order k or less, is the
 						content of the named data structure. </p>
@@ -973,7 +973,7 @@
 					<p class="ednote">A third way to define named structures is in a more vague way
 						than this, similar to the other definitions, where we don't refer to a
 						particular structure (set, tuple, etc.) except in special cases.. In this
-						approach, a named data structure ND is simply a static data structure, of
+						approach, a named data structure ND is simply a associative data structure, of
 						order 1 or more, for which <a>isNamed</a>(ND) is true. It is required that
 							<a>hasDefault</a>(ND) is false, <a>hasNamed</a>(ND) is true, DS =
 							<a>named</a>(DS), and <a>names</a> is a set with one member, that member
@@ -982,14 +982,14 @@
 						<a>order</a>(ND) = order(contents(ND))+1, then ND <i>is</i> a pair,
 						[name(ND), contents(ND)]. When order(ND) = 1, then ND <i>is</i> a named
 						graph.</p>
-					<p class="note">Because <a>named data structures</a> are by definition <a>static
-							data structures</a>, then all functions defined on static data
+					<p class="note">Because <a>named data structures</a> are by definition <a>associative
+							data structures</a>, then all functions defined on associative data
 						structures are defined on named data structures.</p>
 					<p class="note">The third argument of the tuple of a named data structure
 						determines the order of the structure: <a>order</a>([n, DS, k]) = k+1 .</p>
 					<p class="ednote">Alternate Definition: A <dfn
 							data-lt="k-th order named data structures|named data structure|named data structures"
-							>k-th order named data structure</dfn> is a k-th order <a>static data
+							>k-th order named data structure</dfn> is a k-th order <a>associative data
 							structure</a> that is an ordered pair [n, DS] (in the case that
 						order(DS) = k-1) or an ordered tuple [n, DS, k-1] (in the case that
 						order(DS) &lt; k-1) where n is the name of the named data structure and data
@@ -1002,40 +1002,40 @@
 					<ul>
 						<li><dfn>isDataStructure</dfn>(E) is true if E is a <a>data structure</a>;
 							otherwise it is false.</li>
-						<li><dfn>hasStatic</dfn>(DS) is true if DS has a static part; otherwise, it
+						<li><dfn>hasAssociative</dfn>(DS) is true if DS has a associative part; otherwise, it
 							is false.</li>
 						<li><dfn>hasDynamic</dfn>(DS) is true if DS has a dynamic part; otherwise,
 							it is false.</li>
-						<li><dfn>staticPart</dfn>(DS) is defined on all data structures that have a
-							static part (hasStatic(DS) is true); otherwise it is undefined. When
-							defined, its value is the static part of DS.</li>
+						<li><dfn>associativePart</dfn>(DS) is defined on all data structures that have a
+							associative part (hasAssociative(DS) is true); otherwise it is undefined. When
+							defined, its value is the associative part of DS.</li>
 						<li><dfn>dynamicPart</dfn>(DS) is defined on all data structures that have a
 							dynamic part (hasDynamic(DS) is true); otherwise it is undefined. When
 							defined, its value is the dynamic part of DS.</li>
 					</ul>
 					<p class="note">If a k-th order <a>data structure</a> has no dynamic part, then
-						its static part is itself (staticPart(DS) = DS). In that case it is a k-th
-						order <a>static data structure</a>, e.g. an RDF graph (k=0) or k-th order
+						its associative part is itself (associativePart(DS) = DS). In that case it is a k-th
+						order <a>associative data structure</a>, e.g. an RDF graph (k=0) or k-th order
 							<a>dataset</a>.</p>
-					<p class="note">If a k-th order data structure DS does not have a static part,
+					<p class="note">If a k-th order data structure DS does not have a associative part,
 						then dynamicPart(DS) = DS; in this case, the data structure is a <a>data
-							sequence</a>. In particular, it is a sequence of k-th order <a>static
+							sequence</a>. In particular, it is a sequence of k-th order <a>associative
 							data structures</a>. We define this special case of <a>data sequence</a>
 						to be a <dfn>k-th order data sequence</dfn>.</p>
-					<p>We extend the functions defined earlier on static data structures to data
-						structures where <a>hasStatic</a> is true according to the following
-						example: <a>names</a>(DS) = <a>names</a>(<a>staticPart</a>(DS)), and so
+					<p>We extend the functions defined earlier on associative data structures to data
+						structures where <a>hasAssociative</a> is true according to the following
+						example: <a>names</a>(DS) = <a>names</a>(<a>associativePart</a>(DS)), and so
 						on.</p>
-					<p class="ednote">I have reverted to the terminology "static" and "dynamic"
+					<p class="ednote">I have reverted to the terminology "associative" and "dynamic"
 						because using "unordered" and "ordered" has a collision with the "order" of
 						the structure. However this terminology is not entirely satisfactory, for
 						two reasons. One is that it suggests a temporal character, and while that is
 						the primary motivation for these structures, the temporal nature comes from
 						the semantics, not the sequential order. The sequential order could quite
 						reasonably be exploited for nontemporal aspects that have ordering. The
-						second reason it is unsatisfactory is that the "static" part can have either
+						second reason it is unsatisfactory is that the "associative" part can have either
 						default or named parts that are "dynamic". This is particularly relevant in
-						the case of the "store" structure, defined below, whose static part is a
+						the case of the "store" structure, defined below, whose associative part is a
 						collection of repositories. Alternative: "map" and "history"?</p>
 				</section>
 			</section>
@@ -1050,7 +1050,7 @@
 					<ol>
 						<!--<li>A zeroth-order RDF Repository is a zeroth-order <a>dataset</a>. </li>-->
 						<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has an optional
-								<a>dataset</a> of k-th order or less for its static part and
+								<a>dataset</a> of k-th order or less for its associative part and
 							a<!--n optional--> non-empty <a>data sequence</a> of <a>named k-th order
 								datasets</a> for its dynamic part. The names of the datasets in this
 							sequence are unique. Further, the contents of adjacent named datasets in
@@ -1059,16 +1059,16 @@
 					<aside class="ednote">
 						<p>The motivation for allowing the dynamic part of a repository to be
 							optional in the previous version of the definition was to allow a
-							repository to be initialized with its static part without specifying an
+							repository to be initialized with its associative part without specifying an
 							initial version. However, this provision led to problems in
 							deterministically specifying the order of a repository that has no
 							dynamic part. For example, a first-order dataset could have been the
-							static part of an m-th order repository, for any m &gt; 1. As a dataset,
+							associative part of an m-th order repository, for any m &gt; 1. As a dataset,
 							its order would be 1, but as a repository its order would be 2 or
 							higher. To fix this problem, the current version of the definition makes
 							the dynamic part required, with at least one element that is a named
 							k-th order dataset. Further, the definition was changed to make the
-							static part optional, so that pure data sequences of named datasets
+							associative part optional, so that pure data sequences of named datasets
 							could be considered repositories as well. Finally, the zeroth-order
 							repository, which was just an RDF graph, has been omitted, since it was
 							no longer compatible with a structure that had a required dynamic part
@@ -1094,7 +1094,7 @@
 					<figure id="repository-types-fix-3">
 						<img src="repository-types-fix-3.svg" alt="" />
 						<figcaption>Shows the type hierarchy if option 3 above is adopted. This
-							shows the presence of repositories having no static part. That is, they
+							shows the presence of repositories having no associative part. That is, they
 							are data sequences.</figcaption>
 					</figure>
 					<figure id="repository-types-fix-4">
@@ -1108,7 +1108,7 @@
 						contents being distinct emphasizes the motivation of this definition as a
 						model of a mutable dataset, where each element of the sequence describes a
 						named "snapshot" of the dataset.</p>
-					<p class="ednote">To be clarified in Eval section: The static part of the
+					<p class="ednote">To be clarified in Eval section: The associative part of the
 						repository plays the role of background knowledge, which is unioned with
 						every snapshot prior to query.</p>
 					<p>Let R be a k-th order repository.</p>
@@ -1179,9 +1179,9 @@
 								<dfn>Repository<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
 						following arguments.</p>
 					<ol>
-						<li>The <a>dataset</a> of order k-1 or less that is the static part of the
+						<li>The <a>dataset</a> of order k-1 or less that is the associative part of the
 							repository, or the reserved word NONE, indicating the repository has no
-							static part.</li>
+							associative part.</li>
 						<li>The ordered set of version names of the repository. </li>
 						<li>The mapping from the set of version names to <a>datasets</a> of order
 							k-1 or less that defines the versions of the repository. </li>
@@ -1231,7 +1231,7 @@
 					<p class="ednote">Needs more explanation, examples: To use a second-order
 							<a>repository</a> to emulate a <a>Graph Store</a>, the input for query
 						and update operations would have to be limited to some "current
-							<a>version</a>", and the <a>static part</a> of the repository would be
+							<a>version</a>", and the <a>associative part</a> of the repository would be
 						empty. The execution of an <a>Update operation</a> would move the "current
 							<a>version</a> pointer" to the <a>succeeding version</a>. </p>
 				</section>
@@ -1279,7 +1279,7 @@
 							order data structure</a>.</p>
 					<p> A (k+2)-th order RDF Store, k = 0, 1, ..., is a (k+2)-th order data
 						structure with the following properties. <ul>
-							<li>It has a static part whose optional default part is a (k+1)-th order
+							<li>It has a associative part whose optional default part is a (k+1)-th order
 								repository, called the default repository of the store, and whose
 								named part consists of one or more named (k+1)-th order
 								repositories, called named repositories of the store. </li>
@@ -1287,12 +1287,12 @@
 								whose elements are named (k+1)-th order datasets, called versions of
 								the store. The ordered set SV of the names of these versions are the
 									<dfn>version names of the store</dfn>.</li>
-							<li>The static and dynamic parts of a store St satisfy the following
+							<li>The associative and dynamic parts of a store St satisfy the following
 								consistency requirements.</li>
 							<ul>
-								<li>For every repository name n in names(staticPart(St)), there is a
+								<li>For every repository name n in names(associativePart(St)), there is a
 									monotonic partial mapping M<sub>n</sub> from SV onto
-										<a>versionNames</a>( content(n, staticPart(St))); that is,
+										<a>versionNames</a>( content(n, associativePart(St))); that is,
 									from version names of the store to version names of the named
 									repository of the store with name n. </li>
 								<li>The domain of M<sub>n</sub>, dom(M<sub>n</sub>), is an interval
@@ -1300,12 +1300,12 @@
 								<li>If stver is in dom(M<sub>repname</sub>), let repver =
 										M<sub>repname</sub>(stver). Then <br /> content(repname;
 										<a>versionContent</a>(stver; St)) =
-									<a>versionContent</a>(repver; content(repname; staticPart(St))) </li>
+									<a>versionContent</a>(repver; content(repname; associativePart(St))) </li>
 								<li>There is a monotonic mapping M<sub>default</sub> of SV onto
 									version names of the default repository.</li>
 								<li>If stver in SV, let repver = M<sub>default</sub>(stver). Then
 									<br /> default(<a>versionContent</a>(stver; St)) =
-										<a>versionContent</a>(repver; default(Static(St))) </li>
+										<a>versionContent</a>(repver; default(associativePart(St))) </li>
 							</ul>
 						</ul>
 					</p>
@@ -1326,7 +1326,7 @@
 					<p>In addition to constructing a store in its entirety with
 							<a>Store<sub>k</sub></a>, we define a basic operation
 							<dfn>Append2Store</dfn> which creates a store by adding a version to it.
-							<a>Append2Store</a> does not change the static part of a store, and it
+							<a>Append2Store</a> does not change the associative part of a store, and it
 						specifies the new store version through new versions of its
 						repositories.</p>
 					<p>The arguments of <a>Append2Store</a><sub>k</sub> are</p>
@@ -1390,7 +1390,7 @@
 					<p> = Distinct( Map( DSQ, (λx.Dataset-UNION({content(name, content(x)|name in
 						names})) ) )</p>
 					<p>Similarly, we define <dfn>Restrict-DEFAULT</dfn> on a sequence of <a>named
-							static data structures</a> of k-th order, for some fixed k, as
+							associative data structures</a> of k-th order, for some fixed k, as
 						follows.</p>
 					<p> Restrict-DEFAULT(DSQ) = Distinct( [default( DSQ<sub>i</sub>)]<sub>i in
 								<i>I</i></sub> ) </p>
@@ -1401,8 +1401,8 @@
 						that are in the store (as named and/or default), because the relative order
 						of revisions of these repositories has been recorded in the history of the
 						store.</p>
-					<p> Let R<sub>i</sub> = content(name<sub>i</sub>, staticPart(S)), and
-							R<sub>j</sub> = content(name<sub>j</sub>, staticPart(S)), for some
+					<p> Let R<sub>i</sub> = content(name<sub>i</sub>, associativePart(S)), and
+							R<sub>j</sub> = content(name<sub>j</sub>, associativePart(S)), for some
 							name<sub>i</sub> and name<sub>j</sub> in names(S). Then the <dfn>dynamic
 							union</dfn> of named repositories [name<sub>i</sub>, R<sub>i</sub>, k]
 						and [name<sub>i</sub>, R<sub>i</sub>, k] in the context of store S is:</p>
@@ -1428,13 +1428,13 @@
 						<p>To streamline the definition of store transformations, we define two
 							reserved names, denoted as <dfn>DEFAULT</dfn> and <dfn>STATIC</dfn> that
 							will be used as the names, resp., of the default structure within
-								<a>static data structures</a> and of the static structure within
+								<a>associative data structures</a> and of the associative part within
 							general <a>data structures</a></p>
 						<p>For a set s of names, let <dfn>Ext-STATIC</dfn>(S) = S ∪ {STATIC}, and
 								<dfn>Ext-DEFAULT</dfn>(S) = S ∪ {DEFAULT}.</p>
 						<p>For store ST, let <dfn>namePairs</dfn>(ST) be a subset of
 								<a>Ext-STATIC</a>(<a>versionNames</a>(ST)) x
-								<a>Ext-DEFAULT</a>(<a>names</a>(<a>staticPart</a>(ST))) such that
+								<a>Ext-DEFAULT</a>(<a>names</a>(<a>associativePart</a>(ST))) such that
 							[stver, repo] is in NP provided stver is a member of
 								<a>Ext-STATIC</a>(<a>versionNames</a>(ST)) and repo is in
 								<a>names</a>(<a>versionContent</a>(stver; ST).</p>
@@ -1444,7 +1444,7 @@
 						<ol>
 							<li>The input store ST of order k or less. Let SV =
 								<a>versionNames</a>(ST), SV<sub>ext</sub>= <a>Ext-STATIC</a>(SV), RP
-								= names(static(ST)), and RP<sub>ext</sub> = Ext-DEFAULT(RP). Let NP
+								= names(associativePart(ST)), and RP<sub>ext</sub> = Ext-DEFAULT(RP). Let NP
 								= <a>namePairs</a>(ST), and RV(n) = <a>versionNames</a>(content(n,
 								ST)). <br /> Note: SV is the set of store version names of the input
 								store, while RP is the set of repository names of the input store.
@@ -1525,9 +1525,9 @@
 							</ul>
 							<p>That is,</p>
 							<p>ST = StoreTransformation<sub>k</sub>(ST, RP, SV, RV,
-								IDR<sub>NP</sub>, M ) where k = order(ST), RP = names(static(ST)),
+								IDR<sub>NP</sub>, M ) where k = order(ST), RP = names(associativePart(ST)),
 								SV = versionNames(ST), RV = { n => RV<sub>n</sub> | n is in RP and
-									RV<sub>n</sub> = versionNames( content(n, static(ST) ) }, NP =
+									RV<sub>n</sub> = versionNames( content(n, associativePart(ST) ) }, NP =
 								namePairs(ST), M = versionNameMap(ST).</p>
 						</aside>
 						<aside class="example" title="Subsampling a Store">
@@ -1683,8 +1683,8 @@
 				<section>
 					<h4>Connection Between Repositories and Stores</h4>
 					<p>Every <a>k-th order store</a> can be converted into a k-th order repository
-						by keeping the dynamic part the same, and replacing the static part of the
-						store with the default part of the static part of the store. This
+						by keeping the dynamic part the same, and replacing the associative part of the
+						store with the default part of the associative part of the store. This
 						transformation loses information; in particular, it loses the names of
 						repository versions. However, the contents and order of repository versions
 						is not lost; this information is preserved in the dynamic part of the store,
@@ -1719,13 +1719,13 @@
 					<p>The value of <a>TSGraph</a> is defined in terms of other operations in the
 						following cases.</p>
 					<ul>
-						<li>TSGraph(G0, {n p t.}) = Static<sub>1</sub>(G<sub>meta</sub>, {b}, {b =>
+						<li>TSGraph(G0, {n p t.}) = Associative<sub>1</sub>(G<sub>meta</sub>, {b}, {b =>
 							D0}) </li>
-						<li>TSGraph(G0, {n p t.}, G1) = Static<sub>2</sub>(G<sub>meta</sub>, {b}, {b
+						<li>TSGraph(G0, {n p t.}, G1) = Associative<sub>2</sub>(G<sub>meta</sub>, {b}, {b
 							=> D1}) </li>
 						<li>where b is a fresh blank node and </li>
 						<li>D0 = Dataset-UNION(G0, {n p t.})</li>
-						<li>D1 = Static<sub>1</sub>(Dataset-UNION(G0, {n p t.}), {n}, {n => G1} ) </li>
+						<li>D1 = Associative<sub>1</sub>(Dataset-UNION(G0, {n p t.}), {n}, {n => G1} ) </li>
 						<li>G<sub>meta</sub> = { b rsp:usesTimestampPredicate p}</li>
 						<li>with the requirement that G0 contain no triples using the predicate
 							p.</li>
@@ -1873,7 +1873,7 @@
 							href="#data-structures"></a>, as first argument and an extended pattern,
 						as defined in Section <a href="#patterns"></a> as second argument. </p>
 					<p>All of the newly-defined data structures can be considered as specializations
-						of an abstract data structure having an (optional) static part and an
+						of an abstract data structure having an (optional) associative part and an
 						(optional) dynamic part. This same abstraction holds for:</p>
 					<ul>
 						<li>data strucutures with triples as the fundamental type (datasets,
@@ -1882,15 +1882,15 @@
 							(structured results)</li>
 					</ul>
 					<p> The semantics of eval are based on matching the pattern to the dynamic part
-						of the data structure, with the static part unioned into every element, to
+						of the data structure, with the associative part unioned into every element, to
 						obtain the dynamic part of the structured result, and also matching the same
-						pattern to the static part of the data structure to get the static part of
+						pattern to the associative part of the data structure to get the associative part of
 						the structured result. </p>
 					<p>In the semantic approach, the implementer defines the naming convention of
 						the query string to denote substructures of the parent data structure, e.g
-						just the static part, just the dynamic part, just the terminal element of
+						just the associative part, just the dynamic part, just the terminal element of
 						the dynamic part, or structures derived from the parent structure, e.g. the
-						dynamic part with the static part unioned into every element, or the result
+						dynamic part with the associative part unioned into every element, or the result
 						of a window operation, where subsequences from the dynamic part are unioned
 						to obtain a new sequence. </p>
 					<p>In the syntactic approach, abstract algebra operations are employed to
@@ -1952,14 +1952,14 @@
 								Graphs</a>, then the result is the union of the sets of
 								<a>triples</a> in the two <a>graphs</a>. </li>
 						<li>If order(DSP) = order(DSP') = k &gt; 0, then <br /> Dataset-UNION(DSP,
-							DSP') = Static<sub>k</sub>( Dataset-UNION(default(DSP), default(DSP')),
+							DSP') = Associative<sub>k</sub>( Dataset-UNION(default(DSP), default(DSP')),
 							names(DSP) ∪ names(DSP'), result-nameMap ) <br /> where result-nameMap =
 							<br /> { name = > content(name, DSP) | name in names(DSP) - names(DSP')}
 							∪ <br /> { name = > content(name, DSP') | name in names(DSP') -
 							names(DSP)} ∪ <br /> { name = > Dataset-UNION( content(name, DSP),
 							content(name, DSP')) | name in names(DSP) &amp; names(DSP')} </li>
 						<li>If order(DSP') &lt; order(DSP) = k, then <br /> Dataset-UNION(DSP, DSP')
-							= Dataset-UNION(DSP', DSP) = Static<sub>k</sub>(
+							= Dataset-UNION(DSP', DSP) = Associative<sub>k</sub>(
 							Dataset-UNION(default(DSP), DSP'), names(DSP) , result-nameMap ) <br />
 							where result-nameMap = { name = > content(name, DSP) | name in
 							names(DSP)} </li>
@@ -1971,7 +1971,7 @@
 						<li>if order(s) = 0 for every s in S (i.e. s is an <a>RDF graph</a>), then
 							Dataset-UNION(S) = ∪<sub>s in S</sub>s.</li>
 						<li>if order(s) = k &gt; 0 for every s in S, then <br /> Dataset-UNION(S) =
-								Static<sub>k</sub>( result-default, result-names, result-nameMap )
+								Associative<sub>k</sub>( result-default, result-names, result-nameMap )
 							<br /> where <br /> result-default = Dataset-UNION({default(s)|s in S})
 							<br /> result-names = ∪<sub>s in S</sub> names(s), <br /> result-nameMap
 							= { n => Dataset-UNION({content(n, s)|<sub>s in S</sub>}) | n in
@@ -2073,13 +2073,13 @@
 						<li>OpCreate(DS, name) = OpCreate(DS, name, max(order(DS), 1)).</li>
 						<li>If name is in name(DS), and k = order(DS), then OpCreate(DS, name, k) =
 							DS.</li>
-						<li>If k &gt; order(DS), then OpCreate(DS, name, k) = Static<sub>k</sub>(DS,
+						<li>If k &gt; order(DS), then OpCreate(DS, name, k) = Associative<sub>k</sub>(DS,
 							{name}, {name => {}})</li>
 						<li>If k = order(DS) and name is not in name(DS), then OpCreate(DS, name, k)
-							= Static<sub>k</sub>(default(DS), names(DS) ∪ {name}, nameMap(DS) ∪
+							= Associative<sub>k</sub>(default(DS), names(DS) ∪ {name}, nameMap(DS) ∪
 							{name => {}}). </li>
 						<li>If k &lt; order(DS) = k', then OpCreate(DS, name, k) =
-								Static<sub>k'</sub>( OpCreate(default(DS), name, k), names(DS),
+								Associative<sub>k'</sub>( OpCreate(default(DS), name, k), names(DS),
 							nameMap(DS) ) )</li>
 					</ul>
 				</section>
@@ -2107,10 +2107,10 @@
 					result would be the original dataset. </p>
 				<ul>
 					<li>If name is in names(DS), then APPLY(DS, Spec, name) =
-							Static<sub>order(DS)</sub>( default(DS), names(DS), Delete(nameMap(DS),
+							Associative<sub>order(DS)</sub>( default(DS), names(DS), Delete(nameMap(DS),
 						name) union { name => Spec(content(name, DS))} ) </li>
 					<li>Otherwise, APPLY(DS, Spec, name) = DS.</li>
-					<li>APPLY(DS, Spec) = Static<sub>order(DS)</sub>( Spec(default(DS)), names(DS),
+					<li>APPLY(DS, Spec) = Associative<sub>order(DS)</sub>( Spec(default(DS)), names(DS),
 						nameMap(DS) )</li>
 				</ul>
 			</section>
@@ -2485,7 +2485,7 @@ _:b103{
 </pre>
 				</aside>
 				<aside class="example" id="ex-fhir-repository"
-					title="FHIR Statements as a Repository"> The dataset above is a static structure
+					title="FHIR Statements as a Repository"> The dataset above is an associative data structure
 					representing the entailment, under the provenance regime, of a first-order
 						<a>Repository</a>. We denote this repository as R<sub>FHIR</sub>. In this
 					example, the default dataset of the repository is empty. <p>We write</p>
@@ -2496,7 +2496,7 @@ _:b103{
 							Revise(D<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
 					<p> Since the dynamic component of a repository may be lazily contructed, the
 						repository could be transmitted as a sequence of documents, one for the
-						static part and one for each of the elements of the dynamic part of the
+						associative part and one for each of the elements of the dynamic part of the
 						repository, transmitted as they become available. </p>
 				</aside>
 				<aside class="example" id="ex-fhir-repository"
@@ -2511,10 +2511,10 @@ _:b103{
 						metadata to the repository as a whole, we name the repository and embed it
 						in a second-order RDF Store. We denote this store as ST<sub>FHIR</sub>. </p>
 					<p>We write</p>
-					<p>ST<sub>FHIR</sub> = Dataset-UNION(ST<sub>FHIR, static</sub>, ST<sub>FHIR,
+					<p>ST<sub>FHIR</sub> = Dataset-UNION(ST<sub>FHIR, associative</sub>, ST<sub>FHIR,
 							dynamic</sub>)</p>
 					<p>where</p>
-					<p>ST<sub>FHIR, static</sub> = Static<sub>2</sub>(G<sub>eff</sub>, {_:b301},
+					<p>ST<sub>FHIR, associative</sub> = Associative<sub>2</sub>(G<sub>eff</sub>, {_:b301},
 						{_:b301 => R<sub>FHIR</sub>})</p>
 					<p>where G<sub>eff</sub> is the graph containing the single triple</p>
 					<pre>
@@ -2532,8 +2532,8 @@ _:b301 rsp:usesTimestampPredicate obs:effectiveDateTime.
 					<p> ST<sub>2, FHIR</sub> = [_:sv1, [_:b301, G<sub>2, FHIR</sub>, 1], 2]</p>
 					<p> ST<sub>3, FHIR</sub> = [_:sv2, [_:b301, G<sub>3, FHIR</sub>, 1], 2]</p>
 					<p>or generically</p>
-					<p> ST<sub>i, FHIR</sub> = Static<sub>2</sub>({}, {stver<sub>i</sub>},
-							{stver<sub>i</sub> => Static<sub>1</sub>({}, {_:b301}, {_:b301 =>
+					<p> ST<sub>i, FHIR</sub> = Associative<sub>2</sub>({}, {stver<sub>i</sub>},
+							{stver<sub>i</sub> => Associative<sub>1</sub>({}, {_:b301}, {_:b301 =>
 							G<sub>i, FHIR</sub>})})</p>
 					<p>where stver<sub>1</sub> = _:sv0, stver<sub>2</sub> = _:sv1, stver<sub>3</sub>
 						= _:sv2.</p>
@@ -2891,7 +2891,7 @@ _:b203 prov:wasRevisionOf _:b202.
 				</aside>
 				<aside class="example" id="ex-psrov-repository"
 					title="FHIR Provenance as a Second-Order Repository">
-					<p> The second-order dataset above is a static structure representing the
+					<p> The second-order dataset above is an associative data structure representing the
 						entailment, under the provenance regime, of a second-order
 						<a>Repository</a>. The repository as a whole is denoted R<sub>prov</sub>. In
 						this example, the default dataset of the repository is empty. </p>
@@ -3160,7 +3160,7 @@ WHERE {
 							matching the BGP against an RDF Graph, as defined in [[!SPARQL11-Query]]
 							.</p>
 						<p>If k=1, then application of eval to a repository and BGP corresponds to
-							matching the BGP against the RDF Graph that is the static component of
+							matching the BGP against the RDF Graph that is the associative part of
 							the first-order repository.</p>
 						<p>For example,</p>
 						<p> eval(<a href="#prov-dataset-2">D2<sub>prov</sub></a>, <a
@@ -3168,11 +3168,11 @@ WHERE {
 								href="#omega-rev">Ω<sub>rev</sub></a>
 						</p>
 						<p>If k=2, then application of eval to a repository and BGP corresponds to
-							matching the BGP against the RDF Dataset that is the static component of
+							matching the BGP against the RDF Dataset that is the associative part of
 							the second-order repository.</p>
 						<p>In general, application of eval to a (k+1)-th repository and BGP
 							corresponds to matching the BGP against the k-th order RDF Dataset that
-							is the static component of the input repository. The result is a
+							is the associative part of the input repository. The result is a
 							multiset of solution mappings.</p>
 					</aside>
 					<aside class="example" id="ex-match-quad-dataset"
@@ -3473,12 +3473,12 @@ We write
 	 </li>
 	 <li>Since an RDF Stream does not have a default dataset, there should be no additional entailments
 	     such as those arising from the structural information of the stream, with property <code>repo:hasTimestampTriple</code>.
-		 On the other hand, we want to enable queries of RDF streams jointly with static datasets.
-		 The union of a static and dynamic data structure puts the static statements into the default component of the
-		 dynamic structure, so the union of a static dataset and an RDF stream will have a default component (except for the trivial
-		 case when the static structure is empty). For proper querying in this case, it would be helpful if in the "union" the
+		 On the other hand, we want to enable queries of RDF streams jointly with associative data structures.
+		 The union of a associative and dynamic data structure puts the associative statements into the default component of the
+		 dynamic structure, so the union of a associative data structure and an RDF stream will have a default component (except for the trivial
+		 case when the associative part is empty). For proper querying in this case, it would be helpful if in the "union" the
 		 elements of sequential components are named with blank nodes, so that the result of the union is a repository.
-		 On the other hand, the union of a stream with an empty static dataset causes a change of type, which is undesirable.
+		 On the other hand, the union of a stream with an empty associative data structure causes a change of type, which is undesirable.
 	</li>	 
 	 </ol>
 	 <p class="ednote">
@@ -3506,7 +3506,7 @@ We write
 	 </p>
 	 <p class="ednote">
 	 The case that the first argument is the merger or union of an <a>RDF Stream</a>
-	 with a static first-order dataset
+	 with a first-order dataset
      is also a specialization of the case that the first argument is a sequence of 
 	 <a>k-th Order RDF Datasets</a>, with k = 1, with non-empty default dataset.
 	 Again, the second argument P<sub>seq</sub> MUST be a Quadpattern.
@@ -3515,7 +3515,7 @@ We write
 	 <p class="ednote">This formulation of the Ceval function that takes two pattern arguments is
 	 not very satisfactory because it breaks the SPARQL syntactic convention of processing just one pattern at a time.
 	 It might be better to split off the matching of the pattern on the default structure to another
-	 Eval spinoff, e.g. Seval - for Static evaluation on a dynamic data structure, where the pattern is matched
+	 Eval spinoff, e.g. Seval - for Associative evaluation on a dynamic data structure, where the pattern is matched
 	 only against the default component, and the result is a single multiset of solution mappings.
 	 </p>
 	<p class="ednote">OK, the continuous eval function Ceval has not actually been defined yet either.
@@ -3544,14 +3544,14 @@ We write
 						pairs of higher-order datasets. It has also been extended to apply to pairs
 						where one of the elements is a higher-order dataset and the other is a
 						dynamic data structure (repository, store, data sequence ). </p>
-					<p> In all cases, the first step of evaluation is to elevate a static input
+					<p> In all cases, the first step of evaluation is to elevate an associative input
 						argument as needed: to the same order (in the case of two higher-order
-						datasets), or in the case of one static and one dynamic structure, to the
-						requisite orders so that the default component of the dynamic structure is
-						of the same order as the static structure. Then it is sufficient to consider
+						datasets), or in the case of one associative and one dynamic structure, to the
+						requisite orders so that the default component of the dynamic data structure is
+						of the same order as the associative part. Then it is sufficient to consider
 						input arguments where these orders are already compatible. The type of the
 						result is either a dynamic structure, of the same type and order as the
-						dynamic input, or a static, higher-order dataset, of the order of the two
+						dynamic input, or an associative, higher-order dataset, of the order of the two
 						inputs. </p>
 				</section>
 			</section>
