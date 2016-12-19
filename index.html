@@ -1008,13 +1008,13 @@
 							otherwise it is false.</li>
 						<li><dfn>hasAssociative</dfn>(DS) is true if DS has a associative part;
 							otherwise, it is false.</li>
-						<li><dfn>hasDynamic</dfn>(DS) is true if DS has a sequential part;
+						<li><dfn>hasSequential</dfn>(DS) is true if DS has a sequential part;
 							otherwise, it is false.</li>
 						<li><dfn>associativePart</dfn>(DS) is defined on all data structures that
 							have a associative part (hasAssociative(DS) is true); otherwise it is
 							undefined. When defined, its value is the associative part of DS.</li>
 						<li><dfn>sequentialPart</dfn>(DS) is defined on all data structures that
-							have a sequential part (hasDynamic(DS) is true); otherwise it is
+							have a sequential part (hasSequential(DS) is true); otherwise it is
 							undefined. When defined, its value is the sequential part of DS.</li>
 					</ul>
 					<p class="note">If a k-th order <a>data structure</a> has no sequential part,
@@ -1413,7 +1413,7 @@
 							name<sub>i</sub> and name<sub>j</sub> in names(S). Then the <dfn>sequential
 							union</dfn> of named repositories [name<sub>i</sub>, R<sub>i</sub>, k]
 						and [name<sub>i</sub>, R<sub>i</sub>, k] in the context of store S is:</p>
-					<p> Dynamic-UNION(S, {name<sub>i</sub>, name<sub>j</sub>}) = Restrict(
+					<p> Sequential-UNION(S, {name<sub>i</sub>, name<sub>j</sub>}) = Restrict(
 						sequentialPart( S ), {name<sub>i</sub>, name<sub>j</sub>} ) </p>
 						-->
 					<p class="ednote">The intended semantics, under any entailment regime, of a
@@ -1557,7 +1557,7 @@
 									Rel<sub>data</sub>, M') with Rel<sub>data</sub> and M' as
 								defined above.</li>
 						</aside>
-						<aside class="example" title="Dynamic Union of Two Repositories">
+						<aside class="example" title="Sequential Union of Two Repositories">
 							<p>The output store is equal to the input store except for the
 								sequential union of two named repositories into a new named
 								repository when the following hold.</p>
@@ -1575,7 +1575,7 @@
 								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
 										RP'<sub>ext</sub> - {r1, r2}.</li>
 							</ul>
-							<p>Let <dfn>Dynamic-UNION</dfn>(ST, R, r', RV'(r')) =
+							<p>Let <dfn>Sequential-UNION</dfn>(ST, R, r', RV'(r')) =
 									<a>StoreTransformation</a><sub>k</sub>(ST, RP', SV, RV',
 									Rel<sub>data</sub>, M') with RP', RP', Rel<sub>data</sub> and M'
 								as defined above. </p>
@@ -2004,7 +2004,7 @@
 						our definitions There is no precedent for such definitions, since the Update
 						spec does not define a union operation on Graph Stores. </p>
 					<p class="ednote">We do define a special case of "union" for <a>repositories</a>
-						that are all members of the same <a>store</a> using the <a>Dynamic-UNION</a>
+						that are all members of the same <a>store</a> using the <a>Sequential-UNION</a>
 						operation.</p>
 				</section>
 				<section>
