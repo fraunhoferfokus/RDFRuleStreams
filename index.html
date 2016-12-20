@@ -233,8 +233,8 @@
 				<h3>Restrictions on SPARQL Query Language</h3> For simplicity, we use here a subset
 				of the SPARQL Query language, with the aim to minimize ambiguity of semantics.
 				Constraints are: <ol>
-					<li>The Saimplicitlymple aggregation operator is not allowed either explicitly
-						or .</li>
+					<li>The Sample aggregation operator is not allowed either explicitly
+						or implicitly.</li>
 				</ol>
 			</section>
 		</section>
@@ -248,23 +248,23 @@
 					<li><a>k-th order data structure</a>, k = 0, 1, ...</li>
 					<li><a>k-th order associative data structure</a>, k = 0, 1, ...</li>
 					<li><a>k-th order data sequence</a>, k = 0, 1, ...</li>
-					<li><a>k-th order dataset</a>, k = 0, 1, ...</li>
+					<li><a>k-th order associative tree</a>, k = 0, 1, ...</li>
 					<li><a>k-th order repository</a>, k = 1, 2, ...</li>
 					<li><a>k-th order store</a>, k = 2, 3, ...</li>
-					<!--<li><a>named data structure</a>, including <a>named dataset</a> and <a>named
+					<!--<li><a>named data structure</a>, including <a>solitary associative tree</a> and <a>named
 							repository</a>.</li>-->
-					<li>k-th order solitary data structures, k = 1, 2, ...</li>
+					<li><a>k-th order solitary association</a>, k = 1, 2, ...</li>
 				</ul>
 				<figure id="datastructure-and-existing-associative-types">
-					<img src="datastructure-and-existing-associative-types.svg" alt="" />
+					<img src="datastructure-and-existing-associative-types.svg" alt=""  width="400" />
 					<figcaption>The top type <a>k-th order data structure</a> may be decomposed into
 						three disjoint parts: <a>k-th order associative data structures</a>, <a>k-th
 							order data sequences</a>, and non-degenerate k-th order data structures,
-						i.e. those k-th order data structures having both an <a>associaive part</a>
+						i.e. those k-th order data structures having both an <a>associative part</a>
 						and a <a>sequential part</a>. The existing type of RDF graph is subsumed by
-						the <a>associative data structure</a> type, and more particularly, by the
-						type of <a>zeroth order set-structures</a>. RDF Datasets are not directly
-						represented in this type system, but are emulated by certain set-structures
+						the <a>associative data structure</a> type, and more particularly, is equal to the
+						type of <a>zeroth order associative trees</a>. RDF Datasets are not directly
+						represented in this type system, but are emulated by certain associative trees
 						of order 1 or less.</figcaption>
 				</figure>
 				<figure id="repository-types">
@@ -272,10 +272,10 @@
 					<figcaption>The <a>repository</a> type is subsumed by the <a>data structure</a>
 						type. According to the definition, the sequential part of a <a>k-th order
 							repository</a> is a non-empty sequence whose elements are named (k-1)-th
-						order datasets, k = 1, 2, ... A repository may also have an optional
-						associative part, consisting of a dataset of order k-1 or less; if there is
-						no associative part, then the repository is a <a>data sequence</a>.
-					</figcaption>
+						order associative trees, k = 1, 2, ... A repository may also have an
+						optional associative part, consisting of a associative tree of order k-1 or
+						less; if there is no associative part, then the repository is a <a>data
+							sequence</a>. </figcaption>
 				</figure>
 				<figure id="store-types">
 					<img src="store-types.svg" alt="" />
@@ -358,13 +358,12 @@
 								<td>An RDF graph is a set of RDF triples. </td>
 							</tr>
 							<tr>
-								<td><dfn data-lt="RDF Datasets|RDF 1.1 Dataset|RDF 1.1 Datasets">RDF
-										dataset</dfn></td>
+								<td><dfn data-lt="RDF Datasets">RDF Dataset</dfn></td>
 								<td>[[!RDF11-Concepts]] <a
 										href="https://www.w3.org/TR/rdf11-concepts/#section-dataset"
 										>#section-dataset</a>
 								</td>
-								<td>An RDF dataset is a collection of <a>RDF graphs</a>, and
+								<td>An RDF Dataset is a collection of <a>RDF graphs</a>, and
 									comprises: <ul>
 										<li>Exactly one <dfn data-lt="default graphs">default
 												graph</dfn>, being an <a>RDF graph</a>. The default
@@ -373,7 +372,7 @@
 												graphs</dfn>. Each named graph is a pair consisting
 											of an IRI or a blank node (the <dfn>graph name</dfn>),
 											and an <a>RDF graph</a>. Graph names are unique within
-											an RDF dataset.</li>
+											an RDF Dataset.</li>
 									</ul>
 								</td>
 							</tr>
@@ -407,15 +406,11 @@
 					to use only sequences with finite replication of any value, corresponding to
 					multisets with finite cardinality when order is forgotten. </p>
 			</section>
-			<section id="def-datasets">
-				<h3>RDF Datasets</h3>
+			<section id="def-associative">
+				<h3>Associative Data Structures</h3>
 				<section id="def-rdf-dataset">
 					<h3>RDF Dataset</h3>
-					<p class="ednote">perhaps use "W3C RDF dataset" and similar for thse classes?
-						<br />Assuming we want to propose these concepts be accepted by W3C, then
-						they will also become "W3C" whatevers, and then the qualifier "W3C" is not
-						so meaningful anymore.</p>
-					<p>Recall that an <a>RDF dataset</a> is a collection of <a>RDF graphs</a>, and
+					<p>Recall that an <a>RDF Dataset</a> is a collection of <a>RDF graphs</a>, and
 						comprises:</p>
 					<ul>
 						<li>Exactly one <a>default graph</a>.</li>
@@ -444,24 +439,20 @@
 							</ul>
 						</li>
 					</ul>
-					<p class="ednote">perhaps use "W3C RDF dataset" and similar for these classes?
-						<br />We don't change or extend the definition of graph, so there is no need
-						for an extra qualifier. After this point, I usually drop the "RDF" and just
-						say "graph".</p>
 					<p>An RDF Graph is the only <a>associative data structure</a> that has no named
 						part, and is equal to its default part.</p>
 					<p>A named graph is a first-order <a>associative data structure</a>. It has no
 						default part and is equal to its named part.</p>
-					<p>An RDF dataset, as defined in [[!RDF-Concepts]] is either a zeroth- or
+					<p>An RDF Dataset, as defined in [[!RDF-Concepts]] is either a zeroth- or
 						first-order <a>associative data structure</a>. It always has a default part,
 						its default graph, which may be the empty graph. If it contains at least one
 						named graph, then it has a named part and its order is 1.</p>
 					<p>A <dfn data-lt="timestamped graphs">timestamped graph</dfn> is defined in
 							@@@<a href="">RDF Stream Abstract Syntax and Semantics</a> as an RDF
-						dataset with one named graph and a distinguished triple, the timestamp
+						Dataset with one named graph and a distinguished triple, the timestamp
 						triple, in its default graph having the name of the named graph as its
-						subject. A timestamped graph may be emulated by a dataset of second order or
-						less, as described in Section <a
+						subject. A timestamped graph may be emulated by a associative tree of second
+						order or less, as described in Section <a
 							href="#def-rdf-stream-as-second-order-store"></a></p>
 					<p>We define a number of syntactic operations on <a>associative data
 							structures</a> as follows. Let DS be a <a>associative data structure</a>
@@ -541,13 +532,13 @@
 						are some cases:</p>
 					<ul>
 						<li>The default part of a <a>associative data structure</a>, including
-								<a>datasets</a>, is usually of lower order, while the named part, if
-							it exists, is of the same order. The exception is an RDF graph
-							(zeroth-order dataset), which is equal to its default part, and so they
-							have the same order, which is 0. The order reflects the maximum number
-							of names that can be "attached" to a triple in the structure - 0 for a
-							graph, 1 for a named graph, and so on. I include the occurrences of
-							DEFAULT in this reckoning.</li>
+								<a>associative trees</a>, is usually of lower order, while the named
+							part, if it exists, is of the same order. The exception is an RDF graph
+							(zeroth-order associative tree), which is equal to its default part, and
+							so they have the same order, which is 0. The order reflects the maximum
+							number of names that can be "attached" to a triple in the structure - 0
+							for a graph, 1 for a named graph, and so on. I include the occurrences
+							of DEFAULT in this reckoning.</li>
 						<li>The order function has not been defined on general <a>data
 							sequences</a>. If I would define it, I would make it the maximum order
 							of all of its elements, assuming that maximum exists. This is consistent
@@ -559,9 +550,9 @@
 							graph has order 1 (1 name attached to each triple), while the contents,
 							a graph, has order 0. </li>
 						<li>The associative part of a repository is of lower order, while the
-							elements of the sequential part (versions) are named datasets that have
-							the same order as the repository. The version contents have order less
-							than the order of the repository.</li>
+							elements of the sequential part (versions) are named associative trees
+							that have the same order as the repository. The version contents have
+							order less than the order of the repository.</li>
 						<li>A store with order k+2 can have a default repository of order k+1, and
 							k+2-th order named repositories (the contents of the named repository is
 							order k+1 or less). The repositories that are the contents of the named
@@ -620,14 +611,14 @@
 							<td>Assoc<sub>k</sub>(structure<sub>&le; k-1</sub>)</td>
 						</tr>
 						<tr>
-							<td>set-structure<sub>0</sub></td>
+							<td>associative-tree<sub>0</sub></td>
 							<td>::=</td>
 							<td>RDF Graph</td>
 						</tr>
 						<tr>
-							<td>set-structure<sub>k</sub>, k &gt; 0</td>
+							<td>associative-tree<sub>k</sub>, k &gt; 0</td>
 							<td>::=</td>
-							<td>Assoc<sub>k</sub>(set-structure<sub>&le; k-1</sub>)</td>
+							<td>Assoc<sub>k</sub>(associative-tree<sub>&le; k-1</sub>)</td>
 						</tr>
 						<tr>
 							<td>Seq(X)</td>
@@ -676,9 +667,9 @@
 							<td>&cup;<sub>i &le; k</sub> associative<sub>i</sub></td>
 						</tr>
 						<tr>
-							<td>set-structure<sub>&le; k</sub>, k &ge; 0</td>
+							<td>associative-tree<sub>&le; k</sub>, k &ge; 0</td>
 							<td>::=</td>
-							<td>&cup;<sub>i &le; k</sub> set-structure<sub>i</sub></td>
+							<td>&cup;<sub>i &le; k</sub> associative-tree<sub>i</sub></td>
 						</tr>
 						<tr>
 							<td>sequence<sub>&le; k</sub>, k &ge; 0</td>
@@ -686,17 +677,17 @@
 							<td>&cup;<sub>i &le; k</sub> sequence<sub>i</sub></td>
 						</tr>
 						<tr>
-							<td>solitary-set-structure<sub>k</sub>, k &gt; 0</td>
+							<td>solitary-association<sub>k</sub>, k &gt; 0</td>
 							<td>::=</td>
-							<td>{x &in; set-structure<sub>k</sub> | cardinality(names(x)) = 1 and
+							<td>{x &in; associative-tree<sub>k</sub> | cardinality(names(x)) = 1 and
 								hasDefault(x) = False}</td>
 						</tr>
 						<tr>
 							<td>repository<sub>k</sub>, k &ge; 1</td>
 							<td>::&lt;</td>
-							<td>Seq<sup>+</sup>(solitary-set-structure<sub>k</sub>) &cup;
-									(set-structure<sub>&le; k-1</sub> x
-									Seq<sup>+</sup>(solitary-set-structure<sub>k</sub>) )</td>
+							<td>Seq<sup>+</sup>(solitary-association<sub>k</sub>) &cup;
+								(associative-tree<sub>&le; k-1</sub> x
+									Seq<sup>+</sup>(solitary-association<sub>k</sub>) )</td>
 						</tr>
 						<tr>
 							<td></td>
@@ -707,7 +698,7 @@
 							<td>store<sub>k</sub>, k &ge; 2</td>
 							<td>::&lt;</td>
 							<td> (Assoc<sub>k</sub>(repository<sub>k-1</sub>) x
-									Seq<sup>+</sup>(solitary-set-structure<sub>k</sub>) )</td>
+									Seq<sup>+</sup>(solitary-association<sub>k</sub>) )</td>
 						</tr>
 						<tr>
 							<td></td>
@@ -716,49 +707,6 @@
 						</tr>
 						<!-- Not done yet
 						<tr>
-							<td>dataset-structure<sub>i</sub></td>
-							<td>::=</td>
-							<td>(structure<sub>i-1</sub> x ((name x structure<sub>i-1</sub>))) -
-								with variations </td>
-						</tr>
-						<tr>
-							<td>named-dataset-structure<sub>i</sub></td>
-							<td>::=</td>
-							<td>(nil x ((name x dataset-structure<sub>i</sub>))) - with variations
-							</td>
-						</tr>
-						<tr>
-							<td>data-structure<sub>i</sub></td>
-							<td>::=</td>
-							<td>(structure<sub>i</sub> x sequence<sub>i</sub>) </td>
-						</tr>
-						<tr>
-							<td>named-data-structure<sub>i</sub></td>
-							<td>::=</td>
-							<td>{n, structure<sub>i-1</sub>, k} </td>
-						</tr>
-						<tr>
-							<td>named-dataset-structure<sub>i</sub></td>
-							<td>::=</td>
-							<td>(nil x ((name x dataset-structure<sub>i</sub>))) - with variations
-							</td>
-						</tr>
-						<tr>
-							<td>repository<sub>i</sub></td>
-							<td>::=</td>
-							<td>?</td>
-						</tr>
-						<tr>
-							<td>named-repository<sub>i</sub></td>
-							<td>::=</td>
-							<td>?</td>
-						</tr>
-						<tr>
-							<td>store<sub>i</sub></td>
-							<td>::=</td>
-							<td>?</td>
-						</tr>
-						<tr>
 							<td>stream<sub>i</sub></td>
 							<td>::=</td>
 							<td>?</td>
@@ -766,70 +714,56 @@
 						-->
 					</table>
 				</section>
-				<section id="def-kth-order-dataset">
-					<h4>k-th order RDF Dataset</h4>
+				<section id="def-kth-order-associative tree">
+					<h4>k-th order RDF Associative Tree</h4>
 					<p class="ednote">perhaps use "Stream RDF dataset" "RDF stream dataset" "RDF
 						dataset structure" or similar for these classes? <br />"dataset structure"
 						might work, I guess, to distingush from the RDF Dataset defined in RDF 1.1.
 						If we take our way of emulating RDF Streams and make it a type, then we
 						could call it an RDF Stream Store.</p>
 					<p>A <dfn
-							data-lt="k-th Order RDF Datasets|k-th Order Dataset|k-th Order Datasets|Dataset|Datasets"
-							>k-th Order RDF Dataset</dfn> is a <a>k-th order associative data
-							structure</a> DS with the following properties. </p>
+							data-lt="k-th Order RDF Associative Trees|k-th Order Associative Tree|k-th Order Associative Trees|Associative Tree|Associative Trees"
+							>k-th Order RDF Associative Tree</dfn> is a <a>k-th order associative
+							data structure</a> DS with the following properties. </p>
 					<ul>
-						<li>If k &gt; 0, then <a>defaultPart</a>(DS) is a <a>dataset</a> of order
-							k-1 or less.</li>
+						<li>If k &gt; 0, then <a>defaultPart</a>(DS) is a <a>associative tree</a> of
+							order k-1 or less.</li>
 						<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is a
-								<a>dataset</a> of order k-1 or less.</li>
+								<a>associative tree</a> of order k-1 or less.</li>
 					</ul>
-					<p class="note">Every RDF Graph is a zeroth-order RDF dataset, and every
-						zeroth-order RDF dataset is an RDF Graph.</p>
-					<p class="note"> A first-Order RDF Dataset is an RDF Dataset according to the
-						definition in [[!RDF11-Concepts]]. However not every RDF Dataset, in the
-						sense of [[!RDF11-Concepts]], is a first-order <a>dataset</a>, because it
-						may have zero named graphs. In that case it is a zeroth-order
-						<a>dataset</a>. </p>
-					<p class="note"> Hereafter in this document, "dataset", without modification,
-						means a <a>k-th Order RDF Dataset</a> for arbitrary k. When the original
-						concept of RDF Dataset is intended, we use the term <a>RDF 1.1 Dataset</a>
-						for clarity. (see notes, above)</p>
+					<p class="note">Every RDF Graph is a zeroth-order RDF associative tree, and
+						every zeroth-order RDF associative tree is an RDF Graph.</p>
+					<p class="note"> A first-Order associative tree is similar to an RDF Dataset
+						according to the definition in [[!RDF11-Concepts]]. However not every RDF
+						Dataset, in the sense of [[!RDF11-Concepts]], is a first-order
+							<a>associative tree</a>, because it may have zero named graphs. In that
+						case it is a zeroth-order <a>associative tree</a>. </p>
 					<p class="ednote">To be clarified in a separate semantics section: just as there
-						is not a single recommended semantics for RDF 1.1 Datasets, it is important
-						to be inclusive regarding possible semantics for k-th Order RDF Datasets. An
-						important consideration is whether the component Named Datasets lie on a
+						is not a single recommended semantics for RDF Datasets, it is important to
+						be inclusive regarding possible semantics for k-th order associative trees.
+						An important consideration is whether the components of the tree lie on a
 						single <a>RDF Surface (sensu Pat Hayes)</a>, i.e. do they share blank nodes. </p>
 					<p>A <dfn
-							data-lt="Named k-th Order RDF Datasets|Named Dataset|Named Datasets|Named k-th Order Dataset|Named k-th Order Datasets"
-							>Named k-th Order RDF Dataset</dfn> is a named <a>associative data
-							structure</a> of order k+1 whose content is a <a>dataset</a> of order k
-						or less.</p>
-					<p class="example" title="Named Graph">A named graph is a named zeroth-order RDF
-						dataset. Note that the order of a named graph is 1.</p>
-					<p class="ednote"> this is confusing. for "k-th Order RDF Dataset", "For every n
-						in names(DS), content(n, DS) is a dataset of order k-1 or less." here,
-						however, it is of order "k". ? <br />I see your point. The order works out
-						that way because a named k-th order dataset has order k+1 (since order has
-						to do with counting names attached to triples, and the naming "process"
-						attaches one or more names to the triples that are in the contents.) As an
-						example, a named graph is a named zeroth-order dataset, and it itself is a
-						first-order dataset. We could instead refer to a (k+1)-th order named
-						dataset. For example, a named graph would be called a first-order named
-						dataset. Since this terminology is used many times in the document, I would
-						like to discuss this with you before making the change globally.</p>
-					<p class="note"> Hereafter in this document, <a>named dataset</a>, without
-						modification, means a <a>named k-th Order RDF dataset</a> where k is not
-						specified. </p>
-					<p>We define syntactic operations on <a>datasets</a> as follows. Let E be an
-						arbitrary entity. </p>
+							data-lt="Solitary k-th Order RDF Associative Trees|Solitary Associative Tree|Solitary Associative Trees|Solitary k-th Order Associative Tree|Solitary k-th Order Associative Trees"
+							>Solitary k-th Order RDF Associative Tree</dfn> is a named
+							<a>associative data structure</a> of order k+1 whose content is a
+							<a>associative tree</a> of order k or less.</p>
+					<p class="example" title="Named Graph">A named graph is not precisely
+						accommodated in the associative tree type, but can be emulated by a
+						first-order solitary associative tree.</p>
+					<p class="note"> Hereafter in this document, <a>solitary associative tree</a>,
+						without modification, means a <a>k-th order solitary associative tree</a>
+						where k is not specified. </p>
+					<p>We define syntactic operations on <a>associative trees</a> as follows. Let E
+						be an arbitrary entity. </p>
 					<ul>
-						<li><dfn>isDataset</dfn>(E) is true if E is a <a>dataset</a>; otherwise it
-							is false.</li>
+						<li><dfn>isDataset</dfn>(E) is true if E is a <a>associative tree</a>;
+							otherwise it is false.</li>
 					</ul>
 					<p class="note">The constructor <a>Associative<sub>k</sub></a> defined for
-						general associative data structures works as well for <a>datasets</a> of
-						arbitrary order.</p>
-					<p>If N is a set of names and DS is a <a>k-th order dataset</a>, then
+						general associative data structures works as well for <a>associative
+							trees</a> of arbitrary order.</p>
+					<p>If N is a set of names and DS is a <a>k-th order associative tree</a>, then
 							<dfn>content-UNION</dfn>(N, DS) is defined as
 						<a>Dataset-UNION</a>({content(n, DS)|n is in N}) .</p>
 					<p class="ednote">All these functions need to be added to the table of
@@ -905,8 +839,8 @@
 							[DS]</p></aside>
 					<aside>A Graph Store in the sense of [[!SPARQL11-Update]] is most closely
 						related, of the <a>data structures</a> considered in this document, to a
-							<a>data sequence</a> where each element is a <a>dataset</a> of first
-						order or less. </aside>
+							<a>data sequence</a> where each element is a <a>associative tree</a> of
+						first order or less. </aside>
 					<p>In the spirit of [[!SPARQL11-Update]], we define the <dfn>Revise</dfn>
 						operation as an explicit operation acting on a <dfn>terminated data
 							sequence</dfn> (i.e a <a>data sequence</a> where <a>hasGreatest</a> is
@@ -978,7 +912,7 @@
 						than this, similar to the other definitions, where we don't refer to a
 						particular structure (set, tuple, etc.) except in special cases.. In this
 						approach, a named data structure ND is simply a associative data structure,
-						of order 1 or more, for which <a>isNamed</a>(ND) is true. It is required
+						of order 1 or more, for which <a>isSolitary</a>(ND) is true. It is required
 						that <a>hasDefault</a>(ND) is false, <a>hasNamed</a>(ND) is true, DS =
 							<a>named</a>(DS), and <a>names</a> is a set with one member, that member
 						being equal to name(DS). Letting contents(DS) = contents(name(DS),DS), then
@@ -999,8 +933,9 @@
 						order(DS) &lt; k-1) where n is the name of the named data structure and data
 						structure DS is the content of the named data structure. </p>
 					<p class="ednote">Alternate Definition, cont.: A <dfn
-							data-lt="k-th order named datasets">k-th order named dataset</dfn> is a
-							<a>k-th order named data structure</a> whose content is a dataset.</p>
+							data-lt="k-th order named associative trees">k-th order named
+							associative tree</dfn> is a <a>k-th order named data structure</a> whose
+						content is a associative tree.</p>
 					<p>We define a number of syntactic operations on <a>data structures</a> as
 						follows. Let DS be a <a>data structure</a>. </p>
 					<ul>
@@ -1020,7 +955,7 @@
 					<p class="note">If a k-th order <a>data structure</a> has no sequential part,
 						then its associative part is itself (associativePart(DS) = DS). In that case
 						it is a k-th order <a>associative data structure</a>, e.g. an RDF graph
-						(k=0) or k-th order <a>dataset</a>.</p>
+						(k=0) or k-th order <a>associative tree</a>.</p>
 					<p class="note">If a k-th order data structure DS does not have a associative
 						part, then sequentialPart(DS) = DS; in this case, the data structure is a
 							<a>data sequence</a>. In particular, it is a sequence of k-th order
@@ -1053,13 +988,14 @@
 							>k-th Order RDF Repository</dfn> is a special case of <a>k-th order RDF
 							data structure</a> that is defined by the following cases. </p>
 					<ol>
-						<!--<li>A zeroth-order RDF Repository is a zeroth-order <a>dataset</a>. </li>-->
+						<!--<li>A zeroth-order RDF Repository is a zeroth-order <a>associative tree</a>. </li>-->
 						<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has an optional
-								<a>dataset</a> of k-th order or less for its associative part and
-							a<!--n optional--> non-empty <a>data sequence</a> of <a>named k-th order
-								datasets</a> for its sequential part. The names of the datasets in
-							this sequence are unique. Further, the contents of adjacent named
-							datasets in the sequence are distinct.</li>
+								<a>associative tree</a> of k-th order or less for its associative
+							part and a<!--n optional--> non-empty <a>data sequence</a> of <a>named
+								k-th order associative trees</a> for its sequential part. The names
+							of the associative trees in this sequence are unique. Further, the
+							contents of adjacent named associative trees in the sequence are
+							distinct.</li>
 					</ol>
 					<aside class="ednote">
 						<p>The motivation for allowing the sequential part of a repository to be
@@ -1067,17 +1003,18 @@
 							repository to be initialized with its associative part without
 							specifying an initial version. However, this provision led to problems
 							in deterministically specifying the order of a repository that has no
-							sequential part. For example, a first-order dataset could have been the
-							associative part of an m-th order repository, for any m &gt; 1. As a
-							dataset, its order would be 1, but as a repository its order would be 2
-							or higher. To fix this problem, the current version of the definition
-							makes the sequential part required, with at least one element that is a
-							named k-th order dataset. Further, the definition was changed to make
-							the associative part optional, so that pure data sequences of named
-							datasets could be considered repositories as well. Finally, the
-							zeroth-order repository, which was just an RDF graph, has been omitted,
-							since it was no longer compatible with a structure that had a required
-							sequential part for positive orders. Other options considered were:</p>
+							sequential part. For example, a first-order associative tree could have
+							been the associative part of an m-th order repository, for any m &gt; 1.
+							As a associative tree, its order would be 1, but as a repository its
+							order would be 2 or higher. To fix this problem, the current version of
+							the definition makes the sequential part required, with at least one
+							element that is a named k-th order associative tree. Further, the
+							definition was changed to make the associative part optional, so that
+							pure data sequences of named associative trees could be considered
+							repositories as well. Finally, the zeroth-order repository, which was
+							just an RDF graph, has been omitted, since it was no longer compatible
+							with a structure that had a required sequential part for positive
+							orders. Other options considered were:</p>
 						<ol>
 							<li>Make the sequential part required as above, but allow it to be an
 								empty sequence with a specified type. This would require redefining
@@ -1109,10 +1046,10 @@
 					</figure>-->
 					<p class="note">A k-th Order RDF Repository, k &gt; 0, may be viewed as a k-th
 						Order RDF Dataset with the additional structure of a total order on its
-							<a>named datasets</a>. However, the additional requirements on adjacent
-						contents being distinct emphasizes the motivation of this definition as a
-						model of a mutable dataset, where each element of the sequence describes a
-						named "snapshot" of the dataset.</p>
+							<a>named associative trees</a>. However, the additional requirements on
+						adjacent contents being distinct emphasizes the motivation of this
+						definition as a model of a mutable associative tree, where each element of
+						the sequence describes a named "snapshot" of the associative tree.</p>
 					<p class="ednote">To be clarified in Eval section: The associative part of the
 						repository plays the role of background knowledge, which is unioned with
 						every snapshot prior to query.</p>
@@ -1120,11 +1057,12 @@
 					<p>Each element of the sequential part of R is called a <dfn>version</dfn> of R.
 						The function <dfn>isVersionOf</dfn>(U, R) is defined for all entities U, and
 						is true exactly when <a>isMemberOf</a>(U, sequentialPart(R)) is true. </p>
-					<p class="ednote">As written, a <a>version</a> is a named dataset. It may seem
-						more intuitive to refer to the content of that named dataset as the version.
-						However, it is quite possible for two (non-adjacent) versions to have the
-						same content (i.e. a rollback). If we used only the content as the version,
-						then it would not be clear which of these versions we were referring to.</p>
+					<p class="ednote">As written, a <a>version</a> is a named associative tree. It
+						may seem more intuitive to refer to the content of that named associative
+						tree as the version. However, it is quite possible for two (non-adjacent)
+						versions to have the same content (i.e. a rollback). If we used only the
+						content as the version, then it would not be clear which of these versions
+						we were referring to.</p>
 					<p>We say a version U is a <dfn>previous version</dfn> of version V in the
 						context of R if <a>previousTo</a>(U, V; sequentialPart(R)) is true, and
 						similarly V is called a <dfn>following version</dfn> of U in the context of
@@ -1152,8 +1090,8 @@
 							<dfn>hasTerminalVersion</dfn>, <dfn>terminalVersionOf</dfn>, and
 							<dfn>succeedingVersion</dfn>.</p>
 					<p class="ednote">Here is where it appears to be important to use the named
-						dataset as the version, or to refer to version by name rather than by
-						content. Because the same content can be associated with more than one
+						associative tree as the version, or to refer to version by name rather than
+						by content. Because the same content can be associated with more than one
 						version name in the same repository, so the preceding version of that
 						content would not be uniquely defined.</p>
 					<p>We say that each non-initial version <dfn>revises</dfn> its preceding
@@ -1169,8 +1107,8 @@
 							<a>versionNames</a>(R); otherwise, it is false.</p>
 					<p>The function <dfn>versionContent</dfn>(n; R) is defined provided
 							<a>isVersionNameOf</a>(n, R) is true, with value being the element (a
-						named k-th order dataset) of the sequential part of R having name n.
-						Otherwise, the function is undefined.</p>
+						named k-th order associative tree) of the sequential part of R having name
+						n. Otherwise, the function is undefined.</p>
 					<p>The function <dfn>hasNext</dfn>(n; R) is true provided n is the name of a
 						non-terminal <a>version</a> of R (<a>isVersionNameOf</a>(n, R) is true and
 							<a>terminalVersionOf</a>(R) &ne; <a>version</a>(n; R)). </p>
@@ -1184,12 +1122,12 @@
 								<dfn>Repository<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
 						following arguments.</p>
 					<ol>
-						<li>The <a>dataset</a> of order k-1 or less that is the associative part of
-							the repository, or the reserved word NONE, indicating the repository has
-							no associative part.</li>
+						<li>The <a>associative tree</a> of order k-1 or less that is the associative
+							part of the repository, or the reserved word NONE, indicating the
+							repository has no associative part.</li>
 						<li>The ordered set of version names of the repository. </li>
-						<li>The mapping from the set of version names to <a>datasets</a> of order
-							k-1 or less that defines the versions of the repository. </li>
+						<li>The mapping from the set of version names to <a>associative trees</a> of
+							order k-1 or less that defines the versions of the repository. </li>
 					</ol>
 					<p>To satisfy the definition of <a>repository</a>, an additional requirement is
 						that the contents of adjacent versions MUST be distinct. Therefore, the
@@ -1204,8 +1142,8 @@
 						<li>The k-th order input repository to be modified.</li>
 						<li>The new repository version name, which must be distinct from version
 							names of the input repository.</li>
-						<li>The dataset of order (k-1) or less that is to be the content of the new
-							repository version.</li>
+						<li>The associative tree of order (k-1) or less that is to be the content of
+							the new repository version.</li>
 						<li>An <a>Append2Repository</a> operation cannot be vacuous; the contents of
 							the new repository version must be different than the contents of the
 							preceding version (i.e. the terminal version of the input
@@ -1241,33 +1179,35 @@
 						"current <a>version</a> pointer" to the <a>succeeding version</a>. </p>
 				</section>
 				<section id="def-named-kth-order-repository">
-					<h4>Named k-th Order RDF Repository</h4>
+					<h4> k-th Order Solitary Repository Association</h4>
 					<p>A <dfn
-							data-lt="Named k-th Order RDF Repositories|Named RDF Repository|Named RDF Repositories|Named Repository|Named Repositories"
-							>Named k-th Order RDF Repository</dfn> is a <a>named data structure</a>
-						whose content is a <a>k-th order repository</a>. </p>
+							data-lt="k-th Order Solitary Repository Associations|Solitary Repository Association|Solitary Repository Associations"
+							>k-th Order Solitary Repository Association</dfn> is a <a>k-th order
+							solitary associative data structure</a> whose content is a <a>(k-1)-th
+							order repository</a>. </p>
 					<p class="ednote">To be clarified in the section on the extension of Eval on
-						named repositories: Under the provenance entailment regime a <a>named RDF
-							repository</a> has additional entailments that the name of each version
-						is related to the name of the parent RDF Repository by the <a
+						Solitary Repository Associations: Under the provenance entailment regime a
+							<a>Solitary Repository Association</a> has additional entailments that
+						the name of each version is related to the name of the parent RDF Repository
+						by the <a
 							href="https://www.w3.org/TR/2012/WD-prov-o-20120503/#specializationOf"
 							>prov:specializationOf</a> property. </p>
 					<p class="ednote">To be clarified in the section on the extension of Eval to
-						named repositories: For a named repository, e.g. within a store, the
-						provenance entailment regime also includes an additional property,
-							<code>repo:isInitialVersionOf</code>, with object being the name of the
-						repository. A new namespace (prefix "repo") needs to be defined. These
-						properties can be used to define operations on <a>data sequences</a> and
-							<a>data structures</a> that extract parts of the sequence (e.g.
-						foot(initial version), and subsequences related to that, such as the first
-						10 versions) that are monotonic relative to update operations. </p>
+						Solitary Repository Associations: For a Solitary Repository Association,
+						e.g. within a store, the provenance entailment regime also includes an
+						additional property, <code>repo:isInitialVersionOf</code>, with object being
+						the name of the repository. A new namespace (prefix "repo") needs to be
+						defined. These properties can be used to define operations on <a>data
+							sequences</a> and <a>data structures</a> that extract parts of the
+						sequence (e.g. foot(initial version), and subsequences related to that, such
+						as the first 10 versions) that are monotonic relative to update operations. </p>
 					<p class="ednote">To be clarified in the section on the extension of Eval to
-						repositories and named repositories: a "repository structure entailment
-						regime" could be defined as an extension of the monotonic provenance
-						entailment regime, relaxing the requirement for monotonicity with respect to
-						update operations. This regime could then include entailments regarding the
-						terminal version, using <code>repo:isTerminalVersion</code> and
-							<code>repo:isTerminalVersionOf</code>. These properties could be used as
+						repositories and Solitary Repository Associations: a "repository structure
+						entailment regime" could be defined as an extension of the monotonic
+						provenance entailment regime, relaxing the requirement for monotonicity with
+						respect to update operations. This regime could then include entailments
+						regarding the terminal version, using <code>repo:isTerminalVersion</code>
+						and <code>repo:isTerminalVersionOf</code>. These properties could be used as
 						the basis for basic operations on <a>data sequences</a> and <a>data
 							structures</a> that extract parts of the sequence, e.g. head, tail and
 						subsequences related to these) that are nonmonotonic relative to update
@@ -1289,9 +1229,9 @@
 								whose named part consists of one or more named (k+1)-th order
 								repositories, called named repositories of the store. </li>
 							<li>It has a sequential part which is a non-empty <a>data sequence</a>
-								whose elements are named (k+1)-th order datasets, called versions of
-								the store. The ordered set SV of the names of these versions are the
-									<dfn>version names of the store</dfn>.</li>
+								whose elements are named (k+1)-th order associative trees, called
+								versions of the store. The ordered set SV of the names of these
+								versions are the <dfn>version names of the store</dfn>.</li>
 							<li>The associative and sequential parts of a store St satisfy the
 								following consistency requirements.</li>
 							<ul>
@@ -1342,12 +1282,12 @@
 						<li>The new store version name, which must be distinct from previous store
 							version names.</li>
 						<li>A mapping M<sub>default</sub> from zero or one name (the new version
-							name of the default repository) to a dataset of order (k-2) or
+							name of the default repository) to a associative tree of order (k-2) or
 							less.</li>
 						<li>A mapping M<sub>named</sub> from zero or more repository names to
-							mappings from zero or one new version names to datasets of order (k-2)
-							or less. The repository names may be repository names of the input store
-							or may be new repository names. </li>
+							mappings from zero or one new version names to associative trees of
+							order (k-2) or less. The repository names may be repository names of the
+							input store or may be new repository names. </li>
 						<li>A mapping M<sub>new</sub> from zero or more repository names to
 							repositories of order (k-1) or less having exactly one version. The
 							repository names MUST be new for the store. </li>
@@ -1382,9 +1322,9 @@
 					<p> Let <dfn>Map</dfn> be a basic operation on sequences that applies a unary
 						function to every element of the sequence, producing a new sequence.</p>
 					<p>We define the basic operation <dfn>Restrict</dfn> whose signature is a first
-						argument of a <a>data sequence</a> of <a>named datasets</a> of k-th order or
+						argument of a <a>data sequence</a> of <a>named associative trees</a> of k-th order or
 						less, for some fixed k, and second argument a name or set of names, and
-						output is a <a>data sequence</a> of datasets of (k-1)-th order or less.</p>
+						output is a <a>data sequence</a> of associative trees of (k-1)-th order or less.</p>
 					<p> Let DSQ = [ [n<sub>i</sub>, DSQ<sub>i</sub>, k+1]]<sub>i in <i>I</i></sub>.
 						Let I<sub>m</sub> = {i|i in I such that m is in names(DSQ<sub>i</sub>)}.
 						Further let I<sub>M</sub> = Union<sub>m in M</sub> I<sub>m</sub>. Then </p>
@@ -1473,9 +1413,9 @@
 								{[m, n] | n in RP'<sub>ext</sub>, m in dom(M'<sub>n</sub>) }, the
 								set of <a>namePairs</a> of the output store.</li>
 							<li>A relation Rel<sub>data</sub> on NP x NP'. This relation describes
-								the subsampling, duplication, and rearrangment of datasets from the
-								input store to the output store, possibly including dataset
-								unions.</li>
+								the subsampling, duplication, and rearrangment of associative trees
+								from the input store to the output store, possibly including
+								associative tree unions.</li>
 						</ol>
 						<p>There are certain additional constraints on the arguments or output of
 								<a>StoreTransformation</a>, as follows.</p>
@@ -1672,7 +1612,7 @@
 							applying the query to the contents of the associated version of the
 							store. </p>
 						<p>We next define a basic operation <dfn>Sequence-UNION</dfn> that operates
-							on <a>data sequences</a> of datasets of k-th order or less. The result
+							on <a>data sequences</a> of associative trees of k-th order or less. The result
 							is the value of applyling <a>Dataset-UNION</a> to the set of all
 							elements in the sequence. That is,</p>
 						<p>Sequence-UNION([D<sub>i</sub>]<sub>i in <i>I</i></sub>) =
@@ -1681,7 +1621,7 @@
 							first argument a store, and second argument is a sequence of patterns.
 							For each pattern in the sequence, the operation Restrict-FILTER is
 							performed, and then Sequence-UNION is applied to the result, generating
-							a sequence of datasets as the final result.</p>
+							a sequence of associative trees as the final result.</p>
 						<p>That is,</p>
 						<p><a>Window</a>(ST, [P<sub>i</sub>]<sub>i in <i>I</i></sub>)=
 							[Sequence_UNION(Restrict_FILTER(ST, P<sub>i</sub>))]<sub>i in
@@ -1702,10 +1642,10 @@
 					<p>Many <a>k-th order repositories</a> can be converted into a <a>k-th order
 							store</a> by supplying (or minting) the additional version names
 						necessary to generate (k-1)-th order repositories corresponding to the
-						(k-1)-th order named datasets in the repository version contents. The
-						primary requirement for this to be possible is that once a dataset name
-						disappears from a repository version, it cannot reappear in a later
-						version.</p>
+						(k-1)-th order named associative trees in the repository version contents.
+						The primary requirement for this to be possible is that once a associative
+						tree name disappears from a repository version, it cannot reappear in a
+						later version.</p>
 				</section>
 			</section>
 			<section id="def-streams">
@@ -1742,7 +1682,8 @@
 					</ul>
 					<p>To get back the parts of a timestamped graph, we define the following basic
 						operations as shortcuts for CONSTRUCT-form queries of the second-order
-						dataset representing the timestamped graph under simple entailment.</p>
+						associative tree representing the timestamped graph under simple
+						entailment.</p>
 					<ul>
 						<li><dfn>timestampTriple</dfn>(TSG) = {n p t.}</li>
 						<li>other?</li>
@@ -1886,8 +1827,8 @@
 						of an abstract data structure having an (optional) associative part and an
 						(optional) sequential part. This same abstraction holds for:</p>
 					<ul>
-						<li>data strucutures with triples as the fundamental type (datasets,
-							repositories, stores, streams)</li>
+						<li>data strucutures with triples as the fundamental type (associative
+							trees, repositories, stores, streams)</li>
 						<li>data structures with solution mappings as the fundamental type
 							(structured results)</li>
 					</ul>
@@ -1912,7 +1853,7 @@
 			</section>
 			<section id="def-existing-basic">
 				<h3>Basic Operations</h3>
-				<section id="def-existing-basic-dataset-union">
+				<section id="def-existing-basic-associative tree-union">
 					<h4>Dataset-UNION</h4>
 					<p><dfn>Dataset-UNION</dfn> is defined in [[!SPARQL11-Update]] as a basic
 						operation with the following signature:</p>
@@ -1943,23 +1884,24 @@
 						existing <a>RDF 1.1 Datasets</a> by forming the union of the <a>default
 							graphs</a>, and taking the union of the sets of <a>named graphs</a>,
 						with the exception that if the sets of graph names of the two <a>RDF 1.1
-							datasets</a> have a non-empty intersection, the <a>graphs</a> with names
+							Datasets</a> have a non-empty intersection, the <a>graphs</a> with names
 						in that intersection must be combined by set union. </p>
 					<p> We extend the Dataset-UNION operation to <a>k-th Order RDF Datasets</a>.
 						Also, the names are extended from IRIs to also allow <a>blank node</a>
 						names. </p>
 					<ul>
-						<li>On the domain <a>k-th order dataset</a> x k'-th order <a>dataset</a>,
-							the range is max(k, k')-th order <a>dataset</a>.</li>
-						<li>On the domain of sets of <a>datasets</a> of order k or less, the range
-							is <a>k-th order datasets</a>.</li>
+						<li>On the domain <a>k-th order associative tree</a> x k'-th order
+								<a>associative tree</a>, the range is max(k, k')-th order
+								<a>associative tree</a>.</li>
+						<li>On the domain of sets of <a>associative trees</a> of order k or less,
+							the range is <a>k-th order associative trees</a>.</li>
 					</ul>
 					<p>The extended semantics of <a>Dataset-UNION</a> is defined by cases as
 						follows.</p>
 					<p>In the case of two arguments DSP, DSP':</p>
 					<ul>
-						<li>If DSP and DSP' are both zeroth-order <a>datasets</a>, i.e., <a>RDF
-								Graphs</a>, then the result is the union of the sets of
+						<li>If DSP and DSP' are both zeroth-order <a>associative trees</a>, i.e.,
+								<a>RDF Graphs</a>, then the result is the union of the sets of
 								<a>triples</a> in the two <a>graphs</a>. </li>
 						<li>If order(DSP) = order(DSP') = k &gt; 0, then <br /> Dataset-UNION(DSP,
 							DSP') = Associative<sub>k</sub>( Dataset-UNION(default(DSP),
@@ -1975,8 +1917,8 @@
 							where result-nameMap = { name = > content(name, DSP) | name in
 							names(DSP)} </li>
 					</ul>
-					<p>In the case of a single argument S that is a set of <a>datasets</a> of order
-						k or less, the value is defined inductively as follows.</p>
+					<p>In the case of a single argument S that is a set of <a>associative trees</a>
+						of order k or less, the value is defined inductively as follows.</p>
 					<ul>
 						<li>if S = {}, then Dataset-UNION(S) = {}.</li>
 						<li>if order(s) = 0 for every s in S (i.e. s is an <a>RDF graph</a>), then
@@ -1996,22 +1938,22 @@
 						operation to pairs of <a>repositories</a> or <a>stores</a> by first applying
 						a forgetful functor that retains all the versions but forgets the order
 						among them. However, the result is not a <a>repository</a> or <a>store</a>,
-						but is just a <a>dataset</a>. To truly extend the UNION operation to
-							<a>repositories</a> and <a>stores</a> to generate new
-							<a>repositories</a> and <a>stores</a>, it would be necessary to mint new
-						version names and to specify how versions are ordered and combined when
-						necessary e.g. according to timestamps, but timestamps are not mandatory in
-						our definitions There is no precedent for such definitions, since the Update
-						spec does not define a union operation on Graph Stores. </p>
+						but is just a <a>associative tree</a>. To truly extend the UNION operation
+						to <a>repositories</a> and <a>stores</a> to generate new <a>repositories</a>
+						and <a>stores</a>, it would be necessary to mint new version names and to
+						specify how versions are ordered and combined when necessary e.g. according
+						to timestamps, but timestamps are not mandatory in our definitions There is
+						no precedent for such definitions, since the Update spec does not define a
+						union operation on Graph Stores. </p>
 					<p class="ednote">We do define a special case of "union" for <a>repositories</a>
-						that are all members of the same <a>store</a> using the <a>Sequential-UNION</a>
-						operation.</p>
+						that are all members of the same <a>store</a> using the
+							<a>Sequential-UNION</a> operation.</p>
 				</section>
 				<section>
 					<h4>Other Basic Operations</h4>
 					<p class="ednote">Similarly, the basic operations of Dataset-DIFF and Dataset
-						will be extended to <a>k-th order datasets</a>. The Dataset operation will
-						also be extended to <a>k-th order patterns</a>. </p>
+						will be extended to <a>k-th order associative trees</a>. The Dataset
+						operation will also be extended to <a>k-th order patterns</a>. </p>
 				</section>
 			</section>
 			<section id="def-existing-update">
@@ -2028,7 +1970,7 @@
 					<p>OpInsertData(GS, <em>QuadPattern</em>) = Dataset-UNION(GS,
 							Dataset(<em>QuadPattern</em>,{},GS,GS))</p>
 					<p>where {} is the empty solution mapping,</p>
-					<p> GS is an <a>RDF 1.1 dataset</a>, and <em>QuadPattern</em> is a ground quad
+					<p> GS is an <a>RDF Dataset</a>, and <em>QuadPattern</em> is a ground quad
 						pattern. </p>
 					<p>The Insert Data operation constructs a new RDF Dataset from an existing RDF
 						Dataset by adding triples and quads to it as expressed in the ground
@@ -2075,9 +2017,9 @@
 						the names are extended from IRIs to also allow blank node names. </p>
 					<ul>
 						<li>On the domain <a>k-th Order RDF Dataset</a> x I ∪ RDF-B, the range is
-							max(k, 1)-th Order <a>datasets</a>.</li>
+							max(k, 1)-th Order <a>associative trees</a>.</li>
 						<li>On the domain <a>k-th Order RDF Dataset</a> x I ∪ RDF-B x Int, the range
-							is <a>datasets</a></li>
+							is <a>associative trees</a></li>
 					</ul>
 					<p>The extended semantics of <a>OpCreate</a> is defined as follows.</p>
 					<ul>
@@ -2097,25 +2039,26 @@
 				<section>
 					<h4>Other Update Operations</h4>
 					<p class="ednote">Similarly, the Update Operations of SPARQL Update can be
-						extended to <a>k-th order datasets</a>, making use of the extended basic
-						operations. </p>
+						extended to <a>k-th order associative trees</a>, making use of the extended
+						basic operations. </p>
 				</section>
 			</section>
 			<section id="def-new-apply-operation">
 				<h4>Apply Operation</h4>
 				<p class="ednote">The above extensions only allow management, e.g. creation of a new
-					"slot", at the top level of a <a>k-th order dataset</a>. However, it is also
-					useful to be able to apply operations at a deeper level within a <a>k-th order
-						dataset</a>. This capability can be enabled with a generic operation, called
-						<dfn>Apply</dfn>, which takes a <a>k-th order dataset</a> as first argument,
-					an Operation specification (unary function built from Operation name and tuple
-					of arguments with a placehoder in one position) as second argument, and an
-					optional third argument that is an IRI or blank node. The result would be the
-					result of applying that Operation with the appropriate (named or default)
-					(k-1)-th order dataset replacing the placeholder, and then substituting for the
-					(k-1)-th order dataset with the operation result within the original <a>k-th
-						order dataset</a>. If the name is not in the set of database names, then the
-					result would be the original dataset. </p>
+					"slot", at the top level of a <a>k-th order associative tree</a>. However, it is
+					also useful to be able to apply operations at a deeper level within a <a>k-th
+						order associative tree</a>. This capability can be enabled with a generic
+					operation, called <dfn>Apply</dfn>, which takes a <a>k-th order associative
+						tree</a> as first argument, an Operation specification (unary function built
+					from Operation name and tuple of arguments with a placehoder in one position) as
+					second argument, and an optional third argument that is an IRI or blank node.
+					The result would be the result of applying that Operation with the appropriate
+					(named or default) (k-1)-th order associative tree replacing the placeholder,
+					and then substituting for the (k-1)-th order associative tree with the operation
+					result within the original <a>k-th order associative tree</a>. If the name is
+					not in the set of database names, then the result would be the original
+					associative tree. </p>
 				<ul>
 					<li>If name is in names(DS), then APPLY(DS, Spec, name) =
 							Associative<sub>order(DS)</sub>( default(DS), names(DS),
@@ -2140,8 +2083,8 @@
 					However, this only allows manipulation of the version sequence of the store. To
 					enable direct manipulation of the version sequence of repositories within the
 					store, we extend the <a>Apply</a> Operation, defined above for <a>k-th order
-						datasets</a> and Update Operation specifications, to <a>stores</a> and
-					Revise Operation specifications on repositories (only for unnested Revise). </p>
+						associative trees</a> and Update Operation specifications, to <a>stores</a>
+					and Revise Operation specifications on repositories (only for unnested Revise). </p>
 				<p>Application of a Revise operation to a structure without a terminal version is an
 					error. </p>
 			</section>
@@ -2178,9 +2121,9 @@
 		  <p>The extended semantics of <a>OpCreate</a> is defined as follows.</p> 
 		  <p>Let S<sup>k</sup> = {R<sup>k</sup>} ∪ 
 		  {(name<sub>i</sub>, R<sup>k</sup><sub>i</sub>) | 1 ≤ i ≤ n} and 
-		  datasetNames(R<sup>k</sup>) = { name<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
+		  @@@datasetNames(R<sup>k</sup>) = { name<sub>i</sub> | 1 ≤ i ≤ n}, then</p>
 		  <p>OpCreate(S<sup>k</sup>, name) = S<sup>k</sup> ∪ {(name, R<sup>k</sup><sub>0</sub>)} 
-		  if name not in datasetNames(S<sup>k</sup>); 
+		  if name not in @@@datasetNames(S<sup>k</sup>); 
 		  otherwise, OpCreate(S<sup>k</sup>, name) = S<sup>k</sup></p>
 		  <p>
 		  where S<sup>k</sup> is a <a>k-th Order Store</a>, 
@@ -2429,8 +2372,8 @@ _:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XM
 						element of the stream, where the timestamp triple is the first triple in the
 						document. </p>
 				</aside>
-				<aside class="example" id="ex-fhir-dataset" title="FHIR Statements as RDF Dataset">
-					The information about FHIR observations can also be represented using the <a>RDF
+				<aside class="example" id="ex-fhir-tree" title="FHIR Statements as RDF Dataset"> The
+					information about FHIR observations can also be represented using the <a>RDF
 						Dataset</a> datatype. The named graph structure allows the statements of
 					each stream element to be grouped together, and also allows us to materialize,
 					in the default graph, statements giving the order among these elements. <p>Let
@@ -2449,7 +2392,7 @@ _:b103 prov:wasRevisionOf _:b102.
 					<p>D<sub>i, FHIR</sub> = Graph(b<sub>i, FHIR</sub>, G<sub>i, FHIR</sub>) and</p>
 					<p>b<sub>1, FHIR</sub>= _:b101, b<sub>2, FHIR</sub>= _:b102, b<sub>3,
 						FHIR</sub>= _:b103 .</p>
-					<p>The resulting dataset D<sub>FHIR</sub> is as follows.</p>
+					<p>The resulting associative tree D<sub>FHIR</sub> is as follows.</p>
 					<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -2496,13 +2439,14 @@ _:b103{
 </pre>
 				</aside>
 				<aside class="example" id="ex-fhir-repository"
-					title="FHIR Statements as a Repository"> The dataset above is an associative
-					data structure representing the entailment, under the provenance regime, of a
-					first-order <a>Repository</a>. We denote this repository as R<sub>FHIR</sub>. In
-					this example, the default dataset of the repository is empty. <p>We write</p>
+					title="FHIR Statements as a Repository"> The associative tree above is an
+					associative data structure representing the entailment, under the provenance
+					regime, of a first-order <a>Repository</a>. We denote this repository as
+						R<sub>FHIR</sub>. In this example, the @@@default part of the repository is
+					empty. <p>We write</p>
 					<p>R<sub>FHIR</sub> = [{}, [D<sub>i,FHIR</sub>]<sub>i=1, 2, 3</sub>]</p>
-					<p>The repository can be abstractly constructed from its component datasets
-						using basic operations:</p>
+					<p>The repository can be abstractly constructed from its component associative
+						trees using basic operations:</p>
 					<p>R<sub>FHIR</sub> = Revise(D<sub>3,FHIR</sub>, Revise(D<sub>2,FHIR</sub>,
 							Revise(D<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
 					<p> Since the sequential part of a repository may be lazily contructed, the
@@ -2535,7 +2479,7 @@ _:b103{
 _:b301 rsp:usesTimestampPredicate obs:effectiveDateTime.
 				</pre>
 					<p>The sequential part of the store ST can be abstractly constructed from its
-						component datasets using basic operations:</p>
+						elements using basic operations:</p>
 					<p>ST<sub>FHIR, sequential</sub> = Cons(ST<sub>3,FHIR</sub>,
 							Cons(ST<sub>2,FHIR</sub>, Cons(ST<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
 					<p>where</p>
@@ -2619,7 +2563,7 @@ _:m8 lr:unit "kJ"^^&lt;http://www.w3.org/2001/XMLSchema#string> ;
 		lr:value "45"^^&lt;http://www.w3.org/2001/XMLSchema#integer> .
 </pre>
 				</aside>
-				<aside class="example" id="ex-motion-datasets"
+				<aside class="example" id="ex-motion-trees"
 					title="FHIR Motion Observations as Datasets">
 					<p>Let</p>
 					<p>D<sub>i, FHIR-m</sub> = Graph(b<sub>i, FHIR-m</sub>, G<sub>i,
@@ -2688,13 +2632,13 @@ _:rn2 rsp:usesTimestampPredicate obs:effectiveDateTime.
 			</section>
 			<section id="general-stream-example">
 				<h3>General RDF Stream Example</h3>
-				<aside class="example" id="ex-prov-dataset"
-					title="FHIR Provenance in an RDF Dataset"> We consider a more general RDF Stream
-					example, showing a typical case when sets of statements have multiple temporal
-					characteristics. We construct a set of named graphs <p>NG<sub>i, FHIR</sub> =
-							Graph(nb<sub>i</sub>, G<sub>i, FHIR</sub>)</p> where <p>nb<sub>1</sub> =
-						_:b0, nb<sub>2</sub> = _:b3, nb<sub>3</sub> = _:b6 </p> and we express some
-					provenance metadata using these graph names. Let G<sub>1, prov</sub> be
+				<aside class="example" id="ex-prov-tree" title="FHIR Provenance in an RDF Dataset">
+					We consider a more general RDF Stream example, showing a typical case when sets
+					of statements have multiple temporal characteristics. We construct a set of
+					named graphs <p>NG<sub>i, FHIR</sub> = Graph(nb<sub>i</sub>, G<sub>i,
+						FHIR</sub>)</p> where <p>nb<sub>1</sub> = _:b0, nb<sub>2</sub> = _:b3,
+							nb<sub>3</sub> = _:b6 </p> and we express some provenance metadata using
+					these graph names. Let G<sub>1, prov</sub> be
 					<pre>
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
@@ -2723,8 +2667,8 @@ _:b6
 </pre>
 					In this example, we have the time of observation as one temporal
 					characteristics, and the time the observation report was generated as the second
-					temporal characteristic, The entire dataset is denoted D<sub>prov</sub> and is
-					constructed as follows <p>D<sub>prov</sub> = Dataset-UNION(
+					temporal characteristic, The entire associative tree is denoted D<sub>prov</sub>
+					and is constructed as follows <p>D<sub>prov</sub> = Dataset-UNION(
 							Dataset-UNION(D<sub>1,prov</sub>, D<sub>2,prov</sub>),
 							D<sub>3,prov</sub> ) </p> where <p> D<sub>i,prov</sub> =
 							Dataset-UNION(G<sub>i, prov</sub>, NG<sub>i, FHIR</sub>) </p> The
@@ -2810,14 +2754,14 @@ _:b0
 							(<code>lr:streamA12342015-01-01T12:00:00Z</code>). This is optional for
 						RDF streams.</p>
 				</aside>
-				<aside class="example" id="ex-prov-dataset-2"
+				<aside class="example" id="ex-prov-tree-2"
 					title="FHIR Provenance in a Second-Order Dataset"> This data can also be
 					represented using the second-order <a>Dataset</a> datatype. For this
 					representation, we use an extension of the Trig syntax to "quints". This
 					additional name allows the statements of each stream element to be grouped
 					together, and also allows us to materialize, in the default (first-order)
-					dataset, statements giving the order among these elements. The second-order
-					dataset is denoted D2<sub>prov</sub>. <pre>
+					associative tree, statements giving the order among these elements. The
+					second-order associative tree is denoted D2<sub>prov</sub>. <pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -2902,19 +2846,19 @@ _:b203 prov:wasRevisionOf _:b202.
 				</aside>
 				<aside class="example" id="ex-psrov-repository"
 					title="FHIR Provenance as a Second-Order Repository">
-					<p> The second-order dataset above is an associative data structure representing
-						the entailment, under the provenance regime, of a second-order
+					<p> The second-order associative tree above is an associative data structure
+						representing the entailment, under the provenance regime, of a second-order
 							<a>Repository</a>. The repository as a whole is denoted
-						R<sub>prov</sub>. In this example, the default dataset of the repository is
-						empty. </p>
+						R<sub>prov</sub>. In this example, the default associative tree of the
+						repository is empty. </p>
 					<p>We write</p>
 					<p>R<sub>prov</sub> = {} ∪ [ND<sub>i,prov</sub>]<sub>i=1, 2, 3</sub></p>
 					<p> For this representation, we use the same extension of the Trig syntax to
 						"quints" as in the previous example. Since repositories have sequential
 						parts, one form of the transmission of the repository would be a sequence of
-						documents representing named first-order datasets, as shown below. </p>
-					<p>The first document of the sequence is as follows. The named dataset is
-						denoted ND<sub>1, prov</sub>. </p>
+						documents representing named first-order associative trees, as shown below. </p>
+					<p>The first document of the sequence is as follows. The named associative tree
+						is denoted ND<sub>1, prov</sub>. </p>
 					<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -2941,8 +2885,8 @@ _:b201{
     }
 }	
 </pre>
-					<p>The second document of the sequence is as follows. The named dataset is
-						denoted ND<sub>2, prov</sub>. </p>
+					<p>The second document of the sequence is as follows. The named associative tree
+						is denoted ND<sub>2, prov</sub>. </p>
 					<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -2969,8 +2913,8 @@ _:b202{
 	}
 }
 </pre>
-					<p>The third document of the sequence is as follows. The named dataset is
-						denoted ND<sub>3, prov</sub>. </p>
+					<p>The third document of the sequence is as follows. The named associative tree
+						is denoted ND<sub>3, prov</sub>. </p>
 					<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -3102,7 +3046,7 @@ GRAPH ?g {
 					title="Identity Pattern for Second Order"> This DatasetPattern is denoted
 						IDP<sub>2</sub>.
 					<pre>
-	{ dataset ?d { { graph ?g {?s ?p ?o} } union {?s ?p ?o} } }    
+	{ @@@dataset ?d { { graph ?g {?s ?p ?o} } union {?s ?p ?o} } }    
 	 union
 	{ graph ?g {?s ?p ?o} } union {?s ?p ?o}
 </pre>
@@ -3136,17 +3080,18 @@ WHERE {
 				<h3>Abstract Algebra Examples</h3>
 				<section id="eval-examples">
 					<h4>Eval</h4>
-					<aside class="example" id="ex-match-bgp-dataset"
+					<aside class="example" id="ex-match-bgp-tree"
 						title="Matching a BGP Against a k-th Order Dataset">
-						<p>If k=0, then application of eval to a dataset and BGP corresponds to
-							matching a BGP against an RDF Graph.</p>
-						<p>If k=1, then application of eval to a dataset and BGP corresponds to
-							matching a BGP against an RDF Dataset, so that the default graph is
-							active.</p>
-						<p>If k=2, then application of eval to a dataset and BGP corresponds to
-							matching a BGP against the RDF Dataset that is the default dataset of
-							the second-order dataset. For example,</p>
-						<p> eval(<a href="#prov-dataset-2">D2<sub>prov</sub></a>, <a
+						<p>If k=0, then application of eval to a associative tree and BGP
+							corresponds to matching a BGP against an RDF Graph.</p>
+						<p>If k=1, then application of eval to a associative tree and BGP
+							corresponds to matching a BGP against an RDF Dataset, so that the
+							default graph is active.</p>
+						<p>If k=2, then application of eval to a associative tree and BGP
+							corresponds to matching a BGP against the RDF Dataset that is the
+							default associative tree of the second-order associative tree. For
+							example,</p>
+						<p> eval(<a href="#prov-tree-2">D2<sub>prov</sub></a>, <a
 								href="#bgp-pattern-prov-revise">TP<sub>rev</sub></a>) =
 								Ω<sub>rev</sub>
 						</p>
@@ -3175,7 +3120,7 @@ WHERE {
 							matching the BGP against the RDF Graph that is the associative part of
 							the first-order repository.</p>
 						<p>For example,</p>
-						<p> eval(<a href="#prov-dataset-2">D2<sub>prov</sub></a>, <a
+						<p> eval(<a href="#prov-tree-2">D2<sub>prov</sub></a>, <a
 								href="#bgp-pattern-prov-revise">TP<sub>rev</sub></a>) = <a
 								href="#omega-rev">Ω<sub>rev</sub></a>
 						</p>
@@ -3187,29 +3132,30 @@ WHERE {
 							is the associative part of the input repository. The result is a
 							multiset of solution mappings.</p>
 					</aside>
-					<aside class="example" id="ex-match-quad-dataset"
+					<aside class="example" id="ex-match-quad-tree"
 						title="Matching a QuadPattern Against a k-th Order Dataset">
 						<p>Recall that a <a>QuadPattern</a>, also called a GraphGraphPattern, can
 							match within named and unnamed graphs, depending on the nature of the
 							pattern.</p>
-						<p>If k=0, then application of eval to a dataset and QuadPattern corresponds
-							to matching a QuadPattern against an RDF Graph, as defined in
-							[[!SPARQL11-Query]].</p>
-						<p>If k=1, then application of eval to a dataset and QuadPattern corresponds
-							to matching a QuadPattern against an RDF Dataset, also as defined in
-							[[!SPARQL11-Query]]. Such an operation can extract information from both
-							the default and named components of the dataset. </p>
-						<p>If k>=2, then application of eval to a dataset and QuadPattern
+						<p>If k=0, then application of eval to a associative tree and QuadPattern
+							corresponds to matching a QuadPattern against an RDF Graph, as defined
+							in [[!SPARQL11-Query]].</p>
+						<p>If k=1, then application of eval to a associative tree and QuadPattern
+							corresponds to matching a QuadPattern against an RDF Dataset, also as
+							defined in [[!SPARQL11-Query]]. Such an operation can extract
+							information from both the default and named components of the
+							associative tree. </p>
+						<p>If k>=2, then application of eval to a associative tree and QuadPattern
 							corresponds to matching the QuadPattern against the default (k-1)-th
-							order RDF Dataset of the input dataset, which may be defined by
+							order RDF Dataset of the input associative tree, which may be defined by
 							induction over the order. As shown in the next example, a second-order
 							pattern (containing "quint" patterns) is needed to access the
 							information in the (non-default) named components of a second-order
-							dataset. </p>
+							associative tree. </p>
 					</aside>
-					<aside class="example" id="ex-match-quint-second-order-dataset"
+					<aside class="example" id="ex-match-quint-second-order-tree"
 						title="Matching a Second-Order Pattern Against a Second-Order Dataset">
-						<p> eval(<a href="#prov-dataset-2">D2<sub>prov</sub></a>, <a
+						<p> eval(<a href="#prov-tree-2">D2<sub>prov</sub></a>, <a
 								href="#id-pattern-2">IDP<sub>2</sub></a>) = Ω<sub>D2-prov</sub>
 						</p>
 						<p> where Ω<sub>D2-prov</sub> is partially shown in the following table:</p>
@@ -3247,7 +3193,7 @@ WHERE {
 					<aside class="example" id="ex-match-quad-first-order-repository"
 						title="Matching a First-Order Pattern Against a First-Order Repository">
 						<p>Recall the definition of the FHIR repository, which has an empty default
-							dataset.</p>
+							part.</p>
 						<p>R<sub>FHIR</sub> = [{}, [D<sub>i,FHIR</sub>]<sub>i=1, 2, 3</sub>]</p>
 						<p>If we apply the first-order identity pattern IDP<sub>1</sub> to this
 							repository, we obtain the following result structure.</p>
@@ -3289,11 +3235,11 @@ WHERE {
 		</table>-->
 					</aside>
 					<!--
-	 The Eval function has been extended to apply to higher-order datasets, repositories and stores.
-     If the pattern is a BGP, then matching will be performed only within the default component 
-	 (dataset, repository or store, as the case may be.)
+	 The Eval function has been extended to apply to higher-order associative trees, repositories and stores.
+     If the pattern is a BGP, then matching will be performed only within the default part 
+	 (associative tree, repository or store, as the case may be.)
 	 <p>The multiset of solution mappings that is obtained by applying the BGP 
-	 <a href='#bgp-pattern-prov-revise'>TP<sub>rev</sub></a> to the second-order dataset <a href='#prov-dataset-2'>D2<sub>prov</sub></a> is
+	 <a href='#bgp-pattern-prov-revise'>TP<sub>rev</sub></a> to the second-order associative tree <a href='#prov-tree-2'>D2<sub>prov</sub></a> is
 	 shown in the following table, and is denoted Ω<sub>rev</sub>.
 	 </p>
 	 Application of the same BGP to the second-order <a>repository</a> <a href="#fhir-repository">R<sub>prov</sub></a>
@@ -3307,16 +3253,16 @@ WHERE {
      <aside class="example" id="ex-match-quad-pattern" title="Matching a QuadPattern">
      If the pattern is a quad pattern, then matching will be performed according to two cases.
 	 <ul>
-	   <li>If the data structure  (dataset, repository, or store) is of first-order, then the quad pattern
+	   <li>If the data structure  (associative tree, repository, or store) is of first-order, then the quad pattern
 	   will be applied to named components.
 	   </li>
-	   <li>If the data structure  (dataset, repository, or store) is of order higher than first, 
+	   <li>If the data structure  (associative tree, repository, or store) is of order higher than first, 
 	   then the quad pattern will be applied to the default component.
 	   </li>
 	 </ul>
 	 <p>The solutions that are obtained by applying the QuadPattern 
 	 <a href='#quad-fhir-heartrate'>QP<sub>FHIR-heartrate</sub></a> to 
-	 the first-order dataset <a href='#fhir-dataset'>D<sub>FHIR</sub></a> are
+	 the first-order associative tree <a href='#fhir-tree'>D<sub>FHIR</sub></a> are
 	 shown in the following table, and denoted by Ω<sub>hr</sub>.
 	 </p>
 	 <table>
@@ -3357,7 +3303,7 @@ We write
 	 we also obtain the solutions above.
 	 This is because the eval function corresponds to simple entailment,
 	 and simple entailment on a repository is defined as simple entailment
-	 on the dataset obtained by forgetting the sequential order of versions.
+	 on the associative tree obtained by forgetting the sequential order of versions.
 	 <p>Eval(R<sub>FHIR</sub>, QP<sub>FHIR-heartrate</sub>) = Ω<sub>hr</sub></p>
 	</aside>
 	</section>
@@ -3377,7 +3323,7 @@ We write
 	   sequences of <a>k-th Order RDF Datasets</a>,
 	   and <a>k-th Order Sequential RDF Datasets</a>, 
 	   which are structures consisting of a sequence of <a>k-th Order RDF Datasets</a>
-	   and a distinguished <a>k-th Order RDF Datasets</a> called the default dataset.
+	   and a distinguished <a>k-th Order RDF Datasets</a> called the default associative tree.
      </p>
 	 <p class="ednote">To define the semantics of Ceval, we need a new datatype for the result, called
 	 <dfn>Structured Result</dfn>, consisting of a distinguished multiset of solution mappings, possibly empty, 
@@ -3455,7 +3401,7 @@ We write
 	 </table>
 	 <p>The Quadpattern QP<sub>FHIR-heartrate</sub> will yield no solutions
 	 when matched to an RDF graph. Therefore the default component of the result is empty, no matter what
-	 is in the default dataset R<sub>FHIR</sub>.
+	 is in the default part R<sub>FHIR</sub>.
 	 </p>
 	 <p>We write</p>
 	 <p>Ceval(R<sub>FHIR</sub>, QP<sub>FHIR-heartrate</sub>) = {} ∪ [Ω<sub>i,hr</sub>]<sub>i=1, 2, 3</sub></p>
@@ -3467,23 +3413,23 @@ We write
 	 So, a continuous query on a stream should not be able to determine which triple is the timestamp triple.
 	 However, a second-order repository that emulates an RDF stream needs to keep this information somewhere,
 	 for windowing purposes.
-	 The default dataset of the repository is the logical place for this information to be stored. 
+	 The default part of the repository is the logical place for this information to be stored. 
 	 With a property "repo:hasTimestampTriple", and the RDF reification vocabulary, this
 	 information can be materialized provided there is an identifier for each stream element (and this
 	 identifier is an inherent part of the second-order repository).
 	 Queries of the repository that are supposed to emulate queries of the stream MUST not access that information.
 	 This works out OK as long as a repository is used to emulate the stream - the pattern to match against stream elements
 	 must have a second-order name (i.e. it is a quint pattern) and so will give no solutions when matched against the
-	 default first-order dataset.
+	 default first-order associative tree.
 	 </p>
 	 <p class="ednote">Restrictions on the arguments of Ceval in order to emulate an unwindowed query of an RDF stream:
 	 </p>
 	 <ol>
-	 <li>It is necessary to include the (second-order) dataset name as a variable in the query, so that 
+	 <li>It is necessary to include the (second-order) associative tree name as a variable in the query, so that 
 	     the query matching is scoped to one stream element at a time. However, there needs to be a
-		 Projection applied to the solution so that the dataset name is forgotten for the <a>structured result</a>
+		 Projection applied to the solution so that the associative tree name is forgotten for the <a>structured result</a>
 	 </li>
-	 <li>Since an RDF Stream does not have a default dataset, there should be no additional entailments
+	 <li>Since an RDF Stream does not have a default part, there should be no additional entailments
 	     such as those arising from the structural information of the stream, with property <code>repo:hasTimestampTriple</code>.
 		 On the other hand, we want to enable queries of RDF streams jointly with associative data structures.
 		 The union of a associative and sequential data structure puts the associative statements into the default part of the
@@ -3500,29 +3446,29 @@ We write
 	 restrict the arguments of Ceval so that a second-order repository can be used to emulate a stream of RDF Datasets.
 	 </p>
 	<p class="ednote">
-	 In the case that the first argument of Ceval is a <a>sequential dataset</a>,
+	 In the case that the first argument of Ceval is a <a>sequential data structure</a>,
 	 the Ceval function takes a <a>k-th Order Pattern</a>, P<sub>seq</sub>, as second argument,
 	 and an optional <a>k-th Order Pattern</a>, P<sub>def</sub> as third argument.
 	 The pattern P<sub>seq</sub> is matched continuously against
-	 the union of each element of the sequence with the default dataset,
+	 the union of each element of the sequence with the default part,
 	 to generate the sequential part of the <a>structured result</a>,
 	 while the default component of the <a>structured result</a> is obtained
-	 from a one-time match of P<sub>def</sub> against the default dataset.
+	 from a one-time match of P<sub>def</sub> against the default part.
 	 </p>
 	 <p class="ednote">
 	 The case that the first argument is an <a>RDF Stream</a>
      is a specialization of the case that the first argument is a sequence of 
-	 <a>k-th Order RDF Datasets</a>, with k = 1, with empty default dataset.
+	 <a>k-th Order RDF associative trees</a>, with k = 1, with empty default part.
 	 Therefore, the second argument P<sub>seq</sub> MUST be a Quadpattern.
-	 If a third argument is present, it has no effect since the default dataset is empty.
+	 If a third argument is present, it has no effect since the default part is empty.
 	 </p>
 	 <p class="ednote">
 	 The case that the first argument is the merger or union of an <a>RDF Stream</a>
-	 with a first-order dataset
+	 with a first-order associative tree
      is also a specialization of the case that the first argument is a sequence of 
-	 <a>k-th Order RDF Datasets</a>, with k = 1, with non-empty default dataset.
+	 <a>k-th order associative trees</a>, with k = 1, with non-empty default part.
 	 Again, the second argument P<sub>seq</sub> MUST be a Quadpattern.
-	 If a third argument is present, it does have an effect since the default dataset is non-empty.
+	 If a third argument is present, it does have an effect since the default part is non-empty.
 	 </p>
 	 <p class="ednote">This formulation of the Ceval function that takes two pattern arguments is
 	 not very satisfactory because it breaks the SPARQL syntactic convention of processing just one pattern at a time.
@@ -3550,21 +3496,22 @@ We write
 	</p>
 	-->
 				</section>
-				<section id="dataset-union-examples">
+				<section id="tree-union-examples">
 					<h4>Dataset-UNION</h4>
 					<p>The Dataset-UNION basic operation has been extended to apply to arbitrary
-						pairs of higher-order datasets. It has also been extended to apply to pairs
-						where one of the elements is a higher-order dataset and the other is a
-						sequential data structure (repository, store, data sequence ). </p>
+						pairs of higher-order associative trees. It has also been extended to apply
+						to pairs where one of the elements is a higher-order associative tree and
+						the other is a sequential data structure (repository, store, data sequence
+						). </p>
 					<p> In all cases, the first step of evaluation is to elevate an associative
 						input argument as needed: to the same order (in the case of two higher-order
-						datasets), or in the case of one associative and one sequential data structure, to
-						the requisite orders so that the default component of the sequential data
-						structure is of the same order as the associative part. Then it is
-						sufficient to consider input arguments where these orders are already
-						compatible. The type of the result is either a sequential data structure, of the
-						same type and order as the sequential input, or an associative, higher-order
-						dataset, of the order of the two inputs. </p>
+						associative trees), or in the case of one associative and one sequential
+						data structure, to the requisite orders so that the default component of the
+						sequential data structure is of the same order as the associative part. Then
+						it is sufficient to consider input arguments where these orders are already
+						compatible. The type of the result is either a sequential data structure, of
+						the same type and order as the sequential input, or an associative,
+						higher-order associative tree, of the order of the two inputs. </p>
 				</section>
 			</section>
 		</section>
