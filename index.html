@@ -659,10 +659,10 @@
 						<tr>
 							<td></td>
 							<td>::=</td>
-							<td>{<a>Versioned<sub>k</sub></a>([N, &le;<sub>N</sub>], M)
-								| N &sube; RDF-Name, cardinality(N) > 0, &le; &in; TotalOrder(N), M:
-								(N => Y &cup; {STATIC} => X) where M(x) = M(y), x &lt; y implies
-								there is some z &in; N, x &lt; z &lt; y}</td>
+							<td>{<a>Versioned<sub>k</sub></a>([N, &le;<sub>N</sub>], M) | N &sube;
+								RDF-Name, cardinality(N) > 0, &le; &in; TotalOrder(N), M: (N => Y
+								&cup; {STATIC} => X) where M(x) = M(y), x &lt; y implies there is
+								some z &in; N, x &lt; z &lt; y}</td>
 						</tr>
 						<tr>
 							<td>sequence<sub>&le; k</sub>, k &ge; 0</td>
@@ -724,8 +724,8 @@
 							>k-th Order RDF Associative Tree</dfn> is a <a>k-th order associative
 							data structure</a> DS with the following properties. </p>
 					<ul>
-						<li><a>defaultPart</a>(DS) is an <a>associative tree</a>
-							of order max(0, order(DS)-1) or less.</li>
+						<li><a>defaultPart</a>(DS) is an <a>associative tree</a> of order max(0,
+							order(DS)-1) or less.</li>
 						<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is an
 								<a>associative tree</a> of order k-1 or less.</li>
 					</ul>
@@ -922,68 +922,23 @@
 							>k-th Order RDF Repository</dfn> is a special case of <a>k-th order RDF
 							data structure</a> that is defined by the following cases. </p>
 					<ol>
-						<!--<li>A zeroth-order RDF Repository is a zeroth-order <a>associative tree</a>. </li>-->
-						<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has an optional
-								<a>associative tree</a> of k-th order or less for its associative
-							part and a<!--n optional--> non-empty <a>data sequence</a> of <a>named
-								k-th order associative trees</a> for its sequential part. The names
-							of the associative trees in this sequence are unique. Further, the
-							contents of adjacent named associative trees in the sequence are
-							distinct.</li>
+						<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>associative
+								tree</a> of k-th order or less (possibly empty) for its associative
+							part and a non-empty <a>data sequence</a> of <a>k+1-th order solitary
+								associations</a> for its sequential part. The names of the solitary
+							associations in this sequence are unique, so the sequence corresponds to
+							a mapping from names to associative trees of k-th order or less.
+							Further, the contents of adjacent solitary associations in the sequence
+							are distinct.</li>
 					</ol>
-					<aside class="ednote">
-						<p>The motivation for allowing the sequential part of a repository to be
-							optional in the previous version of the definition was to allow a
-							repository to be initialized with its associative part without
-							specifying an initial version. However, this provision led to problems
-							in deterministically specifying the order of a repository that has no
-							sequential part. For example, a first-order associative tree could have
-							been the associative part of an m-th order repository, for any m &gt; 1.
-							As a associative tree, its order would be 1, but as a repository its
-							order would be 2 or higher. To fix this problem, the current version of
-							the definition makes the sequential part required, with at least one
-							element that is a named k-th order associative tree. Further, the
-							definition was changed to make the associative part optional, so that
-							pure data sequences of named associative trees could be considered
-							repositories as well. Finally, the zeroth-order repository, which was
-							just an RDF graph, has been omitted, since it was no longer compatible
-							with a structure that had a required sequential part for positive
-							orders. Other options considered were:</p>
-						<ol>
-							<li>Make the sequential part required as above, but allow it to be an
-								empty sequence with a specified type. This would require redefining
-								or specializing the <a>data sequence</a> type so that we have data
-								sequences of specified element type. As currently defined, <a>data
-									sequences</a> do not have any specific type for their
-								elements.</li>
-						</ol>
-					</aside>
-					<!--<figure id="repository-types-fix-1">
-						<img src="repository-types-fix-1.svg" alt="" />
-						<figcaption>Shows the type hierarchy if option 1 or 2 above is adopted. The
-							distinction between requiring a non-empty sequential part or requiring a
-							sequential part that might be an empty sequence is not visible in this
-							diagram. The distinction would appear in the data sequence type
-							hierarchy, where typed data sequence would need to be defined for option
-							2.</figcaption>
-					</figure>
-					<figure id="repository-types-fix-3">
-						<img src="repository-types-fix-3.svg" alt="" />
-						<figcaption>Shows the type hierarchy if option 3 above is adopted. This
-							shows the presence of repositories having no associative part. That is, they
-							are data sequences.</figcaption>
-					</figure>
-					<figure id="repository-types-fix-4">
-						<img src="repository-types-fix-4.svg" alt="" />
-						<figcaption>Shows the type hierarchy if option 4 above is adopted. The
-							Zeroth-Order Repository is omitted.</figcaption>
-					</figure>-->
 					<p class="note">A k-th Order RDF Repository, k &gt; 0, may be viewed as a k-th
 						Order RDF Dataset with the additional structure of a total order on its
 							<a>named associative trees</a>. However, the additional requirements on
 						adjacent contents being distinct emphasizes the motivation of this
 						definition as a model of a mutable associative tree, where each element of
-						the sequence describes a named "snapshot" of the associative tree.</p>
+						the sequence describes a named "snapshot" of the associative tree, and the
+						requirement for distincness between adjacent snapshots enforces non-vacuous
+						revisions.</p>
 					<p class="ednote">To be clarified in Eval section: The associative part of the
 						repository plays the role of background knowledge, which is unioned with
 						every snapshot prior to query.</p>
@@ -1608,8 +1563,7 @@
 							{b}, {b => D1}) </li>
 						<li>where b is a fresh blank node and </li>
 						<li>D0 = Tree-UNION(G0, {n p t.})</li>
-						<li>D1 = Associative<sub>1</sub>(Tree-UNION(G0, {n p t.}), {n}, {n => G1}
-							) </li>
+						<li>D1 = Associative<sub>1</sub>(Tree-UNION(G0, {n p t.}), {n}, {n => G1} ) </li>
 						<li>G<sub>meta</sub> = { b rsp:usesTimestampPredicate p}</li>
 						<li>with the requirement that G0 contain no triples using the predicate
 							p.</li>
@@ -1789,8 +1743,8 @@
 				<h3>Basic Operations</h3>
 				<section id="def-existing-basic-associative tree-union">
 					<h4>Tree-UNION</h4>
-					<p><dfn>Tree-UNION</dfn> is defined in [[!SPARQL11-Update]] as a basic
-						operation with the following signature:</p>
+					<p><dfn>Tree-UNION</dfn> is defined in [[!SPARQL11-Update]] as a basic operation
+						with the following signature:</p>
 					<ul>
 						<li>On the domain RDF Dataset x RDF Dataset, the range is RDF Dataset.</li>
 					</ul>
@@ -1799,10 +1753,10 @@
 					<p> Let DS={DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and DS' =
 						{DG'} union {(iri'<sub>j</sub>, G'<sub>j</sub>) | 1 ≤ j ≤ m} be two RDF
 						Datasets. Let further graphNames(DS) = { iri<sub>i</sub> | 1 ≤ i ≤ n} and
-						graphNames(DS') = {iri'<sub>j</sub> | 1 ≤ j ≤ m}. The Tree-UNION between
-						DS and DS' is defined as follows: </p>
-					<p>Tree-UNION(DS, DS') = {DG union DG'} union {(iri, G) | iri in
-						graphNames(DS) union graphNames(DS')}</p>
+						graphNames(DS') = {iri'<sub>j</sub> | 1 ≤ j ≤ m}. The Tree-UNION between DS
+						and DS' is defined as follows: </p>
+					<p>Tree-UNION(DS, DS') = {DG union DG'} union {(iri, G) | iri in graphNames(DS)
+						union graphNames(DS')}</p>
 					<p>and G defined as </p>
 					<ul>
 						<li>G<sub>i</sub> for iri = iri<sub>i</sub> such that iri<sub>i</sub> in
@@ -1820,9 +1774,8 @@
 						with the exception that if the sets of graph names of the two <a>RDF 1.1
 							Datasets</a> have a non-empty intersection, the <a>graphs</a> with names
 						in that intersection must be combined by set union. </p>
-					<p> We extend the Tree-UNION operation to <a>k-th Order RDF Datasets</a>.
-						Also, the names are extended from IRIs to also allow <a>blank node</a>
-						names. </p>
+					<p> We extend the Tree-UNION operation to <a>k-th Order RDF Datasets</a>. Also,
+						the names are extended from IRIs to also allow <a>blank node</a> names. </p>
 					<ul>
 						<li>On the domain <a>k-th order associative tree</a> x k'-th order
 								<a>associative tree</a>, the range is max(k, k')-th order
@@ -1845,8 +1798,8 @@
 							in names(DSP') - names(DSP)} ∪ <br /> { name = > Tree-UNION(
 							content(name, DSP), content(name, DSP')) | name in names(DSP) &amp;
 							names(DSP')} </li>
-						<li>If order(DSP') &lt; order(DSP) = k, then <br /> Tree-UNION(DSP, DSP')
-							= Tree-UNION(DSP', DSP) = Associative<sub>k</sub>(
+						<li>If order(DSP') &lt; order(DSP) = k, then <br /> Tree-UNION(DSP, DSP') =
+							Tree-UNION(DSP', DSP) = Associative<sub>k</sub>(
 							Tree-UNION(default(DSP), DSP'), names(DSP) , result-nameMap ) <br />
 							where result-nameMap = { name = > content(name, DSP) | name in
 							names(DSP)} </li>
@@ -1860,34 +1813,34 @@
 						<li>if order(s) = k &gt; 0 for every s in S, then <br /> Tree-UNION(S) =
 								Associative<sub>k</sub>( result-default, result-names,
 							result-nameMap ) <br /> where <br /> result-default =
-							Tree-UNION({default(s)|s in S}) <br /> result-names = ∪<sub>s in
-								S</sub> names(s), <br /> result-nameMap = { n =>
-							Tree-UNION({content(n, s)|<sub>s in S</sub>}) | n in result-names} </li>
+							Tree-UNION({default(s)|s in S}) <br /> result-names = ∪<sub>s in S</sub>
+							names(s), <br /> result-nameMap = { n => Tree-UNION({content(n,
+								s)|<sub>s in S</sub>}) | n in result-names} </li>
 						<li> if max({order(s)|s in S}) = k &gt; 0, let S<sub>k</sub> be the subset
 							of S containing all members of S having order k. Then Tree-Union(S) =
-							Tree-UNION( Tree-UNION(S -S<sub>k</sub>),
-								Tree-UNION(S<sub>k</sub>)) </li>
+							Tree-UNION( Tree-UNION(S -S<sub>k</sub>), Tree-UNION(S<sub>k</sub>))
+						</li>
 					</ul>
-					<p class="ednote"> It is possible to informally apply the Tree-UNION
-						operation to pairs of <a>repositories</a> or <a>stores</a> by first applying
-						a forgetful functor that retains all the versions but forgets the order
-						among them. However, the result is not a <a>repository</a> or <a>store</a>,
-						but is just a <a>associative tree</a>. To truly extend the UNION operation
-						to <a>repositories</a> and <a>stores</a> to generate new <a>repositories</a>
-						and <a>stores</a>, it would be necessary to mint new version names and to
-						specify how versions are ordered and combined when necessary e.g. according
-						to timestamps, but timestamps are not mandatory in our definitions There is
-						no precedent for such definitions, since the Update spec does not define a
-						union operation on Graph Stores. </p>
+					<p class="ednote"> It is possible to informally apply the Tree-UNION operation
+						to pairs of <a>repositories</a> or <a>stores</a> by first applying a
+						forgetful functor that retains all the versions but forgets the order among
+						them. However, the result is not a <a>repository</a> or <a>store</a>, but is
+						just a <a>associative tree</a>. To truly extend the UNION operation to
+							<a>repositories</a> and <a>stores</a> to generate new
+							<a>repositories</a> and <a>stores</a>, it would be necessary to mint new
+						version names and to specify how versions are ordered and combined when
+						necessary e.g. according to timestamps, but timestamps are not mandatory in
+						our definitions There is no precedent for such definitions, since the Update
+						spec does not define a union operation on Graph Stores. </p>
 					<p class="ednote">We do define a special case of "union" for <a>repositories</a>
 						that are all members of the same <a>store</a> using the
 							<a>Sequential-UNION</a> operation.</p>
 				</section>
 				<section>
 					<h4>Other Basic Operations</h4>
-					<p class="ednote">Similarly, the basic operations of Tree-DIFF and Dataset
-						will be extended to <a>k-th order associative trees</a>. The Dataset
-						operation will also be extended to <a>k-th order patterns</a>. </p>
+					<p class="ednote">Similarly, the basic operations of Tree-DIFF and Dataset will
+						be extended to <a>k-th order associative trees</a>. The Dataset operation
+						will also be extended to <a>k-th order patterns</a>. </p>
 				</section>
 			</section>
 			<section id="def-existing-update">
@@ -2203,8 +2156,8 @@ _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 </pre>
 						<p>G<sub>FHIR</sub> is the union of three graphs, each fully describing an
 							observation. We write:</p>
-						<p>G<sub>FHIR</sub> = Tree-UNION(Tree-UNION(G<sub>1, FHIR</sub>,
-								G<sub>2, FHIR</sub>), G<sub>3, FHIR</sub>)</p>
+						<p>G<sub>FHIR</sub> = Tree-UNION(Tree-UNION(G<sub>1, FHIR</sub>, G<sub>2,
+								FHIR</sub>), G<sub>3, FHIR</sub>)</p>
 						<p>where G<sub>1, FHIR</sub> is: </p>
 						<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
@@ -2319,9 +2272,8 @@ _:b102 prov:wasRevisionOf _:b101.
 _:b103 prov:wasRevisionOf _:b102.
 </pre>
 					<p>We write</p>
-					<p>D<sub>FHIR</sub> = Tree-UNION(Tree-UNION(Tree-UNION(D<sub>0,
-							FHIR</sub>, D<sub>1, FHIR</sub>), D<sub>2, FHIR</sub>), D<sub>3,
-							FHIR</sub>)</p>
+					<p>D<sub>FHIR</sub> = Tree-UNION(Tree-UNION(Tree-UNION(D<sub>0, FHIR</sub>,
+							D<sub>1, FHIR</sub>), D<sub>2, FHIR</sub>), D<sub>3, FHIR</sub>)</p>
 					<p>where</p>
 					<p>D<sub>i, FHIR</sub> = Graph(b<sub>i, FHIR</sub>, G<sub>i, FHIR</sub>) and</p>
 					<p>b<sub>1, FHIR</sub>= _:b101, b<sub>2, FHIR</sub>= _:b102, b<sub>3,
@@ -2400,8 +2352,8 @@ _:b103{
 						metadata to the repository as a whole, we name the repository and embed it
 						in a second-order RDF Store. We denote this store as ST<sub>FHIR</sub>. </p>
 					<p>We write</p>
-					<p>ST<sub>FHIR</sub> = Tree-UNION(ST<sub>FHIR, associative</sub>,
-							ST<sub>FHIR, sequential</sub>)</p>
+					<p>ST<sub>FHIR</sub> = Tree-UNION(ST<sub>FHIR, associative</sub>, ST<sub>FHIR,
+							sequential</sub>)</p>
 					<p>where</p>
 					<p>ST<sub>FHIR, associative</sub> = Associative<sub>2</sub>(G<sub>eff</sub>,
 						{_:b301}, {_:b301 => R<sub>FHIR</sub>})</p>
@@ -2603,12 +2555,12 @@ _:b6
 					characteristics, and the time the observation report was generated as the second
 					temporal characteristic, The entire associative tree is denoted D<sub>prov</sub>
 					and is constructed as follows <p>D<sub>prov</sub> = Tree-UNION(
-							Tree-UNION(D<sub>1,prov</sub>, D<sub>2,prov</sub>),
-							D<sub>3,prov</sub> ) </p> where <p> D<sub>i,prov</sub> =
-							Tree-UNION(G<sub>i, prov</sub>, NG<sub>i, FHIR</sub>) </p> The
-					following is a representation of D<sub>prov</sub> in Trig. In this
-					representation, the dytnamic aspects are implicitly expressed in timestamps, but
-					the temporal order is not directly available through simple entailment.
+							Tree-UNION(D<sub>1,prov</sub>, D<sub>2,prov</sub>), D<sub>3,prov</sub> )
+					</p> where <p> D<sub>i,prov</sub> = Tree-UNION(G<sub>i, prov</sub>, NG<sub>i,
+							FHIR</sub>) </p> The following is a representation of D<sub>prov</sub>
+					in Trig. In this representation, the dytnamic aspects are implicitly expressed
+					in timestamps, but the temporal order is not directly available through simple
+					entailment.
 					<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
@@ -2762,9 +2714,9 @@ _:b203{
 }
 </pre>
 					<p>We write</p>
-					<p>D2<sub>prov</sub> = Tree-UNION( Tree-UNION( Tree-UNION(
-							Tree-UNION(D<sub>0, prov</sub>,ND<sub>1, prov</sub>),ND<sub>2,
-							prov</sub>),ND<sub>3, prov</sub>) </p>
+					<p>D2<sub>prov</sub> = Tree-UNION( Tree-UNION( Tree-UNION( Tree-UNION(D<sub>0,
+							prov</sub>,ND<sub>1, prov</sub>),ND<sub>2, prov</sub>),ND<sub>3,
+							prov</sub>) </p>
 					<p>where</p>
 					<p>ND<sub>i, prov</sub> = Dataset( b<sub>i, prov</sub>, D<sub>i, prov</sub>)</p>
 					<p>b<sub>1, prov</sub>= _:b201, b<sub>2, prov</sub>= _:b202, b<sub>3,
@@ -3432,11 +3384,10 @@ We write
 				</section>
 				<section id="tree-union-examples">
 					<h4>Tree-UNION</h4>
-					<p>The Tree-UNION basic operation has been extended to apply to arbitrary
-						pairs of higher-order associative trees. It has also been extended to apply
-						to pairs where one of the elements is a higher-order associative tree and
-						the other is a sequential data structure (repository, store, data sequence
-						). </p>
+					<p>The Tree-UNION basic operation has been extended to apply to arbitrary pairs
+						of higher-order associative trees. It has also been extended to apply to
+						pairs where one of the elements is a higher-order associative tree and the
+						other is a sequential data structure (repository, store, data sequence ). </p>
 					<p> In all cases, the first step of evaluation is to elevate an associative
 						input argument as needed: to the same order (in the case of two higher-order
 						associative trees), or in the case of one associative and one sequential
