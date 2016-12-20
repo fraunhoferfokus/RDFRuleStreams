@@ -456,47 +456,41 @@
 						<a>defaultPart</a>(DS) = <a>nameMap</a>(DS)(DEFAULT).</p>
 					<p class="note">The default part of a <a>zeroth-order associative data
 							structure</a> is itself; defaultPart(DS) = DS. </p>
-					<p>The <dfn>named part</dfn> of an <a>associative data structure</a> DS of order
-						1 or more, denoted <dfn>namedPart</dfn>(DS), is the <a>k-th order
-							associative data structure</a>
+					<p>A <dfn>solitary association</dfn> is an <a>associative data structure</a>
+						where its set of nonreserved names contains exactly one name and the default
+						part is empty. That is, <a>cardinality</a>(<a>names</a>(DS)) = 1 and
+							<a>defaultPart</a>(DS) = {}.</p>
+					<aside class="example"><p>The constructor <a>Associative<sub>k</sub></a> can be
+							used to create a <a>solitory association</a> as follows.</p>
+						<p>Let DS be <a>data structure</a> of order k-1 or less, and let ND =
+								Associative<sub>k</sub>({n}, {n => DS, DEFAULT => {} }). Then
+								<a>order</a>(ND) = k, names(ND) = {n}, and default(ND) = {}.
+							Therefore by definition, ND is a <a>solitary association</a>.</p>
+					</aside>
+					<p>The <dfn>named part</dfn> of a k-th order <a>associative data structure</a>
+						DS of order k &ge; 1, denoted <dfn>namedPart</dfn>(DS), is the <a>k-th order
+							associative data structure</a> given by
 						<a>Associative<sub>k</sub></a>(N, M') where N = names(DS), M = nameMap(DS),
 						and M'(n) = M(n) whenever n &in; N, and M'(DEFAULT)={}. In terms of the
 						basic functions, </p>
 					<p><a>namedPart</a>(DS) =
 							<a>Associative</a><sub><a>order</a>(DS)</sub>(<a>names</a>(DS),
 							<a>nameMap</a>(DS)(<a>names</a>(DS)) &cup; {DEFAULT => {} })</p>
-					<p class="note">An RDF Graph is the only <a>associative data structure</a> that
-						has no named part, and is equal to its default part.</p>
-					<p>A <dfn>solitary association</dfn> is an <a>associative data structure</a>
-						where the set of names contains exactly one name and the default part is
-						empty. That is, <a>cardinality</a>(<a>names</a>(DS)) = 1 and
-							<a>defaultPart</a>(DS) = {}.</p>
-					<p class="ednote">Move this to follow the definition of tree: A named graph may
-						be emulated as a first-order <a>associative tree</a> that is also a
-							<a>solitary association</a>.</p>
-					<p class="ednote">Move this to follow the definition of tree: An RDF Dataset, as
-						defined in [[!RDF-Concepts]] is emulated as either a zeroth- or first-order
-							<a>associative tree</a>. An RDF Dataset always has a default part, its
-						default graph, which may be the empty graph. If the RDF Dataset contains at
-						least one named graph, then the corresponding <a>associative data
-							structure</a> has a named part and so is emulated by a first-order
-							<a>associative tree</a>.</p>
-					<p class="ednote">A <dfn data-lt="timestamped graphs">timestamped graph</dfn> is
-						defined in @@@<a href="">RDF Stream Abstract Syntax and Semantics</a> as an
-						RDF Dataset with one named graph and a distinguished triple, the timestamp
-						triple, in its default graph having the name of the named graph as its
-						subject. A timestamped graph may be emulated by a associative tree of second
-						order or less, as described in Section <a
-							href="#def-rdf-stream-as-second-order-store"></a></p>
+					<aside class="example"><p>An RDF Graph is the only <a>associative data
+								structure</a> that has no named part, i.e. <a>namedPart</a> is
+							undefined.</p></aside>
+					<aside class="example"><p>A <a>solitory association</a> ND =
+								Associative<sub>k</sub>({n}, {n => DS, DEFAULT => {} } is equal to
+							its named part.</p>
+						<p>ND = <a>namedPart</a>(ND)</p>
+					</aside>
 					<p>Let DS = <a>Associative<sub>k</sub></a>(N, M) be an <a>associative data
 							structure</a> and E be an arbitrary entity. </p>
 					<ul>
 						<li><dfn>isAssociative</dfn>(E) is true if E is a <a>associative data
 								structure</a>; otherwise it is false.</li>
 						<li><dfn>isSolitary</dfn>(DS) is true if DS is a <dfn>solitary
-								association</dfn>; i.e. cardinality(names(DS)) = 1; otherwise, it is
-							false. In this case, the cardinality of <a>names</a>(DS) is 1, and
-								<a>namedPart</a>(DS) = DS. </li>
+								association</dfn>. </li>
 						<li>If <a>isSolitary</a>(DS) is true, then <dfn>name</dfn>(DS) is the one
 							element of names(DS). That is, names(DS) = {name(DS)}</li>
 						<li>For every name n, we define the <dfn data-lt="content">content for
@@ -511,13 +505,6 @@
 						<li>If <a>isSolitary</a>(DS) is true, then we define <dfn>content(DS)</dfn>
 							= content(name(DS), DS).</li>
 					</ul>
-					<aside class="example"><p>The constructor <a>Associative<sub>k</sub></a> can be
-							used to create a <a>solitory association</a> as follows.</p>
-						<p>Let DS be <a>data structure</a> of order k-1 or less, and set ND =
-								Associative<sub>k</sub>({n}, {n => DS, DEFAULT => {} }). Then
-							isSolitary(ND) is true, names(ND) = {n}, name(ND) = n, content(n, ND) =
-							DS, and order(ND) = k.</p>
-					</aside>
 					<aside>The concrete syntax for building an associative data structure depends on
 						the extension of Update Operations, e.g. the <a>OpInsertData</a> Update
 						Operation, and the extension of the <a>pattern</a> syntax to express k-th
@@ -753,6 +740,23 @@
 						<a>Tree-UNION</a>({content(n, DS)|n is in N}) .</p>
 					<p class="ednote">All these functions need to be added to the table of
 						structural inferences.</p>
+					<p class="ednote">Move this to follow the definition of tree: A named graph may
+						be emulated as a first-order <a>associative tree</a> that is also a
+							<a>solitary association</a>.</p>
+					<p class="ednote">Move this to follow the definition of tree: An RDF Dataset, as
+						defined in [[!RDF-Concepts]] is emulated as either a zeroth- or first-order
+							<a>associative tree</a>. An RDF Dataset always has a default part, its
+						default graph, which may be the empty graph. If the RDF Dataset contains at
+						least one named graph, then the corresponding <a>associative data
+							structure</a> has a named part and so is emulated by a first-order
+							<a>associative tree</a>.</p>
+					<p class="ednote">A <dfn data-lt="timestamped graphs">timestamped graph</dfn> is
+						defined in @@@<a href="">RDF Stream Abstract Syntax and Semantics</a> as an
+						RDF Dataset with one named graph and a distinguished triple, the timestamp
+						triple, in its default graph having the name of the named graph as its
+						subject. A timestamped graph may be emulated by a associative tree of second
+						order or less, as described in Section <a
+							href="#def-rdf-stream-as-second-order-store"></a></p>
 				</section>
 			</section>
 			<section id="def-data-sequences-structures">
