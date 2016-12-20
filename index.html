@@ -670,6 +670,12 @@
 								association-tree<sub>k</sub></td>
 						</tr>
 						<tr>
+							<td>versioned<sub>k</sub>, k &ge; 1</td>
+							<td>::=</td>
+							<td>Ver<sub>k</sub>(structure<sub>&le; k</sub>, structure<sub>&le;
+									k-1</sub>)</td>
+						</tr>
+						<tr>
 							<td>repository<sub>k</sub>, k &ge; 1</td>
 							<td>::&lt;</td>
 							<td> associative-tree<sub>&le; k-1</sub> x
@@ -695,8 +701,11 @@
 						</tr>
 						<tr>
 							<td></td>
-							<td></td>
-							<td>Note: there are additional constraints on stores.</td>
+							<td>::=</td>
+							<td>{<a>Store<sub>k</sub></a>(RN, R, SI, M) | RN &in;
+									2<sup>RDF-Name</sup> - 1, R: RN<sub>ext</sub> =>
+									repository<sub>k-1</sub>, @@@plus other requirement on SI and M
+								as given in the definition of <a>Store<sub>k</sub></a>}</td>
 						</tr>
 						<!-- Not done yet
 						<tr>
