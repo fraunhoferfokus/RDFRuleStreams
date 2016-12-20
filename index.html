@@ -247,26 +247,26 @@
 				<h3>Overview</h3> This document introduces several new datatypes, including: <ul>
 					<li><a>k-th order data structure</a>, k = 0, 1, ...</li>
 					<li><a>k-th order associative data structure</a>, k = 0, 1, ...</li>
-					<li><a>k-th order data sequence</a>, k = 0, 1, ...</li>
+					<li>k-th order <a>data sequence</a>, k = 0, 1, ...</li>
 					<li><a>k-th order associative tree</a>, k = 0, 1, ...</li>
 					<li><a>k-th order repository</a>, k = 1, 2, ...</li>
 					<li><a>k-th order store</a>, k = 2, 3, ...</li>
 					<!--<li><a>named data structure</a>, including <a>solitary associative tree</a> and <a>named
 							repository</a>.</li>-->
-					<li><a>k-th order solitary association</a>, k = 1, 2, ...</li>
+					<li>k-th order <a>solitary association</a>, k = 1, 2, ...</li>
 				</ul>
 				<figure id="datastructure-and-existing-associative-types">
 					<img src="datastructure-and-existing-associative-types.svg" alt="" width="400" />
 					<figcaption>The top type <a>k-th order data structure</a> may be decomposed into
 						three disjoint parts: <a>k-th order associative data structures</a>, <a>k-th
-							order data sequences</a>, and non-degenerate k-th order data structures,
+							order data sequences</a>, and multivalent k-th order data structures,
 						i.e. those k-th order data structures having both an <a>associative part</a>
 						and a <a>sequential part</a>. The existing type of RDF graph is subsumed by
 						the <a>associative data structure</a> type, and more particularly, is equal
 						to the type of <a>zeroth order associative trees</a>. RDF Datasets are not
 						directly represented in this type system, but are emulated by certain
 						associative trees of order 1 or less. The <a>repository</a> and <a>store</a>
-						types are subsumed by the <a>non-degenerate data structure</a> type.
+						types are subsumed by the <a>multivalent data structure</a> type.
 					</figcaption>
 				</figure>
 			</section>
@@ -461,12 +461,15 @@
 						part is empty. That is, <a>cardinality</a>(<a>names</a>(DS)) = 1 and
 							<a>defaultPart</a>(DS) = {}.</p>
 					<aside class="example"><p>The constructor <a>Associative<sub>k</sub></a> can be
-							used to create a <a>solitory association</a> as follows.</p>
+							used to create a <a>solitary association</a> as follows.</p>
 						<p>Let DS be <a>data structure</a> of order k-1 or less, and let ND =
 								Associative<sub>k</sub>({n}, {n => DS, DEFAULT => {} }). Then
 								<a>order</a>(ND) = k, names(ND) = {n}, and default(ND) = {}.
 							Therefore by definition, ND is a <a>solitary association</a>.</p>
 					</aside>
+					<p>We define a specialized constructor for solitary associations,</p>
+					<p><dfn>Solitary<sub>k</sub></dfn>(n, DS) = <a>Associative<sub>k</sub></a>({n},
+						{n => DS, DEFAULT => {} })</p>
 					<p>The <dfn>named part</dfn> of a k-th order <a>associative data structure</a>
 						DS of order k &ge; 1, denoted <dfn>namedPart</dfn>(DS), is the <a>k-th order
 							associative data structure</a> given by
@@ -479,7 +482,7 @@
 					<aside class="example"><p>An RDF Graph is the only <a>associative data
 								structure</a> that has no named part, i.e. <a>namedPart</a> is
 							undefined.</p></aside>
-					<aside class="example"><p>A <a>solitory association</a> ND =
+					<aside class="example"><p>A <a>solitary association</a> ND =
 								Associative<sub>k</sub>({n}, {n => DS, DEFAULT => {} } is equal to
 							its named part.</p>
 						<p>ND = <a>namedPart</a>(ND)</p>
@@ -506,9 +509,9 @@
 							= content(name(DS), DS).</li>
 					</ul>
 					<aside>The concrete syntax for building an associative data structure depends on
-						the extension of Update Operations, e.g. the <a>OpInsertData</a> Update
-						Operation, and the extension of the <a>pattern</a> syntax to express k-th
-						order patterns, including k-th order "solitary-association"
+						the extension of <a>Update Operations</a>, e.g. the <a>OpInsertData</a>
+						Update Operation, and the extension of the <a>pattern</a> syntax to express
+							<a>k-th order patterns</a>, including k-th order "solitary-association"
 						patterns.</aside>
 					<table style="font: monospace;">
 						<tr>
@@ -560,9 +563,9 @@
 						<tr>
 							<td></td>
 							<td>::=</td>
-							<td>{<a>Association<sub>k</sub></a>(N, M) | N &sube; RDF-Name,
-								cardinality(N) = 0 if k=0, cardinality(N) > 0 if k>0, M: (N &cup;
-								{DEFAULT}) => X } </td>
+							<td>{<a>Associative<sub>k</sub></a>(N, M) | N &sube; RDF-Name,
+									<a>cardinality</a>(N) &ge; min(1, k), M: (N &cup; {DEFAULT}) =>
+								X } </td>
 						</tr>
 						<tr>
 							<td>associative<sub>k</sub>, k &gt; 0</td>
@@ -604,11 +607,16 @@
 							<td>{x &in; Seq<sup>+</sup>(structure) | order(x) = k}</td>
 						</tr>
 						<tr>
+							<td>multivalent-structure<sub>k</sub>, k &ge; 0</td>
+							<td>::=</td>
+							<td> (associative<sub>&le; k</sub> x sequence<sub>k</sub>) &cup;
+									(associative<sub>k</sub> x sequence<sub>&le; k</sub>)</td>
+						</tr>
+						<tr>
 							<td>structure<sub>k</sub>, k &ge; 0</td>
 							<td>::=</td>
 							<td>associative<sub>k</sub> &cup; sequence<sub>k</sub> &cup;
-									(associative<sub>&le; k</sub> x sequence<sub>k</sub>) &cup;
-									(associative<sub>k</sub> x sequence<sub>&le; k</sub>)</td>
+									multivalent-structure<sub>k</sub></td>
 						</tr>
 						<tr>
 							<td>structure<sub>&le; k</sub>, k &ge; 0</td>
@@ -652,14 +660,20 @@
 						<tr>
 							<td>solitary-association<sub>k</sub>, k &gt; 0</td>
 							<td>::=</td>
-							<td>{x &in; associative-tree<sub>k</sub> | cardinality(names(x)) = 1 and
-								hasDefault(x) = False}</td>
+							<td>{x &in; associative<sub>k</sub> | cardinality(names(x)) = 1 and
+								default(x) = {}}</td>
+						</tr>
+						<tr>
+							<td>solitary-association-tree<sub>k</sub>, k &gt; 0</td>
+							<td>::=</td>
+							<td>solitary-association<sub>k</sub> &cap;
+								association-tree<sub>k</sub></td>
 						</tr>
 						<tr>
 							<td>repository<sub>k</sub>, k &ge; 1</td>
 							<td>::&lt;</td>
 							<td> associative-tree<sub>&le; k-1</sub> x
-									Seq<sup>+</sup>(solitary-association<sub>k</sub>) </td>
+									Seq<sup>+</sup>(solitary-association-tree<sub>k</sub>) </td>
 						</tr>
 						<tr>
 							<td></td>
@@ -671,13 +685,13 @@
 							<td>store<sub>k</sub>, k &ge; 2</td>
 							<td>::&lt;</td>
 							<td> (Assoc<sub>k</sub>(repository<sub>k-1</sub>) x
-									Seq<sup>+</sup>(solitary-association<sub>k</sub>) )</td>
+									Seq<sup>+</sup>(solitary-association-tree<sub>k</sub>) )</td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>::&lt;</td>
 							<td>Ver<sub>k</sub>(Assoc<sub>k</sub>(repository<sub>k-1</sub>),
-									associative-tree<sub>&le; k-1</sub>)</td>
+									associative-tree<sub>k-1</sub>)</td>
 						</tr>
 						<tr>
 							<td></td>
@@ -710,46 +724,42 @@
 								<a>associative tree</a> of order k-1 or less.</li>
 					</ul>
 					<p class="note">If DS = <a>Associative<sub>k</sub></a>(N, M), then DS is an
-						associative tree iff codom(M) &sub; associative-tree<sub>&le; k-1</sub></p>
-					<p class="note">Every RDF Graph is a zeroth-order RDF associative tree, and
-						every zeroth-order RDF associative tree is an RDF Graph.</p>
-					<p class="note"> A first-Order associative tree is similar to an RDF Dataset
-						according to the definition in [[!RDF11-Concepts]]. However not every RDF
-						Dataset, in the sense of [[!RDF11-Concepts]], is a first-order
-							<a>associative tree</a>, because it may have zero named graphs. In that
-						case it is a zeroth-order <a>associative tree</a>. </p>
+						associative tree iff k=0 or codom(M) &sub; associative-tree<sub>&le;
+							k-1</sub></p>
+					<p class="note">Every RDF Graph is a <a>zeroth-order associative tree</a>, and
+						every zeroth-order associative tree is an RDF Graph.</p>
+					<p class="example">A named graph may be emulated as a first-order <a>associative
+							tree</a> that is also a <a>solitary association</a>.</p>
+					<p>A k-th order <dfn>solitary association tree</dfn> is a k-th order
+							<a>associative tree</a> that is also a <a>solitary association</a>.</p>
+					<p class="note"> Hereafter in this document, <a>solitary associative tree</a>,
+						without qualificatin, means a <a>k-th order solitary associative tree</a>
+						where k is not specified. </p>
+					<p class="example">An RDF Dataset, as defined in [[!RDF-Concepts]] may be
+						emulated as an <a>associative tree</a> of order 1 or less. An RDF Dataset
+						always has a default part, its default graph, which may be the empty graph.
+						If the RDF Dataset contains at least one named graph, then the corresponding
+							<a>associative tree</a> has a named part and so is a first-order
+							<a>associative tree</a>.</p>
 					<p class="ednote">To be clarified in a separate semantics section: just as there
 						is not a single recommended semantics for RDF Datasets, it is important to
 						be inclusive regarding possible semantics for k-th order associative trees.
 						An important consideration is whether the components of the tree lie on a
 						single <a>RDF Surface (sensu Pat Hayes)</a>, i.e. do they share blank nodes. </p>
-					<p class="note"> Hereafter in this document, <a>solitary associative tree</a>,
-						without modification, means a <a>k-th order solitary associative tree</a>
-						where k is not specified. </p>
 					<p>We define syntactic operations on <a>associative trees</a> as follows. Let E
 						be an arbitrary entity. </p>
 					<ul>
-						<li><dfn>isTree</dfn>(E) is true if E is a <a>associative tree</a>;
+						<li><dfn>isTree</dfn>(E) is true if E is an <a>associative tree</a>;
 							otherwise it is false.</li>
 					</ul>
 					<p class="note">The constructor <a>Associative<sub>k</sub></a> defined for
-						general associative data structures works as well for <a>associative
+						general <a>associative data structures</a> works as well for <a>associative
 							trees</a> of arbitrary order.</p>
 					<p>If N is a set of names and DS is a <a>k-th order associative tree</a>, then
 							<dfn>content-UNION</dfn>(N, DS) is defined as
 						<a>Tree-UNION</a>({content(n, DS)|n is in N}) .</p>
 					<p class="ednote">All these functions need to be added to the table of
 						structural inferences.</p>
-					<p class="ednote">Move this to follow the definition of tree: A named graph may
-						be emulated as a first-order <a>associative tree</a> that is also a
-							<a>solitary association</a>.</p>
-					<p class="ednote">Move this to follow the definition of tree: An RDF Dataset, as
-						defined in [[!RDF-Concepts]] is emulated as either a zeroth- or first-order
-							<a>associative tree</a>. An RDF Dataset always has a default part, its
-						default graph, which may be the empty graph. If the RDF Dataset contains at
-						least one named graph, then the corresponding <a>associative data
-							structure</a> has a named part and so is emulated by a first-order
-							<a>associative tree</a>.</p>
 					<p class="ednote">A <dfn data-lt="timestamped graphs">timestamped graph</dfn> is
 						defined in @@@<a href="">RDF Stream Abstract Syntax and Semantics</a> as an
 						RDF Dataset with one named graph and a distinguished triple, the timestamp
@@ -819,6 +829,22 @@
 							traditional "tail" function. </li>
 						<li>Square brackets are used in the abstract syntax to define a sequence
 							explicitly, with the greatest element first. </li>
+						<li>General sequences, including sequences that are not finite, are
+							indicated using square brackets around an element containing an index
+							variable, with a subscript on the bracket indicating the ordered set the
+							index ranges over. For example [i<sup>2</sup>]<sub>i &in; Nat</sub> is
+							the semi-infinite sequence of squares of positive numbers, ordered by
+							magnitude. For convenience, a constructor function for such sequences is
+							defined as follows.</li>
+						<li><dfn>Seq</dfn>(Index, M) = [ M(i) ]<sub>i &in; Index</sub> where Index =
+							[Key, &le;<sub>Key</sub>] is a totally-ordered set isomorphic to an
+							interval of the integers. If SQ = <a>Seq</a>(Index, M), then SQ(i) =
+							M(i)</li>
+						<li>To iterate over general sequences, let <dfn>next</dfn>(i; Index) have
+							the value of the next greater element of the totally-ordered set Index,
+							provided i &in; Index and i is not the greatest element of Index. </li>
+						<li>If SQ = <a>Seq</a>(Index, M), we define <dfn>next(i; SQ)</dfn> =
+								SQ(<a>next</a>(i; Index)).</li>
 					</ul>
 					<aside class="example"> In the case that <a>hasGreatest</a>(DSQ) is true, then
 							<p> Cons( greatest(DSQ), exceptGreatest(DSQ) ) = DSQ.</p>
@@ -912,21 +938,41 @@
 			</section>
 			<section id="def-repositories">
 				<h3>RDF Repositories</h3>
+				<section id="def-kth-order-rdf-versioned">
+					<h4>k-th Order Versioned RDF Data structures</h4>
+					<p>A <dfn
+							data-lt="k-th Order Versioned RDF Data Structures|k-th Order Versioned Data Structure|k-th Order Versioned Data Structures|Versioned RDF Data Structure|Versioned RDF Data Structures|Versioned Data Structure|Versioned Data Structures"
+							>k-th Order Versioned RDF Data Structure</dfn> DS is a <a>k-th order RDF
+							multivalent data structure</a> that meets the following requiremenst. </p>
+					<ul>
+						<li>Each element sequentialPart(DS)(i) for i &in; index(DS) is a <a>solitary
+								association</a>. These elements are called <dfn>versions</dfn> of
+							the versioned structure.</li>
+						<li>If i &ne; j &in; Index, then name(sequentialPart(DS)(i)) &ne;
+							name(sequentialPart(DS)(j)). The names are called the <dfn>version
+								names</dfn> of the structure and they form an ordered set, with the
+							order consistent with the sequence order.</li>
+						<li>If j = next(i; index(DS)), then content(sequentialPart(DS)(j)) &ne;
+							content(sequentialPart(DS)(i))</li>
+					</ul>
+					<p class="note">The sequence corresponds to a mapping from the <a>version
+							names</a> to the contents of the <a>versions</a>. Further, the contents
+						of adjacent versions are distinct; this means each step in the sequence
+						corresponds to a non-vacuous <i>revision</i> of a <a>data structure</a> of
+						order k-1 or less.</p>
+				</section>
 				<section id="def-kth-order-rdf-repository">
 					<h4>k-th Order RDF Repositories</h4>
 					<p>A <dfn
 							data-lt="k-th Order RDF Repositories|k-th Order Repository|k-th Order Repositories|RDF Repository|RDF Repositories|repository|repositories"
-							>k-th Order RDF Repository</dfn> is a special case of <a>k-th order RDF
-							data structure</a> that is defined by the following cases. </p>
+							>k-th Order RDF Repository</dfn>, k = 1, 2, ... is a special case of
+							<a>k-th order versioned data structure</a> that satisfies the following
+						requirements. </p>
 					<ol>
-						<li>A k+1-th Order RDF Repository, k = 0, 1, ..., has a <a>associative
-								tree</a> of k-th order or less (possibly empty) for its associative
-							part and a non-empty <a>data sequence</a> of <a>k+1-th order solitary
-								associations</a> for its sequential part. The names of the solitary
-							associations in this sequence are unique, so the sequence corresponds to
-							a mapping from names to associative trees of k-th order or less.
-							Further, the contents of adjacent solitary associations in the sequence
-							are distinct.</li>
+						<li>It's <a>associative part</a> is an <a>associative tree</a> of k-1-th
+							order or less (possibly empty).</li>
+						<li>The <a>contents</a> of its <a>versions</a> are also <a>associative
+								trees</a> of k-1-th order or less.</li>
 					</ol>
 					<p class="note">A k-th Order RDF Repository, k &gt; 0, may be viewed as a k-th
 						Order RDF Dataset with the additional structure of a total order on its
@@ -998,12 +1044,27 @@
 					<p>The function <dfn>hasNext</dfn>(n; R) is true provided n is the name of a
 						non-terminal <a>version</a> of R (<a>isVersionNameOf</a>(n, R) is true and
 							<a>terminalVersionOf</a>(R) &ne; <a>version</a>(n; R)). </p>
-					<p>The function <dfn>next</dfn>(n; R) is defined provided <a>hasNext</a>(n; R)
+					<p>The function <dfn>next(n; R)</dfn> is defined provided <a>hasNext</a>(n; R)
 						is true, and has the value <a>name</a>( <a>succeedingVersion</a>(
 							<a>version</a>(n; R) ) ).</p>
 					<p class="ednote">Redefine the functions hasNext and next in terms of the
 						ordered set of version names. Then it is not necessary to have the function
 						version(n;R).</p>
+					<p>We define a constuctor of <a>versioned data structures</a> as a basic
+						operation <dfn>Versioned<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
+						following arguments.</p>
+					<ol>
+						<li>The ordered set [VN, &le;<sub>VN</sub>] of version names of the data
+							structure. </li>
+						<li>The mapping M from the set VN<sub>ext</sub> = VN &cup; {STATIC} to
+								<a>data structures</a> of order k-1 or less that specifies the
+							sequential and associative part of the data structure. </li>
+					</ol>
+					<p>The semantics are as follows.</p>
+					<p><a>Versioned</a><sub>k</sub>([VN, &le;<sub>VN</sub>], M) = [ M(STATIC) ,
+							<a>Seq</a>( [VN', &le;<sub>VN</sub>], M' ) ]</p>
+					<p>where M'(n) = <a>Solitary<sub>k</sub></a>(n, M(n))</p>
+					<p> and VN' = {n &in; VN | M(n) &ne; M(<a>next</a>(n))}</p>
 					<p>We define a Repository Constuctor as a basic operation
 								<dfn>Repository<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
 						following arguments.</p>
@@ -1068,9 +1129,9 @@
 					<h4> k-th Order Solitary Repository Association</h4>
 					<p>A <dfn
 							data-lt="k-th Order Solitary Repository Associations|Solitary Repository Association|Solitary Repository Associations"
-							>k-th Order Solitary Repository Association</dfn> is a <a>k-th order
-							solitary associative data structure</a> whose content is a <a>(k-1)-th
-							order repository</a>. </p>
+							>k-th Order Solitary Repository Association</dfn> is a k-th order
+							<a>solitary association</a> whose content is a <a>(k-1)-th order
+							repository</a>. </p>
 					<p class="ednote">To be clarified in the section on the extension of Eval on
 						Solitary Repository Associations: Under the provenance entailment regime a
 							<a>Solitary Repository Association</a> has additional entailments that
@@ -1107,38 +1168,45 @@
 					<p>A <dfn
 							data-lt="k-th Order RDF Stores|k-th Order Store|k-th Order Stores|RDF Store|RDF Stores|Store|Stores"
 							>k-th Order RDF Store</dfn>, k &ge; 2, is a special case of <a>k-th
-							order data structure</a>.</p>
-					<p> A (k+2)-th order RDF Store, k = 0, 1, ..., is a (k+2)-th order data
-						structure with the following properties. <ul>
-							<li>It has a associative part whose optional default part is a (k+1)-th
-								order repository, called the default repository of the store, and
-								whose named part consists of one or more named (k+1)-th order
-								repositories, called named repositories of the store. </li>
-							<li>It has a sequential part which is a non-empty <a>data sequence</a>
-								whose elements are named (k+1)-th order associative trees, called
-								versions of the store. The ordered set SV of the names of these
-								versions are the <dfn>version names of the store</dfn>.</li>
-							<li>The associative and sequential parts of a store St satisfy the
-								following consistency requirements.</li>
+							order versioned data structure</a>.</p>
+					<p> A (k+2)-th order RDF Store, k = 0, 1, ..., is a (k+2)-th order versioned
+						data structure ST with the following properties. <ul>
+							<li>ST has a sequential part SQ = <a>sequentialPart</a>(ST) which is a
+								(k+2)-th order <a>repository</a>, whose versions are called versions
+								of the store. The ordered set SV = versionNames(SQ) contains the
+									<dfn>version names of the store</dfn>.</li>
+							<li>ST has an associative part A = <a>associativePart</a>(ST). </li>
+							<li>The default part of A, <a>defaultPart</a>(A) is a (k+1)-th order
+								repository, called the <dfn>default repository of the store</dfn>,
+								and denoted repository(DEFAULT; ST).</li>
+							<li>The names of the associative part of the store, names(A) are called
+								the <dfn>repository names of the store</dfn>, denoted
+									<dfn>repositoryNames</dfn>(ST). </li>
+							<li>For each name n &in; repositoryNames(ST), the corresonding content
+									<a>content(n, A)</a> is a (k+1)-th order repository, denoted
+									<dfn>repository(n, ST)</dfn>, called the <dfn>repository for
+									name n of the store</dfn> ST. </li>
+							<li>Further, the associative and sequential parts, A and SQ, of ST
+								satisfy the following consistency requirements.</li>
 							<ul>
-								<li>For every repository name n in names(associativePart(St)), there
-									is a monotonic partial mapping M<sub>n</sub> from SV onto
-										<a>versionNames</a>( content(n, associativePart(St))); that
-									is, from version names of the store to version names of the
-									named repository of the store with name n. </li>
+								<li>For every repository name n in repositoryNames(ST), there is a
+									monotonic partial mapping M<sub>n</sub> from versionNames(ST)
+									onto <a>versionNames</a>( repository(n, ST)); that is, from
+									version names of the store to version names of the repository
+									for name n of the store ST. </li>
 								<li>The domain of M<sub>n</sub>, dom(M<sub>n</sub>), is an interval
-									in SV.</li>
+									in the ordered set versionNames(ST).</li>
 								<li>If stver is in dom(M<sub>repname</sub>), let repver =
 										M<sub>repname</sub>(stver). Then <br /> content(repname;
-										<a>versionContent</a>(stver; St)) =
-									<a>versionContent</a>(repver; content(repname;
-									associativePart(St))) </li>
-								<li>There is a monotonic mapping M<sub>default</sub> of SV onto
-									version names of the default repository.</li>
-								<li>If stver in SV, let repver = M<sub>default</sub>(stver). Then
-									<br /> default(<a>versionContent</a>(stver; St)) =
-										<a>versionContent</a>(repver; default(associativePart(St)))
-								</li>
+										<a>versionContent</a>(stver; ST)) =
+									<a>versionContent</a>(repver; repository(repname; ST)) </li>
+								<li>There is a monotonic (total) mapping M<sub>DEFAULT</sub> from
+									versionNames(ST) onto version names of the default repository;
+									that is, <a>versionNames</a>( repository(DEFAULT, ST))</li>
+								<li>If stver in versionNames(ST), let repver =
+									M<sub>DEFAULT</sub>(stver). Then <br />
+										defaultPart(<a>versionContent</a>(stver; ST)) =
+										<a>versionContent</a>(repver; repository(DEFAULT; ST)) </li>
 							</ul>
 						</ul>
 					</p>
@@ -1146,21 +1214,38 @@
 							>Store<sub>k</sub></dfn> for <a>k-th order stores</a>, k = 2, 3, ...,
 						with the following arguments.</p>
 					<ol>
-						<li>The default (k-1)-th order repository of the store, or NONE.</li>
-						<li>The non-empty set of repository names.</li>
-						<li>The mapping from repository names to (k-1)-th order repositories.</li>
-						<li>The non-empty set of store version names.</li>
-						<li>For each repository name, a monotonic partial function from an interval
-							of store version names onto the names of versions of the associated
-							repository.</li>
-						<li>The monotonic mapping from store version names onto version names of the
-							default repository.</li>
+						<li>The non-empty set RN of repository names.</li>
+						<li>The mapping R from RN<sub>ext</sub> = RN &cup; {DEFAULT} to (k-1)-th
+							order repositories.</li>
+						<li>The non-empty ordered set [SV, &le;<sub>SV</sub>] of store version
+							names.</li>
+						<li>For each name n in RN<sub>ext</sub>, a monotonic partial function
+								M<sub>n</sub> from an interval of SV onto the <a>version names</a>
+							of the associated repository, <a>repository(n; ST)</a>. (The mapping
+								M<sub>DEFAULT</sub> is total.) </li>
 					</ol>
+					<p>The semantics of <a>Store<sub>k</sub></a> is defined as follows.</p>
+					<p><a>Store<sub>k</sub></a>(RN, R, [SV, &le;<sub>SV</sub>], M) =
+								<a>Versioned<sub>k</sub></a>([SV, &le;<sub>SV</sub>], M')</p>
+					<p>where </p>
+					<p> M'(stver) = Tree-UNION({RP<sub>n</sub> | n &in; RN<sub>ext</sub>}) and </p>
+					<p> RP<sub>n</sub> = <a>Solitary</a>(n, content( M<sub>n</sub>(stver); R(n) ) if
+						n &in; RN while </p>
+					<p> RP<sub>DEFAULT</sub> = content( M<sub>DEFAULT</sub>(stver); R(DEFAULT) ) and </p>
+					<p> M'(STATIC) = Tree-UNION( R( RN<sub>ext</sub> ) ). </p>
+					<p class="note">If ST = <a>Store<sub>k</sub></a>(RN, R, SI, M), then</p>
+					<ul>
+						<li><a>repositoryNames</a>(ST) = RN.</li>
+						<li><a>repository</a>(n; ST) = R(n) for n &in; RN<sub>ext</sub>.</li>
+						<li><a>versionNames</a>(ST) = SV.</li>
+						<li><a>associativePart</a>(ST) = M'(STATIC) = Tree-UNION( R(
+								RN<sub>ext</sub> ) ).</li>
+					</ul>
 					<p>In addition to constructing a store in its entirety with
 							<a>Store<sub>k</sub></a>, we define a basic operation
-							<dfn>Append2Store</dfn> which creates a store by adding a version to it.
-							<a>Append2Store</a> does not change the associative part of a store, and
-						it specifies the new store version through new versions of its
+							<dfn>Append2Store</dfn> which creates a new store by adding a version to
+						the input store. <a>Append2Store</a> does not change the associative part of
+						a store, and it specifies the new store version through new versions of its
 						repositories.</p>
 					<p>The arguments of <a>Append2Store</a><sub>k</sub> are</p>
 					<ol>
@@ -1168,19 +1253,17 @@
 						<li>The new store version name, which must be distinct from previous store
 							version names.</li>
 						<li>A mapping M<sub>default</sub> from zero or one name (the new version
-							name of the default repository) to a associative tree of order (k-2) or
+							name of the default repository) to an associative tree of order (k-2) or
 							less.</li>
-						<li>A mapping M<sub>named</sub> from zero or more repository names to
-							mappings from zero or one new version names to associative trees of
-							order (k-2) or less. The repository names may be repository names of the
-							input store or may be new repository names. </li>
+						<li>A mapping M<sub>named</sub> from zero or more repository names of the
+							input store to mappings from a version name (new to that repository) to
+							an associative tree of order (k-2) or less.</li>
 						<li>A mapping M<sub>new</sub> from zero or more repository names to
-							repositories of order (k-1) or less having exactly one version. The
-							repository names MUST be new for the store. </li>
-						<li>A set S<sub>drop</sub> of zero or more repository names that are being
-							dropped. This set MUST be disjoint from the repository names in the
-							previous two items, and can only include repository names of the input
-							store.</li>
+							repositories of order (k-1) having exactly one version. The repository
+							names MUST be new for the store. </li>
+						<li>A set S<sub>drop</sub> of zero or more repository names of the input
+							store that are being dropped. This set MUST be disjoint from the
+							repository names in the M<sub>named</sub> mapping.</li>
 					</ol>
 					<p>An <a>Append2Store</a> operation cannot be vacuous; it must append to at
 						least one repository (default or named) or add at least one new named
@@ -1739,21 +1822,21 @@
 			<section id="def-existing-basic">
 				<h3>Basic Operations</h3>
 				<section id="def-existing-basic-associative tree-union">
-					<h4>Tree-UNION</h4>
-					<p><dfn>Tree-UNION</dfn> is defined in [[!SPARQL11-Update]] as a basic operation
-						with the following signature:</p>
+					<h4>Dataset-UNION</h4>
+					<p><dfn>Dataset-UNION</dfn> is defined in [[!SPARQL11-Update]] as a basic
+						operation with the following signature:</p>
 					<ul>
 						<li>On the domain RDF Dataset x RDF Dataset, the range is RDF Dataset.</li>
 					</ul>
-					<p>The semantics of <a>Tree-UNION</a> is defined in [[!SPARQL11-Update]] as
+					<p>The semantics of <a>Dataset-UNION</a> is defined in [[!SPARQL11-Update]] as
 						follows.</p>
 					<p> Let DS={DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and DS' =
 						{DG'} union {(iri'<sub>j</sub>, G'<sub>j</sub>) | 1 ≤ j ≤ m} be two RDF
 						Datasets. Let further graphNames(DS) = { iri<sub>i</sub> | 1 ≤ i ≤ n} and
 						graphNames(DS') = {iri'<sub>j</sub> | 1 ≤ j ≤ m}. The Tree-UNION between DS
 						and DS' is defined as follows: </p>
-					<p>Tree-UNION(DS, DS') = {DG union DG'} union {(iri, G) | iri in graphNames(DS)
-						union graphNames(DS')}</p>
+					<p>Dataset-UNION(DS, DS') = {DG union DG'} union {(iri, G) | iri in
+						graphNames(DS) union graphNames(DS')}</p>
 					<p>and G defined as </p>
 					<ul>
 						<li>G<sub>i</sub> for iri = iri<sub>i</sub> such that iri<sub>i</sub> in
@@ -1765,41 +1848,40 @@
 					</ul>
 					<p>where union between <a>graphs</a> is defined as set-union of <a>triples</a>
 						in those <a>graphs</a>.</p>
-					<p>The Tree-UNION operation constructs a new <a>RDF 1.1 Dataset</a> from two
-						existing <a>RDF 1.1 Datasets</a> by forming the union of the <a>default
+					<p>The Dataset-UNION operation constructs a new <a>RDF Dataset</a> from two
+						existing <a>RDF Datasets</a> by forming the union of the <a>default
 							graphs</a>, and taking the union of the sets of <a>named graphs</a>,
-						with the exception that if the sets of graph names of the two <a>RDF 1.1
+						with the exception that if the sets of graph names of the two <a>RDF
 							Datasets</a> have a non-empty intersection, the <a>graphs</a> with names
 						in that intersection must be combined by set union. </p>
-					<p> We extend the Tree-UNION operation to <a>k-th Order RDF Datasets</a>. Also,
-						the names are extended from IRIs to also allow <a>blank node</a> names. </p>
+					<p> We define <dfn>Tree-UNION</dfn> as an extension of the Dataset-UNION
+						operation to <a>k-th Order associative trees</a>. </p>
 					<ul>
 						<li>On the domain <a>k-th order associative tree</a> x k'-th order
-								<a>associative tree</a>, the range is max(k, k')-th order
-								<a>associative tree</a>.</li>
+								<a>associative tree</a>, the range of <a>Tree-UNION</a> is max(k,
+							k')-th order <a>associative tree</a>.</li>
 						<li>On the domain of sets of <a>associative trees</a> of order k or less,
-							the range is <a>k-th order associative trees</a>.</li>
+							the range of <a>Tree-UNION</a> is <a>k-th order associative
+							trees</a>.</li>
 					</ul>
-					<p>The extended semantics of <a>Tree-UNION</a> is defined by cases as
-						follows.</p>
+					<p>The semantics of <a>Tree-UNION</a> is defined by cases as follows.</p>
 					<p>In the case of two arguments DSP, DSP':</p>
 					<ul>
 						<li>If DSP and DSP' are both zeroth-order <a>associative trees</a>, i.e.,
-								<a>RDF Graphs</a>, then the result is the union of the sets of
-								<a>triples</a> in the two <a>graphs</a>. </li>
+								<a>RDF Graphs</a>, then the value of <a>Tree-UNION</a>(DSP, DSP') is
+							the union of the sets of <a>triples</a> in the two <a>graphs</a>. </li>
 						<li>If order(DSP) = order(DSP') = k &gt; 0, then <br /> Tree-UNION(DSP,
-							DSP') = Associative<sub>k</sub>( Tree-UNION(default(DSP),
-							default(DSP')), names(DSP) ∪ names(DSP'), result-nameMap ) <br /> where
-							result-nameMap = <br /> { name = > content(name, DSP) | name in
+							DSP') = Associative<sub>k</sub>( names(DSP) ∪ names(DSP'), M' ) <br />
+							where M' = <br /> { DEFAULT => Tree-UNION(defaultPart(DSP),
+							defaultPart(DSP')) } ∪ <br /> { name = > content(name, DSP) | name in
 							names(DSP) - names(DSP')} ∪ <br /> { name = > content(name, DSP') | name
 							in names(DSP') - names(DSP)} ∪ <br /> { name = > Tree-UNION(
 							content(name, DSP), content(name, DSP')) | name in names(DSP) &amp;
 							names(DSP')} </li>
 						<li>If order(DSP') &lt; order(DSP) = k, then <br /> Tree-UNION(DSP, DSP') =
-							Tree-UNION(DSP', DSP) = Associative<sub>k</sub>(
-							Tree-UNION(default(DSP), DSP'), names(DSP) , result-nameMap ) <br />
-							where result-nameMap = { name = > content(name, DSP) | name in
-							names(DSP)} </li>
+							Tree-UNION(DSP', DSP) = Associative<sub>k</sub>( names(DSP) , M' )
+							<br /> where M' = names(DSP) => M(names(DSP) &cup; {DEFAULT =>
+							Tree-UNION(default(DSP), DSP')} </li>
 					</ul>
 					<p>In the case of a single argument S that is a set of <a>associative trees</a>
 						of order k or less, the value is defined inductively as follows.</p>
@@ -2639,7 +2721,7 @@ _:b0
 				</aside>
 				<aside class="example" id="ex-prov-tree-2"
 					title="FHIR Provenance in a Second-Order Dataset"> This data can also be
-					represented using the second-order <a>Dataset</a> datatype. For this
+					represented using the second-order <a>associative tree</a> datatype. For this
 					representation, we use an extension of the Trig syntax to "quints". This
 					additional name allows the statements of each stream element to be grouped
 					together, and also allows us to materialize, in the default (first-order)
