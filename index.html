@@ -1102,26 +1102,41 @@
 						<li>The mapping from the set of version names to <a>associative trees</a> of
 							order k-1 or less that defines the versions of the repository. </li>
 					</ol>
-					<p>To satisfy the definition of <a>repository</a>, an additional requirement is
-						that the contents of adjacent versions MUST be distinct. Therefore, the
-								<a>Repository<sub>k</sub></a> constructor carries out a
-						reconciliation step that removes any version whose content is identical to
-						that of its preceding version. This reconciliation may reduce the set of
-						version names, in case of such version duplication.</p>
+					<ol>
+						<li>The ordered set VI = [VN, &le;<sub>VN</sub>] of version names of the
+							repository. </li>
+						<li>The mapping M from the set VN<sub>ext</sub> = VN &cup; {ASSOC} to
+								<a>associative trees</a> of order k-1 or less that specifies the
+							sequential and associative part of the repository. </li>
+					</ol>
+					<p>The semantics of the <a>Repository<sub>k</sub></a> constructuor are as
+						follows.</p>
+					<p><a>Repository<sub>k</sub></a>(VI, M) = <a>Versioned<sub>k</sub></a>(VI,
+						M)</p>
+					<p class="note"><a>Repository<sub>k</sub></a> is simply a restriction of
+								<a>Versioned<sub>k</sub></a> with respect to the mapping in the
+						second argument, which must have a codomain that is <a>associative trees</a>
+						of order k-1 or less.</p>
+					<p class="note">The <a>Versioned</a> constructor ensures that the repository
+							<i>revisions</i> are non-vacuous.</p>
 					<p>We further define a basic operation <dfn>Append2Repository</dfn> as
 						follows.</p>
 					<p>The arguments of <a>Append2Repository</a><sub>k</sub>, k = 1, 2, ..., are</p>
 					<ol>
-						<li>The k-th order input repository to be modified.</li>
-						<li>The new repository version name, which must be distinct from version
-							names of the input repository.</li>
+						<li>The k-th order input repository, R, to be modified.</li>
+						<li>The new repository version name, n, which must be distinct from version
+							names of the input repository; i.e. n &nin; <a>versionNames</a>(R).</li>
 						<li>The associative tree of order (k-1) or less that is to be the content of
 							the new repository version.</li>
-						<li>An <a>Append2Repository</a> operation cannot be vacuous; the contents of
-							the new repository version must be different than the contents of the
-							preceding version (i.e. the terminal version of the input
-							repository).</li>
 					</ol>
+					<p>The semantics are</p>
+					<p><a>Append2Repository</a><sub>k</sub>(R, name, DS) =
+							<a>Repository<sub>k</sub></a>(VI', M') where</p>
+					<p>VI = <a>versionNames</a>(R) and VI' = <a>Cons</a>(VI, name),</p>
+					<p>M = <a>versionMap</a>(R) and M' = M &cup; {name => DS}</p>
+					<p>assuming name &nin; <a>versionNames</a>(R).</p>
+					<p class="ednote">Need to define <a>Cons</a> for terminated totally-ordered
+						sets.</p>
 					<p class="ednote">To be clarified in the section on the extension of Eval to
 						repositories: there is an entailment regime, called e.g. "provenance
 						entailment regime", that has additional entailments beyond those of the
@@ -2304,7 +2319,7 @@ _:b7 obs:effectiveDateTime
 					</aside>
 				</section>
 				<section>
-					<h4>Repository of Observations</h4>
+					<h4>Repository of FHIR Heartrate Observations</h4>
 					<p>We now construct a repository of observations where the graphs G<sub>i,
 							FHIR-hr</sub> are the version contents.</p>
 					<aside class="example" title="Repository of FHIR Heartrate Observations">
@@ -2314,13 +2329,76 @@ _:b7 obs:effectiveDateTime
 								<a>Versioned</a><sub>1</sub>(VI<sub>FHIR-hr</sub>,
 								M<sub>FHIR-hr</sub>)</p>
 						<p>where</p>
-						<p>VI<sub>FHIR-hr</sub> = <a>Chain</a>([_:fhir-rvn1, _:fhir-rvn2,
-							_:fhir-rvn3])</p>
-						<p>is the ordered set of repository names , and</p>
-						<p>M<sub>FHIR-hr</sub> = {_:fhir-rvn1 => G<sub>1, FHIR-hr</sub>, _:fhir-rvn2
-							=> G<sub>2, FHIR-hr</sub>, _:fhir-rvn3 => G<sub>3, FHIR-hr</sub> }</p>
+						<p>VI<sub>FHIR-hr</sub> = <a>Chain</a>([_:fhir-hr-g1, _:fhir-hr-g2,
+							_:fhir-hr-g3])</p>
+						<p>is the ordered set of repository versions names, and</p>
+						<p>M<sub>FHIR-hr</sub> = {_:fhir-hr-g1 => G<sub>1, FHIR-hr</sub>,
+							_:fhir-hr-g2 => G<sub>2, FHIR-hr</sub>, _:fhir-hr-g3 => G<sub>3,
+								FHIR-hr</sub> }</p>
+						<p>is the mapping from version names to version content.</p>
 						<p class="ednote">Need to define <dfn>Chain</dfn> as a function that takes a
 							sequence with distinct elements to a totally-ordered set.</p>
+						<p class="note">This repository is constructed as a first-order data
+							structure, which is possible because the version contents are just
+							graphs (zeroth order), rather than higher-order structures. We could in
+							fact choose any repository order higher than 1 as well.</p>
+					</aside>
+					<p>We can also use basic operations to build this finite repository, as
+						follows.</p>
+					<aside class="example" title="Repository Built with Basic Operations">
+						<p>we first initialize the repository with <a>Repository-INITIAL</a></p>
+						<p class="ednote">We need to define this basic operation as
+								<dfn>Repository-INITIAL</dfn><sub>k</sub>(DSD, name, DSN) =
+									<a>Versioned<sub>k</sub></a>([{name}, {}], {name => DSN, DEFAULT
+							=> DSD})</p>
+						<p><dfn>Repo<sub>1, FHIR-hr</sub></dfn> =
+								<a>Repository-INITIAL</a><sub>1</sub>({}, _:fhir-hr-g1, G<sub>1,
+								FHIR-hr</sub>) </p>
+						<p>Then we use <a>Append2Repository</a><sub>1</sub> twice to add the later
+							versions,</p>
+						<p><dfn>Repo<sub>2, FHIR-hr</sub></dfn> =
+								<a>Append2Repository</a><sub>1</sub>(<a>Repo<sub>1,
+								FHIR-hr</sub></a>, _:fhir-hr-g2, G<sub>2, FHIR-hr</sub>) </p>
+						<p><a>Repo<sub>FHIR-hr</sub></a> =
+									<a>Append2Repository</a><sub>1</sub>(<a>Repo<sub>2,
+									FHIR-hr</sub></a>, _:fhir-hr-g3, G<sub>3, FHIR-hr</sub>) </p>
+					</aside>
+				</section>
+				<section>
+					<h4>Store of FHIR Heartrate Observations</h4>
+					<p>The repository that was built in the previous example holds the atemporal
+						information about the observations and their relative order, but does not
+						contain the temporal information from the triples that use the
+						obs:effectiveDateTime predicate. We will now embed the repository of
+						atemporal observations into a second-order store, where the temporal
+						statement appears in the default part of the store version contents. </p>
+					<aside class="example"
+						title="Store holding an RDF Stream of FHIR Heartrate Observations">
+						<p>We first use the <a>Store<sub>k</sub></a> constructor as follows.</p>
+						<p><dfn>Store<sub>FHIR-hr</sub></dfn> = <a>Store</a><sub>2</sub>(RN, R, SI,
+							M) where</p>
+						<ul>
+							<li>RN = {_:fhir-hr}</li>
+							<li>R<sub>RN</sub> = <a>Repo<sub>FHIR-hr</sub></a></li>
+							<li>R<sub>DEFAULT</sub> = <a>Repo<sub>FHIR-ts</sub></a></li>
+							<li>SI = <a>Chain</a>([_:stream_store1, _:stream_store2,
+								_:stream_store3])</li>
+							<li>M<sub>RN</sub> = {_:stream_store1 => _:fhir-hr-g1, _:stream_store2
+								=> _:fhir-hr-g2, _:stream_store3 => _:fhir-hr-g3}</li>
+							<li>M<sub>DEFAULT</sub> = {_:stream_store1 => _:fhir-hr-ts1,
+								_:stream_store2 => _:fhir-hr-ts2, _:stream_store3 =>
+								_:fhir-hr-ts3}</li>
+						</ul>
+						<p>and where</p>
+						<p><dfn>Repo<sub>FHIR-ts</sub></dfn> =
+									<a>Append2Repository</a><sub>1</sub>(<a>Repo<sub>2,
+									FHIR-ts</sub></a>, _:fhir-hr-ts3, TS<sub>3, FHIR-hr</sub>)</p>
+						<p><dfn>Repo<sub>2, FHIR-ts</sub></dfn> = =
+								<a>Append2Repository</a><sub>1</sub>(<a>Repo<sub>1,
+								FHIR-ts</sub></a>, _:fhir-hr-ts2, TS<sub>2, FHIR-hr</sub>)</p>
+						<p><dfn>Repo<sub>1, FHIR-ts</sub></dfn> = =
+								<a>Repository-INITIAL</a><sub>1</sub>(_:fhir-hr-ts1, TS<sub>1,
+								FHIR-hr</sub>)</p>
 					</aside>
 				</section>
 			</section>
