@@ -929,7 +929,8 @@
 							undefined. When defined, its value is the associative part of DS.</li>
 						<li><dfn>sequentialPart</dfn>(DS) is defined on all data structures that
 							have a sequential part (hasSequential(DS) is true); otherwise it is
-							undefined. When defined, its value is the sequential part of DS.</li>
+							undefined. When defined, its value is the data sequence that is the
+							sequential part of DS.</li>
 					</ul>
 					<p class="note">If a k-th order <a>data structure</a> has no sequential part,
 						then its associative part is itself (associativePart(DS) = DS). In that case
@@ -1185,8 +1186,7 @@
 							order versioned data structure</a>.</p>
 					<p> A (k+2)-th order RDF Store, k = 0, 1, ..., is a (k+2)-th order versioned
 						data structure ST with the following properties. <ul>
-							<li>ST has a sequential part SQ = <a>sequentialPart</a>(ST)</li>
-							<li>The ordered set SV = versionNames(ST) contains the <dfn>version
+							<li>The ordered set SI = versionNames(ST) contains the <dfn>version
 									names of the store</dfn>.</li>
 							<li>ST has an associative part A = <a>associativePart</a>(ST). </li>
 							<li>The default part of A, <a>defaultPart</a>(A) is a (k+1)-th order
@@ -1199,27 +1199,34 @@
 									<a>content(n, A)</a> is a (k+1)-th order repository, denoted
 									<dfn>repository(n, ST)</dfn>, called the <dfn>repository for
 									name n of the store</dfn> ST. </li>
-							<li>Further, the associative and sequential parts, A and SQ, of ST
-								satisfy the following consistency requirements.</li>
+							<li>Further, the repositories and versions of the store satisfy the
+								following consistency requirements.</li>
 							<ul>
 								<li>For every repository name n in repositoryNames(ST), there is a
 									monotonic partial mapping M<sub>n</sub> from versionNames(ST)
 									onto <a>versionNames</a>( repository(n, ST)); that is, from
 									version names of the store to version names of the repository
-									for name n of the store ST. </li>
-								<li>The domain of M<sub>n</sub>, dom(M<sub>n</sub>), is an interval
-									in the ordered set versionNames(ST).</li>
-								<li>If stver is in dom(M<sub>repname</sub>), let repver =
-										M<sub>repname</sub>(stver). Then <br /> content(repname;
-										<a>versionContent</a>(stver; ST)) =
-									<a>versionContent</a>(repver; repository(repname; ST)) </li>
+									for name n of the store ST with the following properties. <ul>
+										<li>The domain of M<sub>n</sub>, dom(M<sub>n</sub>), is an
+											interval in the ordered set versionNames(ST).</li>
+										<li>If stver is in dom(M<sub>repname</sub>), let repver =
+												M<sub>repname</sub>(stver). Then <br />
+											content(repname; <a>versionContent</a>(stver; ST)) =
+												<a>versionContent</a>(repver; repository(repname;
+											ST)) </li>
+									</ul>
+								</li>
 								<li>There is a monotonic (total) mapping M<sub>DEFAULT</sub> from
 									versionNames(ST) onto version names of the default repository;
-									that is, <a>versionNames</a>( repository(DEFAULT, ST))</li>
-								<li>If stver in versionNames(ST), let repver =
-									M<sub>DEFAULT</sub>(stver). Then <br />
-										defaultPart(<a>versionContent</a>(stver; ST)) =
-										<a>versionContent</a>(repver; repository(DEFAULT; ST)) </li>
+									that is, <a>versionNames</a>( repository(DEFAULT, ST)) with the
+									following properties <ul>
+										<li>If stver in versionNames(ST), let repver =
+												M<sub>DEFAULT</sub>(stver). Then <br />
+												defaultPart(<a>versionContent</a>(stver; ST)) =
+												<a>versionContent</a>(repver; repository(DEFAULT;
+											ST)) </li>
+									</ul>
+								</li>
 							</ul>
 						</ul>
 					</p>
@@ -1230,30 +1237,34 @@
 						<li>The non-empty set RN of repository names.</li>
 						<li>The mapping R from RN<sub>ext</sub> = RN &cup; {DEFAULT} to (k-1)-th
 							order repositories.</li>
-						<li>The non-empty ordered set [SV, &le;<sub>SV</sub>] of store version
+						<li>The non-empty ordered set SI = [SV, &le;<sub>SV</sub>] of store version
 							names.</li>
 						<li>For each name n in RN<sub>ext</sub>, a monotonic partial function
-								M<sub>n</sub> from an interval of SV onto the <a>version names</a>
+								M<sub>n</sub> from an interval of SI onto the <a>version names</a>
 							of the associated repository, <a>repository(n; ST)</a>. (The mapping
 								M<sub>DEFAULT</sub> is total.) </li>
 					</ol>
 					<p>The semantics of <a>Store<sub>k</sub></a> is defined as follows.</p>
-					<p><a>Store<sub>k</sub></a>(RN, R, [SV, &le;<sub>SV</sub>], M) =
-								<a>Versioned<sub>k</sub></a>([SV, &le;<sub>SV</sub>], M')</p>
+					<p><a>Store<sub>k</sub></a>(RN, R, SI, M) = <a>Versioned<sub>k</sub></a>(SI,
+						M')</p>
 					<p>where </p>
-					<p> M'(stver) = Tree-UNION({RP<sub>n</sub> | n &in; RN<sub>ext</sub>}) and </p>
-					<p> RP<sub>n</sub> = <a>Solitary</a>(n, content( M<sub>n</sub>(stver); R(n) ) if
-						n &in; RN while </p>
-					<p> RP<sub>DEFAULT</sub> = content( M<sub>DEFAULT</sub>(stver); R(DEFAULT) ) and </p>
+					<p> M'(stver) = Tree-UNION({RP<sub>n</sub>(stver) | n &in; RN<sub>ext</sub>})
+						for stver &in; SI, where </p>
+					<p> RP<sub>n</sub>(stver) = <a>Solitary</a>(n, content( M<sub>n</sub>(stver);
+						R(n) ) if n &in; RN while </p>
+					<p> RP<sub>DEFAULT</sub>(stver) = content( M<sub>DEFAULT</sub>(stver);
+						R(DEFAULT) ) and </p>
 					<p> M'(ASSOC) = Tree-UNION( R( RN<sub>ext</sub> ) ). </p>
-					<p class="note">If ST = <a>Store<sub>k</sub></a>(RN, R, SI, M), then</p>
-					<ul>
-						<li><a>repositoryNames</a>(ST) = RN.</li>
-						<li><a>repository</a>(n; ST) = R(n) for n &in; RN<sub>ext</sub>.</li>
-						<li><a>versionNames</a>(ST) = SV.</li>
-						<li><a>associativePart</a>(ST) = M'(ASSOC) = Tree-UNION( R(
-								RN<sub>ext</sub> ) ).</li>
-					</ul>
+					<aside class="note">
+						<p>If ST = <a>Store<sub>k</sub></a>(RN, R, SI, M), then</p>
+						<ul>
+							<li><a>repositoryNames</a>(ST) = RN.</li>
+							<li><a>repository</a>(n; ST) = R(n) for n &in; RN<sub>ext</sub>.</li>
+							<li><a>versionNames</a>(ST) = SI.</li>
+							<li><a>associativePart</a>(ST) = M'(ASSOC) = Tree-UNION( R(
+									RN<sub>ext</sub> ) ).</li>
+						</ul>
+					</aside>
 					<p>In addition to constructing a store in its entirety with
 							<a>Store<sub>k</sub></a>, we define a basic operation
 							<dfn>Append2Store</dfn> which creates a new store by adding a version to
@@ -1348,8 +1359,10 @@
 					<h4>Store Transformations</h4>
 					<section id="def-general-transformation">
 						<h5>General Store Transformation</h5>
-						<p>For a set s of names, let <dfn>Ext-ASSOC</dfn>(S) = S ∪ {ASSOC}, and
-								<dfn>Ext-DEFAULT</dfn>(S) = S ∪ {DEFAULT}.</p>
+						<p>For an ordered set SI = [SV, &le;<sub>SV</sub>] of names, let
+								<dfn>Ext-ASSOC</dfn>(S) be the partially ordered set [SV ∪ {ASSOC},
+								&le;<sub>SV</sub>]. <dfn>For a set S of names, let
+							Ext-DEFAULT</dfn>(S) = S ∪ {DEFAULT}.</p>
 						<p>For store ST, let <dfn>namePairs</dfn>(ST) be a subset of
 								<a>Ext-ASSOC</a>(<a>versionNames</a>(ST)) x
 								<a>Ext-DEFAULT</a>(<a>names</a>(<a>associativePart</a>(ST))) such
@@ -1360,19 +1373,19 @@
 							with domain and range being <a>stores</a> of order k or less. The input
 							arguments of <a>StoreTransformation</a><sub>k</sub> are as follows. </p>
 						<ol>
-							<li>The input store ST of order k or less. Let SV =
-								<a>versionNames</a>(ST), SV<sub>ext</sub>= <a>Ext-ASSOC</a>(SV), RP
+							<li>The input store ST of order k or less. Let SI =
+								<a>versionNames</a>(ST), SI<sub>ext</sub>= <a>Ext-ASSOC</a>(SI), RP
 								= names(associativePart(ST)), and RP<sub>ext</sub> =
 								Ext-DEFAULT(RP). Let NP = <a>namePairs</a>(ST), and RV(n) =
-									<a>versionNames</a>(content(n, ST)). <br /> Note: SV is the set
-								of store version names of the input store, while RP is the set of
-								repository names of the input store. NP is the set of pairs of names
-								- the first name being a store version name and the second name
-								being the name of a repositry present in that store version. RV(n)
-								is the ordered set of version names of the repository with name
-								n.</li>
-							<li>An ordered set SV', possibly empty, of version names of the output
-								store. Let SV'<sub>ext</sub> = <a>Ext-ASSOC</a>(SV').</li>
+									<a>versionNames</a>(content(n, ST)). <br /> Note: SI is the
+								ordered set of store version names of the input store, while RP is
+								the set of repository names of the input store. NP is the set of
+								pairs of names - the first name being a store version name and the
+								second name being the name of a repositry present in that store
+								version. RV(n) is the ordered set of version names of the repository
+								with name n.</li>
+							<li>An ordered set SI', possibly empty, of version names of the output
+								store. Let SI'<sub>ext</sub> = <a>Ext-ASSOC</a>(SI').</li>
 							<li>A set RP', possibly empty, of repository names of the output store.
 								Let RP'<sub>ext</sub> = Ext-DEFAULT(RP')</li>
 							<li>For each name n in RP'<sub>ext</sub>, an ordered set RV'(n),
@@ -1380,7 +1393,7 @@
 								or default repository. Let RV'(n)<sub>ext</sub> =
 								Ext-ASSOC(RV'(n)).</li>
 							<li>A monotonic partial mapping M'<sub>n</sub>, for each name n in
-									RP'<sub>ext</sub> from an interval of SV' onto RV'(n). Let NP' =
+									RP'<sub>ext</sub> from an interval of SI' onto RV'(n). Let NP' =
 								{[m, n] | n in RP'<sub>ext</sub>, m in dom(M'<sub>n</sub>) }, the
 								set of <a>namePairs</a> of the output store.</li>
 							<li>A relation Rel<sub>data</sub> on NP x NP'. This relation describes
@@ -1388,12 +1401,10 @@
 								from the input store to the output store, possibly including
 								associative tree unions.</li>
 						</ol>
-						<p class="ednote">There is some mixing of the set of version names versus
-							the ordered set of version names.</p>
 						<p>There are certain additional constraints on the arguments or output of
 								<a>StoreTransformation</a>, as follows.</p>
 						<ul>
-							<li>M'<sub>DEFAULT</sub> is a total mapping on SV'.</li>
+							<li>M'<sub>DEFAULT</sub> is a total mapping on SI'.</li>
 							<li>Repository revisions cannot be vacuous. If the evaluation generates
 								"repositories" with vacuous revisions, these are deleted from the
 								output in order to have a valid output store.</li>
@@ -1402,7 +1413,7 @@
 								order to have a valid output store.</li>
 						</ul>
 						<p>The semantics of <a>StoreTransformation</a><sub>k</sub> is defined as
-							follows. For (input) store (ST, SV', RP', RV', M', Rel<sub>data</sub>),
+							follows. For (input) store (ST, SI', RP', RV', M', Rel<sub>data</sub>),
 							let</p>
 						<ul>
 							<li>DS<sub>m, n</sub> = content(n, versionContent(m, ST)) for each [m,
@@ -1416,13 +1427,13 @@
 								arising from the reconciliation of vacuous revisions in the
 								construction of repositories R'.</li>
 						</ul>
-						<p>Then the value of <a>StoreTransformation</a><sub>k</sub>(ST, SV', RP',
+						<p>Then the value of <a>StoreTransformation</a><sub>k</sub>(ST, SI', RP',
 							RV', M', Rel<sub>data</sub>) is equal to the value of the constructor
 								<a>Store</a><sub>k</sub> with the following arguments.</p>
 						<ol>
 							<li>RP'</li>
 							<li>{n' => R'<sub>n'</sub> | n' in RP'<sub>ext</sub>}</li>
-							<li>SV'</li>
+							<li>SI'</li>
 							<li>{n' => M''(n') | n' in RP'<sub>ext</sub>}</li>
 						</ol>
 						<aside class="example" title="Identity Transformation">
@@ -1430,7 +1441,7 @@
 								hold.</p>
 							<ul>
 								<li>RP' = RP</li>
-								<li>SV' = SV</li>
+								<li>SI' = SI</li>
 								<li>RV'(n) = RV(n) for every n in RP<sub>ext</sub></li>
 								<li>Rel<sub>data</sub> is the identity relation on NP x NP, denoted
 										<i>IDR</i><sub>NP</sub>
@@ -1440,9 +1451,9 @@
 									mapping in the input store.</li>
 							</ul>
 							<p>That is,</p>
-							<p>ST = StoreTransformation<sub>k</sub>(ST, RP, SV, RV,
+							<p>ST = StoreTransformation<sub>k</sub>(ST, RP, SI, RV,
 								IDR<sub>NP</sub>, M ) where k = order(ST), RP =
-								names(associativePart(ST)), SV = versionNames(ST), RV = { n =>
+								names(associativePart(ST)), SI = versionNames(ST), RV = { n =>
 									RV<sub>n</sub> | n is in RP and RV<sub>n</sub> = versionNames(
 								content(n, associativePart(ST) ) }, NP = namePairs(ST), M =
 								versionNameMap(ST).</p>
@@ -1453,7 +1464,7 @@
 								hold.</p>
 							<ul>
 								<li>RP' = RP</li>
-								<li>SV' = SV</li>
+								<li>SI' = SI</li>
 								<li>RV'(n) is a subset of RV(n) for every n in RP<sub>ext</sub></li>
 								<li>M'<sub>n</sub>(m') = max( { p | m &le; m' and p =
 									M<sub>n</sub>(m) is in RV'(n) } ).</li>
@@ -1461,7 +1472,7 @@
 										M'<sub>n</sub>(m') = M<sub>n</sub>(m) } </li>
 							</ul>
 							<li>Let <dfn>Subsample</dfn>(ST, RV') =
-									<a>StoreTransformation</a><sub>k</sub>(ST, RP, SV, RV',
+									<a>StoreTransformation</a><sub>k</sub>(ST, RP, SI, RV',
 									Rel<sub>data</sub>, M') with Rel<sub>data</sub> and M' as
 								defined above.</li>
 						</aside>
@@ -1473,7 +1484,7 @@
 								<li>RP' = (RP ∪ {r'}) - {r1, r2} where r1, r2 are the names of the
 									repositories that are unioned, and r' is the (new) name of the
 									result of the union.</li>
-								<li>SV' = SV</li>
+								<li>SI' = SI</li>
 								<li>RV'(n) = RV(n) for every n in RP<sub>ext</sub> - {r1, r2}</li>
 								<li>if n is in RP - {r1, r2}, then [[m, n], [m', n']] belongs to
 										Rel<sub>data</sub> iff m' = m and n' = n.</li>
@@ -1484,7 +1495,7 @@
 										RP'<sub>ext</sub> - {r1, r2}.</li>
 							</ul>
 							<p>Let <dfn>Sequential-UNION</dfn>(ST, R, r', RV'(r')) =
-									<a>StoreTransformation</a><sub>k</sub>(ST, RP', SV, RV',
+									<a>StoreTransformation</a><sub>k</sub>(ST, RP', SI, RV',
 									Rel<sub>data</sub>, M') with RP', RP', Rel<sub>data</sub> and M'
 								as defined above. </p>
 						</aside>
@@ -1499,7 +1510,7 @@
 							<p>Substitutions into an ordered set preserve the order, e.g as if the
 								order assertions were materialized and subject to substitution.</p>
 							<p><dfn>Rename(ST, Subst)</dfn> = <a>Store<sub>k</sub></a>(Subst(RP),
-								Subst(R), Subst(SV), Subst(M)) where Subst is a name substitution
+								Subst(R), Subst(SI), Subst(M)) where Subst is a name substitution
 								mapping.</p>
 							<p>The name-substituted store will entail a substituted version of the
 								entailments of the original store in simple and structural
@@ -1555,7 +1566,7 @@
 								set of repository names N, returning a substore that contains only
 								repositories whose names are in N.</p>
 							<p>Repository-EXTRACT<sub>k</sub>(ST, N) =
-									<a>StoreTransformation</a><sub>k</sub>(ST, SV, RP', RV', M',
+									<a>StoreTransformation</a><sub>k</sub>(ST, SI, RP', RV', M',
 									Rel<sub>data</sub>) </p>
 							<p>where</p>
 							<ul>
@@ -1891,9 +1902,9 @@
 						<li>if order(s) = k &gt; 0 for every s in S, then <br /> Tree-UNION(S) =
 								Associative<sub>k</sub>( result-default, result-names,
 							result-nameMap ) <br /> where <br /> result-default =
-							Tree-UNION({defaultPart(s)|s in S}) <br /> result-names = ∪<sub>s in S</sub>
-							names(s), <br /> result-nameMap = { n => Tree-UNION({content(n,
-								s)|<sub>s in S</sub>}) | n in result-names} </li>
+							Tree-UNION({defaultPart(s)|s in S}) <br /> result-names = ∪<sub>s in
+								S</sub> names(s), <br /> result-nameMap = { n =>
+							Tree-UNION({content(n, s)|<sub>s in S</sub>}) | n in result-names} </li>
 						<li> if max({order(s)|s in S}) = k &gt; 0, let S<sub>k</sub> be the subset
 							of S containing all members of S having order k. Then Tree-Union(S) =
 							Tree-UNION( Tree-UNION(S -S<sub>k</sub>), Tree-UNION(S<sub>k</sub>))
@@ -1916,9 +1927,9 @@
 				</section>
 				<section>
 					<h4>Other Basic Operations</h4>
-					<p class="ednote">Similarly, the basic operations of Dataset-DIFF and Dataset will
-						be extended to <a>k-th order associative trees</a>. The Dataset operation
-						will also be extended to <a>k-th order patterns</a>. </p>
+					<p class="ednote">Similarly, the basic operations of Dataset-DIFF and Dataset
+						will be extended to <a>k-th order associative trees</a>. The Dataset
+						operation will also be extended to <a>k-th order patterns</a>. </p>
 				</section>
 			</section>
 			<section id="def-existing-update">
@@ -1994,11 +2005,11 @@
 						<li>If k &gt; order(DS), then OpCreate(DS, name, k) =
 								Associative<sub>k</sub>(DS, {name}, {name => {}})</li>
 						<li>If k = order(DS) and name is not in name(DS), then OpCreate(DS, name, k)
-							= Associative<sub>k</sub>(defaultPart(DS), names(DS) ∪ {name}, nameMap(DS) ∪
-							{name => {}}). </li>
+							= Associative<sub>k</sub>(defaultPart(DS), names(DS) ∪ {name},
+							nameMap(DS) ∪ {name => {}}). </li>
 						<li>If k &lt; order(DS) = k', then OpCreate(DS, name, k) =
-								Associative<sub>k'</sub>( OpCreate(defaultPart(DS), name, k), names(DS),
-							nameMap(DS) ) )</li>
+								Associative<sub>k'</sub>( OpCreate(defaultPart(DS), name, k),
+							names(DS), nameMap(DS) ) )</li>
 					</ul>
 				</section>
 				<section>
