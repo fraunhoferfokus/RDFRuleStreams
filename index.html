@@ -954,24 +954,24 @@
 					<p>A <dfn
 							data-lt="k-th Order Versioned RDF Data Structures|k-th Order Versioned Data Structure|k-th Order Versioned Data Structures|Versioned RDF Data Structure|Versioned RDF Data Structures|Versioned Data Structure|Versioned Data Structures"
 							>k-th Order Versioned RDF Data Structure</dfn> DS is a <a>k-th order RDF
-							multivalent data structure</a> that meets the following requiremenst. </p>
+							multivalent data structure</a> that meets the following requirements. </p>
 					<ul>
-						<li>Each element sequentialPart(DS)(i) for i &in; index(DS) is a <a>solitary
-								association</a>. These elements are called <dfn>versions</dfn> of
-							the versioned structure.</li>
-						<li>If i &ne; j &in; Index, then name(sequentialPart(DS)(i)) &ne;
-							name(sequentialPart(DS)(j)). The names are called the <dfn>version
-								names</dfn> of the structure and they form an ordered set, with the
-							order consistent with the sequence order.</li>
-						<li>If j = next(i; index(DS)), then content(sequentialPart(DS)(j)) &ne;
-							content(sequentialPart(DS)(i))</li>
+						<li>Let SQ = sequentialPart(DS) and Index = <a>index</a>(SQ).</li>
+						<li>Each element SQ(i) for i &in; Index is a <a>solitary association</a>.
+							These elements are called <dfn>versions</dfn> of the versioned
+							structure.</li>
+						<li>If i &ne; j &in; Index, then name(SQ(i)) &ne; name(SQ(j)). The names are
+							called the <dfn>version names</dfn> of the structure and they form an
+							ordered set, with the order consistent with the sequence order.</li>
+						<li>If j = <a>next</a>(i; Index), then content(SQ(j)) &ne;
+							content(SQ(i))</li>
 					</ul>
 					<p class="note">The sequence corresponds to a mapping from the <a>version
 							names</a> to the contents of the <a>versions</a>. Further, the contents
 						of adjacent versions are distinct; this means each step in the sequence
 						corresponds to a non-vacuous <i>revision</i> of a <a>data structure</a> of
 						order k-1 or less.</p>
-					<p>Let VS be a k-th order versioned data structure.</p>
+					<p>Let VS be a <a>k-th order versioned data structure</a>.</p>
 					<p>Each element of the sequential part of VS is called a <dfn>version</dfn> of
 						VS. The function <dfn>isVersionOf</dfn>(U, VS) is defined for all entities
 						U, and is true exactly when <a>isMemberOf</a>(U, sequentialPart(VS)) is
@@ -1030,15 +1030,11 @@
 							<a>isVersionNameOf</a>(n, VS) is true, with value being the element (a
 						named k-th order associative tree) of the sequential part of VS having name
 						n. Otherwise, the function is undefined.</p>
-					<p>The function <dfn>hasNext</dfn>(n; VS) is true provided n is the name of a
-						non-terminal <a>version</a> of VS (<a>isVersionNameOf</a>(n, VS) is true and
-							<a>terminalVersionOf</a>(VS) &ne; <a>version</a>(n; VS)). </p>
+					<p>The function <dfn>hasNext</dfn>(n; VS) = <a>hasNext</a>(n;
+							<a>versionNames</a>(VS)) is true iff n is the name of a non-terminal
+							<a>version</a> of VS</p>
 					<p>The function <dfn>next(n; VS)</dfn> is defined provided <a>hasNext</a>(n; VS)
-						is true, and has the value <a>name</a>( <a>succeedingVersion</a>(
-							<a>version</a>(n; VS) ) ).</p>
-					<p class="ednote">Redefine the functions hasNext and next in terms of the
-						ordered set of version names. Then it is not necessary to have the function
-						version(n; VS).</p>
+						is true, and has the value <a>next</a>(n; versionNames(VS)).</p>
 					<p>We define a constuctor of <a>versioned data structures</a> as a basic
 						operation <dfn>Versioned<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
 						following arguments.</p>
@@ -1052,10 +1048,15 @@
 							definitions.</li>
 					</ol>
 					<p>The semantics are as follows.</p>
-					<p><a>Versioned</a><sub>k</sub>([VN, &le;<sub>VN</sub>], M) = [ M(ASSOC) ,
-							<a>Seq</a>( [VN', &le;<sub>VN</sub>], M' ) ]</p>
-					<p>where M'(n) = <a>Solitary<sub>k</sub></a>(n, M(n))</p>
-					<p> and VN' = {n &in; VN | M(n) &ne; M(<a>next</a>(n))}</p>
+					<p><a>Versioned</a><sub>k</sub>(VI, M) = [ M(ASSOC) , <a>Seq</a>( VI', M' )
+						]</p>
+					<p>where VI = [VN, &le;<sub>VN</sub>], </p>
+					<p>M'(n) = <a>Solitary<sub>k</sub></a>(n, M(n)) for n &in; VI, and</p>
+					<p>VI' = [VN', &le;<sub>VN</sub>] where VN' = {n &in; VN | <a>hasNext</a>(n; VI)
+						= False or M(n) &ne; M(<a>next</a>(n; VI))}</p>
+					<p class="note">The constructor <a>Versioned<sub>k</sub></a> ensures that
+						revisions are not vacuous by reducing the ordered set of version names as
+						needed.</p>
 				</section>
 				<section id="def-kth-order-rdf-repository">
 					<h4>k-th Order RDF Repositories</h4>
@@ -1405,12 +1406,6 @@
 								<a>StoreTransformation</a>, as follows.</p>
 						<ul>
 							<li>M'<sub>DEFAULT</sub> is a total mapping on SI'.</li>
-							<li>Repository revisions cannot be vacuous. If the evaluation generates
-								"repositories" with vacuous revisions, these are deleted from the
-								output in order to have a valid output store.</li>
-							<li>Store revisions cannot be vacuous. If the evaluation generates a
-								"store" with vacuous revisions, these are deleted from the output in
-								order to have a valid output store.</li>
 						</ul>
 						<p>The semantics of <a>StoreTransformation</a><sub>k</sub> is defined as
 							follows. For (input) store (ST, SI', RP', RV', M', Rel<sub>data</sub>),
@@ -1436,6 +1431,17 @@
 							<li>SI'</li>
 							<li>{n' => M''(n') | n' in RP'<sub>ext</sub>}</li>
 						</ol>
+						<aside class="note">
+							<p>Repository <i>revisions</i> cannot be vacuous (i.e. the content of
+								adjacent version cannot be the same). This adjustment is handled by
+								the constructor <a>Repository<sub>k</sub></a>. If the input mappings
+								to <a>StoreTransformation</a> specify output "repositories" with
+								vacuous revisions, the version names of those output repositories
+								are reduced (by the constructor) to eliminate such revisions.</p>
+							<p>Similarly, store <i>revisions</i> cannot be vacuous, and the
+										<a>Store<sub>k</sub></a> constructor is defined in a way
+								that handles this. See <a>Versioned<sub>k</sub></a> for details.</p>
+						</aside>
 						<aside class="example" title="Identity Transformation">
 							<p>The output store is equal to the input store when the following
 								hold.</p>
@@ -2193,6 +2199,13 @@
 		</section>
 		<section id="examples">
 			<h2>Examples</h2>
+			<p class="ednote">These examples have been harmonized with the latest terminology and
+				concepts.</p>
+		</section>
+		<section id="examples-old">
+			<h2>Old Examples</h2>
+			<p class="ednote">These examples have not been harmonized with the latest terminology
+				and concepts.</p>
 			<section id="fhir-stream-example">
 				<h3>FHIR RDF Stream Example</h3>
 				<section id="fhir-graph-example">
