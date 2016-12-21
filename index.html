@@ -2211,14 +2211,18 @@
 			<h2>Examples</h2>
 			<p class="ednote">These examples have been harmonized with the latest terminology and
 				concepts.</p>
-			<aside class="example" title="FHIR Observations Without Timestamps">
-				<p>The concept of <a>StoreTransformation</a>-based operations is that graphs are
-					treated as indivisible units. Here we define some basic graphs describing FHIR
-					observations, but without timestamps. These graphs will be used to illustrate
-					the emulation of RDF Streams that transmit this observational information in
-					various forms. </p>
-				<p>Let G'<sub>1, FHIR</sub> be: </p>
-				<pre>
+			<section id="fhir-hr-stream-example">
+				<h3>FHIR Heartrate RDF Stream Example</h3>
+				<section id="fhir-hr-graph-example">
+					<h4>FHIR Heartrate Unit Graphs</h4>
+					<aside class="example" title="FHIR Observations Without Timestamps">
+						<p>The concept of <a>StoreTransformation</a>-based operations is that graphs
+							are treated as indivisible units. Here we define some basic graphs
+							describing FHIR observations, but without timestamps. These graphs will
+							be used to illustrate the emulation of RDF Streams that transmit this
+							observational information in various forms. </p>
+						<p>Let G<sub>1, FHIR-hr</sub> be: </p>
+						<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -2234,8 +2238,8 @@ _:b1 a fhir:Observation ;
 _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-				<p>G'<sub>2, FHIR</sub> be:. </p>
-				<pre>
+						<p>G<sub>2, FHIR-hr</sub> be:. </p>
+						<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -2252,8 +2256,8 @@ _:b4 a fhir:Observation ;
 _:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-				<p>G'<sub>3, FHIR</sub> be: </p>
-				<pre>
+						<p>G<sub>3, FHIR-hr</sub> be: </p>
+						<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
@@ -2269,31 +2273,57 @@ _:b7 a fhir:Observation ;
 _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
 </pre>
-			</aside>
-			<aside class="example" title="FHIR effectiveDateTime Timestamp">
-				<p>Let TS<sub>1, FHIR</sub> be a graph containing a triple using the predicate
-						<code>obs:effectiveDateTime</code>. Because this predicate meets the
-					requirements for an <a>RDF Stream timestamp predicate</a>, then we may use the
-					triple in this graph as a timestamp triple in the emulation of a <a>timestamped
-						graph</a>.</p>
-				<pre>
+					</aside>
+					<p>We also define some unit graphs holding timestamp triples.</p>
+					<aside class="example" title="FHIR effectiveDateTime Timestamp">
+						<p>Let TS<sub>1, FHIR-hr</sub> be a graph containing a triple using the
+							predicate <code>obs:effectiveDateTime</code>. Because this predicate
+							meets the requirements for an <a>RDF Stream timestamp predicate</a>,
+							then we may use the triple in this graph as a timestamp triple in the
+							emulation of a <a>timestamped graph</a>.</p>
+						<pre>
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
 
-_:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
+_:b1 obs:effectiveDateTime 
+    "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
 </pre>
-				<p>Similarly, we define TS<sub>2, FHIR</sub></p>
-				<pre>
+						<p>Similarly, we define TS<sub>2, FHIR-hr</sub></p>
+						<pre>
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
 
-_:b4 obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
+_:b4 obs:effectiveDateTime 
+    "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
 </pre>
-				<p> and TS<sub>3, FHIR</sub></p>
-				<pre>
+						<p> and TS<sub>3, FHIR-hr</sub></p>
+						<pre>
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
 
-_:b7 obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
+_:b7 obs:effectiveDateTime 
+    "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
 </pre>
-			</aside>
+					</aside>
+				</section>
+				<section>
+					<h4>Repository of Observations</h4>
+					<p>We now construct a repository of observations where the graphs G<sub>i,
+							FHIR-hr</sub> are the version contents.</p>
+					<aside class="example" title="Repository of FHIR Heartrate Observations">
+						<p>We first show the usage of the <a>Versioned<sub>k</sub></a> constructor
+							to build a repository.</p>
+						<p><dfn>Repo<sub>FHIR-hr</sub></dfn> =
+								<a>Versioned</a><sub>1</sub>(VI<sub>FHIR-hr</sub>,
+								M<sub>FHIR-hr</sub>)</p>
+						<p>where</p>
+						<p>VI<sub>FHIR-hr</sub> = <a>Chain</a>([_:fhir-rvn1, _:fhir-rvn2,
+							_:fhir-rvn3])</p>
+						<p>is the ordered set of repository names , and</p>
+						<p>M<sub>FHIR-hr</sub> = {_:fhir-rvn1 => G<sub>1, FHIR-hr</sub>, _:fhir-rvn2
+							=> G<sub>2, FHIR-hr</sub>, _:fhir-rvn3 => G<sub>3, FHIR-hr</sub> }</p>
+						<p class="ednote">Need to define <dfn>Chain</dfn> as a function that takes a
+							sequence with distinct elements to a totally-ordered set.</p>
+					</aside>
+				</section>
+			</section>
 		</section>
 		<section id="examples-old">
 			<h2>Old Examples</h2>
