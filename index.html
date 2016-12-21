@@ -2379,15 +2379,22 @@ _:b7 obs:effectiveDateTime
 							M) where</p>
 						<ul>
 							<li>RN = {_:fhir-hr} (the set of repository names)</li>
-							<li>R<sub>_:fhir-hr</sub> = <a>Repo<sub>FHIR-hr</sub></a> (the "named" repository)</li>
-							<li>R<sub>DEFAULT</sub> = <a>Repo<sub>FHIR-ts</sub></a> (the default repository)</li>
+							<li>R<sub>_:fhir-hr</sub> = <a>Repo<sub>FHIR-hr</sub></a> (the "named"
+								repository, containing the atemporal part of the timestamped
+								graphs)</li>
+							<li>R<sub>DEFAULT</sub> = <a>Repo<sub>FHIR-ts</sub></a> (the default
+								repository, containing the timestamp triples of the timestamped
+								graphs)</li>
 							<li>SI = <a>Chain</a>([_:stream_store1, _:stream_store2,
-								_:stream_store3])</li>
-							<li>M<sub>RN</sub> = {_:stream_store1 => _:fhir-hr-g1, _:stream_store2
-								=> _:fhir-hr-g2, _:stream_store3 => _:fhir-hr-g3}</li>
+								_:stream_store3]) (the ordered set of store version names)</li>
+							<li>M<sub>_:fhir-hr</sub> = {_:stream_store1 => _:fhir-hr-g1,
+								_:stream_store2 => _:fhir-hr-g2, _:stream_store3 => _:fhir-hr-g3}
+								(the mapping from store version names to repository version names,
+								for the "named" repository)</li>
 							<li>M<sub>DEFAULT</sub> = {_:stream_store1 => _:fhir-hr-ts1,
-								_:stream_store2 => _:fhir-hr-ts2, _:stream_store3 =>
-								_:fhir-hr-ts3}</li>
+								_:stream_store2 => _:fhir-hr-ts2, _:stream_store3 => _:fhir-hr-ts3}
+								(the mapping from store version names to repository version names,
+								for the default repository)</li>
 						</ul>
 						<p>and where</p>
 						<p><dfn>Repo<sub>FHIR-ts</sub></dfn> =
