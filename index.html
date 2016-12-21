@@ -2211,6 +2211,89 @@
 			<h2>Examples</h2>
 			<p class="ednote">These examples have been harmonized with the latest terminology and
 				concepts.</p>
+			<aside class="example" title="FHIR Observations Without Timestamps">
+				<p>The concept of <a>StoreTransformation</a>-based operations is that graphs are
+					treated as indivisible units. Here we define some basic graphs describing FHIR
+					observations, but without timestamps. These graphs will be used to illustrate
+					the emulation of RDF Streams that transmit this observational information in
+					various forms. </p>
+				<p>Let G'<sub>1, FHIR</sub> be: </p>
+				<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b1 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b2 .
+	
+_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+</pre>
+				<p>G'<sub>2, FHIR</sub> be:. </p>
+				<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+
+_:b4 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b5 .
+	
+_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+</pre>
+				<p>G'<sub>3, FHIR</sub> be: </p>
+				<pre>
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix lr: &lt;http://localhost/local-records#&gt; .
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
+@prefix sct: &lt;http://snomed.info/id/&gt; .
+
+_:b7 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b8 .
+	
+_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
+		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+</pre>
+			</aside>
+			<aside class="example" title="FHIR effectiveDateTime Timestamp">
+				<p>Let TS<sub>1, FHIR</sub> be a graph containing a triple using the predicate
+						<code>obs:effectiveDateTime</code>. Because this predicate meets the
+					requirements for an <a>RDF Stream timestamp predicate</a>, then we may use the
+					triple in this graph as a timestamp triple in the emulation of a <a>timestamped
+						graph</a>.</p>
+				<pre>
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+
+_:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
+</pre>
+				<p>Similarly, we define TS<sub>2, FHIR</sub></p>
+				<pre>
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+
+_:b4 obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
+</pre>
+				<p> and TS<sub>3, FHIR</sub></p>
+				<pre>
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+
+_:b7 obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
+</pre>
+			</aside>
 		</section>
 		<section id="examples-old">
 			<h2>Old Examples</h2>
