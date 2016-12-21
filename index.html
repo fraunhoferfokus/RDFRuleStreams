@@ -643,14 +643,14 @@
 							<td>Ver<sub>k</sub>(X, Y), k &gt; 0</td>
 							<td>::&lt;</td>
 							<td>[Nat, [2<sup>RDF-Name</sup>, Total-Order(RDF-Name)],
-								Partial:(RDF-Name => Y &cup; {STATIC} => X)]</td>
+								Partial:(RDF-Name => Y &cup; {ASSOC} => X)]</td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>::=</td>
 							<td>{<a>Versioned<sub>k</sub></a>([N, &le;<sub>N</sub>], M) | N &sube;
 								RDF-Name, cardinality(N) > 0, &le; &in; TotalOrder(N), M: (N => Y
-								&cup; {STATIC} => X) where M(x) = M(y), x &lt; y implies there is
+								&cup; {ASSOC} => X) where M(x) = M(y), x &lt; y implies there is
 								some z &in; N, x &lt; z &lt; y}</td>
 						</tr>
 						<tr>
@@ -1044,14 +1044,14 @@
 					<ol>
 						<li>The ordered set [VN, &le;<sub>VN</sub>] of version names of the data
 							structure. </li>
-						<li>The mapping M from the set VN<sub>ext</sub> = VN &cup; {STATIC} to
+						<li>The mapping M from the set VN<sub>ext</sub> = VN &cup; {ASSOC} to
 								<a>data structures</a> of order k-1 or less that specifies the
 							sequential and associative part of the data structure. </li>
-						<li><dfn>STATIC</dfn> is a reserved name used to streamline the
+						<li><dfn>ASSOC</dfn> is a reserved name used to streamline the
 							definitions.</li>
 					</ol>
 					<p>The semantics are as follows.</p>
-					<p><a>Versioned</a><sub>k</sub>([VN, &le;<sub>VN</sub>], M) = [ M(STATIC) ,
+					<p><a>Versioned</a><sub>k</sub>([VN, &le;<sub>VN</sub>], M) = [ M(ASSOC) ,
 							<a>Seq</a>( [VN', &le;<sub>VN</sub>], M' ) ]</p>
 					<p>where M'(n) = <a>Solitary<sub>k</sub></a>(n, M(n))</p>
 					<p> and VN' = {n &in; VN | M(n) &ne; M(<a>next</a>(n))}</p>
@@ -1245,13 +1245,13 @@
 					<p> RP<sub>n</sub> = <a>Solitary</a>(n, content( M<sub>n</sub>(stver); R(n) ) if
 						n &in; RN while </p>
 					<p> RP<sub>DEFAULT</sub> = content( M<sub>DEFAULT</sub>(stver); R(DEFAULT) ) and </p>
-					<p> M'(STATIC) = Tree-UNION( R( RN<sub>ext</sub> ) ). </p>
+					<p> M'(ASSOC) = Tree-UNION( R( RN<sub>ext</sub> ) ). </p>
 					<p class="note">If ST = <a>Store<sub>k</sub></a>(RN, R, SI, M), then</p>
 					<ul>
 						<li><a>repositoryNames</a>(ST) = RN.</li>
 						<li><a>repository</a>(n; ST) = R(n) for n &in; RN<sub>ext</sub>.</li>
 						<li><a>versionNames</a>(ST) = SV.</li>
-						<li><a>associativePart</a>(ST) = M'(STATIC) = Tree-UNION( R(
+						<li><a>associativePart</a>(ST) = M'(ASSOC) = Tree-UNION( R(
 								RN<sub>ext</sub> ) ).</li>
 					</ul>
 					<p>In addition to constructing a store in its entirety with
@@ -1348,20 +1348,20 @@
 					<h4>Store Transformations</h4>
 					<section id="def-general-transformation">
 						<h5>General Store Transformation</h5>
-						<p>For a set s of names, let <dfn>Ext-STATIC</dfn>(S) = S ∪ {STATIC}, and
+						<p>For a set s of names, let <dfn>Ext-ASSOC</dfn>(S) = S ∪ {ASSOC}, and
 								<dfn>Ext-DEFAULT</dfn>(S) = S ∪ {DEFAULT}.</p>
 						<p>For store ST, let <dfn>namePairs</dfn>(ST) be a subset of
-								<a>Ext-STATIC</a>(<a>versionNames</a>(ST)) x
+								<a>Ext-ASSOC</a>(<a>versionNames</a>(ST)) x
 								<a>Ext-DEFAULT</a>(<a>names</a>(<a>associativePart</a>(ST))) such
 							that [stver, repo] is in NP provided stver is a member of
-								<a>Ext-STATIC</a>(<a>versionNames</a>(ST)) and repo is in
+								<a>Ext-ASSOC</a>(<a>versionNames</a>(ST)) and repo is in
 								<a>names</a>(<a>versionContent</a>(stver; ST).</p>
 						<p>We define a basic operation <dfn>StoreTransformation</dfn><sub>k</sub>
 							with domain and range being <a>stores</a> of order k or less. The input
 							arguments of <a>StoreTransformation</a><sub>k</sub> are as follows. </p>
 						<ol>
 							<li>The input store ST of order k or less. Let SV =
-								<a>versionNames</a>(ST), SV<sub>ext</sub>= <a>Ext-STATIC</a>(SV), RP
+								<a>versionNames</a>(ST), SV<sub>ext</sub>= <a>Ext-ASSOC</a>(SV), RP
 								= names(associativePart(ST)), and RP<sub>ext</sub> =
 								Ext-DEFAULT(RP). Let NP = <a>namePairs</a>(ST), and RV(n) =
 									<a>versionNames</a>(content(n, ST)). <br /> Note: SV is the set
@@ -1372,13 +1372,13 @@
 								is the ordered set of version names of the repository with name
 								n.</li>
 							<li>An ordered set SV', possibly empty, of version names of the output
-								store. Let SV'<sub>ext</sub> = <a>Ext-STATIC</a>(SV').</li>
+								store. Let SV'<sub>ext</sub> = <a>Ext-ASSOC</a>(SV').</li>
 							<li>A set RP', possibly empty, of repository names of the output store.
 								Let RP'<sub>ext</sub> = Ext-DEFAULT(RP')</li>
 							<li>For each name n in RP'<sub>ext</sub>, an ordered set RV'(n),
 								possibly empty, of version names of the corresponding output named
 								or default repository. Let RV'(n)<sub>ext</sub> =
-								Ext-STATIC(RV'(n)).</li>
+								Ext-ASSOC(RV'(n)).</li>
 							<li>A monotonic partial mapping M'<sub>n</sub>, for each name n in
 									RP'<sub>ext</sub> from an interval of SV' onto RV'(n). Let NP' =
 								{[m, n] | n in RP'<sub>ext</sub>, m in dom(M'<sub>n</sub>) }, the
@@ -1409,7 +1409,7 @@
 								n] in NP. </li>
 							<li> DS'<sub>p', n'</sub> = Tree-UNION({DS<sub>m, n</sub> | [ [m, n],
 								[m', n']] in Rel<sub>data</sub>, M'<sub>n'</sub>(m') = p'})</li>
-							<li>R'<sub>n'</sub> = <a>Repository</a><sub>k-1</sub>( DS'<sub>STATIC,
+							<li>R'<sub>n'</sub> = <a>Repository</a><sub>k-1</sub>( DS'<sub>ASSOC,
 									n'</sub>, RV'(n'), { p' => DS'<sub>p',n'</sub> | p' in RV'(n') }
 								), for n' in RP'<sub>ext</sub></li>
 							<li>M'' is the mapping M' composed with the version name substitution
@@ -1495,7 +1495,7 @@
 								and in the content, then both must be subject to the
 								substitution.</p>
 							<p>Subst may not substitute for or with the reserved names DEFAULT or
-								STATIC.</p>
+								ASSOC.</p>
 							<p>Substitutions into an ordered set preserve the order, e.g as if the
 								order assertions were materialized and subject to substitution.</p>
 							<p><dfn>Rename(ST, Subst)</dfn> = <a>Store<sub>k</sub></a>(Subst(RP),
