@@ -417,6 +417,7 @@
 							mapping from N &cup; {DEFAULT} to <a>data structures</a> of order k-1 or
 							less. </li>
 					</ul>
+					<p><dfn>DEFAULT</dfn> is a reserved name used to streamline the definitions.</p>
 					<p>We denote by <dfn data-lt="Associative">Associative<sub>k</sub></dfn>(N, M),
 						k &gt; 0, the associative data structure specified by the tuple [k, N, M]. </p>
 					<p>Further, let G be an RDF Graph, N= {}, and M= {DEFAULT=>G}). We define
@@ -969,14 +970,98 @@
 						of adjacent versions are distinct; this means each step in the sequence
 						corresponds to a non-vacuous <i>revision</i> of a <a>data structure</a> of
 						order k-1 or less.</p>
+					<p>Let VS be a k-th order versioned data structure.</p>
+					<p>Each element of the sequential part of VS is called a <dfn>version</dfn> of
+						VS. The function <dfn>isVersionOf</dfn>(U, VS) is defined for all entities
+						U, and is true exactly when <a>isMemberOf</a>(U, sequentialPart(VS)) is
+						true. </p>
+					<p class="ednote">As written, a <a>version</a> is a solitary association. It may
+						seem more intuitive to refer to the content of that solitary association as
+						the version. However, it is quite possible for two (non-adjacent) versions
+						to have the same content (i.e. a rollback). If we used only the content as
+						the version, then it would not be clear which of these versions we were
+						referring to.</p>
+					<p>We say a version U is a <dfn>previous version</dfn> of version V in the
+						context of VS if <a>previousTo</a>(U, V; sequentialPart(VS)) is true, and
+						similarly V is called a <dfn>following version</dfn> of U in the context of
+						the versioned structure. The function <dfn>isPreviousVersionTo</dfn>(U, V;
+						VS) is defined whenever U and V are versions of VS (<a>isVersionOf</a>(U,
+						VS) = isVersionOf(V, VS) = true), and has the value <a>previousTo</a>(U, V;
+						sequentialPart(VS)); otherwise, it is undefined.</p>
+					<p>An <dfn>initial version</dfn> of a versioned structure is a version that does
+						not have a previous version. A versioned structure MAY have an initial
+						version.</p>
+					<p> The function <dfn>hasInitialVersion(VS)</dfn> is defined and has the value
+						of <a>hasLeast</a>(<a>sequentialPart</a>(VS)). </p>
+					<p class="note">If the sequential part of a versioned structure has an initial
+						version, then it is unique, due to the order being total; further, it is a
+						minimal element of the sequential part. </p>
+					<p>If VS has an initial version, then the function
+						<dfn>initialVersionOf</dfn>(VS) = <a>least</a>(sequentialPart(VS)) is
+						defined.</p>
+					<p>If V is a version of VS that is not an initial version, then we define the
+							<dfn>preceding version</dfn> of V in the context of VS to be the
+							<a>predecessor</a> of version V in the sequential part of versioned
+						structure VS. The function <dfn>precedingVersion</dfn>(V; VS) =
+							<a>predecessor</a>(V; <a>sequentialPart</a>(VS)) is defined for all
+						non-intial versions V of VS; otherwise, it is undefined. </p>
+					<p>Similarly, we define the concepts of <dfn>terminal version</dfn>,
+							<dfn>succeeding version</dfn>, and functions
+							<dfn>hasTerminalVersion</dfn>, <dfn>terminalVersionOf</dfn>, and
+							<dfn>succeedingVersion</dfn>.</p>
+					<p class="ednote">Here is where it appears to be important to use the named
+						associative tree as the version, or to refer to version by name rather than
+						by content. Because the same content can be associated with more than one
+						version name in the same versioned structure, so the preceding version of
+						that content would not be uniquely defined.</p>
+					<p>We say that each non-initial version <dfn>revises</dfn> its preceding
+						version. We define <dfn>revises(U, V; VS)</dfn> for all versions U and V of
+						VS, with the value true whenever V=<a>precedingVersion</a>(U; VS);
+						otherwise, it is false. </p>
+					<p class="note">Because of the requirement for total order in the sequential
+						part, version structures do not branch.</p>
+					<p> The sequential part MAY be finite, semi-infinite, or bi-infinite.</p>
+					<p>The ordered set of version names of a versioned structure VS is denoted by
+							<dfn>versionNames</dfn>(VS). </p>
+					<p>The function <dfn>isVersionNameOf</dfn>(n, VS) is true if n is a member of
+							<a>versionNames</a>(VS); otherwise, it is false.</p>
+					<p>The function <dfn>versionContent</dfn>(n; VS) is defined provided
+							<a>isVersionNameOf</a>(n, VS) is true, with value being the element (a
+						named k-th order associative tree) of the sequential part of VS having name
+						n. Otherwise, the function is undefined.</p>
+					<p>The function <dfn>hasNext</dfn>(n; VS) is true provided n is the name of a
+						non-terminal <a>version</a> of VS (<a>isVersionNameOf</a>(n, VS) is true and
+							<a>terminalVersionOf</a>(VS) &ne; <a>version</a>(n; VS)). </p>
+					<p>The function <dfn>next(n; VS)</dfn> is defined provided <a>hasNext</a>(n; VS)
+						is true, and has the value <a>name</a>( <a>succeedingVersion</a>(
+							<a>version</a>(n; VS) ) ).</p>
+					<p class="ednote">Redefine the functions hasNext and next in terms of the
+						ordered set of version names. Then it is not necessary to have the function
+						version(n; VS).</p>
+					<p>We define a constuctor of <a>versioned data structures</a> as a basic
+						operation <dfn>Versioned<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
+						following arguments.</p>
+					<ol>
+						<li>The ordered set [VN, &le;<sub>VN</sub>] of version names of the data
+							structure. </li>
+						<li>The mapping M from the set VN<sub>ext</sub> = VN &cup; {STATIC} to
+								<a>data structures</a> of order k-1 or less that specifies the
+							sequential and associative part of the data structure. </li>
+						<li><dfn>STATIC</dfn> is a reserved name used to streamline the
+							definitions.</li>
+					</ol>
+					<p>The semantics are as follows.</p>
+					<p><a>Versioned</a><sub>k</sub>([VN, &le;<sub>VN</sub>], M) = [ M(STATIC) ,
+							<a>Seq</a>( [VN', &le;<sub>VN</sub>], M' ) ]</p>
+					<p>where M'(n) = <a>Solitary<sub>k</sub></a>(n, M(n))</p>
+					<p> and VN' = {n &in; VN | M(n) &ne; M(<a>next</a>(n))}</p>
 				</section>
 				<section id="def-kth-order-rdf-repository">
 					<h4>k-th Order RDF Repositories</h4>
 					<p>A <dfn
 							data-lt="k-th Order RDF Repositories|k-th Order Repository|k-th Order Repositories|RDF Repository|RDF Repositories|repository|repositories"
-							>k-th Order RDF Repository</dfn>, k = 1, 2, ... is a special case of
-							<a>k-th order versioned data structure</a> that satisfies the following
-						requirements. </p>
+							>k-th Order RDF Repository</dfn>, k = 1, 2, ... is a <a>k-th order
+							versioned data structure</a> that satisfies the following requirements. </p>
 					<ol>
 						<li>It's <a>associative part</a> is an <a>associative tree</a> of k-1-th
 							order or less (possibly empty).</li>
@@ -994,86 +1079,6 @@
 					<p class="ednote">To be clarified in Eval section: The associative part of the
 						repository plays the role of background knowledge, which is unioned with
 						every snapshot prior to query.</p>
-					<p>Let R be a k-th order repository.</p>
-					<p>Each element of the sequential part of R is called a <dfn>version</dfn> of R.
-						The function <dfn>isVersionOf</dfn>(U, R) is defined for all entities U, and
-						is true exactly when <a>isMemberOf</a>(U, sequentialPart(R)) is true. </p>
-					<p class="ednote">As written, a <a>version</a> is a named associative tree. It
-						may seem more intuitive to refer to the content of that named associative
-						tree as the version. However, it is quite possible for two (non-adjacent)
-						versions to have the same content (i.e. a rollback). If we used only the
-						content as the version, then it would not be clear which of these versions
-						we were referring to.</p>
-					<p>We say a version U is a <dfn>previous version</dfn> of version V in the
-						context of R if <a>previousTo</a>(U, V; sequentialPart(R)) is true, and
-						similarly V is called a <dfn>following version</dfn> of U in the context of
-						the repository. The function <dfn>isPreviousVersionTo</dfn>(U, V; R) is
-						defined whenever U and V are versions of R (<a>isVersionOf</a>(U, R) =
-						isVersionOf(V, R) = true), and has the value <a>previousTo</a>(U, V;
-						sequentialPart(R)); otherwise, it is undefined.</p>
-					<p>An <dfn>initial version</dfn> of a repository is a version that does not have
-						a previous version. A repository MAY have an initial version.</p>
-					<p> The function <dfn>hasInitialVersion(R)</dfn> is defined and has the value of
-							<a>hasLeast</a>(<a>sequentialPart</a>(R)). </p>
-					<p class="note">If the sequential part of a repositoriy has an initial version,
-						then it is unique, due to the order being total; further, it is a minimal
-						element of the sequential part. </p>
-					<p>If R has an initial version, then the function <dfn>initialVersionOf</dfn>(R)
-						= <a>least</a>(sequentialPart(R)) is defined.</p>
-					<p>If V is a version of R that is not an initial version, then we define the
-							<dfn>preceding version</dfn> of V in the context of R to be the
-							<a>predecessor</a> of version V in the sequential part of repository R.
-						The function <dfn>precedingVersion</dfn>(V; R) = <a>predecessor</a>(V;
-							<a>sequentialPart</a>(R)) is defined for all non-intial versions V of R;
-						otherwise, it is undefined. </p>
-					<p>Similarly, we define the concepts of <dfn>terminal version</dfn>,
-							<dfn>succeeding version</dfn>, and functions
-							<dfn>hasTerminalVersion</dfn>, <dfn>terminalVersionOf</dfn>, and
-							<dfn>succeedingVersion</dfn>.</p>
-					<p class="ednote">Here is where it appears to be important to use the named
-						associative tree as the version, or to refer to version by name rather than
-						by content. Because the same content can be associated with more than one
-						version name in the same repository, so the preceding version of that
-						content would not be uniquely defined.</p>
-					<p>We say that each non-initial version <dfn>revises</dfn> its preceding
-						version. We define <dfn>revises(U, V; R)</dfn> for all versions U and V of
-						R, with the value true whenever V=<a>precedingVersion</a>(U; R); otherwise,
-						it is false. </p>
-					<p class="note">Because of the requirement for total order in the sequential
-						part, version structures do not branch.</p>
-					<p> The sequential part MAY be finite, semi-infinite, or bi-infinite.</p>
-					<p>The ordered set of version names of a repository R is denoted by
-							<dfn>versionNames</dfn>(R). </p>
-					<p>The function <dfn>isVersionNameOf</dfn>(n, R) is true if n is a member of
-							<a>versionNames</a>(R); otherwise, it is false.</p>
-					<p>The function <dfn>versionContent</dfn>(n; R) is defined provided
-							<a>isVersionNameOf</a>(n, R) is true, with value being the element (a
-						named k-th order associative tree) of the sequential part of R having name
-						n. Otherwise, the function is undefined.</p>
-					<p>The function <dfn>hasNext</dfn>(n; R) is true provided n is the name of a
-						non-terminal <a>version</a> of R (<a>isVersionNameOf</a>(n, R) is true and
-							<a>terminalVersionOf</a>(R) &ne; <a>version</a>(n; R)). </p>
-					<p>The function <dfn>next(n; R)</dfn> is defined provided <a>hasNext</a>(n; R)
-						is true, and has the value <a>name</a>( <a>succeedingVersion</a>(
-							<a>version</a>(n; R) ) ).</p>
-					<p class="ednote">Redefine the functions hasNext and next in terms of the
-						ordered set of version names. Then it is not necessary to have the function
-						version(n;R).</p>
-					<p>We define a constuctor of <a>versioned data structures</a> as a basic
-						operation <dfn>Versioned<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
-						following arguments.</p>
-					<ol>
-						<li>The ordered set [VN, &le;<sub>VN</sub>] of version names of the data
-							structure. </li>
-						<li>The mapping M from the set VN<sub>ext</sub> = VN &cup; {STATIC} to
-								<a>data structures</a> of order k-1 or less that specifies the
-							sequential and associative part of the data structure. </li>
-					</ol>
-					<p>The semantics are as follows.</p>
-					<p><a>Versioned</a><sub>k</sub>([VN, &le;<sub>VN</sub>], M) = [ M(STATIC) ,
-							<a>Seq</a>( [VN', &le;<sub>VN</sub>], M' ) ]</p>
-					<p>where M'(n) = <a>Solitary<sub>k</sub></a>(n, M(n))</p>
-					<p> and VN' = {n &in; VN | M(n) &ne; M(<a>next</a>(n))}</p>
 					<p>We define a Repository Constuctor as a basic operation
 								<dfn>Repository<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
 						following arguments.</p>
@@ -1180,10 +1185,9 @@
 							order versioned data structure</a>.</p>
 					<p> A (k+2)-th order RDF Store, k = 0, 1, ..., is a (k+2)-th order versioned
 						data structure ST with the following properties. <ul>
-							<li>ST has a sequential part SQ = <a>sequentialPart</a>(ST) which is a
-								(k+2)-th order <a>repository</a>, whose versions are called versions
-								of the store. The ordered set SV = versionNames(SQ) contains the
-									<dfn>version names of the store</dfn>.</li>
+							<li>ST has a sequential part SQ = <a>sequentialPart</a>(ST)</li>
+							<li>The ordered set SV = versionNames(ST) contains the <dfn>version
+									names of the store</dfn>.</li>
 							<li>ST has an associative part A = <a>associativePart</a>(ST). </li>
 							<li>The default part of A, <a>defaultPart</a>(A) is a (k+1)-th order
 								repository, called the <dfn>default repository of the store</dfn>,
@@ -1344,17 +1348,6 @@
 					<h4>Store Transformations</h4>
 					<section id="def-general-transformation">
 						<h5>General Store Transformation</h5>
-						<p>For store ST, we denote the ordered set of store version names as
-								<a>versionNames</a>(ST).</p>
-						<p class="note">The function <a>versionNames</a> is defined above for
-							repositories. The notation <a>versionNames</a>(ST) is an extensions of
-							this function such that <a>versionNames</a>(ST) =
-								<a>versionNames</a>(<a>sequentialPart</a>(ST))</p>
-						<p>To streamline the definition of store transformations, we define two
-							reserved names, denoted as <dfn>DEFAULT</dfn> and <dfn>STATIC</dfn> that
-							will be used as the names, resp., of the default structure within
-								<a>associative data structures</a> and of the associative part
-							within general <a>data structures</a></p>
 						<p>For a set s of names, let <dfn>Ext-STATIC</dfn>(S) = S ∪ {STATIC}, and
 								<dfn>Ext-DEFAULT</dfn>(S) = S ∪ {DEFAULT}.</p>
 						<p>For store ST, let <dfn>namePairs</dfn>(ST) be a subset of
@@ -1395,6 +1388,8 @@
 								from the input store to the output store, possibly including
 								associative tree unions.</li>
 						</ol>
+						<p class="ednote">There is some mixing of the set of version names versus
+							the ordered set of version names.</p>
 						<p>There are certain additional constraints on the arguments or output of
 								<a>StoreTransformation</a>, as follows.</p>
 						<ul>
@@ -1425,16 +1420,11 @@
 							RV', M', Rel<sub>data</sub>) is equal to the value of the constructor
 								<a>Store</a><sub>k</sub> with the following arguments.</p>
 						<ol>
-							<li>the default repository R'<sub>DEFAULT</sub> of the output store</li>
 							<li>RP'</li>
-							<li>{n' => R'<sub>n'</sub> | n' in RP'}</li>
+							<li>{n' => R'<sub>n'</sub> | n' in RP'<sub>ext</sub>}</li>
 							<li>SV'</li>
-							<li>{n' => M''(n') | n' in RP'}</li>
-							<li>M''(DEFAULT)</li>
+							<li>{n' => M''(n') | n' in RP'<sub>ext</sub>}</li>
 						</ol>
-						<p class="ednote">All constructors need to be fixed to use mappings over
-							extended sets of names, e.g. extended with DEFAULT or STATIC, as
-							appropriate. Store<sub>k</sub>(RP, R, SV, M)</p>
 						<aside class="example" title="Identity Transformation">
 							<p>The output store is equal to the input store when the following
 								hold.</p>
