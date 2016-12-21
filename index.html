@@ -855,7 +855,13 @@
 							provided i &in; Index and i is not the greatest element of Index. </li>
 						<li>If SQ = <a>Seq</a>(Index, M), we define <dfn>next(i; SQ)</dfn> =
 								SQ(<a>next</a>(i; Index)).</li>
+						<li>The function <dfn>index</dfn>(SQ) returns an index for the constructed
+							sequence that is compatible with the corresponding mapping
+								<dfn>indexMap</dfn>(SQ)). However, this function is not
+							deterministic.</li>
 					</ul>
+					<p class="ednote">There is a non-determinism issue regarding <a>index</a> and
+							<a>indexMap</a>.</p>
 					<aside class="example"> In the case that <a>hasGreatest</a>(DSQ) is true, then
 							<p> Cons( greatest(DSQ), exceptGreatest(DSQ) ) = DSQ.</p>
 					</aside>
@@ -864,7 +870,7 @@
 							[DS]</p></aside>
 					<aside>A Graph Store in the sense of [[!SPARQL11-Update]] is most closely
 						related, of the <a>data structures</a> considered in this document, to a
-							<a>data sequence</a> where each element is a <a>associative tree</a> of
+							<a>data sequence</a> where each element is an <a>associative tree</a> of
 						first order or less. </aside>
 					<p>In the spirit of [[!SPARQL11-Update]], we define the <dfn>Revise</dfn>
 						operation as an explicit operation acting on a <dfn>terminated data
@@ -956,16 +962,20 @@
 							>k-th Order Versioned RDF Data Structure</dfn> DS is a <a>k-th order RDF
 							multivalent data structure</a> that meets the following requirements. </p>
 					<ul>
-						<li>Let SQ = sequentialPart(DS) and Index = <a>index</a>(SQ).</li>
+						<li>Let SQ = sequentialPart(DS) with Index = <a>index</a>(SQ) and SQ =
+								<a>indexMap</a>(SQ).</li>
 						<li>Each element SQ(i) for i &in; Index is a <a>solitary association</a>.
 							These elements are called <dfn>versions</dfn> of the versioned
 							structure.</li>
 						<li>If i &ne; j &in; Index, then name(SQ(i)) &ne; name(SQ(j)). The names are
 							called the <dfn>version names</dfn> of the structure and they form an
 							ordered set, with the order consistent with the sequence order.</li>
-						<li>If j = <a>next</a>(i; Index), then content(SQ(j)) &ne;
-							content(SQ(i))</li>
+						<li>If j = <a>next</a>(i; Index), then content(SQ(j)) &ne; t(SQ(i))</li>
 					</ul>
+					<p class="ednote">There is a problem of non-determinism with the functions
+							<a>index</a> and <a>indexMap</a>. It would be better to use other
+						sequence iterator functions above. This is the only place in the draft where
+							<a>index</a> and <a>indexMap</a> are used.</p>
 					<p class="note">The sequence corresponds to a mapping from the <a>version
 							names</a> to the contents of the <a>versions</a>. Further, the contents
 						of adjacent versions are distinct; this means each step in the sequence
