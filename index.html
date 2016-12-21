@@ -465,7 +465,7 @@
 							used to create a <a>solitary association</a> as follows.</p>
 						<p>Let DS be <a>data structure</a> of order k-1 or less, and let ND =
 								Associative<sub>k</sub>({n}, {n => DS, DEFAULT => {} }). Then
-								<a>order</a>(ND) = k, names(ND) = {n}, and default(ND) = {}.
+								<a>order</a>(ND) = k, names(ND) = {n}, and defaultPart(ND) = {}.
 							Therefore by definition, ND is a <a>solitary association</a>.</p>
 					</aside>
 					<p>We define a specialized constructor for solitary associations,</p>
@@ -662,7 +662,7 @@
 							<td>solitary-association<sub>k</sub>, k &gt; 0</td>
 							<td>::=</td>
 							<td>{x &in; associative<sub>k</sub> | cardinality(names(x)) = 1 and
-								default(x) = {}}</td>
+								defaultPart(x) = {}}</td>
 						</tr>
 						<tr>
 							<td>solitary-association-tree<sub>k</sub>, k &gt; 0</td>
@@ -1321,9 +1321,9 @@
 					<p>Similarly, we define <dfn>Restrict-DEFAULT</dfn> on a sequence of <a>named
 							associative data structures</a> of k-th order, for some fixed k, as
 						follows.</p>
-					<p> Restrict-DEFAULT(DSQ) = Distinct( [default( DSQ<sub>i</sub>)]<sub>i in
+					<p> Restrict-DEFAULT(DSQ) = Distinct( [defaultPart( DSQ<sub>i</sub>)]<sub>i in
 								<i>I</i></sub> ) </p>
-					<p> = Distinct( Map( DSQ, (λx.default(content(x)) ) )</p>
+					<p> = Distinct( Map( DSQ, (λx.defaultPart(content(x)) ) )</p>
 					<p class="ednote">Is there a need for a combination union of default and
 						named?</p>
 					<p>Using the store history, we can form the "union" of histories of repositories
@@ -1880,7 +1880,7 @@
 						<li>If order(DSP') &lt; order(DSP) = k, then <br /> Tree-UNION(DSP, DSP') =
 							Tree-UNION(DSP', DSP) = Associative<sub>k</sub>( names(DSP) , M' )
 							<br /> where M' = names(DSP) => M(names(DSP) &cup; {DEFAULT =>
-							Tree-UNION(default(DSP), DSP')} </li>
+							Tree-UNION(defaultPart(DSP), DSP')} </li>
 					</ul>
 					<p>In the case of a single argument S that is a set of <a>associative trees</a>
 						of order k or less, the value is defined inductively as follows.</p>
@@ -1891,7 +1891,7 @@
 						<li>if order(s) = k &gt; 0 for every s in S, then <br /> Tree-UNION(S) =
 								Associative<sub>k</sub>( result-default, result-names,
 							result-nameMap ) <br /> where <br /> result-default =
-							Tree-UNION({default(s)|s in S}) <br /> result-names = ∪<sub>s in S</sub>
+							Tree-UNION({defaultPart(s)|s in S}) <br /> result-names = ∪<sub>s in S</sub>
 							names(s), <br /> result-nameMap = { n => Tree-UNION({content(n,
 								s)|<sub>s in S</sub>}) | n in result-names} </li>
 						<li> if max({order(s)|s in S}) = k &gt; 0, let S<sub>k</sub> be the subset
@@ -1994,10 +1994,10 @@
 						<li>If k &gt; order(DS), then OpCreate(DS, name, k) =
 								Associative<sub>k</sub>(DS, {name}, {name => {}})</li>
 						<li>If k = order(DS) and name is not in name(DS), then OpCreate(DS, name, k)
-							= Associative<sub>k</sub>(default(DS), names(DS) ∪ {name}, nameMap(DS) ∪
+							= Associative<sub>k</sub>(defaultPart(DS), names(DS) ∪ {name}, nameMap(DS) ∪
 							{name => {}}). </li>
 						<li>If k &lt; order(DS) = k', then OpCreate(DS, name, k) =
-								Associative<sub>k'</sub>( OpCreate(default(DS), name, k), names(DS),
+								Associative<sub>k'</sub>( OpCreate(defaultPart(DS), name, k), names(DS),
 							nameMap(DS) ) )</li>
 					</ul>
 				</section>
@@ -2026,10 +2026,10 @@
 					associative tree. </p>
 				<ul>
 					<li>If name is in names(DS), then APPLY(DS, Spec, name) =
-							Associative<sub>order(DS)</sub>( default(DS), names(DS),
+							Associative<sub>order(DS)</sub>( defaultPart(DS), names(DS),
 						Delete(nameMap(DS), name) union { name => Spec(content(name, DS))} ) </li>
 					<li>Otherwise, APPLY(DS, Spec, name) = DS.</li>
-					<li>APPLY(DS, Spec) = Associative<sub>order(DS)</sub>( Spec(default(DS)),
+					<li>APPLY(DS, Spec) = Associative<sub>order(DS)</sub>( Spec(defaultPart(DS)),
 						names(DS), nameMap(DS) )</li>
 				</ul>
 			</section>
