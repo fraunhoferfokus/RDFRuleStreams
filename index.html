@@ -467,8 +467,8 @@
 							Therefore by definition, ND is a <a>solitary association</a>.</p>
 					</aside>
 					<p>We define a specialized constructor for solitary associations,</p>
-					<p><dfn data-lt="Solitary">Solitary<sub>k</sub></dfn>(n, DS) = <a>Associative<sub>k</sub></a>({n},
-						{n => DS, DEFAULT => {} })</p>
+					<p><dfn data-lt="Solitary">Solitary<sub>k</sub></dfn>(n, DS) =
+								<a>Associative<sub>k</sub></a>({n}, {n => DS, DEFAULT => {} })</p>
 					<p>The <dfn>named part</dfn> of a k-th order <a>associative data structure</a>
 						DS of order k &ge; 1, denoted <dfn>namedPart</dfn>(DS), is the <a>k-th order
 							associative data structure</a> given by
@@ -2234,14 +2234,16 @@
 							describing FHIR observations, but without timestamps. These graphs will
 							be used to illustrate the emulation of RDF Streams that transmit this
 							observational information in various forms. </p>
-						<p>Let G<sub>1, FHIR-hr</sub> be: </p>
+						<p>We use a common prefix section for all graphs as follows.</p>
 						<pre>
 @prefix fhir: &lt;http://hl7.org/fhir/&gt; .
 @prefix lr: &lt;http://localhost/local-records#&gt; .
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 @prefix sct: &lt;http://snomed.info/id/&gt; .
-
+						</pre>
+						<p>Let G<sub>1, FHIR-hr</sub> be: </p>
+						<pre>
 _:b1 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
@@ -2253,13 +2255,6 @@ _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 </pre>
 						<p>G<sub>2, FHIR-hr</sub> be:. </p>
 						<pre>
-@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
-@prefix lr: &lt;http://localhost/local-records#&gt; .
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
-@prefix sct: &lt;http://snomed.info/id/&gt; .
-
-
 _:b4 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
@@ -2271,12 +2266,6 @@ _:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 </pre>
 						<p>G<sub>3, FHIR-hr</sub> be: </p>
 						<pre>
-@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
-@prefix lr: &lt;http://localhost/local-records#&gt; .
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-@prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
-@prefix sct: &lt;http://snomed.info/id/&gt; .
-
 _:b7 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
@@ -2295,22 +2284,16 @@ _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 							then we may use the triple in this graph as a timestamp triple in the
 							emulation of a <a>timestamped graph</a>.</p>
 						<pre>
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-
 _:b1 obs:effectiveDateTime 
     "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
 </pre>
 						<p>Similarly, we define TS<sub>2, FHIR-hr</sub></p>
 						<pre>
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-
 _:b4 obs:effectiveDateTime 
     "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
 </pre>
 						<p> and TS<sub>3, FHIR-hr</sub></p>
 						<pre>
-@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
-
 _:b7 obs:effectiveDateTime 
     "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
 </pre>
@@ -2483,36 +2466,97 @@ _:b7 obs:effectiveDateTime
 						<p><dfn>Repo<sub>FHIR-ts-2</sub></dfn> =
 								<a>Append2Repository</a><sub>2</sub>(<a>Repo<sub>2,
 								FHIR-ts-2</sub></a>, _:fhir-hr-ts3, NTS<sub>3, FHIR-hr</sub>)</p>
-						<p><dfn>Repo<sub>2, FHIR-ts</sub></dfn> = =
+						<p><dfn>Repo<sub>2, FHIR-ts-2</sub></dfn> = =
 								<a>Append2Repository</a><sub>2</sub>(<a>Repo<sub>1,
 								FHIR-ts-2</sub></a>, _:fhir-hr-ts2, NTS<sub>2, FHIR-hr</sub>)</p>
 						<p><dfn>Repo<sub>1, FHIR-ts-2</sub></dfn> = =
 								<a>Repository-INITIAL</a><sub>2</sub>(_:fhir-hr-ts1, NTS<sub>1,
 								FHIR-hr</sub>)</p>
 						<p>and</p>
-						<p>NTS<sub>1, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2, TS<sub>1, FHIR-hr</sub>)</p>
-						<p>NTS<sub>2, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2, TS<sub>2, FHIR-hr</sub>)</p>
-						<p>NTS<sub>3, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2, TS<sub>3, FHIR-hr</sub>)</p>
+						<p>NTS<sub>1, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
+								TS<sub>1, FHIR-hr</sub>)</p>
+						<p>NTS<sub>2, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
+								TS<sub>2, FHIR-hr</sub>)</p>
+						<p>NTS<sub>3, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
+								TS<sub>3, FHIR-hr</sub>)</p>
 					</aside>
-					<p class="note">This approach for representing an RDF stream of graphs within a
-						second-order store can be extended so that multiple streams are held within
-						the same store, under certain conditions. The timestamp triples for a
-						particular store version are all held in the same graph, within the default
-						repository of the store. If two streams use the same name for the named
-						graph in their respective timestamped graphs and these elements happen to
-						coincide with respect to the store (i.e. belong to the same store version),
-						then it will not be possible to distinguish which timestamp triple goes with
-						which stream. Thus, there is information lost with this representation
-						system in this particular case.</p>
-					<p class="ednote">The conflict described in the previous note could be avoided
-						by using a third-order store. In the example treated here, the named graph
-						of the timestamped graph is empty, and this is what allows us to use a
-						second-order store for the representation. But this is an atypical case. In
-						general, a timestamped graph will have a non-empty named graph, and thus it
-						is necessary to use a third-order store for its representation. In a
-						third-order store, there would be an option to attach the repository name to
-						the timestamp triple. This would capture the missing information as to which
-						triple goes with which stream.</p>
+				</section>
+				<section>
+					<h4>Another Approach Using A Third-Order Store for an RDF Stream of FHIR
+						Heartrate Observations</h4>
+					<p>In this example, we develop another approach to identifying the timestamp
+						triple. This approach is only applicable to RDF streams that have the
+						following characeristic: the predicate that appears in the timestamp triple
+						is not used in any other triple of the default graph that has the subject
+						being the name of the named graph in that timestamped graph.</p>
+					<p>In this case, we include the timestamp triple in the timestamped graph. Then
+						in the default graph of the store version content, we have a structural
+						triple that identifies the timestamp predicate used at that version for each
+						repository.</p>
+					<aside class="example"
+						title="Third-Order Store holding an RDF Stream of FHIR Heartrate Observations - Alternate">
+						<p><dfn>Store<sub>FHIR-hr-3</sub></dfn> = <a>Store</a><sub>3</sub>(RN, R,
+							SI, M) where</p>
+						<ul>
+							<li>RN = {_:fhir-hr} (the set of repository names)</li>
+							<li>R<sub>_:fhir-hr</sub> = <a>Repo<sub>FHIR-hr-3</sub></a> (the "named"
+								second-order repository, containing the entire timestamped
+								graphs)</li>
+							<li>R<sub>DEFAULT</sub> = <a>Repo<sub>FHIR-ts-2</sub></a> (the default
+								second-order repository, containing the assertion of the timestamp
+								predicate for each repository.</li>
+							<li>SI = <a>Chain</a>([_:stream_store1, _:stream_store2,
+								_:stream_store3]) (the ordered set of store version names)</li>
+							<li>M<sub>_:fhir-hr</sub> = {_:stream_store1 => _:fhir-hr-g1,
+								_:stream_store2 => _:fhir-hr-g2, _:stream_store3 => _:fhir-hr-g3}
+								(the mapping from store version names to repository version names,
+								for the "named" repository)</li>
+							<li>M<sub>DEFAULT</sub> = {_:stream_store1 => _:fhir-hr-ts1,
+								_:stream_store2 => _:fhir-hr-ts2, _:stream_store3 => _:fhir-hr-ts3}
+								(the mapping from store version names to repository version names,
+								for the default repository)</li>
+						</ul>
+						<p>and where G'<sub>i, FHIR-hr</sub> = G<sub>i, FHIR-hr</sub> &cup;
+								TS<sub>i, FHIR-hr</sub>, i = 1, 2, 3</p>
+						<p><dfn>Repo<sub>1, FHIR-hr-3</sub></dfn> =
+								<a>Repository-INITIAL</a><sub>3</sub>({}, _:fhir-hr-g1, G'<sub>1,
+								FHIR-hr</sub>) </p>
+						<p><dfn>Repo<sub>2, FHIR-hr-3</sub></dfn> =
+								<a>Append2Repository</a><sub>3</sub>(<a>Repo<sub>1,
+								FHIR-hr-3</sub></a>, _:fhir-hr-g2, G'<sub>2, FHIR-hr</sub>) </p>
+						<p><a>Repo<sub>FHIR-hr-3</sub></a> =
+									<a>Append2Repository</a><sub>3</sub>(<a>Repo<sub>2,
+									FHIR-hr-3</sub></a>, _:fhir-hr-g3, G'<sub>3, FHIR-hr</sub>) </p>
+						<p>as well as</p>
+						<p><dfn>Repo<sub>FHIR-ts-3</sub></dfn> =
+								<a>Append2Repository</a><sub>2</sub>(<a>Repo<sub>2,
+								FHIR-ts-3</sub></a>, _:fhir-hr-ts3, TSP<sub>3, FHIR-hr</sub>)</p>
+						<p><dfn>Repo<sub>2, FHIR-ts-3</sub></dfn> = =
+								<a>Append2Repository</a><sub>2</sub>(<a>Repo<sub>1,
+								FHIR-ts-3</sub></a>, _:fhir-hr-ts2, TSP<sub>2, FHIR-hr</sub>)</p>
+						<p><dfn>Repo<sub>1, FHIR-ts-3</sub></dfn> = =
+								<a>Repository-INITIAL</a><sub>2</sub>(_:fhir-hr-ts1, TSP<sub>1,
+								FHIR-hr</sub>)</p>
+						<p>and</p>
+						<p>TSP<sub>1, FHIR-hr</sub> is</p>
+						<pre>
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+
+_:fhir-hr-3 rsp:usesTSPredicate obs:effectiveDateTime 
+</pre>
+						<p>Similarly, we define TS<sub>2, FHIR-hr</sub></p>
+						<pre>
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+
+_:fhir-hr-3 rsp:usesTSPredicate obs:effectiveDateTime 
+</pre>
+						<p> and TSP<sub>3, FHIR-hr</sub></p>
+						<pre>
+@prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
+
+_:fhir-hr-3 rsp:usesTSPredicate obs:effectiveDateTime 
+</pre>
+					</aside>
 				</section>
 			</section>
 		</section>
