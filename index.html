@@ -2347,9 +2347,11 @@ _:b7 obs:effectiveDateTime
 					<aside class="example" title="Table of Query Results From Repository">
 						<p>A first-order repository can be thought of as like an RDF Dataset, but
 							with a total order among the names of named graphs. The following table
-							illustrates a list of solution mappings for the query</p>
+							illustrates a list of solution mappings for the <code>select *</code>
+							query of the <dfn>identity pattern for first-order
+							repositories</dfn></p>
 						<pre>
-{ version ?v {?s ?p ?o} }</pre>
+{ version ?v {?s ?p ?o} } union {ASSOC {?s ?p ?o}}</pre>
 						<p>applied to the first-order repository <a>Repo<sub>FHIR-hr</sub></a> where
 							the final column holds an index that indicates relative order among the
 							solution mappings. </p>
