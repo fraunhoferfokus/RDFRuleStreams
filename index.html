@@ -1925,9 +1925,9 @@
 					<p>In the case of a single argument S that is a set of <a>associative trees</a>
 						of order k or less, the value is defined inductively as follows.</p>
 					<ul>
-						<li>if S = {}, then Tree-UNION(S) = {}.</li>
 						<li>if order(s) = 0 for every s in S (i.e. s is an <a>RDF graph</a>), then
-							Tree-UNION(S) = ∪<sub>s in S</sub>s.</li>
+							Tree-UNION(S) = ∪<sub>s in S</sub>s. Note that this includes the case S
+							= {}, where Tree-UNION(S) = {}.</li>
 						<li>if order(s) = k &gt; 0 for every s in S, then <br /> Tree-UNION(S) =
 								Associative<sub>k</sub>( result-default, result-names,
 							result-nameMap ) <br /> where <br /> result-default =
