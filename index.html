@@ -514,7 +514,7 @@
 						patterns.</aside>
 					<table style="font: monospace;">
 						<tr>
-							<th>type</th>
+							<th><div style="width: 12em">type</div></th>
 							<td></td>
 							<th>definition</th>
 						</tr>
@@ -2405,14 +2405,14 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b2</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt;</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
 										<td>_:fhir-hr-g1</td>
 										<td>1</td>
 									</tr>
 									<tr>
 										<td>_:b2</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
 										<td>_:fhir-hr-g1</td>
 										<td>1</td>
 									</tr>
@@ -2454,14 +2454,14 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b5</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt;</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
 										<td>_:fhir-hr-g2</td>
 										<td>2</td>
 									</tr>
 									<tr>
 										<td>_:b5</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
 										<td>_:fhir-hr-g2</td>
 										<td>2</td>
 									</tr>
@@ -2503,14 +2503,14 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b8</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt;</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
 										<td>_:fhir-hr-g3</td>
 										<td>3</td>
 									</tr>
 									<tr>
 										<td>_:b8</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
 										<td>_:fhir-hr-g3</td>
 										<td>3</td>
 									</tr>
@@ -2574,7 +2574,6 @@ _:b7 obs:effectiveDateTime
 						<p>applied to the second-order store <a>Store<sub>FHIR-hr</sub></a> where
 							the final two columns holds indices that indicates relative order among
 							the solution mappings. </p>
-						<p class="ednote">The table is not fully updated yet.</p>
 						<div>
 							<table>
 								<thead>
@@ -2587,14 +2586,52 @@ _:b7 obs:effectiveDateTime
 										<td>?sv</td>
 										<td>i</td>
 										<td>j</td>
+										<td>k</td>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
 										<td>_:b1</td>
+										<td>obs:effectiveDateTime</td>
+										<td>"2015-01-01T12:00:00Z"^^...#dateTimeStamp></td>
+										<td>_:def-g1</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>obs:effectiveDateTime</td>
+										<td>"2015-01-01T12:00:00Z"^^...#dateTimeStamp></td>
+										<td></td>
+										<td></td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
 										<td>rdf:type</td>
 										<td>fhir:Observation</td>
 										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>rdf:type</td>
+										<td>fhir:Observation</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
 										<td>1</td>
 									</tr>
 									<tr>
@@ -2602,6 +2639,21 @@ _:b7 obs:effectiveDateTime
 										<td>obs:code</td>
 										<td>sct:36407505</td>
 										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>obs:code</td>
+										<td>sct:36407505</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
 										<td>1</td>
 									</tr>
 									<tr>
@@ -2609,6 +2661,21 @@ _:b7 obs:effectiveDateTime
 										<td>obs:device</td>
 										<td>lr:sensor1234</td>
 										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>obs:device</td>
+										<td>lr:sensor1234</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
 										<td>1</td>
 									</tr>
 									<tr>
@@ -2616,6 +2683,21 @@ _:b7 obs:effectiveDateTime
 										<td>obs:subject</td>
 										<td>lr:patientA</td>
 										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>obs:subject</td>
+										<td>lr:patientA</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
 										<td>1</td>
 									</tr>
 									<tr>
@@ -2623,27 +2705,109 @@ _:b7 obs:effectiveDateTime
 										<td>obs:valueQuantity</td>
 										<td>_:b2</td>
 										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>obs:valueQuantity</td>
+										<td>_:b2</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
 										<td>1</td>
 									</tr>
 									<tr>
 										<td>_:b2</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt;</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
 										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b2</td>
+										<td>lr:unit</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
 										<td>1</td>
 									</tr>
 									<tr>
 										<td>_:b2</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
 										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
 										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b2</td>
+										<td>lr:value</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>obs:effectiveDateTime</td>
+										<td>"2015-01-01T12:01:00Z"^^...#dateTimeStamp></td>
+										<td>_:def-g2</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>obs:effectiveDateTime</td>
+										<td>"2015-01-01T12:01:00Z"^^...#dateTimeStamp></td>
+										<td></td>
+										<td></td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
 									</tr>
 									<tr>
 										<td>_:b4</td>
 										<td>rdf:type</td>
 										<td>fhir:Observation</td>
 										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>rdf:type</td>
+										<td>fhir:Observation</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
 										<td>2</td>
 									</tr>
 									<tr>
@@ -2651,6 +2815,21 @@ _:b7 obs:effectiveDateTime
 										<td>obs:code</td>
 										<td>sct:36407505</td>
 										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>obs:code</td>
+										<td>sct:36407505</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
 										<td>2</td>
 									</tr>
 									<tr>
@@ -2658,6 +2837,21 @@ _:b7 obs:effectiveDateTime
 										<td>obs:device</td>
 										<td>lr:sensor1234</td>
 										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>obs:device</td>
+										<td>lr:sensor1234</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store2</td>
+										<td></td>
+										<td></td>
 										<td>2</td>
 									</tr>
 									<tr>
@@ -2665,6 +2859,21 @@ _:b7 obs:effectiveDateTime
 										<td>obs:subject</td>
 										<td>lr:patientA</td>
 										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>obs:subject</td>
+										<td>lr:patientA</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store2</td>
+										<td></td>
+										<td></td>
 										<td>2</td>
 									</tr>
 									<tr>
@@ -2672,27 +2881,109 @@ _:b7 obs:effectiveDateTime
 										<td>obs:valueQuantity</td>
 										<td>_:b5</td>
 										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>obs:valueQuantity</td>
+										<td>_:b5</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store2</td>
+										<td></td>
+										<td></td>
 										<td>2</td>
 									</tr>
 									<tr>
 										<td>_:b5</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt;</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
 										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b5</td>
+										<td>lr:unit</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store2</td>
+										<td></td>
+										<td></td>
 										<td>2</td>
 									</tr>
 									<tr>
 										<td>_:b5</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
 										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
 										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b5</td>
+										<td>lr:value</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store2</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>obs:effectiveDateTime</td>
+										<td>"2015-01-01T12:02:00Z"^^...#dateTimeStamp></td>
+										<td>_:def-g3</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>obs:effectiveDateTime</td>
+										<td>"2015-01-01T12:02:00Z"^^...#dateTimeStamp></td>
+										<td></td>
+										<td></td>
+										<td>_:stream_store3</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
 									</tr>
 									<tr>
 										<td>_:b7</td>
 										<td>rdf:type</td>
 										<td>fhir:Observation</td>
 										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>rdf:type</td>
+										<td>fhir:Observation</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store3</td>
+										<td></td>
+										<td></td>
 										<td>3</td>
 									</tr>
 									<tr>
@@ -2700,6 +2991,21 @@ _:b7 obs:effectiveDateTime
 										<td>obs:code</td>
 										<td>sct:36407505</td>
 										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>obs:code</td>
+										<td>sct:36407505</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store3</td>
+										<td></td>
+										<td></td>
 										<td>3</td>
 									</tr>
 									<tr>
@@ -2707,6 +3013,21 @@ _:b7 obs:effectiveDateTime
 										<td>obs:device</td>
 										<td>lr:sensor1234</td>
 										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>obs:device</td>
+										<td>lr:sensor1234</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store3</td>
+										<td></td>
+										<td></td>
 										<td>3</td>
 									</tr>
 									<tr>
@@ -2714,6 +3035,21 @@ _:b7 obs:effectiveDateTime
 										<td>obs:subject</td>
 										<td>lr:patientA</td>
 										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>obs:subject</td>
+										<td>lr:patientA</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store3</td>
+										<td></td>
+										<td></td>
 										<td>3</td>
 									</tr>
 									<tr>
@@ -2721,20 +3057,65 @@ _:b7 obs:effectiveDateTime
 										<td>obs:valueQuantity</td>
 										<td>_:b8</td>
 										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>obs:valueQuantity</td>
+										<td>_:b8</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store3</td>
+										<td></td>
+										<td></td>
 										<td>3</td>
 									</tr>
 									<tr>
 										<td>_:b8</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt;</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
 										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b8</td>
+										<td>lr:unit</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store3</td>
+										<td></td>
+										<td></td>
 										<td>3</td>
 									</tr>
 									<tr>
 										<td>_:b8</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
 										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b8</td>
+										<td>lr:value</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store3</td>
+										<td></td>
+										<td></td>
 										<td>3</td>
 									</tr>
 								</tbody>
