@@ -2241,7 +2241,9 @@
 @prefix obs: &lt;http://hl7.org/fhir/Observation.&gt; .
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 @prefix sct: &lt;http://snomed.info/id/&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema&gt; .
 						</pre>
+<!--
 						<p>Let G<sub>1, FHIR-hr</sub> be: </p>
 						<pre>
 _:b1 a fhir:Observation ;
@@ -2250,8 +2252,8 @@ _:b1 a fhir:Observation ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b2 .
 	
-_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+_:b2 lr:unit "bpm"^^xsd:string ;
+		lr:value "50"^^xsd:integer .
 </pre>
 						<p>G<sub>2, FHIR-hr</sub> be:. </p>
 						<pre>
@@ -2261,8 +2263,8 @@ _:b4 a fhir:Observation ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b5 .
 	
-_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+_:b5 lr:unit "bpm"^^xsd:string ;
+		lr:value "53"^^xsd:integer .
 </pre>
 						<p>G<sub>3, FHIR-hr</sub> be: </p>
 						<pre>
@@ -2272,9 +2274,45 @@ _:b7 a fhir:Observation ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b8 .
 	
-_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+_:b8 lr:unit "bpm"^^xsd:string ;
+		lr:value "48"^^xsd:integer .
 </pre>
+-->
+Given the graphs
+<table border="0" style=>
+<tr><td>G<sub>1, FHIR-hr</sub></td>
+    <td><pre style="margin-top:0; margin-bottom:0">_:b1 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b2 .
+	
+_:b2 lr:unit "bpm"^^xsd:string ;
+		lr:value "50"^^xsd:integer .
+</pre></td></tr>
+<tr><td>G<sub>2, FHIR-hr</sub></td>
+    <td><pre style="margin-top:0; margin-bottom:0">_:b4 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b5 .
+	
+_:b5 lr:unit "bpm"^^xsd:string ;
+		lr:value "53"^^xsd:integer .
+</pre></td></tr>
+<tr><td>G<sub>3, FHIR-hr</sub></td>
+    <td><pre style="margin-top:0; margin-bottom:0">_:b7 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:subject lr:patientA ;
+		obs:valueQuantity _:b8 .
+	
+_:b8 lr:unit "bpm"^^xsd:string ;
+		lr:value "48"^^xsd:integer .
+</pre></td></tr>
+</table>
+
+
 					</aside>
 					<p>We also define some unit graphs holding timestamp triples.</p>
 					<aside class="example" title="FHIR effectiveDateTime Timestamp">
@@ -2285,17 +2323,17 @@ _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 							emulation of a <a>timestamped graph</a>.</p>
 						<pre>
 _:b1 obs:effectiveDateTime 
-    "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
+    "2015-01-01T12:00:00Z"^^xsd:dateTimeStamp
 </pre>
 						<p>Similarly, we define TS<sub>2, FHIR-hr</sub></p>
 						<pre>
 _:b4 obs:effectiveDateTime 
-    "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
+    "2015-01-01T12:01:00Z"^^xsd:dateTimeStamp
 </pre>
 						<p> and TS<sub>3, FHIR-hr</sub></p>
 						<pre>
 _:b7 obs:effectiveDateTime 
-    "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
+    "2015-01-01T12:02:00Z"^^xsd:dateTimeStamp
 </pre>
 					</aside>
 				</section>
@@ -2405,14 +2443,14 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b2</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td>_:fhir-hr-g1</td>
 										<td>1</td>
 									</tr>
 									<tr>
 										<td>_:b2</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td>_:fhir-hr-g1</td>
 										<td>1</td>
 									</tr>
@@ -2454,14 +2492,14 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b5</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td>_:fhir-hr-g2</td>
 										<td>2</td>
 									</tr>
 									<tr>
 										<td>_:b5</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td>_:fhir-hr-g2</td>
 										<td>2</td>
 									</tr>
@@ -2503,14 +2541,14 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b8</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td>_:fhir-hr-g3</td>
 										<td>3</td>
 									</tr>
 									<tr>
 										<td>_:b8</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td>_:fhir-hr-g3</td>
 										<td>3</td>
 									</tr>
@@ -2593,7 +2631,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b1</td>
 										<td>obs:effectiveDateTime</td>
-										<td>"2015-01-01T12:00:00Z"^^...#dateTimeStamp></td>
+										<td>"2015-01-01T12:00:00Z"^^xsd:dateTimeStamp></td>
 										<td>_:def-g1</td>
 										<td></td>
 										<td></td>
@@ -2604,7 +2642,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b1</td>
 										<td>obs:effectiveDateTime</td>
-										<td>"2015-01-01T12:00:00Z"^^...#dateTimeStamp></td>
+										<td>"2015-01-01T12:00:00Z"^^xsd:dateTimeStamp></td>
 										<td></td>
 										<td></td>
 										<td>_:strst1</td>
@@ -2725,7 +2763,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b2</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td>_:fhir-hr-g1</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -2736,7 +2774,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b2</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td></td>
 										<td>_:fhir-hr</td>
 										<td>_:strst1</td>
@@ -2747,7 +2785,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b2</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td>_:fhir-hr-g1</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -2758,7 +2796,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b2</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td></td>
 										<td>_:fhir-hr</td>
 										<td>_:strst1</td>
@@ -2769,7 +2807,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b4</td>
 										<td>obs:effectiveDateTime</td>
-										<td>"2015-01-01T12:01:00Z"^^...#dateTimeStamp></td>
+										<td>"2015-01-01T12:01:00Z"^^xsd:dateTimeStamp></td>
 										<td>_:def-g2</td>
 										<td></td>
 										<td></td>
@@ -2780,7 +2818,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b4</td>
 										<td>obs:effectiveDateTime</td>
-										<td>"2015-01-01T12:01:00Z"^^...#dateTimeStamp></td>
+										<td>"2015-01-01T12:01:00Z"^^xsd:dateTimeStamp></td>
 										<td></td>
 										<td></td>
 										<td>_:strst2</td>
@@ -2901,7 +2939,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b5</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td>_:fhir-hr-g2</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -2912,7 +2950,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b5</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td></td>
 										<td>_:fhir-hr</td>
 										<td>_:strst2</td>
@@ -2923,7 +2961,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b5</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td>_:fhir-hr-g2</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -2934,7 +2972,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b5</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td></td>
 										<td>_:fhir-hr</td>
 										<td>_:strst2</td>
@@ -2945,7 +2983,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b7</td>
 										<td>obs:effectiveDateTime</td>
-										<td>"2015-01-01T12:02:00Z"^^...#dateTimeStamp></td>
+										<td>"2015-01-01T12:02:00Z"^^xsd:dateTimeStamp></td>
 										<td>_:def-g3</td>
 										<td></td>
 										<td></td>
@@ -2956,7 +2994,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b7</td>
 										<td>obs:effectiveDateTime</td>
-										<td>"2015-01-01T12:02:00Z"^^...#dateTimeStamp></td>
+										<td>"2015-01-01T12:02:00Z"^^xsd:dateTimeStamp></td>
 										<td></td>
 										<td></td>
 										<td>_:strst3</td>
@@ -3077,7 +3115,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b8</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td>_:fhir-hr-g3</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -3088,7 +3126,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b8</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td></td>
 										<td>_:fhir-hr</td>
 										<td>_:strst3</td>
@@ -3099,7 +3137,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b8</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td>_:fhir-hr-g3</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -3110,7 +3148,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b8</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td></td>
 										<td>_:fhir-hr</td>
 										<td>_:strst3</td>
@@ -3156,7 +3194,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b1</td>
 										<td>obs:effectiveDateTime</td>
-										<td>"2015-01-01T12:00:00Z"^^...#dateTimeStamp></td>
+										<td>"2015-01-01T12:00:00Z"^^xsd:dateTimeStamp></td>
 										<td>_:def-g1</td>
 										<td></td>
 										<td></td>
@@ -3233,7 +3271,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b2</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td>_:fhir-hr-g1</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -3244,7 +3282,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b2</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td>_:fhir-hr-g1</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -3266,7 +3304,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b4</td>
 										<td>obs:effectiveDateTime</td>
-										<td>"2015-01-01T12:01:00Z"^^...#dateTimeStamp></td>
+										<td>"2015-01-01T12:01:00Z"^^xsd:dateTimeStamp></td>
 										<td>_:def-g2</td>
 										<td></td>
 										<td></td>
@@ -3343,7 +3381,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b5</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td>_:fhir-hr-g2</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -3354,7 +3392,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b5</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td>_:fhir-hr-g2</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -3376,7 +3414,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b7</td>
 										<td>obs:effectiveDateTime</td>
-										<td>"2015-01-01T12:02:00Z"^^...#dateTimeStamp></td>
+										<td>"2015-01-01T12:02:00Z"^^xsd:dateTimeStamp></td>
 										<td>_:def-g3</td>
 										<td></td>
 										<td></td>
@@ -3453,7 +3491,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b8</td>
 										<td>lr:unit</td>
-										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>"bpm"^^xsd:string</td>
 										<td>_:fhir-hr-g3</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -3464,7 +3502,7 @@ _:b7 obs:effectiveDateTime
 									<tr>
 										<td>_:b8</td>
 										<td>lr:value</td>
-										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>"50"^^xsd:integer</td>
 										<td>_:fhir-hr-g3</td>
 										<td>_:fhir-hr</td>
 										<td></td>
@@ -4460,32 +4498,32 @@ _:fhir-hr-3 rsp:usesTSPredicate obs:effectiveDateTime
 _:b1 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^xsd:dateTimeStamp ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b2 .
 	
-_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+_:b2 lr:unit "bpm"^^xsd:string ;
+		lr:value "50"^^xsd:integer .
 
 _:b4 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^xsd:dateTimeStamp ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b5 .
 	
-_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+_:b5 lr:unit "bpm"^^xsd:string ;
+		lr:value "53"^^xsd:integer .
 
 _:b7 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^xsd:dateTimeStamp ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b8 .
 	
-_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+_:b8 lr:unit "bpm"^^xsd:string ;
+		lr:value "48"^^xsd:integer .
 </pre>
 						<p>G<sub>FHIR</sub> is the union of three graphs, each fully describing an
 							observation. We write:</p>
@@ -4500,14 +4538,14 @@ _:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
 _:b1 a fhir:Observation ;
-		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^xsd:dateTimeStamp ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b2 .
 	
-_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+_:b2 lr:unit "bpm"^^xsd:string ;
+		lr:value "50"^^xsd:integer .
 </pre>
 						<p>G<sub>2, FHIR</sub> is:. </p>
 						<pre>
@@ -4519,14 +4557,14 @@ _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 
 
 _:b4 a fhir:Observation ;
-		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^xsd:dateTimeStamp ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b5 .
 	
-_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+_:b5 lr:unit "bpm"^^xsd:string ;
+		lr:value "53"^^xsd:integer .
 </pre>
 						<p>G<sub>3, FHIR</sub> is: </p>
 						<pre>
@@ -4537,14 +4575,14 @@ _:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
 _:b7 a fhir:Observation ;
-		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^xsd:dateTimeStamp ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b8 .
 	
-_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+_:b8 lr:unit "bpm"^^xsd:string ;
+		lr:value "48"^^xsd:integer .
 </pre>
 					</aside>
 				</section>
@@ -4568,13 +4606,13 @@ _:b1 a fhir:Observation ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b2 .
 	
-_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+_:b2 lr:unit "bpm"^^xsd:string ;
+		lr:value "50"^^xsd:integer .
 </pre>
 					<p>which is like G<sub>1, FHIR</sub> except it is missing the timestamp triple,
 						and TS<sub>1, FHIR</sub> be the timestamp triple</p>
 					<pre>
-_:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;
+_:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^xsd:dateTimeStamp
 </pre>
 					<p>We construct a timestamped graph with the constructor <a>TSGraph</a></p>
 					<p>TSG<sub>1, FHIR</sub> = <a>TSGraph</a>(TS<sub>1, FHIR</sub>, G'<sub>1,
@@ -4625,35 +4663,35 @@ _:b101{
 	    _:b1 a fhir:Observation ;
 		    obs:code sct:36407505 ;
 		    obs:device lr:sensor1234 ;
-		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^xsd:dateTimeStamp ;
 		    obs:subject lr:patientA ;
 		    obs:valueQuantity _:b2 .
 	
-	    _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		    lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+	    _:b2 lr:unit "bpm"^^xsd:string ;
+		    lr:value "50"^^xsd:integer .
 }	
 
 _:b102{
 		_:b4 a fhir:Observation ;
 			obs:code sct:36407505 ;
 			obs:device lr:sensor1234 ;
-			obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:effectiveDateTime "2015-01-01T12:01:00Z"^^xsd:dateTimeStamp ;
 			obs:subject lr:patientA ;
 			obs:valueQuantity _:b5 .
 	
-		_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-			lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+		_:b5 lr:unit "bpm"^^xsd:string ;
+			lr:value "53"^^xsd:integer .
 }
 _:b103{
 		_:b7 a fhir:Observation ;
 			obs:code sct:36407505 ;
 			obs:device lr:sensor1234 ;
-			obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:effectiveDateTime "2015-01-01T12:02:00Z"^^xsd:dateTimeStamp ;
 			obs:subject lr:patientA ;
 			obs:valueQuantity _:b8 .
 	
-		_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-			lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+		_:b8 lr:unit "bpm"^^xsd:string ;
+			lr:value "48"^^xsd:integer .
 }
 </pre>
 				</aside>
@@ -4734,12 +4772,12 @@ _:b301 rsp:usesTimestampPredicate obs:effectiveDateTime.
 _:m1 a fhir:Observation ;
 		obs:code sct:251833007 ;
 		obs:device lr:sensor5678 ;
-		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^xsd:dateTimeStamp ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:m2 .
 	
-_:m2 lr:unit "kJ"^^&lt;http://www.w3.org/2001/XMLSchema#string> ;
-		lr:value "93"^^&lt;http://www.w3.org/2001/XMLSchema#integer> .
+_:m2 lr:unit "kJ"^^xsd:string ;
+		lr:value "93"^^xsd:integer .
 </pre>
 					<p>Let G<sub>2, FHIR-m</sub> be: </p>
 					<pre>
@@ -4754,12 +4792,12 @@ _:m2 lr:unit "kJ"^^&lt;http://www.w3.org/2001/XMLSchema#string> ;
 _:m4 a fhir:Observation ;
 		obs:code sct:251833007 ;
 		obs:device lr:sensor5678 ;
-		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^xsd:dateTimeStamp ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:m5 .
 	
-_:m5 lr:unit "kJ"^^&lt;http://www.w3.org/2001/XMLSchema#string> ;
-		lr:value "127"^^&lt;http://www.w3.org/2001/XMLSchema#integer> .
+_:m5 lr:unit "kJ"^^xsd:string ;
+		lr:value "127"^^xsd:integer .
 </pre>
 					<p>Let G<sub>3, FHIR-m</sub> be: </p>
 					<pre>
@@ -4774,12 +4812,12 @@ _:m5 lr:unit "kJ"^^&lt;http://www.w3.org/2001/XMLSchema#string> ;
 _:m7 a fhir:Observation ;
 		obs:code sct:251833007 ;
 		obs:device lr:sensor5678 ;
-		obs:effectiveDateTime "2015-01-01T12:04:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+		obs:effectiveDateTime "2015-01-01T12:04:00Z"^^xsd:dateTimeStamp ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:m8 .
 	
-_:m8 lr:unit "kJ"^^&lt;http://www.w3.org/2001/XMLSchema#string> ;
-		lr:value "45"^^&lt;http://www.w3.org/2001/XMLSchema#integer> .
+_:m8 lr:unit "kJ"^^xsd:string ;
+		lr:value "45"^^xsd:integer .
 </pre>
 				</aside>
 				<aside class="example" id="ex-motion-trees"
@@ -4863,7 +4901,7 @@ _:rn2 rsp:usesTimestampPredicate obs:effectiveDateTime.
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 
 _:b0 
-	prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+	prov:generatedAtTime "2015-01-01T12:00:33Z"^^xsd:dateTime ;
     lr:stream lr:streamA12342015-01-01T12:00:00Z .
 </pre>
 					Let G<sub>2, prov</sub> be
@@ -4872,7 +4910,7 @@ _:b0
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 
 _:b3 
-	prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+	prov:generatedAtTime "2015-01-01T12:01:45Z"^^xsd:dateTime ;
     lr:stream lr:streamA12342015-01-01T12:00:00Z .
 </pre>
 					Let G<sub>3, prov</sub> be
@@ -4881,7 +4919,7 @@ _:b3
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 
 _:b6 
-	prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+	prov:generatedAtTime "2015-01-01T12:02:54Z"^^xsd:dateTime ;
     lr:stream lr:streamA12342015-01-01T12:00:00Z .
 </pre>
 					In this example, we have the time of observation as one temporal
@@ -4902,48 +4940,48 @@ _:b6
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 
 _:b0 
-	prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+	prov:generatedAtTime "2015-01-01T12:00:33Z"^^xsd:dateTime ;
     lr:stream lr:streamA12342015-01-01T12:00:00Z .
 _:b0 {
 	_:b1 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:effectiveDateTime "2015-01-01T12:00:00Z"^^xsd:dateTimeStamp ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b2 .
 	
-	_:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+	_:b2 lr:unit "bpm"^^xsd:string ;
+		lr:value "50"^^xsd:integer .
 }
 
 _:b3 
-	prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+	prov:generatedAtTime "2015-01-01T12:01:45Z"^^xsd:dateTime ;
     lr:stream lr:streamA12342015-01-01T12:00:00Z .
 _:b3 {
 	_:b4 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:effectiveDateTime "2015-01-01T12:01:00Z"^^xsd:dateTimeStamp ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b5 .
 	
-	_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+	_:b5 lr:unit "bpm"^^xsd:string ;
+		lr:value "53"^^xsd:integer .
 }
 
 _:b6 
-	prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+	prov:generatedAtTime "2015-01-01T12:02:54Z"^^xsd:dateTime ;
     lr:stream lr:streamA12342015-01-01T12:00:00Z .
 _:b6 {
 	_:b7 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
-		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		obs:effectiveDateTime "2015-01-01T12:02:00Z"^^xsd:dateTimeStamp ;
 		obs:subject lr:patientA ;
 		obs:valueQuantity _:b8 .
 	
-	_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+	_:b8 lr:unit "bpm"^^xsd:string ;
+		lr:value "48"^^xsd:integer .
 }
 </pre>
 				</aside>
@@ -4962,7 +5000,7 @@ _:b6 {
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 
 _:b0 
-	prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+	prov:generatedAtTime "2015-01-01T12:00:33Z"^^xsd:dateTime ;
 </pre>
 					<p>and so on.</p>
 					<p>One possible way that this RDF Stream would be transmitted is as a sequence
@@ -4993,56 +5031,56 @@ _:b203 prov:wasRevisionOf _:b202.
 _:b201{
     DEFAULT {
 		_:b0 
-			prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+			prov:generatedAtTime "2015-01-01T12:00:33Z"^^xsd:dateTime ;
 			lr:stream lr:streamA12342015-01-01T12:00:00Zm .
 	}
     _:b0 {
 	    _:b1 a fhir:Observation ;
 		    obs:code sct:36407505 ;
 		    obs:device lr:sensor1234 ;
-		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^xsd:dateTimeStamp ;
 		    obs:subject lr:patientA ;
 		    obs:valueQuantity _:b2 .
 	
-	    _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		    lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+	    _:b2 lr:unit "bpm"^^xsd:string ;
+		    lr:value "50"^^xsd:integer .
     }
 }	
 
 _:b202{
     DEFAULT {
 		_:b3 
-			prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+			prov:generatedAtTime "2015-01-01T12:01:45Z"^^xsd:dateTime ;
 			lr:stream lr:streamA12342015-01-01T12:00:00Z .
 	}
 	_:b3 {
 		_:b4 a fhir:Observation ;
 			obs:code sct:36407505 ;
 			obs:device lr:sensor1234 ;
-			obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:effectiveDateTime "2015-01-01T12:01:00Z"^^xsd:dateTimeStamp ;
 			obs:subject lr:patientA ;
 			obs:valueQuantity _:b5 .
 	
-		_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-			lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+		_:b5 lr:unit "bpm"^^xsd:string ;
+			lr:value "53"^^xsd:integer .
 	}
 }
 _:b203{
     DEFAULT {
 		_:b6 
-			prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+			prov:generatedAtTime "2015-01-01T12:02:54Z"^^xsd:dateTime ;
 			lr:stream lr:streamA12342015-01-01T12:00:00Z .
 	}
 	_:b6 {
 		_:b7 a fhir:Observation ;
 			obs:code sct:36407505 ;
 			obs:device lr:sensor1234 ;
-			obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:effectiveDateTime "2015-01-01T12:02:00Z"^^xsd:dateTimeStamp ;
 			obs:subject lr:patientA ;
 			obs:valueQuantity _:b8 .
 	
-		_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-			lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+		_:b8 lr:unit "bpm"^^xsd:string ;
+			lr:value "48"^^xsd:integer .
 	}
 }
 </pre>
@@ -5088,19 +5126,19 @@ _:b203 prov:wasRevisionOf _:b202.
 _:b201{
     DEFAULT {
 		_:b0 
-			prov:generatedAtTime "2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+			prov:generatedAtTime "2015-01-01T12:00:33Z"^^xsd:dateTime ;
 			lr:stream lr:streamA12342015-01-01T12:00:00Zm .
 	}
     _:b0 {
 	    _:b1 a fhir:Observation ;
 		    obs:code sct:36407505 ;
 		    obs:device lr:sensor1234 ;
-		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+		    obs:effectiveDateTime "2015-01-01T12:00:00Z"^^xsd:dateTimeStamp ;
 		    obs:subject lr:patientA ;
 		    obs:valueQuantity _:b2 .
 	
-	    _:b2 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-		    lr:value "50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+	    _:b2 lr:unit "bpm"^^xsd:string ;
+		    lr:value "50"^^xsd:integer .
     }
 }	
 </pre>
@@ -5116,19 +5154,19 @@ _:b201{
 _:b202{
     DEFAULT {
 		_:b3 
-			prov:generatedAtTime "2015-01-01T12:01:45Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+			prov:generatedAtTime "2015-01-01T12:01:45Z"^^xsd:dateTime ;
 			lr:stream lr:streamA12342015-01-01T12:00:00Z .
 	}
 	_:b3 {
 		_:b4 a fhir:Observation ;
 			obs:code sct:36407505 ;
 			obs:device lr:sensor1234 ;
-			obs:effectiveDateTime "2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:effectiveDateTime "2015-01-01T12:01:00Z"^^xsd:dateTimeStamp ;
 			obs:subject lr:patientA ;
 			obs:valueQuantity _:b5 .
 	
-		_:b5 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-			lr:value "53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+		_:b5 lr:unit "bpm"^^xsd:string ;
+			lr:value "53"^^xsd:integer .
 	}
 }
 </pre>
@@ -5144,19 +5182,19 @@ _:b202{
 _:b203{
     DEFAULT {
 		_:b6 
-			prov:generatedAtTime "2015-01-01T12:02:54Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt; ;
+			prov:generatedAtTime "2015-01-01T12:02:54Z"^^xsd:dateTime ;
 			lr:stream lr:streamA12342015-01-01T12:00:00Z .
 	}
 	_:b6 {
 		_:b7 a fhir:Observation ;
 			obs:code sct:36407505 ;
 			obs:device lr:sensor1234 ;
-			obs:effectiveDateTime "2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt; ;
+			obs:effectiveDateTime "2015-01-01T12:02:00Z"^^xsd:dateTimeStamp ;
 			obs:subject lr:patientA ;
 			obs:valueQuantity _:b8 .
 	
-		_:b8 lr:unit "bpm"^^&lt;http://www.w3.org/2001/XMLSchema#string&gt; ;
-			lr:value "48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt; .
+		_:b8 lr:unit "bpm"^^xsd:string ;
+			lr:value "48"^^xsd:integer .
 	}
 }
 </pre>
@@ -5195,7 +5233,7 @@ _:b203{
 						from the above data structures using the provenance entailment regime. This
 						BGP is denoted TP<sub>initialVersion</sub>. </p>
 					<pre>
-?version repo:isInitialVersion "true"^^&lt;http://www.w3.org/2001/XMLSchema#boolean&gt; .
+?version repo:isInitialVersion "true"^^xsd:boolean .
 </pre>
 				</aside>
 				<aside class="example" id="ex-bgp-pattern-prov-initial-of"
@@ -5215,7 +5253,7 @@ _:b203{
 						from the above data structures using the repository structure entailment
 						regime. This BGP is denoted TP<sub>terminalVersion</sub>. </p>
 					<pre>
-?version repo:isTerminalVersion "true"^^&lt;http://www.w3.org/2001/XMLSchema#boolean&gt; .
+?version repo:isTerminalVersion "true"^^xsd:boolean .
 </pre>
 				</aside>
 				<aside class="example" id="ex-bgp-pattern-prov-terminal-of"
@@ -5396,7 +5434,7 @@ WHERE {
 							<tr>
 								<td>_:b0</td>
 								<td>prov:generatedAtTime</td>
-								<td>"2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt;</td>
+								<td>"2015-01-01T12:00:33Z"^^xsd:dateTime</td>
 								<td></td>
 								<td>_:b201</td>
 							</tr>
@@ -5440,7 +5478,7 @@ WHERE {
 			<tr>
 				<td>_:b0</td>
 				<td>prov:generatedAtTime</td>
-				<td>"2015-01-01T12:00:33Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTime&gt;</td>
+				<td>"2015-01-01T12:00:33Z"^^xsd:dateTime</td>
 				<td></td>
 				<td>_:b201</td>
 			</tr>
@@ -5496,22 +5534,22 @@ WHERE {
 			<td>_:b101</td>
 			<td>_:b1</td>
 			<td>lr:patientA</td>
-			<td>"2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
-			<td>50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+			<td>"2015-01-01T12:00:00Z"^^xsd:dateTimeStamp</td>
+			<td>50"^^xsd:integer</td>
 		</tr>
 		<tr>
 			<td>_:b102</td>
 			<td>_:b4</td>
 			<td>lr:patientA</td>
-			<td>"2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
-			<td>53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+			<td>"2015-01-01T12:01:00Z"^^xsd:dateTimeStamp</td>
+			<td>53"^^xsd:integer</td>
 		</tr>
 		<tr>
 			<td>_:b103</td>
 			<td>_:b7</td>
 			<td>lr:patientA</td>
-			<td>"2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
-			<td>48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+			<td>"2015-01-01T12:02:00Z"^^xsd:dateTimeStamp</td>
+			<td>48"^^xsd:integer</td>
 		</tr>
 		
 	 </table>
@@ -5579,8 +5617,8 @@ We write
 			<td>_:b101</td>
 			<td>_:b1</td>
 			<td>lr:patientA</td>
-			<td>"2015-01-01T12:00:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
-			<td>50"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+			<td>"2015-01-01T12:00:00Z"^^xsd:dateTimeStamp</td>
+			<td>50"^^xsd:integer</td>
 		</tr>
 	 </table>
 	 <br/><br/>
@@ -5596,8 +5634,8 @@ We write
 			<td>_:b102</td>
 			<td>_:b4</td>
 			<td>lr:patientA</td>
-			<td>"2015-01-01T12:01:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
-			<td>53"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+			<td>"2015-01-01T12:01:00Z"^^xsd:dateTimeStamp</td>
+			<td>53"^^xsd:integer</td>
 		</tr>
 	 </table>
 	 <br/><br/>
@@ -5613,8 +5651,8 @@ We write
 			<td>_:b103</td>
 			<td>_:b7</td>
 			<td>lr:patientA</td>
-			<td>"2015-01-01T12:02:00Z"^^&lt;http://www.w3.org/2001/XMLSchema#dateTimeStamp&gt;</td>
-			<td>48"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;</td>
+			<td>"2015-01-01T12:02:00Z"^^xsd:dateTimeStamp</td>
+			<td>48"^^xsd:integer</td>
 		</tr>
 		
 	 </table>
