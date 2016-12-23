@@ -2571,9 +2571,9 @@ _:b7 obs:effectiveDateTime
 {repo ?r {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
 {DEFAULT {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } }
 </pre>
-						<p>applied to the second-order store <a>Store<sub>FHIR-hr</sub></a> where
-							the final two columns holds indices that indicates relative order among
-							the solution mappings. </p>
+						<p>applied to the second-order store <a>Store<sub>FHIR-hr</sub></a>, where
+							the final three columns holds indices that indicates relative order
+							among the solution mappings. </p>
 						<div>
 							<table>
 								<thead>
@@ -2783,7 +2783,7 @@ _:b7 obs:effectiveDateTime
 										<td>"2015-01-01T12:01:00Z"^^...#dateTimeStamp></td>
 										<td></td>
 										<td></td>
-										<td>_:stream_store1</td>
+										<td>_:stream_store2</td>
 										<td></td>
 										<td></td>
 										<td>2</td>
@@ -2805,7 +2805,7 @@ _:b7 obs:effectiveDateTime
 										<td>fhir:Observation</td>
 										<td></td>
 										<td>_:fhir-hr</td>
-										<td>_:stream_store1</td>
+										<td>_:stream_store2</td>
 										<td></td>
 										<td></td>
 										<td>2</td>
@@ -2827,7 +2827,7 @@ _:b7 obs:effectiveDateTime
 										<td>sct:36407505</td>
 										<td></td>
 										<td>_:fhir-hr</td>
-										<td>_:stream_store1</td>
+										<td>_:stream_store2</td>
 										<td></td>
 										<td></td>
 										<td>2</td>
@@ -3112,6 +3112,374 @@ _:b7 obs:effectiveDateTime
 										<td>lr:value</td>
 										<td>"50"^^&lt;http://...#integer&gt;</td>
 										<td></td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store3</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</aside>
+					<aside class="ednote">
+						<p>Because of the redundancy that appears in the above table, a better
+							identity pattern for second order stores might be @@@something like the following, except this is not quite right.</p>
+						<pre>
+{ version ?sv {graph ?r {?s ?p ?o} } union {DEFAULT {?s ?p ?o} } } union
+{repo ?r {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
+{DEFAULT {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
+{ version ?sv {graph ?r {?sx ?px ?ox} } . 	 
+   repo ?r {version ?rv {?sx ?px ?ox} }  } union
+{ version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
+   DEFAULT {version ?rv {?sx ?px ?ox} }  } union
+{ ASSOC {graph ?r {?sx ?px ?ox} } . 	 
+   repo ?r {version ?rv {?sx ?px ?ox} }  } union
+{ ASSOC {DEFAULT {?sx ?px ?ox} } . 	 
+   DEFAULT {version ?rv {?sx ?px ?ox} }  } union
+</pre>
+						<p>Applied with SELECt ?s ?p ?o ?rv ?r ?sv to
+							<a>Store<sub>FHIR-hr</sub></a>, the result is the following.</p>
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<td>?s</td>
+										<td>?p</td>
+										<td>?o</td>
+										<td>?rv</td>
+										<td>?r</td>
+										<td>?sv</td>
+										<td>i</td>
+										<td>j</td>
+										<td>k</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>_:b1</td>
+										<td>obs:effectiveDateTime</td>
+										<td>"2015-01-01T12:00:00Z"^^...#dateTimeStamp></td>
+										<td>_:def-g1</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:def-g1</td>
+										<td></td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>rdf:type</td>
+										<td>fhir:Observation</td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>obs:code</td>
+										<td>sct:36407505</td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>obs:device</td>
+										<td>lr:sensor1234</td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>obs:subject</td>
+										<td>lr:patientA</td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>obs:valueQuantity</td>
+										<td>_:b2</td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b2</td>
+										<td>lr:unit</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b2</td>
+										<td>lr:value</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store1</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>obs:effectiveDateTime</td>
+										<td>"2015-01-01T12:01:00Z"^^...#dateTimeStamp></td>
+										<td>_:def-g2</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:def-g2</td>
+										<td></td>
+										<td>_:stream_store2</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>rdf:type</td>
+										<td>fhir:Observation</td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>obs:code</td>
+										<td>sct:36407505</td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>obs:device</td>
+										<td>lr:sensor1234</td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>obs:subject</td>
+										<td>lr:patientA</td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b4</td>
+										<td>obs:valueQuantity</td>
+										<td>_:b5</td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b5</td>
+										<td>lr:unit</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b5</td>
+										<td>lr:value</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td>_:stream_store2</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>obs:effectiveDateTime</td>
+										<td>"2015-01-01T12:02:00Z"^^...#dateTimeStamp></td>
+										<td>_:def-g3</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:def-g3</td>
+										<td></td>
+										<td>_:stream_store3</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>rdf:type</td>
+										<td>fhir:Observation</td>
+										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>obs:code</td>
+										<td>sct:36407505</td>
+										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>obs:device</td>
+										<td>lr:sensor1234</td>
+										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>obs:subject</td>
+										<td>lr:patientA</td>
+										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b7</td>
+										<td>obs:valueQuantity</td>
+										<td>_:b8</td>
+										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b8</td>
+										<td>lr:unit</td>
+										<td>"bpm"^^&lt;http://...#string&gt;</td>
+										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>_:b8</td>
+										<td>lr:value</td>
+										<td>"50"^^&lt;http://...#integer&gt;</td>
+										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>3</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:fhir-hr-g3</td>
 										<td>_:fhir-hr</td>
 										<td>_:stream_store3</td>
 										<td></td>
