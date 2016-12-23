@@ -439,8 +439,8 @@
 						<li><dfn>dom</dfn>(M) is the domain of a mapping M.</li>
 						<li><dfn>codom</dfn>(M) = {M(n) | n &in; dom(M)} is the codomain of mapping
 							M.</li>
-						<li>M|<sub>S</sub> = {n => M(n) | n &in; S} denotes the <dfn>restriction of a
-								mapping</dfn> M to a set S &sube; dom(M). </li>
+						<li>M|<sub>S</sub> = {n => M(n) | n &in; S} denotes the <dfn>restriction of
+								a mapping</dfn> M to a set S &sube; dom(M). </li>
 						<li>A mapping is treated as set of key-value pairs, so the usual set
 							operations, e.g union and diff, can be applied to mappings.</li>
 						<li>The cardinality of a set is the value of the function
@@ -477,7 +477,8 @@
 						basic functions, </p>
 					<p><a>namedPart</a>(DS) =
 							<a>Associative</a><sub><a>order</a>(DS)</sub>(<a>names</a>(DS),
-						<a>nameMap</a>(DS)|<sub><a>names</a>(DS)</sub> &cup; {DEFAULT => {} })</p>
+							<a>nameMap</a>(DS)|<sub><a>names</a>(DS)</sub> &cup; {DEFAULT => {}
+						})</p>
 					<aside class="example"><p>An RDF Graph is the only <a>associative data
 								structure</a> that has no named part, i.e. <a>namedPart</a> is
 							undefined.</p></aside>
@@ -647,9 +648,9 @@
 							<td></td>
 							<td>::=</td>
 							<td>{<a>Versioned<sub>k</sub></a>([N, &le;<sub>N</sub>], M) | N &sube;
-								RDF-Name, cardinality(N) > 0, &le; &in; TotalOrder(N), M: N|<sub>Y</sub>
-								&cup; {ASSOC} => X) where M(x) = M(y), x &lt; y implies there is
-								some z &in; N, x &lt; z &lt; y}</td>
+								RDF-Name, cardinality(N) > 0, &le; &in; TotalOrder(N), M:
+									N|<sub>Y</sub> &cup; {ASSOC} => X) where M(x) = M(y), x &lt; y
+								implies there is some z &in; N, x &lt; z &lt; y}</td>
 						</tr>
 						<tr>
 							<td>sequence<sub>&le; k</sub>, k &ge; 0</td>
@@ -726,8 +727,8 @@
 							>k-th Order RDF Associative Tree</dfn> is a <a>k-th order associative
 							data structure</a> DS with the following properties. </p>
 					<ul>
-						<li><a>defaultPart</a>(DS) is an <a>associative tree</a> of order j or less, where j = max(0,
-							order(DS)-1).</li>
+						<li><a>defaultPart</a>(DS) is an <a>associative tree</a> of order j or less,
+							where j = max(0, order(DS)-1).</li>
 						<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is an
 								<a>associative tree</a> of order k-1 or less.</li>
 					</ul>
@@ -801,10 +802,10 @@
 							DST'; DSQ) is defined; otherwise it is undefined. It has the value true
 							if DST &lt; DST' in the context of DSQ, and has the value false if DST
 							&gt;= DST' in the context of DSQ. </li>
-						<li>If <a>previousTo</a>(DST, DST'; DSQ) is defined, then <dfn>follows</dfn>(DST, DST';
-							DSQ) is defined; otherwise it is undefined. It has the value true if DST
-							&gt; DST' in the context of DSQ, and has the value false if DST &lt;=
-							DST' in the context of DSQ. </li>
+						<li>If <a>previousTo</a>(DST, DST'; DSQ) is defined, then
+							<dfn>follows</dfn>(DST, DST'; DSQ) is defined; otherwise it is
+							undefined. It has the value true if DST &gt; DST' in the context of DSQ,
+							and has the value false if DST &lt;= DST' in the context of DSQ. </li>
 						<li>If DSQ has a least element then <dfn>hasLeast</dfn>(DSQ) has the value
 							true, and otherwise false </li>
 						<li>If DSQ has a greatest element then <dfn>hasGreatest</dfn>(DSQ) has the
@@ -1123,7 +1124,8 @@
 					<ol>
 						<li>The k-th order input repository, R, to be modified.</li>
 						<li>The new repository version name, n, which must be distinct from version
-							names of the input repository; i.e. n &notin; <a>versionNames</a>(R).</li>
+							names of the input repository; i.e. n &notin;
+							<a>versionNames</a>(R).</li>
 						<li>The associative tree of order (k-1) or less that is to be the content of
 							the new repository version.</li>
 					</ol>
@@ -2243,7 +2245,7 @@
 @prefix sct: &lt;http://snomed.info/id/&gt; .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema&gt; .
 						</pre>
-<!--
+						<!--
 						<p>Let G<sub>1, FHIR-hr</sub> be: </p>
 						<pre>
 _:b1 a fhir:Observation ;
@@ -2278,10 +2280,10 @@ _:b8 lr:unit "bpm"^^xsd:string ;
 		lr:value "48"^^xsd:integer .
 </pre>
 -->
-Given the graphs
-<table border="0" style=>
-<tr><td>G<sub>1, FHIR-hr</sub></td>
-    <td><pre style="margin-top:0; margin-bottom:0">_:b1 a fhir:Observation ;
+						Given the graphs <table border="0" style="">
+							<tr>
+								<td>G<sub>1, FHIR-hr</sub></td>
+								<td><pre style="margin-top:0; margin-bottom:0">_:b1 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:subject lr:patientA ;
@@ -2289,9 +2291,11 @@ Given the graphs
 	
 _:b2 lr:unit "bpm"^^xsd:string ;
 		lr:value "50"^^xsd:integer .
-</pre></td></tr>
-<tr><td>G<sub>2, FHIR-hr</sub></td>
-    <td><pre style="margin-top:0; margin-bottom:0">_:b4 a fhir:Observation ;
+</pre></td>
+							</tr>
+							<tr>
+								<td>G<sub>2, FHIR-hr</sub></td>
+								<td><pre style="margin-top:0; margin-bottom:0">_:b4 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:subject lr:patientA ;
@@ -2299,9 +2303,11 @@ _:b2 lr:unit "bpm"^^xsd:string ;
 	
 _:b5 lr:unit "bpm"^^xsd:string ;
 		lr:value "53"^^xsd:integer .
-</pre></td></tr>
-<tr><td>G<sub>3, FHIR-hr</sub></td>
-    <td><pre style="margin-top:0; margin-bottom:0">_:b7 a fhir:Observation ;
+</pre></td>
+							</tr>
+							<tr>
+								<td>G<sub>3, FHIR-hr</sub></td>
+								<td><pre style="margin-top:0; margin-bottom:0">_:b7 a fhir:Observation ;
 		obs:code sct:36407505 ;
 		obs:device lr:sensor1234 ;
 		obs:subject lr:patientA ;
@@ -2309,10 +2315,9 @@ _:b5 lr:unit "bpm"^^xsd:string ;
 	
 _:b8 lr:unit "bpm"^^xsd:string ;
 		lr:value "48"^^xsd:integer .
-</pre></td></tr>
-</table>
-
-
+</pre></td>
+							</tr>
+						</table>
 					</aside>
 					<p>We also define some unit graphs holding timestamp triples.</p>
 					<aside class="example" title="FHIR effectiveDateTime Timestamp">
@@ -2578,16 +2583,16 @@ _:b7 obs:effectiveDateTime
 							<li>R<sub>DEFAULT</sub> = <a>Repo<sub>FHIR-ts</sub></a> (the default
 								repository, containing the timestamp triples of the timestamped
 								graphs)</li>
-							<li>SI = <a>Chain</a>([_:strst1, _:strst2,
-								_:strst3]) (the ordered set of store version names)</li>
-							<li>M<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1,
-								_:strst2 => _:fhir-hr-g2, _:strst3 => _:fhir-hr-g3}
-								(the mapping from store version names to repository version names,
-								for the "named" repository)</li>
-							<li>M<sub>DEFAULT</sub> = {_:strst1 => _:fhir-hr-ts1,
-								_:strst2 => _:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3}
-								(the mapping from store version names to repository version names,
-								for the default repository)</li>
+							<li>SI = <a>Chain</a>([_:strst1, _:strst2, _:strst3]) (the ordered set
+								of store version names)</li>
+							<li>M<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1, _:strst2 =>
+								_:fhir-hr-g2, _:strst3 => _:fhir-hr-g3} (the mapping from store
+								version names to repository version names, for the "named"
+								repository)</li>
+							<li>M<sub>DEFAULT</sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2 =>
+								_:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3} (the mapping from store
+								version names to repository version names, for the default
+								repository)</li>
 						</ul>
 						<p>and where</p>
 						<p><dfn>Repo<sub>FHIR-ts</sub></dfn> =
@@ -3588,16 +3593,16 @@ _:b7 obs:effectiveDateTime
 								second-order repository, containing the timestamp triples of the
 								timestamped graphs, "named" with the repository name it is
 								associated with.</li>
-							<li>SI = <a>Chain</a>([_:strst1, _:strst2,
-								_:strst3]) (the ordered set of store version names)</li>
-							<li>M<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1,
-								_:strst2 => _:fhir-hr-g2, _:strst3 => _:fhir-hr-g3}
-								(the mapping from store version names to repository version names,
-								for the "named" repository)</li>
-							<li>M<sub>DEFAULT</sub> = {_:strst1 => _:fhir-hr-ts1,
-								_:strst2 => _:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3}
-								(the mapping from store version names to repository version names,
-								for the default repository)</li>
+							<li>SI = <a>Chain</a>([_:strst1, _:strst2, _:strst3]) (the ordered set
+								of store version names)</li>
+							<li>M<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1, _:strst2 =>
+								_:fhir-hr-g2, _:strst3 => _:fhir-hr-g3} (the mapping from store
+								version names to repository version names, for the "named"
+								repository)</li>
+							<li>M<sub>DEFAULT</sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2 =>
+								_:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3} (the mapping from store
+								version names to repository version names, for the default
+								repository)</li>
 						</ul>
 						<p>and where</p>
 						<p><dfn>Repo<sub>FHIR-ts-2</sub></dfn> =
@@ -3616,7 +3621,6 @@ _:b7 obs:effectiveDateTime
 								TS<sub>2, FHIR-hr</sub>)</p>
 						<p>NTS<sub>3, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
 								TS<sub>3, FHIR-hr</sub>)</p>
-						
 						<div>
 							<table>
 								<thead>
@@ -4023,16 +4027,16 @@ _:b7 obs:effectiveDateTime
 							<li>R<sub>DEFAULT</sub> = <a>Repo<sub>FHIR-ts-2</sub></a> (the default
 								second-order repository, containing the assertion of the timestamp
 								predicate for each repository.</li>
-							<li>SI = <a>Chain</a>([_:strst1, _:strst2,
-								_:strst3]) (the ordered set of store version names)</li>
-							<li>M<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1,
-								_:strst2 => _:fhir-hr-g2, _:strst3 => _:fhir-hr-g3}
-								(the mapping from store version names to repository version names,
-								for the "named" repository)</li>
-							<li>M<sub>DEFAULT</sub> = {_:strst1 => _:fhir-hr-ts1,
-								_:strst2 => _:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3}
-								(the mapping from store version names to repository version names,
-								for the default repository)</li>
+							<li>SI = <a>Chain</a>([_:strst1, _:strst2, _:strst3]) (the ordered set
+								of store version names)</li>
+							<li>M<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1, _:strst2 =>
+								_:fhir-hr-g2, _:strst3 => _:fhir-hr-g3} (the mapping from store
+								version names to repository version names, for the "named"
+								repository)</li>
+							<li>M<sub>DEFAULT</sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2 =>
+								_:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3} (the mapping from store
+								version names to repository version names, for the default
+								repository)</li>
 						</ul>
 						<p>and where G'<sub>i, FHIR-hr</sub> = G<sub>i, FHIR-hr</sub> &cup;
 								TS<sub>i, FHIR-hr</sub>, i = 1, 2, 3</p>
@@ -4074,7 +4078,6 @@ _:fhir-hr-3 rsp:usesTSPredicate obs:effectiveDateTime
 
 _:fhir-hr-3 rsp:usesTSPredicate obs:effectiveDateTime 
 </pre>
-						
 						<div>
 							<table>
 								<thead>
