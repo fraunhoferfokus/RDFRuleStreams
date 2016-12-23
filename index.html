@@ -439,7 +439,7 @@
 						<li><dfn>dom</dfn>(M) is the domain of a mapping M.</li>
 						<li><dfn>codom</dfn>(M) = {M(n) | n &in; dom(M)} is the codomain of mapping
 							M.</li>
-						<li>S => M(S) = {n => M(n) | n &in; S} denotes the <dfn>restriction of a
+						<li>M|<sub>S</sub> = {n => M(n) | n &in; S} denotes the <dfn>restriction of a
 								mapping</dfn> M to a set S &sube; dom(M). </li>
 						<li>A mapping is treated as set of key-value pairs, so the usual set
 							operations, e.g union and diff, can be applied to mappings.</li>
@@ -477,7 +477,7 @@
 						basic functions, </p>
 					<p><a>namedPart</a>(DS) =
 							<a>Associative</a><sub><a>order</a>(DS)</sub>(<a>names</a>(DS),
-							<a>nameMap</a>(DS)(<a>names</a>(DS)) &cup; {DEFAULT => {} })</p>
+						<a>nameMap</a>(DS)|<sub><a>names</a>(DS)</sub> &cup; {DEFAULT => {} })</p>
 					<aside class="example"><p>An RDF Graph is the only <a>associative data
 								structure</a> that has no named part, i.e. <a>namedPart</a> is
 							undefined.</p></aside>
@@ -647,7 +647,7 @@
 							<td></td>
 							<td>::=</td>
 							<td>{<a>Versioned<sub>k</sub></a>([N, &le;<sub>N</sub>], M) | N &sube;
-								RDF-Name, cardinality(N) > 0, &le; &in; TotalOrder(N), M: (N => Y
+								RDF-Name, cardinality(N) > 0, &le; &in; TotalOrder(N), M: N|<sub>Y</sub>
 								&cup; {ASSOC} => X) where M(x) = M(y), x &lt; y implies there is
 								some z &in; N, x &lt; z &lt; y}</td>
 						</tr>
@@ -1452,7 +1452,7 @@
 							<li>RP'</li>
 							<li>{n' => R'<sub>n'</sub> | n' in RP'<sub>ext</sub>}</li>
 							<li>SI'</li>
-							<li>{n' => M''(n') | n' in RP'<sub>ext</sub>}</li>
+							<li>M''|<sub>RP'<sub>ext</sub></sub></li>
 						</ol>
 						<aside class="note">
 							<p>Repository <i>revisions</i> cannot be vacuous (i.e. the content of
@@ -1919,7 +1919,7 @@
 							names(DSP')} </li>
 						<li>If order(DSP') &lt; order(DSP) = k, then <br /> Tree-UNION(DSP, DSP') =
 							Tree-UNION(DSP', DSP) = Associative<sub>k</sub>( names(DSP) , M' )
-							<br /> where M' = names(DSP) => M(names(DSP) &cup; {DEFAULT =>
+							<br /> where M' = M|<sub>names(DSP</sub> &cup; {DEFAULT =>
 							Tree-UNION(defaultPart(DSP), DSP')} </li>
 					</ul>
 					<p>In the case of a single argument S that is a set of <a>associative trees</a>
@@ -2067,7 +2067,7 @@
 				<ul>
 					<li>If name is in names(DS), then APPLY(DS, Spec, name) =
 							Associative<sub>order(DS)</sub>( defaultPart(DS), names(DS),
-						Delete(nameMap(DS), name) union { name => Spec(content(name, DS))} ) </li>
+						Delete(nameMap(DS), name) &cup; { name => Spec(content(name, DS))} ) </li>
 					<li>Otherwise, APPLY(DS, Spec, name) = DS.</li>
 					<li>APPLY(DS, Spec) = Associative<sub>order(DS)</sub>( Spec(defaultPart(DS)),
 						names(DS), nameMap(DS) )</li>
