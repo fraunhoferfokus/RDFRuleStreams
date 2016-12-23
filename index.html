@@ -3124,7 +3124,8 @@ _:b7 obs:effectiveDateTime
 					</aside>
 					<aside class="ednote">
 						<p>Because of the redundancy that appears in the above table, a better
-							identity pattern for second order stores might be @@@something like the following, except this is not quite right.</p>
+							identity pattern for second order stores might be @@@something like the
+							following, except this is not quite right.</p>
 						<pre>
 { version ?sv {graph ?r {?s ?p ?o} } union {DEFAULT {?s ?p ?o} } } union
 {repo ?r {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
@@ -3132,11 +3133,7 @@ _:b7 obs:effectiveDateTime
 { version ?sv {graph ?r {?sx ?px ?ox} } . 	 
    repo ?r {version ?rv {?sx ?px ?ox} }  } union
 { version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
-   DEFAULT {version ?rv {?sx ?px ?ox} }  } union
-{ ASSOC {graph ?r {?sx ?px ?ox} } . 	 
-   repo ?r {version ?rv {?sx ?px ?ox} }  } union
-{ ASSOC {DEFAULT {?sx ?px ?ox} } . 	 
-   DEFAULT {version ?rv {?sx ?px ?ox} }  } union
+   DEFAULT {version ?rv {?sx ?px ?ox} }  } 
 </pre>
 						<p>Applied with SELECt ?s ?p ?o ?rv ?r ?sv to
 							<a>Store<sub>FHIR-hr</sub></a>, the result is the following.</p>
