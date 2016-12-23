@@ -1123,7 +1123,7 @@
 					<ol>
 						<li>The k-th order input repository, R, to be modified.</li>
 						<li>The new repository version name, n, which must be distinct from version
-							names of the input repository; i.e. n &nin; <a>versionNames</a>(R).</li>
+							names of the input repository; i.e. n &notin; <a>versionNames</a>(R).</li>
 						<li>The associative tree of order (k-1) or less that is to be the content of
 							the new repository version.</li>
 					</ol>
@@ -1132,7 +1132,7 @@
 							<a>Repository<sub>k</sub></a>(VI', M') where</p>
 					<p>VI = <a>versionNames</a>(R) and VI' = <a>Cons</a>(VI, name),</p>
 					<p>M = <a>versionMap</a>(R) and M' = M &cup; {name => DS}</p>
-					<p>assuming name &nin; <a>versionNames</a>(R).</p>
+					<p>assuming name &notin; <a>versionNames</a>(R).</p>
 					<p class="ednote">Need to define <a>Cons</a> for terminated totally-ordered
 						sets.</p>
 					<p class="ednote">To be clarified in the section on the extension of Eval to
