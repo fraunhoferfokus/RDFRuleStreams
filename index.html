@@ -3881,7 +3881,8 @@ WHERE {
 						<p>NTS<sub>3, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
 								TS<sub>3, FHIR-hr</sub>)</p>
 						<p>The third-order store identity pattern is as follows.</p>
-						<p class="ednote">This pattern has not been fully checked for syntax errors.</p>
+						<p class="ednote">This pattern has not been fully checked for syntax
+							errors.</p>
 						<pre>
 SELECT ?s ?p ?o ?g ?rv ?r ?sv
 WHERE {
@@ -6160,6 +6161,32 @@ We write
 							<td>structural</td>
 							<td>repo:isTerminalVersionOf</td>
 							<td>Usage </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+		<section id="sec-reserved-names">
+			<h4>Reserved Names</h4>
+			<div>
+				<table>
+					<thead>
+						<tr>
+							<td>Name</td>
+							<td>Purpose</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>DEFAULT</td>
+							<td>Explicit indication that a triple is in the default graph of an RDF
+								Dataset. Similarly, indicates that a substructure is in the default
+								part of a higher-order associative structures.</td>
+						</tr>
+						<tr>
+							<td>ASSOC</td>
+							<td>Explicit indication that a substructure is in the associative part
+								of a multivalent structure. </td>
 						</tr>
 					</tbody>
 				</table>
