@@ -427,15 +427,15 @@
 							<a>cardinality</a>(N)=0 if k = 0, while M:(N &cup; {DEFAULT}) =>
 							data-structure<sub>&le;k-1</sub> if k&gt; 0 while M:{DEFAULT} =>
 						RDF-Graph if k=0.</p>
-					<p>The order of an <a>associative data structure</a> DS =
+					<p>The order of an <a>associative data structure</a> ADST =
 							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted
-						<dfn>order</dfn>(DS) and has value order(DS) = k.</p>
-					<p>The set of non-reserved names of an <a>associative data structure</a> DS =
+						<dfn>order</dfn>(ADST) and has value order(ADST) = k.</p>
+					<p>The set of non-reserved names of an <a>associative data structure</a> ADST =
 							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted
-						<dfn>names</dfn>(DS) and has value names(DS) = N.</p>
-					<p>The name mapping of an <a>associative data structure</a> DS =
+						<dfn>names</dfn>(ADST) and has value names(ADST) = N.</p>
+					<p>The name mapping of an <a>associative data structure</a> ADST =
 							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted
-						<dfn>nameMap</dfn>(DS) and has value nameMap(DS) = M.</p>
+						<dfn>nameMap</dfn>(ADST) and has value nameMap(ADST) = M.</p>
 					<p>A number of convenience functions on <a>associative data structures</a> may
 						be defined in terms of the basic functions <a>order</a>, <a>names</a>, and
 							<a>nameMap</a>, and the constructor
@@ -452,69 +452,69 @@
 						<li>The cardinality of a set is the value of the function
 								<dfn>cardinality</dfn>.</li>
 					</ul>
-					<p>The <dfn>default part</dfn> of an <a>associative data structure</a> DS =
-							<a>Associative-INIT</a><sub>k</sub>(N, M), k &ge; 0, is a <a>data
+					<p>The <dfn>default part</dfn> of an <a>associative data structure</a> ADST =
+							<a>Associative-INIT</a><sub>k</sub>(N, DSTM), k &ge; 0, is a <a>data
 							structure</a> of <a>order</a> max(0, k-1) or less, is denoted
-							<dfn>defaultPart</dfn>(DS), and has value M(DEFAULT). In terms of the
+							<dfn>defaultPart</dfn>(ADST), and has value DSTM(DEFAULT). In terms of the
 						basic functions,</p>
 					<p>
-						<a>defaultPart</a>(DS) = <a>nameMap</a>(DS)(DEFAULT).</p>
+						<a>defaultPart</a>(ADST) = <a>nameMap</a>(ADST)(DEFAULT).</p>
 					<p class="note">The default part of a <a>zeroth-order associative data
-							structure</a> is itself; defaultPart(DS) = DS. </p>
+							structure</a> is itself; defaultPart(ADST) = ADST. </p>
 					<p>A <dfn>solitary association</dfn> is an <a>associative data structure</a>
 						where its set of nonreserved names contains exactly one name and the default
-						part is empty. That is, <a>cardinality</a>(<a>names</a>(DS)) = 1 and
-							<a>defaultPart</a>(DS) = {}.</p>
+						part is empty. That is, <a>cardinality</a>(<a>names</a>(SO)) = 1 and
+							<a>defaultPart</a>(SO) = {}.</p>
 					<aside class="example"><p>The constructor <a>Associative-INIT<sub>k</sub></a>, k
 							&gt; 0, can be used to create a <a>solitary association</a> as
 							follows.</p>
-						<p>Let DS be <a>data structure</a> of order k-1 or less, and let ND =
-								Associative-INIT<sub>k</sub>({n}, {n => DS, DEFAULT => {} }). Then
-								<a>order</a>(ND) = k, names(ND) = {n}, and defaultPart(ND) = {}.
-							Therefore by definition, ND is a <a>solitary association</a>.</p>
+						<p>Let DST be <a>data structure</a> of order k-1 or less, and let SO =
+								Associative-INIT<sub>k</sub>({n}, {n => DST, DEFAULT => {} }). Then
+								<a>order</a>(SO) = k, names(SO) = {n}, and defaultPart(SO) = {}.
+							Therefore by definition, SO is a <a>solitary association</a>.</p>
 					</aside>
 					<p>We define a specialized constructor for solitary associations,</p>
-					<p><dfn data-lt="Solitary">Solitary<sub>k</sub></dfn>(n, DS) =
-								<a>Associative-INIT<sub>k</sub></a>({n}, {n => DS, DEFAULT => {} }),
-						k &gt; 0 where order(DS) &lt; k.</p>
+					<p><dfn data-lt="Solitary">Solitary<sub>k</sub></dfn>(n, DST) =
+								<a>Associative-INIT<sub>k</sub></a>({n}, {n => DST, DEFAULT => {} }),
+						k &gt; 0 where order(DST) &lt; k.</p>
 					<p>The <dfn>named part</dfn> of a k-th order <a>associative data structure</a>
-						DS of order k &ge; 1, denoted <dfn>namedPart</dfn>(DS), is the <a>k-th order
+						ADST of order k &ge; 1, denoted <dfn>namedPart</dfn>(ADST), is the <a>k-th order
 							associative data structure</a> given by
-							<a>Associative-INIT<sub>k</sub></a>(N, M') where N = names(DS), M =
-						nameMap(DS), and M'(n) = M(n) whenever n &in; N, and M'(DEFAULT)={}. In
+							<a>Associative-INIT<sub>k</sub></a>(N, DSTM') where N = names(ADST), DSTM =
+						nameMap(ADST), and DSTM'(n) = DSTM(n) whenever n &in; N, and DSTM'(DEFAULT)={}. In
 						terms of the basic functions, </p>
-					<p><a>namedPart</a>(DS) =
-							<a>Associative-INIT</a><sub><a>order</a>(DS)</sub>(<a>names</a>(DS),
-							<a>nameMap</a>(DS)|<sub><a>names</a>(DS)</sub> &cup; {DEFAULT => {}
+					<p><a>namedPart</a>(ADST) =
+							<a>Associative-INIT</a><sub><a>order</a>(ADST)</sub>(<a>names</a>(ADST),
+							<a>nameMap</a>(ADST)|<sub><a>names</a>(ADST)</sub> &cup; {DEFAULT => {}
 						})</p>
 					<aside class="example"><p>An RDF Graph is the only <a>associative data
 								structure</a> that has no named part, i.e. <a>namedPart</a> is
 							undefined.</p></aside>
-					<aside class="example"><p>A <a>solitary association</a> ND =
-								Associative-INIT<sub>k</sub>({n}, {n => DS, DEFAULT => {} } is equal
+					<aside class="example"><p>A <a>solitary association</a> SO =
+								Associative-INIT<sub>k</sub>({n}, {n => DST, DEFAULT => {} } is equal
 							to its named part.</p>
-						<p>ND = <a>namedPart</a>(ND)</p>
+						<p>SO = <a>namedPart</a>(SO)</p>
 					</aside>
-					<p>Let DS = <a>Associative-INIT<sub>k</sub></a>(N, M) be an <a>associative data
+					<p>Let ADST = <a>Associative-INIT<sub>k</sub></a>(N, M) be an <a>associative data
 							structure</a> and E be an arbitrary entity. </p>
 					<ul>
 						<li><dfn>isAssociative</dfn>(E) is true if E is a <a>associative data
 								structure</a>; otherwise it is false.</li>
-						<li><dfn>isSolitary</dfn>(DS) is true if DS is a <a>solitary
+						<li><dfn>isSolitary</dfn>(ADST) is true if ADST is a <a>solitary
 							association</a>. </li>
-						<li>If <a>isSolitary</a>(DS) is true, then <dfn>name</dfn>(DS) is the one
-							element of names(DS). That is, names(DS) = {name(DS)}</li>
+						<li>If <a>isSolitary</a>(ADST) is true, then <dfn>name</dfn>(ADST) is the one
+							element of names(ADST). That is, names(ADST) = {name(ADST)}</li>
 						<li>For every name n, we define the <dfn data-lt="content">content for
-								n</dfn> in an <a>associative data structure</a> DS, denoted
-								<dfn>content(n, DS)</dfn>, as follows. <ul>
-								<li>If n is a member of names(DS), then content(n, DS) =
-										<a>nameMap</a>(DS)(n);</li>
-								<li>content(DEFAULT, DS) = defaultPart(DS);</li>
-								<li>otherwise, content(n, DS) it is defined as the empty set.</li>
+								n</dfn> in an <a>associative data structure</a> ADST, denoted
+								<dfn>content(n, ADST)</dfn>, as follows. <ul>
+								<li>If n is a member of names(ADST), then content(n, ADST) =
+										<a>nameMap</a>(ADST)(n);</li>
+								<li>content(DEFAULT, ADST) = defaultPart(ADST);</li>
+								<li>otherwise, content(n, ADST) it is defined as the empty set.</li>
 							</ul>
 						</li>
-						<li>If <a>isSolitary</a>(DS) is true, then we define <dfn>content(DS)</dfn>
-							= content(name(DS), DS).</li>
+						<li>If <a>isSolitary</a>(ADST) is true, then we define <dfn>content(ADST)</dfn>
+							= content(name(ADST), ADST).</li>
 					</ul>
 					<aside>The concrete syntax for building an associative data structure depends on
 						the extension of <a>Update Operations</a>, e.g. the <a>OpInsertData</a>
@@ -819,8 +819,8 @@
 							<p> Cons( greatest(DSQ), exceptGreatest(DSQ) ) = DSQ.</p>
 					</aside>
 					<aside> The empty sequence, [], is also denoted S<sub>0</sub>.</aside>
-					<aside class="example">For any data structure DS, <p>Cons(DS, S<sub>0</sub>) =
-							[DS]</p></aside>
+					<aside class="example">For any data structure DST, <p>Cons(DST, S<sub>0</sub>) =
+							[DST]</p></aside>
 					<aside>A Graph Store in the sense of [[!SPARQL11-Update]] is most closely
 						related, of the <a>data structures</a> considered in this document, to a
 							<a>data sequence</a> where each element is an <a>associative tree</a> of
@@ -865,45 +865,45 @@
 					<p>A <dfn
 							data-lt="k-th Order RDF Data Structures|k-th Order Data Structure|k-th Order Data Structures|Data Structure|Data Structures"
 							>k-th Order RDF Data Structure</dfn> is defined by cases as follows. </p>
-					<p>A k-th order RDF data structure is a collection of k-th order associative
+					<p>A k-th order RDF data structure DST is a collection of k-th order associative
 						data structures </p>
 					<ul>
-						<li>The optional <dfn>associative part</dfn> of DS is a k-th order
+						<li>The optional <dfn>associative part</dfn> of DST is a k-th order
 							associative data structure.</li>
-						<li>The <dfn>sequential part</dfn> of DS, which is optional if DS has a
+						<li>The <dfn>sequential part</dfn> of DST, which is optional if DST has a
 							associative part, is a sequence of k-th order associative data
 							structures.</li>
 					</ul>
 					<p>We define a number of syntactic operations on <a>data structures</a> as
-						follows. Let DS be a <a>data structure</a>. </p>
+						follows. Let DST be a <a>data structure</a>. </p>
 					<ul>
 						<li><dfn>isDataStructure</dfn>(E) is true if E is a <a>data structure</a>;
 							otherwise it is false.</li>
-						<li><dfn>hasAssociative</dfn>(DS) is true if DS has a associative part;
+						<li><dfn>hasAssociative</dfn>(DST) is true if DST has a associative part;
 							otherwise, it is false.</li>
-						<li><dfn>hasSequential</dfn>(DS) is true if DS has a sequential part;
+						<li><dfn>hasSequential</dfn>(DST) is true if DST has a sequential part;
 							otherwise, it is false.</li>
-						<li><dfn>associativePart</dfn>(DS) is defined on all data structures that
-							have a associative part (hasAssociative(DS) is true); otherwise it is
-							undefined. When defined, its value is the associative part of DS.</li>
-						<li><dfn>sequentialPart</dfn>(DS) is defined on all data structures that
-							have a sequential part (hasSequential(DS) is true); otherwise it is
+						<li><dfn>associativePart</dfn>(DST) is defined on all data structures that
+							have a associative part (hasAssociative(DST) is true); otherwise it is
+							undefined. When defined, its value is the associative part of DST.</li>
+						<li><dfn>sequentialPart</dfn>(DST) is defined on all data structures that
+							have a sequential part (hasSequential(DST) is true); otherwise it is
 							undefined. When defined, its value is the data sequence that is the
-							sequential part of DS.</li>
+							sequential part of DST.</li>
 					</ul>
-					<p class="note">If a k-th order <a>data structure</a> has no sequential part,
-						then its associative part is itself (associativePart(DS) = DS). In that case
+					<p class="note">If a k-th order <a>data structure</a> ADST has no sequential part,
+						then its associative part is itself (associativePart(ADST) = ADST). In that case
 						it is a k-th order <a>associative data structure</a>, e.g. an RDF graph
 						(k=0) or k-th order <a>associative tree</a>.</p>
-					<p class="note">If a k-th order data structure DS does not have a associative
-						part, then sequentialPart(DS) = DS; in this case, the data structure is a
+					<p class="note">If a k-th order data structure DSQ does not have a associative
+						part, then sequentialPart(DSQ) = DSQ; in this case, the data structure is a
 							<a>data sequence</a>. In particular, it is a sequence of k-th order
 							<a>associative data structures</a>. We define this special case of
 							<a>data sequence</a> to be a <dfn>k-th order data sequence</dfn>.</p>
 					<p>We extend the functions defined earlier on associative data structures to
 						data structures where <a>hasAssociative</a> is true according to the
-						following example: <a>names</a>(DS) =
-						<a>names</a>(<a>associativePart</a>(DS)), and so on.</p>
+						following example: <a>names</a>(DST) =
+						<a>names</a>(<a>associativePart</a>(DST)), and so on.</p>
 				</section>
 			</section>
 			<section id="def-kth-order-associative tree">
@@ -914,14 +914,14 @@
 				<p>A <dfn
 						data-lt="k-th Order RDF Associative Trees|k-th Order Associative Tree|k-th Order Associative Trees|Associative Tree|Associative Trees"
 						>k-th Order RDF Associative Tree</dfn> is a <a>k-th order associative data
-						structure</a> DS with the following properties. </p>
+						structure</a> AT with the following properties. </p>
 				<ul>
-					<li><a>defaultPart</a>(DS) is an <a>associative tree</a> of order j or less,
-						where j = max(0, order(DS)-1).</li>
-					<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is an <a>associative
+					<li><a>defaultPart</a>(AT) is an <a>associative tree</a> of order j or less,
+						where j = max(0, order(AT)-1).</li>
+					<li>For every n in <a>names</a>(AT), <a>content</a>(n, AT) is an <a>associative
 							tree</a> of order k-1 or less.</li>
 				</ul>
-				<p class="note">If DS = <a>Associative-INIT<sub>k</sub></a>(N, M), then DS is an
+				<p class="note">If ADST = <a>Associative-INIT<sub>k</sub></a>(N, M), then ADSTS is an
 					associative tree iff k=0 and codom(M) &sub; associative-tree<sub>0</sub> or
 					codom(M) &sub; associative-tree<sub>&le; k-1</sub></p>
 				<p class="note">Every RDF Graph is a <a>zeroth-order associative tree</a>, and every
@@ -953,9 +953,9 @@
 				<p class="note">The constructor <a>Associative-INIT<sub>k</sub></a> defined for
 					general <a>associative data structures</a> works as well for <a>associative
 						trees</a> of arbitrary order.</p>
-				<p>If N is a set of names and DS is a <a>k-th order associative tree</a>, then
-						<dfn>content-UNION</dfn>(N, DS) is defined as <a>Tree-UNION</a>({content(n,
-					DS)|n is in N}) .</p>
+				<p>If N is a set of names and AT is a <a>k-th order associative tree</a>, then
+						<dfn>content-UNION</dfn>(N, AT) is defined as <a>Tree-UNION</a>({content(n,
+					AT)|n is in N}) .</p>
 				<p class="ednote">All these functions need to be added to the table of structural
 					inferences.</p>
 				<p class="ednote">A <dfn data-lt="timestamped graphs">timestamped graph</dfn> is
@@ -971,10 +971,10 @@
 					<h4>k-th Order Versioned RDF Data structures</h4>
 					<p>A <dfn
 							data-lt="k-th Order Versioned RDF Data Structures|k-th Order Versioned Data Structure|k-th Order Versioned Data Structures|Versioned RDF Data Structure|Versioned RDF Data Structures|Versioned Data Structure|Versioned Data Structures"
-							>k-th Order Versioned RDF Data Structure</dfn> DS is a <a>k-th order RDF
+							>k-th Order Versioned RDF Data Structure</dfn> VDST is a <a>k-th order RDF
 							multivalent data structure</a> that meets the following requirements. </p>
 					<ul>
-						<li>Let SQ = sequentialPart(DS) with Index = <a>index</a>(SQ) and SQ =
+						<li>Let SQ = sequentialPart(VDST) with Index = <a>index</a>(SQ) and SQ =
 								<a>indexMap</a>(SQ).</li>
 						<li>Each element SQ(i) for i &in; Index is a <a>solitary association</a>.
 							These elements are called <dfn>versions</dfn> of the versioned
@@ -1061,7 +1061,7 @@
 						operation <dfn>Versioned<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
 						following arguments.</p>
 					<ol>
-						<li>The ordered set [VN, &le;<sub>VN</sub>] of version names of the data
+						<li>The ordered set VI = [VN, &le;<sub>VN</sub>] of version names of the data
 							structure. </li>
 						<li>The mapping M from the set VN<sub>ext</sub> = VN &cup; {ASSOC} to
 								<a>data structures</a> of order k-1 or less that specifies the
@@ -1143,10 +1143,10 @@
 							the new repository version.</li>
 					</ol>
 					<p>The semantics are</p>
-					<p><a>Append2Repository</a><sub>k</sub>(R, name, DS) =
+					<p><a>Append2Repository</a><sub>k</sub>(R, name, AT) =
 							<a>Repository<sub>k</sub></a>(VI', M') where</p>
 					<p>VI = <a>versionNames</a>(R) and VI' = <a>Cons</a>(VI, name),</p>
-					<p>M = <a>versionMap</a>(R) and M' = M &cup; {name => DS}</p>
+					<p>M = <a>versionMap</a>(R) and M' = M &cup; {name => AT}</p>
 					<p>assuming name &notin; <a>versionNames</a>(R).</p>
 					<p class="ednote">Need to define <a>Cons</a> for terminated totally-ordered
 						sets.</p>
@@ -1224,46 +1224,46 @@
 							>k-th Order RDF Store</dfn>, k &ge; 2, is a special case of <a>k-th
 							order versioned data structure</a>.</p>
 					<p> A (k+2)-th order RDF Store, k = 0, 1, ..., is a (k+2)-th order versioned
-						data structure ST with the following properties. <ul>
-							<li>The ordered set SI = versionNames(ST) contains the <dfn>version
+						data structure STR with the following properties. <ul>
+							<li>The ordered set SI = versionNames(STR) contains the <dfn>version
 									names of the store</dfn>.</li>
-							<li>ST has an associative part A = <a>associativePart</a>(ST). </li>
+							<li>STR has an associative part A = <a>associativePart</a>(STR). </li>
 							<li>The default part of A, <a>defaultPart</a>(A) is a (k+1)-th order
 								repository, called the <dfn>default repository of the store</dfn>,
-								and denoted repository(DEFAULT; ST).</li>
+								and denoted repository(DEFAULT; STR).</li>
 							<li>The names of the associative part of the store, names(A) are called
 								the <dfn>repository names of the store</dfn>, denoted
-									<dfn>repositoryNames</dfn>(ST). </li>
-							<li>For each name n &in; repositoryNames(ST), the corresonding content
+									<dfn>repositoryNames</dfn>(STR). </li>
+							<li>For each name n &in; repositoryNames(STR), the corresonding content
 									<a>content(n, A)</a> is a (k+1)-th order repository, denoted
-									<dfn>repository(n, ST)</dfn>, called the <dfn>repository for
-									name n of the store</dfn> ST. </li>
+									<dfn>repository(n, STR)</dfn>, called the <dfn>repository for
+									name n of the store</dfn> STR. </li>
 							<li>Further, the repositories and versions of the store satisfy the
 								following consistency requirements.</li>
 							<ul>
-								<li>For every repository name n in repositoryNames(ST), there is a
-									monotonic partial mapping M<sub>n</sub> from versionNames(ST)
-									onto <a>versionNames</a>( repository(n, ST)); that is, from
+								<li>For every repository name n in repositoryNames(STR), there is a
+									monotonic partial mapping M<sub>n</sub> from versionNames(STR)
+									onto <a>versionNames</a>( repository(n, STR)); that is, from
 									version names of the store to version names of the repository
-									for name n of the store ST with the following properties. <ul>
+									for name n of the store STR with the following properties. <ul>
 										<li>The domain of M<sub>n</sub>, dom(M<sub>n</sub>), is an
-											interval in the ordered set versionNames(ST).</li>
+											interval in the ordered set versionNames(STR).</li>
 										<li>If stver is in dom(M<sub>repname</sub>), let repver =
 												M<sub>repname</sub>(stver). Then <br />
-											content(repname; <a>versionContent</a>(stver; ST)) =
+											content(repname; <a>versionContent</a>(stver; STR)) =
 												<a>versionContent</a>(repver; repository(repname;
-											ST)) </li>
+											STR)) </li>
 									</ul>
 								</li>
 								<li>There is a monotonic (total) mapping M<sub>DEFAULT</sub> from
-									versionNames(ST) onto version names of the default repository;
-									that is, <a>versionNames</a>( repository(DEFAULT, ST)) with the
+									versionNames(STR) onto version names of the default repository;
+									that is, <a>versionNames</a>( repository(DEFAULT, STR)) with the
 									following properties <ul>
-										<li>If stver in versionNames(ST), let repver =
+										<li>If stver in versionNames(STR), let repver =
 												M<sub>DEFAULT</sub>(stver). Then <br />
-												defaultPart(<a>versionContent</a>(stver; ST)) =
+												defaultPart(<a>versionContent</a>(stver; STR)) =
 												<a>versionContent</a>(repver; repository(DEFAULT;
-											ST)) </li>
+											STR)) </li>
 									</ul>
 								</li>
 							</ul>
@@ -1274,33 +1274,33 @@
 						with the following arguments.</p>
 					<ol>
 						<li>The non-empty set RN of repository names.</li>
-						<li>The mapping R from RN<sub>ext</sub> = RN &cup; {DEFAULT} to (k-1)-th
+						<li>The mapping RM from RN<sub>ext</sub> = RN &cup; {DEFAULT} to (k-1)-th
 							order repositories.</li>
 						<li>The non-empty ordered set SI = [SV, &le;<sub>SV</sub>] of store version
 							names.</li>
 						<li>For each name n in RN<sub>ext</sub>, a monotonic partial function
 								M<sub>n</sub> from an interval of SI onto the <a>version names</a>
-							of the associated repository, <a>repository(n; ST)</a>. (The mapping
+							of the associated repository, <a>repository(n; STR)</a>. (The mapping
 								M<sub>DEFAULT</sub> is total.) </li>
 					</ol>
 					<p>The semantics of <a>Store<sub>k</sub></a> is defined as follows.</p>
-					<p><a>Store<sub>k</sub></a>(RN, R, SI, M) = <a>Versioned<sub>k</sub></a>(SI,
+					<p><a>Store<sub>k</sub></a>(RN, RM, SI, M) = <a>Versioned<sub>k</sub></a>(SI,
 						M')</p>
 					<p>where </p>
 					<p> M'(stver) = Tree-UNION({RP<sub>n</sub>(stver) | n &in; RN<sub>ext</sub>})
 						for stver &in; SI, where </p>
 					<p> RP<sub>n</sub>(stver) = <a>Solitary</a>(n, content( M<sub>n</sub>(stver);
-						R(n) ) if n &in; RN while </p>
+						RM(n) ) if n &in; RN while </p>
 					<p> RP<sub>DEFAULT</sub>(stver) = content( M<sub>DEFAULT</sub>(stver);
-						R(DEFAULT) ) and </p>
-					<p> M'(ASSOC) = Tree-UNION( R( RN<sub>ext</sub> ) ). </p>
+						RM(DEFAULT) ) and </p>
+					<p> M'(ASSOC) = Tree-UNION( RM( RN<sub>ext</sub> ) ). </p>
 					<aside class="note">
-						<p>If ST = <a>Store<sub>k</sub></a>(RN, R, SI, M), then</p>
+						<p>If STR = <a>Store<sub>k</sub></a>(RN, RM, SI, M), then</p>
 						<ul>
-							<li><a>repositoryNames</a>(ST) = RN.</li>
-							<li><a>repository</a>(n; ST) = R(n) for n &in; RN<sub>ext</sub>.</li>
-							<li><a>versionNames</a>(ST) = SI.</li>
-							<li><a>associativePart</a>(ST) = M'(ASSOC) = Tree-UNION( R(
+							<li><a>repositoryNames</a>(STR) = RN.</li>
+							<li><a>repository</a>(n; STR) = RM(n) for n &in; RN<sub>ext</sub>.</li>
+							<li><a>versionNames</a>(STR) = SI.</li>
+							<li><a>associativePart</a>(STR) = M'(ASSOC) = Tree-UNION( RM(
 									RN<sub>ext</sub> ) ).</li>
 						</ul>
 					</aside>
@@ -1402,21 +1402,21 @@
 								<dfn>Ext-ASSOC</dfn>(S) be the partially ordered set [SV ∪ {ASSOC},
 								&le;<sub>SV</sub>]. <dfn>For a set S of names, let
 							Ext-DEFAULT</dfn>(S) = S ∪ {DEFAULT}.</p>
-						<p>For store ST, let <dfn>namePairs</dfn>(ST) be a subset of
-								<a>Ext-ASSOC</a>(<a>versionNames</a>(ST)) x
-								<a>Ext-DEFAULT</a>(<a>names</a>(<a>associativePart</a>(ST))) such
+						<p>For store STR, let <dfn>namePairs</dfn>(STR) be a subset of
+								<a>Ext-ASSOC</a>(<a>versionNames</a>(STR)) x
+								<a>Ext-DEFAULT</a>(<a>names</a>(<a>associativePart</a>(STR))) such
 							that [stver, repo] is in NP provided stver is a member of
-								<a>Ext-ASSOC</a>(<a>versionNames</a>(ST)) and repo is in
-								<a>names</a>(<a>versionContent</a>(stver; ST).</p>
+								<a>Ext-ASSOC</a>(<a>versionNames</a>(STR)) and repo is in
+								<a>names</a>(<a>versionContent</a>(stver; STR).</p>
 						<p>We define a basic operation <dfn>StoreTransformation</dfn><sub>k</sub>
 							with domain and range being <a>stores</a> of order k or less. The input
 							arguments of <a>StoreTransformation</a><sub>k</sub> are as follows. </p>
 						<ol>
-							<li>The input store ST of order k or less. Let SI =
-								<a>versionNames</a>(ST), SI<sub>ext</sub>= <a>Ext-ASSOC</a>(SI), RP
-								= names(associativePart(ST)), and RP<sub>ext</sub> =
-								Ext-DEFAULT(RP). Let NP = <a>namePairs</a>(ST), and RV(n) =
-									<a>versionNames</a>(content(n, ST)). <br /> Note: SI is the
+							<li>The input store STR of order k or less. Let SI =
+								<a>versionNames</a>(STR), SI<sub>ext</sub>= <a>Ext-ASSOC</a>(SI), RP
+								= names(associativePart(STR)), and RP<sub>ext</sub> =
+								Ext-DEFAULT(RP). Let NP = <a>namePairs</a>(STR), and RV(n) =
+									<a>versionNames</a>(content(n, STR)). <br /> Note: SI is the
 								ordered set of store version names of the input store, while RP is
 								the set of repository names of the input store. NP is the set of
 								pairs of names - the first name being a store version name and the
@@ -1446,21 +1446,21 @@
 							<li>M'<sub>DEFAULT</sub> is a total mapping on SI'.</li>
 						</ul>
 						<p>The semantics of <a>StoreTransformation</a><sub>k</sub> is defined as
-							follows. For (input) store (ST, SI', RP', RV', M', Rel<sub>data</sub>),
+							follows. For (input) store (STR, SI', RP', RV', M', Rel<sub>data</sub>),
 							let</p>
 						<ul>
-							<li>DS<sub>m, n</sub> = content(n, versionContent(m, ST)) for each [m,
+							<li>AT<sub>m, n</sub> = content(n, versionContent(m, STR)) for each [m,
 								n] in NP. </li>
-							<li> DS'<sub>p', n'</sub> = Tree-UNION({DS<sub>m, n</sub> | [ [m, n],
+							<li> AT'<sub>p', n'</sub> = Tree-UNION({AT<sub>m, n</sub> | [ [m, n],
 								[m', n']] in Rel<sub>data</sub>, M'<sub>n'</sub>(m') = p'})</li>
-							<li>R'<sub>n'</sub> = <a>Repository</a><sub>k-1</sub>( DS'<sub>ASSOC,
-									n'</sub>, RV'(n'), { p' => DS'<sub>p',n'</sub> | p' in RV'(n') }
+							<li>R'<sub>n'</sub> = <a>Repository</a><sub>k-1</sub>( AT'<sub>ASSOC,
+									n'</sub>, RV'(n'), { p' => AT'<sub>p',n'</sub> | p' in RV'(n') }
 								), for n' in RP'<sub>ext</sub></li>
 							<li>M'' is the mapping M' composed with the version name substitution
 								arising from the reconciliation of vacuous revisions in the
 								construction of repositories R'.</li>
 						</ul>
-						<p>Then the value of <a>StoreTransformation</a><sub>k</sub>(ST, SI', RP',
+						<p>Then the value of <a>StoreTransformation</a><sub>k</sub>(STR, SI', RP',
 							RV', M', Rel<sub>data</sub>) is equal to the value of the constructor
 								<a>Store</a><sub>k</sub> with the following arguments.</p>
 						<ol>
@@ -1495,12 +1495,12 @@
 									mapping in the input store.</li>
 							</ul>
 							<p>That is,</p>
-							<p>ST = StoreTransformation<sub>k</sub>(ST, RP, SI, RV,
-								IDR<sub>NP</sub>, M ) where k = order(ST), RP =
-								names(associativePart(ST)), SI = versionNames(ST), RV = { n =>
+							<p>STR = StoreTransformation<sub>k</sub>(STR, RP, SI, RV,
+								IDR<sub>NP</sub>, M ) where k = order(STR), RP =
+								names(associativePart(STR)), SI = versionNames(STR), RV = { n =>
 									RV<sub>n</sub> | n is in RP and RV<sub>n</sub> = versionNames(
-								content(n, associativePart(ST) ) }, NP = namePairs(ST), M =
-								versionNameMap(ST).</p>
+								content(n, associativePart(STR) ) }, NP = namePairs(STR), M =
+								versionNameMap(STR).</p>
 						</aside>
 						<aside class="example" title="Subsampling a Store">
 							<p>The output store is equal to the input store except for subsampling
@@ -1515,8 +1515,8 @@
 								<li> Rel<sub>data</sub> = {[[m', n], [m, n]] | [m, n] is in NP and
 										M'<sub>n</sub>(m') = M<sub>n</sub>(m) } </li>
 							</ul>
-							<li>Let <dfn>Subsample</dfn>(ST, RV') =
-									<a>StoreTransformation</a><sub>k</sub>(ST, RP, SI, RV',
+							<li>Let <dfn>Subsample</dfn>(STR, RV') =
+									<a>StoreTransformation</a><sub>k</sub>(STR, RP, SI, RV',
 									Rel<sub>data</sub>, M') with Rel<sub>data</sub> and M' as
 								defined above.</li>
 						</aside>
@@ -1538,8 +1538,8 @@
 								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
 										RP'<sub>ext</sub> - {r1, r2}.</li>
 							</ul>
-							<p>Let <dfn>Sequential-UNION</dfn>(ST, R, r', RV'(r')) =
-									<a>StoreTransformation</a><sub>k</sub>(ST, RP', SI, RV',
+							<p>Let <dfn>Sequential-UNION</dfn>(STR, R, r', RV'(r')) =
+									<a>StoreTransformation</a><sub>k</sub>(STR, RP', SI, RV',
 									Rel<sub>data</sub>, M') with RP', RP', Rel<sub>data</sub> and M'
 								as defined above. </p>
 						</aside>
@@ -1553,7 +1553,7 @@
 								ASSOC.</p>
 							<p>Substitutions into an ordered set preserve the order, e.g as if the
 								order assertions were materialized and subject to substitution.</p>
-							<p><dfn>Rename(ST, Subst)</dfn> = <a>Store<sub>k</sub></a>(Subst(RP),
+							<p><dfn>Rename(STR, Subst)</dfn> = <a>Store<sub>k</sub></a>(Subst(RP),
 								Subst(R), Subst(SI), Subst(M)) where Subst is a name substitution
 								mapping.</p>
 							<p>The name-substituted store will entail a substituted version of the
@@ -1584,20 +1584,20 @@
 							<p>We define WindowRel<sub>q, p</sub>(V, v0) = { [v, v'] | if v' is in
 									Comb<sub>p</sub>(V, v0) and v is in Interval<sub>q</sub>(V, v')
 								} </p>
-							<p>Let [[m, n], [m', n]] belong to WindowRel<sub>p, q</sub>(ST, N, v0)
+							<p>Let [[m, n], [m', n]] belong to WindowRel<sub>p, q</sub>(STR, N, v0)
 								if [m, n] is in NP, n is in N = dom v0, v' is in RV'<sub>n</sub> =
 									Comb<sub>q</sub>(RV<sub>n</sub>, v0<sub>n</sub>), v is in
 									Interval<sub>p</sub>(RV<sub>n</sub>, v') where v =
 								M<sub>n</sub>(m), v' = M<sub>n</sub>(m'). </p>
-							<p>Let <dfn>Window</dfn>(ST, n, p, q, rv0) =
-									<a>StoreTransformation</a><sub>k</sub>( ST, RV'<sub>n</sub>,
+							<p>Let <dfn>Window</dfn>(STR, n, p, q, rv0) =
+									<a>StoreTransformation</a><sub>k</sub>( STR, RV'<sub>n</sub>,
 								{n}, {DEFAULT->{}, n=>RV'<sub>n</sub>}, {DEFAULT=>{}, n=>
-									<i>IDM</i><sub>n</sub>}, WindowRel<sub>q, p</sub>(ST, {n}, {n =>
+									<i>IDM</i><sub>n</sub>}, WindowRel<sub>q, p</sub>(STR, {n}, {n =>
 								rv0})) where</p>
 							<ul>
 								<li>RV'<sub>n</sub> = Comb<sub>q</sub>(RV<sub>n</sub>,
 										v0<sub>n</sub>)</li>
-								<li>RV<sub>n</sub> = <a>versionNames</a>(content(n, ST))</li>
+								<li>RV<sub>n</sub> = <a>versionNames</a>(content(n, STR))</li>
 								<li><i>IDM</i><sub>n</sub> is the identity mapping on
 										RV'<sub>n</sub></li>
 							</ul>
@@ -1606,11 +1606,11 @@
 								structural metadata.</p>
 						</aside>
 						<aside class="example" title="Repository Extraction">
-							<p>The <dfn>Repository-EXTRACT</dfn> operation takes a store ST and a
+							<p>The <dfn>Repository-EXTRACT</dfn> operation takes a store STR and a
 								set of repository names N, returning a substore that contains only
 								repositories whose names are in N.</p>
-							<p>Repository-EXTRACT<sub>k</sub>(ST, N) =
-									<a>StoreTransformation</a><sub>k</sub>(ST, SI, RP', RV', M',
+							<p>Repository-EXTRACT<sub>k</sub>(STR, N) =
+									<a>StoreTransformation</a><sub>k</sub>(STR, SI, RP', RV', M',
 									Rel<sub>data</sub>) </p>
 							<p>where</p>
 							<ul>
@@ -1646,8 +1646,8 @@
 							performed, and then Sequence-UNION is applied to the result, generating
 							a sequence of associative trees as the final result.</p>
 						<p>That is,</p>
-						<p><a>Window</a>(ST, [P<sub>i</sub>]<sub>i in <i>I</i></sub>)=
-							[Sequence_UNION(Restrict_FILTER(ST, P<sub>i</sub>))]<sub>i in
+						<p><a>Window</a>(STR, [P<sub>i</sub>]<sub>i in <i>I</i></sub>)=
+							[Sequence_UNION(Restrict_FILTER(STR, P<sub>i</sub>))]<sub>i in
 								<i>I</i></sub></p>
 					</section>
 					-->
@@ -1726,7 +1726,7 @@
 								t<sub>i</sub>.}).</p>
 						<p>Let S<sub>i</sub> be the stream emulation up to index i, using repository
 							name rn. Then</p>
-						<p>S<sub>i+1</sub> = <a>Append2Store</a><sub>2</sub>(ST, sv<sub>i+1</sub>,
+						<p>S<sub>i+1</sub> = <a>Append2Store</a><sub>2</sub>(STR, sv<sub>i+1</sub>,
 								{sv<sub>i+1</sub> => G<sub>DEFAULT, i+1</sub>}, {rn =>
 								{sv<sub>i+1</sub> => G0<sub>i+1</sub>}} &cup; {n<sub>i+1</sub>
 								p<sub>i+1</sub> t<sub>i+1</sub>.}, {}, {} )</p>
@@ -2007,8 +2007,8 @@
 								Patterns</a>, the range is <a>k-th order associative trees</a>.</li>
 					</ul>
 					<p>The extended semantics of <a>Insert Data</a> is defined as follows.</p>
-					<p><dfn>OpInsertData</dfn>(DS, <em>k-Pattern</em>) = Tree-UNION(DS,
-							Dataset(<em>k-Pattern</em>,{},DS,DS))</p>
+					<p><dfn>OpInsertData</dfn>(AT, <em>k-Pattern</em>) = Tree-UNION(AT,
+							Dataset(<em>k-Pattern</em>,{},AT,AT))</p>
 					<p>where {} is the empty solution mapping,</p>
 				</section>
 				<section id="def-existing-update-opcreate">
@@ -2044,17 +2044,17 @@
 					</ul>
 					<p>The extended semantics of <a>OpCreate</a> is defined as follows.</p>
 					<ul>
-						<li>OpCreate(DS, name) = OpCreate(DS, name, max(order(DS), 1)).</li>
-						<li>If name is in name(DS), and k = order(DS), then OpCreate(DS, name, k) =
-							DS.</li>
-						<li>If k &gt; order(DS), then OpCreate(DS, name, k) =
-								Associative-INIT<sub>k</sub>(DS, {name}, {name => {}})</li>
-						<li>If k = order(DS) and name is not in name(DS), then OpCreate(DS, name, k)
-							= Associative-INIT<sub>k</sub>(defaultPart(DS), names(DS) ∪ {name},
-							nameMap(DS) ∪ {name => {}}). </li>
-						<li>If k &lt; order(DS) = k', then OpCreate(DS, name, k) =
-								Associative-INIT<sub>k'</sub>( OpCreate(defaultPart(DS), name, k),
-							names(DS), nameMap(DS) ) )</li>
+						<li>OpCreate(AT, name) = OpCreate(AT, name, max(order(AT), 1)).</li>
+						<li>If name is in name(AT), and k = order(AT), then OpCreate(AT, name, k) =
+							AT.</li>
+						<li>If k &gt; order(AT), then OpCreate(AT, name, k) =
+								Associative-INIT<sub>k</sub>(AT, {name}, {name => {}})</li>
+						<li>If k = order(AT) and name is not in name(AT), then OpCreate(AT, name, k)
+							= Associative-INIT<sub>k</sub>(defaultPart(AT), names(AT) ∪ {name},
+							nameMap(AT) ∪ {name => {}}). </li>
+						<li>If k &lt; order(AT) = k', then OpCreate(AT, name, k) =
+								Associative-INIT<sub>k'</sub>( OpCreate(defaultPart(AT), name, k),
+							names(AT), nameMap(AT) ) )</li>
 					</ul>
 				</section>
 				<section>
@@ -2081,12 +2081,12 @@
 					not in the set of database names, then the result would be the original
 					associative tree. </p>
 				<ul>
-					<li>If name is in names(DS), then APPLY(DS, Spec, name) =
-							Associative-INIT<sub>order(DS)</sub>( defaultPart(DS), names(DS),
-						Delete(nameMap(DS), name) &cup; { name => Spec(content(name, DS))} ) </li>
-					<li>Otherwise, APPLY(DS, Spec, name) = DS.</li>
-					<li>APPLY(DS, Spec) = Associative-INIT<sub>order(DS)</sub>(
-						Spec(defaultPart(DS)), names(DS), nameMap(DS) )</li>
+					<li>If name is in names(AT), then APPLY(AT, Spec, name) =
+							Associative-INIT<sub>order(AT)</sub>( defaultPart(AT), names(AT),
+						Delete(nameMap(AT), name) &cup; { name => Spec(content(name, AT))} ) </li>
+					<li>Otherwise, APPLY(AT, Spec, name) = AT.</li>
+					<li>APPLY(AT, Spec) = Associative-INIT<sub>order(AT)</sub>(
+						Spec(defaultPart(AT)), names(AT), nameMap(AT) )</li>
 				</ul>
 			</section>
 			<section id="def-new-revise-operation">
@@ -2386,9 +2386,9 @@ _:b7 obs:effectiveDateTime
 					<aside class="example" title="Repository Built with Basic Operations">
 						<p>we first initialize the repository with <a>Repository-INITIAL</a></p>
 						<p class="ednote">We need to define this basic operation as
-								<dfn>Repository-INITIAL</dfn><sub>k</sub>(DSD, name, DSN) =
-									<a>Versioned<sub>k</sub></a>([{name}, {}], {name => DSN, DEFAULT
-							=> DSD})</p>
+								<dfn>Repository-INITIAL</dfn><sub>k</sub>(ATD, name, ATN) =
+									<a>Versioned<sub>k</sub></a>([{name}, {}], {name => ATN, DEFAULT
+							=> ATD})</p>
 						<p><dfn>Repo<sub>1, FHIR-hr</sub></dfn> =
 								<a>Repository-INITIAL</a><sub>1</sub>({}, _:fhir-hr-g1, G<sub>1,
 								FHIR-hr</sub>) </p>
@@ -5069,12 +5069,12 @@ _:b103{
 						graph that uses that predicate. Although this is a specialization of the RDF
 						Stream structure, it would be the most common usecase. To attach this
 						metadata to the repository as a whole, we name the repository and embed it
-						in a second-order RDF Store. We denote this store as ST<sub>FHIR</sub>. </p>
+						in a second-order RDF Store. We denote this store as STR<sub>FHIR</sub>. </p>
 					<p>We write</p>
-					<p>ST<sub>FHIR</sub> = Tree-UNION(ST<sub>FHIR, associative</sub>, ST<sub>FHIR,
+					<p>STR<sub>FHIR</sub> = Tree-UNION(STR<sub>FHIR, associative</sub>, STR<sub>FHIR,
 							sequential</sub>)</p>
 					<p>where</p>
-					<p>ST<sub>FHIR, associative</sub> =
+					<p>STR<sub>FHIR, associative</sub> =
 						Associative-INIT<sub>2</sub>(G<sub>eff</sub>, {_:b301}, {_:b301 =>
 							R<sub>FHIR</sub>})</p>
 					<p>where G<sub>eff</sub> is the graph containing the single triple</p>
@@ -5084,16 +5084,16 @@ _:b103{
 
 _:b301 rsp:usesTimestampPredicate obs:effectiveDateTime.
 				</pre>
-					<p>The sequential part of the store ST can be abstractly constructed from its
+					<p>The sequential part of the store STR can be abstractly constructed from its
 						elements using basic operations:</p>
-					<p>ST<sub>FHIR, sequential</sub> = Cons(ST<sub>3,FHIR</sub>,
-							Cons(ST<sub>2,FHIR</sub>, Cons(ST<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
+					<p>STR<sub>FHIR, sequential</sub> = Cons(STR<sub>3,FHIR</sub>,
+							Cons(STR<sub>2,FHIR</sub>, Cons(STR<sub>1,FHIR</sub>, S<sub>0</sub>))) </p>
 					<p>where</p>
-					<p> ST<sub>1, FHIR</sub> = [_:sv0, [_:b301, G<sub>1, FHIR</sub>, 1], 2]</p>
-					<p> ST<sub>2, FHIR</sub> = [_:sv1, [_:b301, G<sub>2, FHIR</sub>, 1], 2]</p>
-					<p> ST<sub>3, FHIR</sub> = [_:sv2, [_:b301, G<sub>3, FHIR</sub>, 1], 2]</p>
+					<p> STR<sub>1, FHIR</sub> = [_:sv0, [_:b301, G<sub>1, FHIR</sub>, 1], 2]</p>
+					<p> STR<sub>2, FHIR</sub> = [_:sv1, [_:b301, G<sub>2, FHIR</sub>, 1], 2]</p>
+					<p> STR<sub>3, FHIR</sub> = [_:sv2, [_:b301, G<sub>3, FHIR</sub>, 1], 2]</p>
 					<p>or generically</p>
-					<p> ST<sub>i, FHIR</sub> = Associative-INIT<sub>2</sub>({}, {stver<sub>i</sub>},
+					<p> STR<sub>i, FHIR</sub> = Associative-INIT<sub>2</sub>({}, {stver<sub>i</sub>},
 							{stver<sub>i</sub> => Associative-INIT<sub>1</sub>({}, {_:b301}, {_:b301
 						=> G<sub>i, FHIR</sub>})})</p>
 					<p>where stver<sub>1</sub> = _:sv0, stver<sub>2</sub> = _:sv1, stver<sub>3</sub>
@@ -5197,7 +5197,7 @@ _:rn2 rsp:usesTimestampPredicate obs:effectiveDateTime.
 				</aside>
 				<aside class="example" id="ex-store-fhir-two"
 					title="Store containing Two FHIR Streams">
-					<p>We build a second-order store ST<sub>FHIR, 2</sub> from the first-order
+					<p>We build a second-order store STR<sub>FHIR, 2</sub> from the first-order
 						repositories R<sub>FHIR</sub> and R<sub>FHIR-m</sub> defined above. This is
 						done using the Store<sub>2</sub> constructor. The arguments of the
 							Store<sub>2</sub> constructor are as follows. </p>
@@ -6176,6 +6176,109 @@ We write
 							<td>structural</td>
 							<td>repo:isTerminalVersionOf</td>
 							<td>Usage </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+		<section id="sec-meta-variables">
+			<h4>Metavariable Convetions</h4>
+			<div>
+				<table>
+					<thead>
+						<tr>
+							<th>Metavariable</th>
+							<th>Type</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>E</td>
+							<td>general entity</td>
+						</tr>
+						<tr>
+							<td>DST</td>
+							<td>data structure</td>
+						</tr>
+						<tr>
+							<td>DS</td>
+							<td>RDF Dataset</td>
+						</tr>
+						<tr>
+							<td>DSQ</td>
+							<td>data sequence</td>
+						</tr>
+						<tr>
+							<td>SQ</td>
+							<td>general sequence</td>
+						</tr>
+						<tr>
+							<td>MDST</td>
+							<td>multivalent data structure</td>
+						</tr>
+						<tr>
+							<td>VDST</td>
+							<td>versioned data structure</td>
+						</tr>
+						<tr>
+							<td>ADST</td>
+							<td>associative data structure</td>
+						</tr>
+						<tr>
+							<td>AT</td>
+							<td>associative tree</td>
+						</tr>
+						<tr>
+							<td>SO</td>
+							<td>solitary association</td>
+						</tr>
+						<tr>
+							<td>SOT</td>
+							<td>solitary-association-tree</td>
+						</tr>
+						<tr>
+							<td>R</td>
+							<td>repository</td>
+						</tr>
+						<tr>
+							<td>STR</td>
+							<td>store</td>
+						</tr>
+						<tr>
+							<td>n or name</td>
+							<td>RDF-Name</td>
+						</tr>
+						<tr>
+							<td>M</td>
+							<td>mapping</td>
+						</tr>
+						<tr>
+							<td>RM</td>
+							<td>mapping with dom(M) &sube; RDF-Name and codom &sube; <a>TypeRepository</a></td>
+						</tr>
+						<tr>
+							<td>NM</td>
+							<td>mapping with dom(M) and codom(M) &sube; RDF-Name</td>
+						</tr>
+						<tr>
+							<td>VI, SI</td>
+							<td>totally-ordered sets, with order e.g. &le;<sub>VI</sub></td>
+						</tr>
+						<tr>
+							<td>G</td>
+							<td>RDF Graph</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
 						</tr>
 					</tbody>
 				</table>
