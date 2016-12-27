@@ -455,8 +455,8 @@
 					<p>The <dfn>default part</dfn> of an <a>associative data structure</a> ADST =
 							<a>Associative-INIT</a><sub>k</sub>(N, DSTM), k &ge; 0, is a <a>data
 							structure</a> of <a>order</a> max(0, k-1) or less, is denoted
-							<dfn>defaultPart</dfn>(ADST), and has value DSTM(DEFAULT). In terms of the
-						basic functions,</p>
+							<dfn>defaultPart</dfn>(ADST), and has value DSTM(DEFAULT). In terms of
+						the basic functions,</p>
 					<p>
 						<a>defaultPart</a>(ADST) = <a>nameMap</a>(ADST)(DEFAULT).</p>
 					<p class="note">The default part of a <a>zeroth-order associative data
@@ -475,14 +475,14 @@
 					</aside>
 					<p>We define a specialized constructor for solitary associations,</p>
 					<p><dfn data-lt="Solitary">Solitary<sub>k</sub></dfn>(n, DST) =
-								<a>Associative-INIT<sub>k</sub></a>({n}, {n => DST, DEFAULT => {} }),
-						k &gt; 0 where order(DST) &lt; k.</p>
+								<a>Associative-INIT<sub>k</sub></a>({n}, {n => DST, DEFAULT => {}
+						}), k &gt; 0 where order(DST) &lt; k.</p>
 					<p>The <dfn>named part</dfn> of a k-th order <a>associative data structure</a>
-						ADST of order k &ge; 1, denoted <dfn>namedPart</dfn>(ADST), is the <a>k-th order
-							associative data structure</a> given by
-							<a>Associative-INIT<sub>k</sub></a>(N, DSTM') where N = names(ADST), DSTM =
-						nameMap(ADST), and DSTM'(n) = DSTM(n) whenever n &in; N, and DSTM'(DEFAULT)={}. In
-						terms of the basic functions, </p>
+						ADST of order k &ge; 1, denoted <dfn>namedPart</dfn>(ADST), is the <a>k-th
+							order associative data structure</a> given by
+								<a>Associative-INIT<sub>k</sub></a>(N, DSTM') where N = names(ADST),
+						DSTM = nameMap(ADST), and DSTM'(n) = DSTM(n) whenever n &in; N, and
+						DSTM'(DEFAULT)={}. In terms of the basic functions, </p>
 					<p><a>namedPart</a>(ADST) =
 							<a>Associative-INIT</a><sub><a>order</a>(ADST)</sub>(<a>names</a>(ADST),
 							<a>nameMap</a>(ADST)|<sub><a>names</a>(ADST)</sub> &cup; {DEFAULT => {}
@@ -491,19 +491,19 @@
 								structure</a> that has no named part, i.e. <a>namedPart</a> is
 							undefined.</p></aside>
 					<aside class="example"><p>A <a>solitary association</a> SO =
-								Associative-INIT<sub>k</sub>({n}, {n => DST, DEFAULT => {} } is equal
-							to its named part.</p>
+								Associative-INIT<sub>k</sub>({n}, {n => DST, DEFAULT => {} } is
+							equal to its named part.</p>
 						<p>SO = <a>namedPart</a>(SO)</p>
 					</aside>
-					<p>Let ADST = <a>Associative-INIT<sub>k</sub></a>(N, M) be an <a>associative data
-							structure</a> and E be an arbitrary entity. </p>
+					<p>Let ADST = <a>Associative-INIT<sub>k</sub></a>(N, M) be an <a>associative
+							data structure</a> and E be an arbitrary entity. </p>
 					<ul>
 						<li><dfn>isAssociative</dfn>(E) is true if E is a <a>associative data
 								structure</a>; otherwise it is false.</li>
 						<li><dfn>isSolitary</dfn>(ADST) is true if ADST is a <a>solitary
-							association</a>. </li>
-						<li>If <a>isSolitary</a>(ADST) is true, then <dfn>name</dfn>(ADST) is the one
-							element of names(ADST). That is, names(ADST) = {name(ADST)}</li>
+								association</a>. </li>
+						<li>If <a>isSolitary</a>(ADST) is true, then <dfn>name</dfn>(ADST) is the
+							one element of names(ADST). That is, names(ADST) = {name(ADST)}</li>
 						<li>For every name n, we define the <dfn data-lt="content">content for
 								n</dfn> in an <a>associative data structure</a> ADST, denoted
 								<dfn>content(n, ADST)</dfn>, as follows. <ul>
@@ -513,8 +513,8 @@
 								<li>otherwise, content(n, ADST) it is defined as the empty set.</li>
 							</ul>
 						</li>
-						<li>If <a>isSolitary</a>(ADST) is true, then we define <dfn>content(ADST)</dfn>
-							= content(name(ADST), ADST).</li>
+						<li>If <a>isSolitary</a>(ADST) is true, then we define
+								<dfn>content(ADST)</dfn> = content(name(ADST), ADST).</li>
 					</ul>
 					<aside>The concrete syntax for building an associative data structure depends on
 						the extension of <a>Update Operations</a>, e.g. the <a>OpInsertData</a>
@@ -717,8 +717,8 @@
 						<tr>
 							<td></td>
 							<td>::=</td>
-							<td>{<a>Store<sub>k</sub></a>(RN, R, SI, M) | RN &in;
-									2<sup>RDF-Name</sup> - 1, R: RN<sub>ext</sub> =>
+							<td>{<a>Store<sub>k</sub></a>(RN, RM, SI, M) | RN &in;
+									2<sup>RDF-Name</sup> - 1, RM: RN<sub>ext</sub> =>
 									repository<sub>k-1</sub>, @@@plus other requirement on SI and M
 								as given in the definition of <a>Store<sub>k</sub></a>}</td>
 						</tr>
@@ -891,10 +891,10 @@
 							undefined. When defined, its value is the data sequence that is the
 							sequential part of DST.</li>
 					</ul>
-					<p class="note">If a k-th order <a>data structure</a> ADST has no sequential part,
-						then its associative part is itself (associativePart(ADST) = ADST). In that case
-						it is a k-th order <a>associative data structure</a>, e.g. an RDF graph
-						(k=0) or k-th order <a>associative tree</a>.</p>
+					<p class="note">If a k-th order <a>data structure</a> ADST has no sequential
+						part, then its associative part is itself (associativePart(ADST) = ADST). In
+						that case it is a k-th order <a>associative data structure</a>, e.g. an RDF
+						graph (k=0) or k-th order <a>associative tree</a>.</p>
 					<p class="note">If a k-th order data structure DSQ does not have a associative
 						part, then sequentialPart(DSQ) = DSQ; in this case, the data structure is a
 							<a>data sequence</a>. In particular, it is a sequence of k-th order
@@ -921,8 +921,8 @@
 					<li>For every n in <a>names</a>(AT), <a>content</a>(n, AT) is an <a>associative
 							tree</a> of order k-1 or less.</li>
 				</ul>
-				<p class="note">If ADST = <a>Associative-INIT<sub>k</sub></a>(N, M), then ADSTS is an
-					associative tree iff k=0 and codom(M) &sub; associative-tree<sub>0</sub> or
+				<p class="note">If ADST = <a>Associative-INIT<sub>k</sub></a>(N, M), then ADSTS is
+					an associative tree iff k=0 and codom(M) &sub; associative-tree<sub>0</sub> or
 					codom(M) &sub; associative-tree<sub>&le; k-1</sub></p>
 				<p class="note">Every RDF Graph is a <a>zeroth-order associative tree</a>, and every
 					zeroth-order associative tree is an RDF Graph.</p>
@@ -971,8 +971,9 @@
 					<h4>k-th Order Versioned RDF Data structures</h4>
 					<p>A <dfn
 							data-lt="k-th Order Versioned RDF Data Structures|k-th Order Versioned Data Structure|k-th Order Versioned Data Structures|Versioned RDF Data Structure|Versioned RDF Data Structures|Versioned Data Structure|Versioned Data Structures"
-							>k-th Order Versioned RDF Data Structure</dfn> VDST is a <a>k-th order RDF
-							multivalent data structure</a> that meets the following requirements. </p>
+							>k-th Order Versioned RDF Data Structure</dfn> VDST is a <a>k-th order
+							RDF multivalent data structure</a> that meets the following
+						requirements. </p>
 					<ul>
 						<li>Let SQ = sequentialPart(VDST) with Index = <a>index</a>(SQ) and SQ =
 								<a>indexMap</a>(SQ).</li>
@@ -1061,8 +1062,8 @@
 						operation <dfn>Versioned<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
 						following arguments.</p>
 					<ol>
-						<li>The ordered set VI = [VN, &le;<sub>VN</sub>] of version names of the data
-							structure. </li>
+						<li>The ordered set VI = [VN, &le;<sub>VN</sub>] of version names of the
+							data structure. </li>
 						<li>The mapping M from the set VN<sub>ext</sub> = VN &cup; {ASSOC} to
 								<a>data structures</a> of order k-1 or less that specifies the
 							sequential and associative part of the data structure. </li>
@@ -1496,7 +1497,7 @@
 							</ul>
 							<p>That is,</p>
 							<p>STR = StoreTransformation<sub>k</sub>(STR, RP, SI, RV,
-								IDR<sub>NP</sub>, M ) where k = order(STR), RP =
+									IDR<sub>NP</sub>, M ) where k = order(STR), RP =
 								names(associativePart(STR)), SI = versionNames(STR), RV = { n =>
 									RV<sub>n</sub> | n is in RP and RV<sub>n</sub> = versionNames(
 								content(n, associativePart(STR) ) }, NP = namePairs(STR), M =
@@ -1592,8 +1593,8 @@
 							<p>Let <dfn>Window</dfn>(STR, n, p, q, rv0) =
 									<a>StoreTransformation</a><sub>k</sub>( STR, RV'<sub>n</sub>,
 								{n}, {DEFAULT->{}, n=>RV'<sub>n</sub>}, {DEFAULT=>{}, n=>
-									<i>IDM</i><sub>n</sub>}, WindowRel<sub>q, p</sub>(STR, {n}, {n =>
-								rv0})) where</p>
+									<i>IDM</i><sub>n</sub>}, WindowRel<sub>q, p</sub>(STR, {n}, {n
+								=> rv0})) where</p>
 							<ul>
 								<li>RV'<sub>n</sub> = Comb<sub>q</sub>(RV<sub>n</sub>,
 										v0<sub>n</sub>)</li>
@@ -5071,11 +5072,11 @@ _:b103{
 						metadata to the repository as a whole, we name the repository and embed it
 						in a second-order RDF Store. We denote this store as STR<sub>FHIR</sub>. </p>
 					<p>We write</p>
-					<p>STR<sub>FHIR</sub> = Tree-UNION(STR<sub>FHIR, associative</sub>, STR<sub>FHIR,
-							sequential</sub>)</p>
+					<p>STR<sub>FHIR</sub> = Tree-UNION(STR<sub>FHIR, associative</sub>,
+							STR<sub>FHIR, sequential</sub>)</p>
 					<p>where</p>
 					<p>STR<sub>FHIR, associative</sub> =
-						Associative-INIT<sub>2</sub>(G<sub>eff</sub>, {_:b301}, {_:b301 =>
+							Associative-INIT<sub>2</sub>(G<sub>eff</sub>, {_:b301}, {_:b301 =>
 							R<sub>FHIR</sub>})</p>
 					<p>where G<sub>eff</sub> is the graph containing the single triple</p>
 					<pre>
@@ -5093,9 +5094,9 @@ _:b301 rsp:usesTimestampPredicate obs:effectiveDateTime.
 					<p> STR<sub>2, FHIR</sub> = [_:sv1, [_:b301, G<sub>2, FHIR</sub>, 1], 2]</p>
 					<p> STR<sub>3, FHIR</sub> = [_:sv2, [_:b301, G<sub>3, FHIR</sub>, 1], 2]</p>
 					<p>or generically</p>
-					<p> STR<sub>i, FHIR</sub> = Associative-INIT<sub>2</sub>({}, {stver<sub>i</sub>},
-							{stver<sub>i</sub> => Associative-INIT<sub>1</sub>({}, {_:b301}, {_:b301
-						=> G<sub>i, FHIR</sub>})})</p>
+					<p> STR<sub>i, FHIR</sub> = Associative-INIT<sub>2</sub>({},
+						{stver<sub>i</sub>}, {stver<sub>i</sub> => Associative-INIT<sub>1</sub>({},
+						{_:b301}, {_:b301 => G<sub>i, FHIR</sub>})})</p>
 					<p>where stver<sub>1</sub> = _:sv0, stver<sub>2</sub> = _:sv1, stver<sub>3</sub>
 						= _:sv2.</p>
 					<p>To construct a store in this fashion, it is necessary to ensure
@@ -6254,7 +6255,8 @@ We write
 						</tr>
 						<tr>
 							<td>RM</td>
-							<td>mapping with dom(M) &sube; RDF-Name and codom &sube; <a>TypeRepository</a></td>
+							<td>mapping with dom(M) &sube; RDF-Name and codom &sube;
+									<a>TypeRepository</a></td>
 						</tr>
 						<tr>
 							<td>NM</td>
