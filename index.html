@@ -425,7 +425,8 @@
 						thus acts as constructors for <a>associative data structures</a>. The
 						constraints are that <a>cardinality</a>(N) &gt; 0 if k &gt;0 and
 							<a>cardinality</a>(N)=0 if k = 0, while M:(N &cup; {DEFAULT}) =>
-							associative-data-structure<sub>&le;j</sub> where j = max(0, k-1).</p>
+							data-structure<sub>&le;k-1</sub> if k&gt; 0 while M:{DEFAULT} =>
+						RDF-Graph if k=0.</p>
 					<p>The order of an <a>associative data structure</a> DS =
 							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted
 						<dfn>order</dfn>(DS) and has value order(DS) = k.</p>
@@ -453,7 +454,7 @@
 					</ul>
 					<p>The <dfn>default part</dfn> of an <a>associative data structure</a> DS =
 							<a>Associative-INIT</a><sub>k</sub>(N, M), k &ge; 0, is a <a>data
-							structure</a> of <a>order</a> k-1 or less, is denoted
+							structure</a> of <a>order</a> max(0, k-1) or less, is denoted
 							<dfn>defaultPart</dfn>(DS), and has value M(DEFAULT). In terms of the
 						basic functions,</p>
 					<p>
@@ -464,8 +465,9 @@
 						where its set of nonreserved names contains exactly one name and the default
 						part is empty. That is, <a>cardinality</a>(<a>names</a>(DS)) = 1 and
 							<a>defaultPart</a>(DS) = {}.</p>
-					<aside class="example"><p>The constructor <a>Associative-INIT<sub>k</sub></a>
-							can be used to create a <a>solitary association</a> as follows.</p>
+					<aside class="example"><p>The constructor <a>Associative-INIT<sub>k</sub></a>, k
+							&gt; 0, can be used to create a <a>solitary association</a> as
+							follows.</p>
 						<p>Let DS be <a>data structure</a> of order k-1 or less, and let ND =
 								Associative-INIT<sub>k</sub>({n}, {n => DS, DEFAULT => {} }). Then
 								<a>order</a>(ND) = k, names(ND) = {n}, and defaultPart(ND) = {}.
@@ -473,8 +475,8 @@
 					</aside>
 					<p>We define a specialized constructor for solitary associations,</p>
 					<p><dfn data-lt="Solitary">Solitary<sub>k</sub></dfn>(n, DS) =
-								<a>Associative-INIT<sub>k</sub></a>({n}, {n => DS, DEFAULT => {}
-						})</p>
+								<a>Associative-INIT<sub>k</sub></a>({n}, {n => DS, DEFAULT => {} }),
+						k &gt; 0 where order(DS) &lt; k.</p>
 					<p>The <dfn>named part</dfn> of a k-th order <a>associative data structure</a>
 						DS of order k &ge; 1, denoted <dfn>namedPart</dfn>(DS), is the <a>k-th order
 							associative data structure</a> given by
@@ -551,8 +553,8 @@
 						<tr>
 							<td>℘℘(X)</td>
 							<td>::=</td>
-							<td>set of all partial permutations of X, i.e. set of all ordered
-								subsets of X</td>
+							<td>set of all partial permutations of X, i.e. set of all
+								totally-ordered subsets of X</td>
 						</tr>
 						<tr>
 							<td>1</td>
@@ -729,67 +731,6 @@
 						-->
 					</table>
 				</section>
-				<section id="def-kth-order-associative tree">
-					<h4>k-th order RDF Associative Tree</h4>
-					<p class="ednote">perhaps use "Stream RDF dataset" "RDF stream dataset" "RDF
-						dataset structure" or similar for these classes? <br /> If we take our way
-						of emulating RDF Streams and make it a type, then we could call it an RDF
-						Stream Store.</p>
-					<p>A <dfn
-							data-lt="k-th Order RDF Associative Trees|k-th Order Associative Tree|k-th Order Associative Trees|Associative Tree|Associative Trees"
-							>k-th Order RDF Associative Tree</dfn> is a <a>k-th order associative
-							data structure</a> DS with the following properties. </p>
-					<ul>
-						<li><a>defaultPart</a>(DS) is an <a>associative tree</a> of order j or less,
-							where j = max(0, order(DS)-1).</li>
-						<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is an
-								<a>associative tree</a> of order k-1 or less.</li>
-					</ul>
-					<p class="note">If DS = <a>Associative-INIT<sub>k</sub></a>(N, M), then DS is an
-						associative tree iff k=0 or codom(M) &sub; associative-tree<sub>&le;
-							k-1</sub></p>
-					<p class="note">Every RDF Graph is a <a>zeroth-order associative tree</a>, and
-						every zeroth-order associative tree is an RDF Graph.</p>
-					<p>A k-th order <dfn>solitary association tree</dfn> is a k-th order
-							<a>associative tree</a> that is also a <a>solitary association</a>.</p>
-					<p class="example">A named graph may be emulated as a first-order
-							<a>solitary-association-tree</a>.</p>
-					<p class="note"> Hereafter in this document, <a>solitary-association-tree</a>,
-						without qualificatin, means a <a>k-th order solitary-association-tree</a>
-						where k is not specified. </p>
-					<p class="example">An RDF Dataset, as defined in [[!RDF-Concepts]] may be
-						emulated as an <a>associative tree</a> of order 1 or less. An RDF Dataset
-						always has a default part, its default graph, which may be the empty graph.
-						If the RDF Dataset contains at least one named graph, then the corresponding
-							<a>associative tree</a> has a named part and so is a first-order
-							<a>associative tree</a>.</p>
-					<p class="ednote">To be clarified in a separate semantics section: just as there
-						is not a single recommended semantics for RDF Datasets, it is important to
-						be inclusive regarding possible semantics for k-th order associative trees.
-						An important consideration is whether the components of the tree lie on a
-						single <a>RDF Surface (sensu Pat Hayes)</a>, i.e. do they share blank nodes. </p>
-					<p>We define syntactic operations on <a>associative trees</a> as follows. Let E
-						be an arbitrary entity. </p>
-					<ul>
-						<li><dfn>isTree</dfn>(E) is true if E is an <a>associative tree</a>;
-							otherwise it is false.</li>
-					</ul>
-					<p class="note">The constructor <a>Associative-INIT<sub>k</sub></a> defined for
-						general <a>associative data structures</a> works as well for <a>associative
-							trees</a> of arbitrary order.</p>
-					<p>If N is a set of names and DS is a <a>k-th order associative tree</a>, then
-							<dfn>content-UNION</dfn>(N, DS) is defined as
-						<a>Tree-UNION</a>({content(n, DS)|n is in N}) .</p>
-					<p class="ednote">All these functions need to be added to the table of
-						structural inferences.</p>
-					<p class="ednote">A <dfn data-lt="timestamped graphs">timestamped graph</dfn> is
-						defined in @@@<a href="">RDF Stream Abstract Syntax and Semantics</a> as an
-						RDF Dataset with one named graph and a distinguished triple, the timestamp
-						triple, in its default graph having the name of the named graph as its
-						subject. A timestamped graph may be emulated by a associative tree of second
-						order or less, as described in Section <a
-							href="#def-rdf-stream-as-second-order-store"></a></p>
-				</section>
 			</section>
 			<section id="def-data-sequences-structures">
 				<h3>RDF Data Sequences and Structures</h3>
@@ -964,6 +905,65 @@
 						following example: <a>names</a>(DS) =
 						<a>names</a>(<a>associativePart</a>(DS)), and so on.</p>
 				</section>
+			</section>
+			<section id="def-kth-order-associative tree">
+				<h3>k-th order RDF Associative Tree</h3>
+				<p class="ednote">perhaps use "Stream RDF dataset" "RDF stream dataset" "RDF dataset
+					structure" or similar for these classes? <br /> If we take our way of emulating
+					RDF Streams and make it a type, then we could call it an RDF Stream Store.</p>
+				<p>A <dfn
+						data-lt="k-th Order RDF Associative Trees|k-th Order Associative Tree|k-th Order Associative Trees|Associative Tree|Associative Trees"
+						>k-th Order RDF Associative Tree</dfn> is a <a>k-th order associative data
+						structure</a> DS with the following properties. </p>
+				<ul>
+					<li><a>defaultPart</a>(DS) is an <a>associative tree</a> of order j or less,
+						where j = max(0, order(DS)-1).</li>
+					<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is an <a>associative
+							tree</a> of order k-1 or less.</li>
+				</ul>
+				<p class="note">If DS = <a>Associative-INIT<sub>k</sub></a>(N, M), then DS is an
+					associative tree iff k=0 and codom(M) &sub; associative-tree<sub>0</sub> or
+					codom(M) &sub; associative-tree<sub>&le; k-1</sub></p>
+				<p class="note">Every RDF Graph is a <a>zeroth-order associative tree</a>, and every
+					zeroth-order associative tree is an RDF Graph.</p>
+				<p>A k-th order <dfn>solitary association tree</dfn> is a k-th order <a>associative
+						tree</a> that is also a <a>solitary association</a>.</p>
+				<p class="example">A named graph may be emulated as a first-order
+						<a>solitary-association-tree</a>.</p>
+				<p class="note"> Hereafter in this document, <a>solitary-association-tree</a>,
+					without qualificatin, means a <a>k-th order solitary-association-tree</a> where
+					k is not specified. </p>
+				<p class="example">An RDF Dataset, as defined in [[!RDF-Concepts]] may be emulated
+					as an <a>associative tree</a> of order 1 or less. An RDF Dataset always has a
+					default part, its default graph, which may be the empty graph. If the RDF
+					Dataset contains at least one named graph, then the corresponding <a>associative
+						tree</a> has a named part and so is a first-order <a>associative
+					tree</a>.</p>
+				<p class="ednote">To be clarified in a separate semantics section: just as there is
+					not a single recommended semantics for RDF Datasets, it is important to be
+					inclusive regarding possible semantics for k-th order associative trees. An
+					important consideration is whether the components of the tree lie on a single
+						<a>RDF Surface (sensu Pat Hayes)</a>, i.e. do they share blank nodes. </p>
+				<p>We define syntactic operations on <a>associative trees</a> as follows. Let E be
+					an arbitrary entity. </p>
+				<ul>
+					<li><dfn>isTree</dfn>(E) is true if E is an <a>associative tree</a>; otherwise
+						it is false.</li>
+				</ul>
+				<p class="note">The constructor <a>Associative-INIT<sub>k</sub></a> defined for
+					general <a>associative data structures</a> works as well for <a>associative
+						trees</a> of arbitrary order.</p>
+				<p>If N is a set of names and DS is a <a>k-th order associative tree</a>, then
+						<dfn>content-UNION</dfn>(N, DS) is defined as <a>Tree-UNION</a>({content(n,
+					DS)|n is in N}) .</p>
+				<p class="ednote">All these functions need to be added to the table of structural
+					inferences.</p>
+				<p class="ednote">A <dfn data-lt="timestamped graphs">timestamped graph</dfn> is
+					defined in @@@<a href="">RDF Stream Abstract Syntax and Semantics</a> as an RDF
+					Dataset with one named graph and a distinguished triple, the timestamp triple,
+					in its default graph having the name of the named graph as its subject. A
+					timestamped graph may be emulated by a associative tree of second order or less,
+					as described in Section <a href="#def-rdf-stream-as-second-order-store"></a></p>
 			</section>
 			<section id="def-repositories">
 				<h3>RDF Repositories</h3>
