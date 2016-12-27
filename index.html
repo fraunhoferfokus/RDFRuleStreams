@@ -3173,10 +3173,10 @@ _:b7 obs:effectiveDateTime
 { version ?sv {graph ?r {?s ?p ?o} } union {DEFAULT {?s ?p ?o} } } union
 {repo ?r {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
 {DEFAULT {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
-{ version ?sv {graph ?r {?sx ?px ?ox} } . 	 
-   repo ?r {version ?rv {?sx ?px ?ox} }  } union
 { version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
-   DEFAULT {version ?rv {?sx ?px ?ox} }  } 
+   DEFAULT {version ?rv {?sx ?px ?ox} }  } union
+{ version ?sv {graph ?r {?sx ?px ?ox} } . 	 
+   repo ?r {version ?rv {?sx ?px ?ox} }  }
 </pre>
 						<p>Applied with SELECt ?s ?p ?o ?rv ?r ?sv to
 							<a>Store<sub>FHIR-hr</sub></a>, the result is the following.</p>
@@ -3549,6 +3549,169 @@ _:b7 obs:effectiveDateTime
 						third-order store, there would be an option to attach the repository name to
 						the timestamp triple. This would capture the missing information as to which
 						triple goes with which stream.</p>
+					<aside class="ednote">
+						<p>There is a problem with the "store identity pattern" presented in the
+							previous note. While the solution mappings that are presented in the
+							table do satisfy the pattern and show the <i>intended</i> query results,
+							the actual query generates a few more solution mappings that are not
+							desired.</p>
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<td>?s</td>
+										<td>?p</td>
+										<td>?o</td>
+										<td>?rv</td>
+										<td>?r</td>
+										<td>?sv</td>
+										<td>i</td>
+										<td>j</td>
+										<td>k</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td>_:strst1</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td>_:strst1</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td>_:strst2</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:fhir-hr-g3</td>
+										<td>_:fhir-hr</td>
+										<td>_:strst2</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>_:fhir-hr-g2</td>
+											<td>_:fhir-hr</td>
+											<td>_:strst3</td>
+											<td></td>
+											<td></td>
+											<td>3</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>_:fhir-hr-g3</td>
+											<td>_:fhir-hr</td>
+											<td>_:strst3</td>
+											<td></td>
+											<td></td>
+											<td>3</td>
+										</tr>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<p>These solution mappings arise because certain triples appear in all
+							observations. E.g.</p>
+						<pre style="margin-top:0; margin-bottom:0">_:b1 a fhir:Observation ;
+		obs:code sct:36407505 ;
+		obs:device lr:sensor1234 ;
+		obs:subject lr:patientA ;
+</pre>
+						<p>So instead of, say, this pattern:</p>
+						<pre>
+{ version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
+DEFAULT {version ?rv {?sx ?px ?ox} }  } 
+</pre>
+						<p>We need a pattern that finds the store versions where <em>all</em> of the
+							triples in the store version that are associated with a particular
+							repository match the triples in a particular version of that repository.
+							This can be done with aggregation as follows.</p>
+					</aside>
+					<aside class="example"
+						title="Pattern for Matching All Triples in a Repository Version">
+						<pre>
+SELECT ?sv ?rv
+WHERE {
+	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?sv ?rv
+	WHERE
+	{ version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
+	DEFAULT {version ?rv {?sx ?px ?ox} }  }
+	GROUP BY ?sv ?rv
+}
+{
+	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?rv
+	WHERE
+	{ DEFAULT {version ?rv {?sx ?px ?ox} }  }
+	GROUP BY ?rv
+}
+</pre>
+						<p>Similarly we may modify the pattern for matching store versions to
+							non-default repository versions.</p>
+						<pre>
+SELECT ?sv?rp ?rv
+WHERE {
+{
+	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?sv ?rp ?rv
+	WHERE
+	{ version ?sv {?rp {?sx ?px ?ox} } . 	 
+	?rp {version ?rv {?sx ?px ?ox} }  }
+	GROUP BY ?sv ?rp ?rv
+}
+{
+	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?rp ?rv
+	WHERE
+	{ ?rp {version ?rv {?sx ?px ?ox} }  }
+	GROUP BYn ?rp ?rv
+}
+}
+</pre>
+					</aside>
+					<aside class="example">
+						<p>The improved store identity pattern, as described in the previous
+							example, will produce only the results shown in the table when applied
+							to the FHIR-hr stream. However, this happens only because there are no
+							stream elements that recur within the stream, with the exception of
+							differing timestamp triple. For example, suppose that the repository
+							holding that stream had been defined exactly as above with the exception
+							that the third stream element was a repitition of the first stream
+							element except for the value of the timestamp.</p>
+						<p><a>Repo<sub>FHIR-hr</sub></a> =
+									<a>Append2Repository</a><sub>1</sub>(<a>Repo<sub>2,
+									FHIR-hr</sub></a>, _:fhir-hr-g3, G<sub>1, FHIR-hr</sub>) </p>
+						<p>This problematic case does not arise if there are constraints that forbid
+							such recurrence of stream elements, e.g. the graph name of the
+							timestamped graph is constrained to only appear once in each stream.</p>
+					</aside>
 				</section>
 				<section>
 					<h4>Second-Order Repository of FHIR Heartrate Observations</h4>
@@ -3621,6 +3784,41 @@ _:b7 obs:effectiveDateTime
 								TS<sub>2, FHIR-hr</sub>)</p>
 						<p>NTS<sub>3, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
 								TS<sub>3, FHIR-hr</sub>)</p>
+						<pre>
+{ version ?sv {graph ?r {?s ?p ?o} } union {DEFAULT {?s ?p ?o} } } union
+{repo ?r {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
+{DEFAULT {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
+SELECT ?sv ?rv
+WHERE {
+	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?sv ?rv
+	WHERE
+	{ version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
+	DEFAULT {version ?rv {?sx ?px ?ox} }  }
+	GROUP BY ?sv ?rv
+}
+{
+	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?rv
+	WHERE
+	{ DEFAULT {version ?rv {?sx ?px ?ox} }  }
+	GROUP BY ?rv
+}
+SELECT ?sv?rp ?rv
+WHERE {
+{
+	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?sv ?rp ?rv
+	WHERE
+	{ version ?sv {?rp {?sx ?px ?ox} } . 	 
+	?rp {version ?rv {?sx ?px ?ox} }  }
+	GROUP BY ?sv ?rp ?rv
+}
+{
+	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?rp ?rv
+	WHERE
+	{ ?rp {version ?rv {?sx ?px ?ox} }  }
+	GROUP BYn ?rp ?rv
+}
+}
+</pre>
 						<div>
 							<table>
 								<thead>
