@@ -3748,17 +3748,19 @@ _:b7 obs:effectiveDateTime
 						<pre>
 SELECT ?sv ?rv
 WHERE {
+  {
 	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?sv ?rv
-	WHERE
-	{ version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
-	DEFAULT {version ?rv {?sx ?px ?ox} }  }
-	GROUP BY ?sv ?rv
-}
-{
+	WHERE {
+	  version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
+	  DEFAULT {version ?rv {?sx ?px ?ox} }  
+	} GROUP BY ?sv ?rv
+  }
+  {
 	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?rv
-	WHERE
-	{ DEFAULT {version ?rv {?sx ?px ?ox} }  }
-	GROUP BY ?rv
+	WHERE {
+	  DEFAULT {version ?rv {?sx ?px ?ox} }
+	} GROUP BY ?rv
+  }
 }
 </pre>
 						<p>Similarly we may modify the pattern for matching store versions to
@@ -3766,19 +3768,19 @@ WHERE {
 						<pre>
 SELECT ?sv?rp ?rv
 WHERE {
-{
-	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?sv ?rp ?rv
+  {
+	SELECT (COUNT(CONCAT(?s, ?p, ?o)) AS ?count) ?sv ?rp ?rv
 	WHERE
 	{ version ?sv {?rp {?sx ?px ?ox} } . 	 
 	?rp {version ?rv {?sx ?px ?ox} }  }
 	GROUP BY ?sv ?rp ?rv
-}
-{
-	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?rp ?rv
-	WHERE
-	{ ?rp {version ?rv {?sx ?px ?ox} }  }
-	GROUP BYn ?rp ?rv
-}
+  }
+  {
+	SELECT (COUNT(CONCAT(?s, ?p, ?o)) AS ?count) ?rp ?rv
+	WHERE {
+	  ?rp {version ?rv {?sx ?px ?ox} } 
+	} GROUP BY ?rp ?rv
+  }
 }
 </pre>
 					</aside>
@@ -3882,38 +3884,46 @@ WHERE {
 						<p class="ednote">This has not yet been fully updated from the second-order
 							pattern to the third-order pattern.</p>
 						<pre>
-{repo ?r {version ?rv {graph ?g {?s ?p ?o} union {?s ?p ?o}} } union {ASSOC {graph ?g {?s ?p ?o} union {?s ?p ?o}} } 
-} union
-{DEFAULT {version ?rv {graph ?g {?s ?p ?o} union {?s ?p ?o}} } union {ASSOC {graph ?g {?s ?p ?o} union {?s ?p ?o}} } } union
-SELECT ?sv ?rv
+SELECT ?s ?p ?o ?g ?rv ?r ?sv
 WHERE {
-	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?sv ?rv
-	WHERE
-	{ version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
-	DEFAULT {version ?rv {?sx ?px ?ox} }  }
-	GROUP BY ?sv ?rv
-}
-{
-	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?rv
-	WHERE
-	{ DEFAULT {version ?rv {?sx ?px ?ox} }  }
-	GROUP BY ?rv
-}
-SELECT ?sv?rp ?rv
-WHERE {
-{
-	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?sv ?rp ?rv
-	WHERE
-	{ version ?sv {?rp {?sx ?px ?ox} } . 	 
-	?rp {version ?rv {?sx ?px ?ox} }  }
-	GROUP BY ?sv ?rp ?rv
-}
-{
-	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?rp ?rv
-	WHERE
-	{ ?rp {version ?rv {?sx ?px ?ox} }  }
-	GROUP BYn ?rp ?rv
-}
+  {
+    repo ?r {version ?rv {graph ?g {?s ?p ?o} union {?s ?p ?o}} } union 
+            {ASSOC       {graph ?g {?s ?p ?o} union {?s ?p ?o}} } 
+  } union
+  {
+    DEFAULT {version ?rv {graph ?g {?s ?p ?o} union {?s ?p ?o}} } union 
+            {ASSOC       {graph ?g {?s ?p ?o} union {?s ?p ?o}} } 
+  } union
+  {
+    {
+	  SELECT (COUNT(CONCAT(?s, ?p, ?o, ?g)) AS ?countg) ?sv ?rv
+	    WHERE {
+	      version ?sv {DEFAULT {graph ?g {?s ?p ?o} } } . 	 
+	      DEFAULT {version ?rv {graph ?g {?s ?p ?o} } }  
+	    } GROUP BY ?sv ?rv
+    }
+    {
+      SELECT (COUNT(CONCAT(?s, ?p, ?o)) AS ?count) ?sv ?rv
+	    WHERE {
+	      version ?sv {DEFAULT {DEFAULT {?s ?p ?o} } } . 	 
+	      DEFAULT {version ?rv {DEFAULT {?s ?p ?o} } }  
+	    } GROUP BY ?sv ?rv
+    }
+  } union    
+  {
+    {
+      SELECT (COUNT(CONCAT(?s, ?p, ?o, ?g)) AS ?countg) ?rv
+	    WHERE {
+	        DEFAULT {version ?rv {graph ?g {?s ?p ?o} } }  
+	    } GROUP BY ?rv
+    }
+    {
+	  SELECT (COUNT(CONCAT(?s, ?p, ?o)) AS ?count) ?rv
+	    WHERE {
+	        DEFAULT {version ?rv {DEFAULT {?s ?p ?o} } }  
+	    } GROUP BY ?rv
+    }
+  }
 }
 </pre>
 						<div>
