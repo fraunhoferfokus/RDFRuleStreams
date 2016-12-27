@@ -3170,8 +3170,8 @@ _:b7 obs:effectiveDateTime
 							identity pattern for second order stores is developed incrementally
 							below. First we consider the following pattern.</p>
 						<pre>
-{repo ?r {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
 {DEFAULT {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
+{repo ?r {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
 { version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
    DEFAULT {version ?rv {?sx ?px ?ox} }  } union
 { version ?sv {graph ?r {?sx ?px ?ox} } . 	 
@@ -3553,26 +3553,198 @@ _:b7 obs:effectiveDateTime
 						<p>There is a problem with the above attempt at a "store identity pattern"
 							presented in the previous note when applied to a general RDF stream.
 							Extra mappings may appear associating store and repository versions if a
-							triple appears in more than one stream element.</p>
-						<p>This would lead to a match for the following part of the p/attern:</p>
+							triple appears in more than one stream element. Consider this stream
+							representation:</p>
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<td>?s</td>
+										<td>?p</td>
+										<td>?o</td>
+										<td>?rv</td>
+										<td>?r</td>
+										<td>?sv</td>
+										<td>i</td>
+										<td>j</td>
+										<td>k</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>_:b1</td>
+										<td>prov:generatedAtDateTime</td>
+										<td>"2015-01-01T12:00:00Z"^^xsd:dateTimeStamp></td>
+										<td>_:def-g1</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:def-g1</td>
+										<td></td>
+										<td>_:strst1</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+									</tr>
+									<tr>
+										<td>_:b1</td>
+										<td>ex:p</td>
+										<td>ex:o1</td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>ex:some</td>
+										<td>ex:other</td>
+										<td>ex:triple</td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td>_:strst1</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+									</tr>
+									<tr>
+										<td>_:b2</td>
+										<td>prov:generatedAtDateTime</td>
+										<td>"2015-01-01T12:01:00Z"^^xsd:dateTimeStamp></td>
+										<td>_:def-g2</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:def-g2</td>
+										<td></td>
+										<td>_:strst2</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+									</tr>
+									<tr>
+										<td>_:b2</td>
+										<td>ex:p</td>
+										<td>ex:o2</td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>ex:some</td>
+										<td>ex:other</td>
+										<td>ex:triple</td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td></td>
+										<td></td>
+										<td>1</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td>_:strst2</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<p>For such a store, there would be additional matches for the following
+							part of the pattern:</p>
 						<pre>
-{ version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
-DEFAULT {version ?rv {?sx ?px ?ox} }  } 
+{ version ?sv {graph ?r {?sx ?px ?ox} } . 	 
+   repo ?r {version ?rv {?sx ?px ?ox} }  }
 </pre>
-						<p>However, we don't want this match to be considered a solution unless
-								<em>all</em> of the triples in the repository version are also in the
-							store version.</p>
-						<p>So, we need a pattern that finds the store versions that checks whether all of the
-							triples in the store version that are associated with a particular
-							repository match the triples in a particular version of that repository.
-							This can be done with aggregation as follows.</p>
+						<p>with the matches as follow.</p>
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<td>?s</td>
+										<td>?p</td>
+										<td>?o</td>
+										<td>?rv</td>
+										<td>?r</td>
+										<td>?sv</td>
+										<td>i</td>
+										<td>j</td>
+										<td>k</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:fhir-hr-g1</td>
+										<td>_:fhir-hr</td>
+										<td>_:strst2</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>_:fhir-hr-g2</td>
+										<td>_:fhir-hr</td>
+										<td>_:strst1</td>
+										<td></td>
+										<td></td>
+										<td>2</td>
+									</tr>
+								</tbody>
+							</table>
+						</div><p>However, we don't want these matches to be considered a solution
+							mapping unless <em>all</em> of the triples in the repository version are
+							also in the store version.</p>
+						<p>So, we need a pattern that checks whether all of the triples in the store
+							version that are associated with a particular repository match the
+							triples in a particular version of that repository. This can be done
+							with aggregation as follows.</p>
 					</aside>
 					<aside class="example"
 						title="Pattern for Matching All Triples in a Repository Version">
 						<p>We first consider the default repository of the store. We require that
 							the count of triples that occur in both a repository version and a store
-							version (with the appropriate graph name) is equal to the count of the
-							triples in the repository version.</p>
+							version is equal to the count of the triples in the repository
+							version.</p>
 						<pre>
 SELECT ?sv ?rv
 WHERE {
@@ -3707,6 +3879,8 @@ WHERE {
 						<p>NTS<sub>3, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
 								TS<sub>3, FHIR-hr</sub>)</p>
 						<p>The third-order store identity pattern is as follows.</p>
+						<p class="ednote">This has not yet been fully updated from the second-order
+							pattern to the third-order pattern.</p>
 						<pre>
 {repo ?r {version ?rv {graph ?g {?s ?p ?o} union {?s ?p ?o}} } union {ASSOC {graph ?g {?s ?p ?o} union {?s ?p ?o}} } 
 } union
