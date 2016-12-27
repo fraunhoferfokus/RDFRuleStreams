@@ -3727,7 +3727,7 @@ _:b7 obs:effectiveDateTime
 										<td>_:strst1</td>
 										<td></td>
 										<td></td>
-										<td>2</td>
+										<td>1</td>
 									</tr>
 								</tbody>
 							</table>
@@ -3749,14 +3749,14 @@ _:b7 obs:effectiveDateTime
 SELECT ?sv ?rv
 WHERE {
   {
-	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?sv ?rv
+	SELECT (COUNT(CONCAT(?s, ?p, ?o)) AS ?count) ?sv ?rv
 	WHERE {
 	  version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
 	  DEFAULT {version ?rv {?sx ?px ?ox} }  
 	} GROUP BY ?sv ?rv
   }
   {
-	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?rv
+	SELECT (COUNT(CONCAT(?s, ?p, ?o)) AS ?count) ?rv
 	WHERE {
 	  DEFAULT {version ?rv {?sx ?px ?ox} }
 	} GROUP BY ?rv
@@ -3770,10 +3770,10 @@ SELECT ?sv?rp ?rv
 WHERE {
   {
 	SELECT (COUNT(CONCAT(?s, ?p, ?o)) AS ?count) ?sv ?rp ?rv
-	WHERE
-	{ version ?sv {?rp {?sx ?px ?ox} } . 	 
-	?rp {version ?rv {?sx ?px ?ox} }  }
-	GROUP BY ?sv ?rp ?rv
+	WHERE {
+	  version ?sv {?rp {?sx ?px ?ox} } . 	 
+	  ?rp {version ?rv {?sx ?px ?ox} } S
+	} GROUP BY ?sv ?rp ?rv
   }
   {
 	SELECT (COUNT(CONCAT(?s, ?p, ?o)) AS ?count) ?rp ?rv
@@ -3881,8 +3881,7 @@ WHERE {
 						<p>NTS<sub>3, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
 								TS<sub>3, FHIR-hr</sub>)</p>
 						<p>The third-order store identity pattern is as follows.</p>
-						<p class="ednote">This has not yet been fully updated from the second-order
-							pattern to the third-order pattern.</p>
+						<p class="ednote">This pattern has not been fully checked for syntax errors.</p>
 						<pre>
 SELECT ?s ?p ?o ?g ?rv ?r ?sv
 WHERE {
@@ -3896,32 +3895,58 @@ WHERE {
   } union
   {
     {
-	  SELECT (COUNT(CONCAT(?s, ?p, ?o, ?g)) AS ?countg) ?sv ?rv
+	  SELECT (COUNT(CONCAT(?sx, ?px, ?ox, ?gx)) AS ?countg) ?sv ?rv
 	    WHERE {
-	      version ?sv {DEFAULT {graph ?g {?s ?p ?o} } } . 	 
-	      DEFAULT {version ?rv {graph ?g {?s ?p ?o} } }  
+	      version ?sv {DEFAULT {graph ?gx {?sx ?px ?ox} } } . 	 
+	      DEFAULT {version ?rv {graph ?gx {?sx ?px ?ox} } }  
 	    } GROUP BY ?sv ?rv
-    }
+    } .
     {
-      SELECT (COUNT(CONCAT(?s, ?p, ?o)) AS ?count) ?sv ?rv
+      SELECT (COUNT(CONCAT(?sx, ?px, ?ox)) AS ?count) ?sv ?rv
 	    WHERE {
-	      version ?sv {DEFAULT {DEFAULT {?s ?p ?o} } } . 	 
-	      DEFAULT {version ?rv {DEFAULT {?s ?p ?o} } }  
+	      version ?sv {DEFAULT {DEFAULT {?sx ?px ?ox} } } . 	 
+	      DEFAULT {version ?rv {DEFAULT {?sx ?px ?ox} } }  
 	    } GROUP BY ?sv ?rv
+    } .
+    {
+      SELECT (COUNT(CONCAT(?sx, ?px, ?ox, ?gx)) AS ?countg) ?rv
+	    WHERE {
+	        DEFAULT {version ?rv {graph ?gx {?sx ?px ?ox} } }  
+	    } GROUP BY ?rv
+    } .
+    {
+	  SELECT (COUNT(CONCAT(?sx, ?px, ?ox)) AS ?count) ?rv
+	    WHERE {
+	        DEFAULT {version ?rv {DEFAULT {?sx ?px ?ox} } }  
+	    } GROUP BY ?rv
     }
-  } union    
+  } union
   {
     {
-      SELECT (COUNT(CONCAT(?s, ?p, ?o, ?g)) AS ?countg) ?rv
+	  SELECT (COUNT(CONCAT(?sx, ?px, ?ox, ?gx)) AS ?countg) ?sv ?r ?rv
 	    WHERE {
-	        DEFAULT {version ?rv {graph ?g {?s ?p ?o} } }  
-	    } GROUP BY ?rv
-    }
+	      version ?sv {repo ?r  {graph ?gx {?sx ?px ?ox} } } . 	 
+	      repo ?r {version ?rv {graph ?gx {?sx ?px ?ox} } }  
+	    } GROUP BY ?sv ?r ?rv
+    } .
     {
-	  SELECT (COUNT(CONCAT(?s, ?p, ?o)) AS ?count) ?rv
+      SELECT (COUNT(CONCAT(?sx, ?px, ?ox)) AS ?count) ?sv ?r ?rv
 	    WHERE {
-	        DEFAULT {version ?rv {DEFAULT {?s ?p ?o} } }  
-	    } GROUP BY ?rv
+	      version ?sv {dataset ?r {DEFAULT {?sx ?px ?ox} } } . 	 
+	      repo ?r {version ?rv {DEFAULT {?sx ?px ?ox} } }  
+	    } GROUP BY ?sv ?r ?rv
+    } .
+    {
+      SELECT (COUNT(CONCAT(?sx, ?px, ?ox, ?gx)) AS ?countg)?r ?rv
+	    WHERE {
+	        repo ?r {version ?rv {graph ?gx {?sx ?px ?ox} } }  
+	    } GROUP BY ?r ?rv
+    } .
+    {
+	  SELECT (COUNT(CONCAT(?sx, ?px, ?ox)) AS ?count) ?r ?rv
+	    WHERE {
+	        DEFAULT {version ?rv {DEFAULT {?sx ?px ?ox} } }  
+	    } GROUP BY ?r ?rv
     }
   }
 }
