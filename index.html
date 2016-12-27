@@ -416,24 +416,29 @@
 							less. </li>
 					</ul>
 					<p><dfn>DEFAULT</dfn> is a reserved name used to streamline the definitions.</p>
-					<p>We denote by <dfn data-lt="Associative">Associative-INIT<sub>k</sub></dfn>(N, M),
-						k &gt; 0, the associative data structure specified by the tuple [k, N, M]. </p>
+					<p>We denote by <dfn data-lt="Associative">Associative-INIT<sub>k</sub></dfn>(N,
+						M), k &gt; 0, the associative data structure specified by the tuple [k, N,
+						M]. </p>
 					<p>Further, let G be an RDF Graph, N= {}, and M= {DEFAULT=>G}). We define
 								<dfn>Associative-INIT<sub>0</sub></dfn>(N, M) = G.</p>
-					<p class="note">The functions <a>Associative-INIT<sub>k</sub></a>, k &ge; 0, thus
-						acts as constructors for <a>associative data structures</a>.</p>
+					<p class="note">The functions <a>Associative-INIT<sub>k</sub></a>, k &ge; 0,
+						thus acts as constructors for <a>associative data structures</a>. The
+						constraints are that <a>cardinality</a>(N) &gt; 0 if k &gt;0 and
+							<a>cardinality</a>(N)=0 if k = 0, while M:(N &cup; {DEFAULT}) =>
+							associative-data-structure<sub>&le;j</sub> where j = max(0, k-1).</p>
 					<p>The order of an <a>associative data structure</a> DS =
-							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted <dfn>order</dfn>(DS) and
-						has value order(DS) = k.</p>
+							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted
+						<dfn>order</dfn>(DS) and has value order(DS) = k.</p>
 					<p>The set of non-reserved names of an <a>associative data structure</a> DS =
-							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted <dfn>names</dfn>(DS) and
-						has value names(DS) = N.</p>
+							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted
+						<dfn>names</dfn>(DS) and has value names(DS) = N.</p>
 					<p>The name mapping of an <a>associative data structure</a> DS =
-							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted <dfn>nameMap</dfn>(DS)
-						and has value nameMap(DS) = M.</p>
+							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted
+						<dfn>nameMap</dfn>(DS) and has value nameMap(DS) = M.</p>
 					<p>A number of convenience functions on <a>associative data structures</a> may
 						be defined in terms of the basic functions <a>order</a>, <a>names</a>, and
-							<a>nameMap</a>, and the constructor <a>Associative-INIT<sub>k</sub></a>.</p>
+							<a>nameMap</a>, and the constructor
+						<a>Associative-INIT<sub>k</sub></a>.</p>
 					<p>We use the following notation.</p>
 					<ul>
 						<li><dfn>dom</dfn>(M) is the domain of a mapping M.</li>
@@ -459,8 +464,8 @@
 						where its set of nonreserved names contains exactly one name and the default
 						part is empty. That is, <a>cardinality</a>(<a>names</a>(DS)) = 1 and
 							<a>defaultPart</a>(DS) = {}.</p>
-					<aside class="example"><p>The constructor <a>Associative-INIT<sub>k</sub></a> can be
-							used to create a <a>solitary association</a> as follows.</p>
+					<aside class="example"><p>The constructor <a>Associative-INIT<sub>k</sub></a>
+							can be used to create a <a>solitary association</a> as follows.</p>
 						<p>Let DS be <a>data structure</a> of order k-1 or less, and let ND =
 								Associative-INIT<sub>k</sub>({n}, {n => DS, DEFAULT => {} }). Then
 								<a>order</a>(ND) = k, names(ND) = {n}, and defaultPart(ND) = {}.
@@ -468,13 +473,14 @@
 					</aside>
 					<p>We define a specialized constructor for solitary associations,</p>
 					<p><dfn data-lt="Solitary">Solitary<sub>k</sub></dfn>(n, DS) =
-								<a>Associative-INIT<sub>k</sub></a>({n}, {n => DS, DEFAULT => {} })</p>
+								<a>Associative-INIT<sub>k</sub></a>({n}, {n => DS, DEFAULT => {}
+						})</p>
 					<p>The <dfn>named part</dfn> of a k-th order <a>associative data structure</a>
 						DS of order k &ge; 1, denoted <dfn>namedPart</dfn>(DS), is the <a>k-th order
 							associative data structure</a> given by
-						<a>Associative-INIT<sub>k</sub></a>(N, M') where N = names(DS), M = nameMap(DS),
-						and M'(n) = M(n) whenever n &in; N, and M'(DEFAULT)={}. In terms of the
-						basic functions, </p>
+							<a>Associative-INIT<sub>k</sub></a>(N, M') where N = names(DS), M =
+						nameMap(DS), and M'(n) = M(n) whenever n &in; N, and M'(DEFAULT)={}. In
+						terms of the basic functions, </p>
 					<p><a>namedPart</a>(DS) =
 							<a>Associative-INIT</a><sub><a>order</a>(DS)</sub>(<a>names</a>(DS),
 							<a>nameMap</a>(DS)|<sub><a>names</a>(DS)</sub> &cup; {DEFAULT => {}
@@ -483,8 +489,8 @@
 								structure</a> that has no named part, i.e. <a>namedPart</a> is
 							undefined.</p></aside>
 					<aside class="example"><p>A <a>solitary association</a> ND =
-								Associative-INIT<sub>k</sub>({n}, {n => DS, DEFAULT => {} } is equal to
-							its named part.</p>
+								Associative-INIT<sub>k</sub>({n}, {n => DS, DEFAULT => {} } is equal
+							to its named part.</p>
 						<p>ND = <a>namedPart</a>(ND)</p>
 					</aside>
 					<p>Let DS = <a>Associative-INIT<sub>k</sub></a>(N, M) be an <a>associative data
@@ -1685,13 +1691,14 @@
 					<p>The value of <a>TSGraph</a> is defined in terms of other operations in the
 						following cases.</p>
 					<ul>
-						<li>TSGraph(G0, {n p t.}) = Associative-INIT<sub>1</sub>(G<sub>meta</sub>, {b},
-							{b => D0}) </li>
-						<li>TSGraph(G0, {n p t.}, G1) = Associative-INIT<sub>2</sub>(G<sub>meta</sub>,
-							{b}, {b => D1}) </li>
+						<li>TSGraph(G0, {n p t.}) = Associative-INIT<sub>1</sub>(G<sub>meta</sub>,
+							{b}, {b => D0}) </li>
+						<li>TSGraph(G0, {n p t.}, G1) =
+								Associative-INIT<sub>2</sub>(G<sub>meta</sub>, {b}, {b => D1}) </li>
 						<li>where b is a fresh blank node and </li>
 						<li>D0 = Tree-UNION(G0, {n p t.})</li>
-						<li>D1 = Associative-INIT<sub>1</sub>(Tree-UNION(G0, {n p t.}), {n}, {n => G1} ) </li>
+						<li>D1 = Associative-INIT<sub>1</sub>(Tree-UNION(G0, {n p t.}), {n}, {n =>
+							G1} ) </li>
 						<li>G<sub>meta</sub> = { b rsp:usesTimestampPredicate p}</li>
 						<li>with the requirement that G0 contain no triples using the predicate
 							p.</li>
@@ -1919,8 +1926,8 @@
 								<a>RDF Graphs</a>, then the value of <a>Tree-UNION</a>(DSP, DSP') is
 							the union of the sets of <a>triples</a> in the two <a>graphs</a>. </li>
 						<li>If order(DSP) = order(DSP') = k &gt; 0, then <br /> Tree-UNION(DSP,
-							DSP') = Associative-INIT<sub>k</sub>( names(DSP) ∪ names(DSP'), M' ) <br />
-							where M' = <br /> { DEFAULT => Tree-UNION(defaultPart(DSP),
+							DSP') = Associative-INIT<sub>k</sub>( names(DSP) ∪ names(DSP'), M' )
+							<br /> where M' = <br /> { DEFAULT => Tree-UNION(defaultPart(DSP),
 							defaultPart(DSP')) } ∪ <br /> { name = > content(name, DSP) | name in
 							names(DSP) - names(DSP')} ∪ <br /> { name = > content(name, DSP') | name
 							in names(DSP') - names(DSP)} ∪ <br /> { name = > Tree-UNION(
@@ -2078,8 +2085,8 @@
 							Associative-INIT<sub>order(DS)</sub>( defaultPart(DS), names(DS),
 						Delete(nameMap(DS), name) &cup; { name => Spec(content(name, DS))} ) </li>
 					<li>Otherwise, APPLY(DS, Spec, name) = DS.</li>
-					<li>APPLY(DS, Spec) = Associative-INIT<sub>order(DS)</sub>( Spec(defaultPart(DS)),
-						names(DS), nameMap(DS) )</li>
+					<li>APPLY(DS, Spec) = Associative-INIT<sub>order(DS)</sub>(
+						Spec(defaultPart(DS)), names(DS), nameMap(DS) )</li>
 				</ul>
 			</section>
 			<section id="def-new-revise-operation">
@@ -5067,8 +5074,9 @@ _:b103{
 					<p>ST<sub>FHIR</sub> = Tree-UNION(ST<sub>FHIR, associative</sub>, ST<sub>FHIR,
 							sequential</sub>)</p>
 					<p>where</p>
-					<p>ST<sub>FHIR, associative</sub> = Associative-INIT<sub>2</sub>(G<sub>eff</sub>,
-						{_:b301}, {_:b301 => R<sub>FHIR</sub>})</p>
+					<p>ST<sub>FHIR, associative</sub> =
+						Associative-INIT<sub>2</sub>(G<sub>eff</sub>, {_:b301}, {_:b301 =>
+							R<sub>FHIR</sub>})</p>
 					<p>where G<sub>eff</sub> is the graph containing the single triple</p>
 					<pre>
 @prefix rsp: &lt;http://@@@#&gt; .
@@ -5086,8 +5094,8 @@ _:b301 rsp:usesTimestampPredicate obs:effectiveDateTime.
 					<p> ST<sub>3, FHIR</sub> = [_:sv2, [_:b301, G<sub>3, FHIR</sub>, 1], 2]</p>
 					<p>or generically</p>
 					<p> ST<sub>i, FHIR</sub> = Associative-INIT<sub>2</sub>({}, {stver<sub>i</sub>},
-							{stver<sub>i</sub> => Associative-INIT<sub>1</sub>({}, {_:b301}, {_:b301 =>
-							G<sub>i, FHIR</sub>})})</p>
+							{stver<sub>i</sub> => Associative-INIT<sub>1</sub>({}, {_:b301}, {_:b301
+						=> G<sub>i, FHIR</sub>})})</p>
 					<p>where stver<sub>1</sub> = _:sv0, stver<sub>2</sub> = _:sv1, stver<sub>3</sub>
 						= _:sv2.</p>
 					<p>To construct a store in this fashion, it is necessary to ensure
