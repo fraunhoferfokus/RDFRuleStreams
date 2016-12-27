@@ -416,24 +416,24 @@
 							less. </li>
 					</ul>
 					<p><dfn>DEFAULT</dfn> is a reserved name used to streamline the definitions.</p>
-					<p>We denote by <dfn data-lt="Associative">Associative<sub>k</sub></dfn>(N, M),
+					<p>We denote by <dfn data-lt="Associative">Associative-INIT<sub>k</sub></dfn>(N, M),
 						k &gt; 0, the associative data structure specified by the tuple [k, N, M]. </p>
 					<p>Further, let G be an RDF Graph, N= {}, and M= {DEFAULT=>G}). We define
-								<dfn>Associative<sub>0</sub></dfn>(N, M) = G.</p>
-					<p class="note">The functions <a>Associative<sub>k</sub></a>, k &ge; 0, thus
+								<dfn>Associative-INIT<sub>0</sub></dfn>(N, M) = G.</p>
+					<p class="note">The functions <a>Associative-INIT<sub>k</sub></a>, k &ge; 0, thus
 						acts as constructors for <a>associative data structures</a>.</p>
 					<p>The order of an <a>associative data structure</a> DS =
-							<a>Associative</a><sub>k</sub>(N, M) is denoted <dfn>order</dfn>(DS) and
+							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted <dfn>order</dfn>(DS) and
 						has value order(DS) = k.</p>
 					<p>The set of non-reserved names of an <a>associative data structure</a> DS =
-							<a>Associative</a><sub>k</sub>(N, M) is denoted <dfn>names</dfn>(DS) and
+							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted <dfn>names</dfn>(DS) and
 						has value names(DS) = N.</p>
 					<p>The name mapping of an <a>associative data structure</a> DS =
-							<a>Associative</a><sub>k</sub>(N, M) is denoted <dfn>nameMap</dfn>(DS)
+							<a>Associative-INIT</a><sub>k</sub>(N, M) is denoted <dfn>nameMap</dfn>(DS)
 						and has value nameMap(DS) = M.</p>
 					<p>A number of convenience functions on <a>associative data structures</a> may
 						be defined in terms of the basic functions <a>order</a>, <a>names</a>, and
-							<a>nameMap</a>, and the constructor <a>Associative<sub>k</sub></a>.</p>
+							<a>nameMap</a>, and the constructor <a>Associative-INIT<sub>k</sub></a>.</p>
 					<p>We use the following notation.</p>
 					<ul>
 						<li><dfn>dom</dfn>(M) is the domain of a mapping M.</li>
@@ -447,7 +447,7 @@
 								<dfn>cardinality</dfn>.</li>
 					</ul>
 					<p>The <dfn>default part</dfn> of an <a>associative data structure</a> DS =
-							<a>Associative</a><sub>k</sub>(N, M), k &ge; 0, is a <a>data
+							<a>Associative-INIT</a><sub>k</sub>(N, M), k &ge; 0, is a <a>data
 							structure</a> of <a>order</a> k-1 or less, is denoted
 							<dfn>defaultPart</dfn>(DS), and has value M(DEFAULT). In terms of the
 						basic functions,</p>
@@ -459,35 +459,35 @@
 						where its set of nonreserved names contains exactly one name and the default
 						part is empty. That is, <a>cardinality</a>(<a>names</a>(DS)) = 1 and
 							<a>defaultPart</a>(DS) = {}.</p>
-					<aside class="example"><p>The constructor <a>Associative<sub>k</sub></a> can be
+					<aside class="example"><p>The constructor <a>Associative-INIT<sub>k</sub></a> can be
 							used to create a <a>solitary association</a> as follows.</p>
 						<p>Let DS be <a>data structure</a> of order k-1 or less, and let ND =
-								Associative<sub>k</sub>({n}, {n => DS, DEFAULT => {} }). Then
+								Associative-INIT<sub>k</sub>({n}, {n => DS, DEFAULT => {} }). Then
 								<a>order</a>(ND) = k, names(ND) = {n}, and defaultPart(ND) = {}.
 							Therefore by definition, ND is a <a>solitary association</a>.</p>
 					</aside>
 					<p>We define a specialized constructor for solitary associations,</p>
 					<p><dfn data-lt="Solitary">Solitary<sub>k</sub></dfn>(n, DS) =
-								<a>Associative<sub>k</sub></a>({n}, {n => DS, DEFAULT => {} })</p>
+								<a>Associative-INIT<sub>k</sub></a>({n}, {n => DS, DEFAULT => {} })</p>
 					<p>The <dfn>named part</dfn> of a k-th order <a>associative data structure</a>
 						DS of order k &ge; 1, denoted <dfn>namedPart</dfn>(DS), is the <a>k-th order
 							associative data structure</a> given by
-						<a>Associative<sub>k</sub></a>(N, M') where N = names(DS), M = nameMap(DS),
+						<a>Associative-INIT<sub>k</sub></a>(N, M') where N = names(DS), M = nameMap(DS),
 						and M'(n) = M(n) whenever n &in; N, and M'(DEFAULT)={}. In terms of the
 						basic functions, </p>
 					<p><a>namedPart</a>(DS) =
-							<a>Associative</a><sub><a>order</a>(DS)</sub>(<a>names</a>(DS),
+							<a>Associative-INIT</a><sub><a>order</a>(DS)</sub>(<a>names</a>(DS),
 							<a>nameMap</a>(DS)|<sub><a>names</a>(DS)</sub> &cup; {DEFAULT => {}
 						})</p>
 					<aside class="example"><p>An RDF Graph is the only <a>associative data
 								structure</a> that has no named part, i.e. <a>namedPart</a> is
 							undefined.</p></aside>
 					<aside class="example"><p>A <a>solitary association</a> ND =
-								Associative<sub>k</sub>({n}, {n => DS, DEFAULT => {} } is equal to
+								Associative-INIT<sub>k</sub>({n}, {n => DS, DEFAULT => {} } is equal to
 							its named part.</p>
 						<p>ND = <a>namedPart</a>(ND)</p>
 					</aside>
-					<p>Let DS = <a>Associative<sub>k</sub></a>(N, M) be an <a>associative data
+					<p>Let DS = <a>Associative-INIT<sub>k</sub></a>(N, M) be an <a>associative data
 							structure</a> and E be an arbitrary entity. </p>
 					<ul>
 						<li><dfn>isAssociative</dfn>(E) is true if E is a <a>associative data
@@ -564,7 +564,7 @@
 							<td>RDF Graph</td>
 						</tr>
 						<tr>
-							<td>Assoc<sub>k</sub>(X), k &ge; 0</td>
+							<td>TypeAssoc<sub>k</sub>(X), k &ge; 0</td>
 							<td>::&lt;</td>
 							<td>[Nat, 2<sup>RDF-Name</sup>, Partial:(RDF-Name &cup; {DEFAULT}) =>
 								X]</td>
@@ -572,14 +572,14 @@
 						<tr>
 							<td></td>
 							<td>::=</td>
-							<td>{<a>Associative<sub>k</sub></a>(N, M) | N &sube; RDF-Name,
+							<td>{<a>Associative-INIT<sub>k</sub></a>(N, M) | N &sube; RDF-Name,
 									<a>cardinality</a>(N) &ge; min(1, k), M: (N &cup; {DEFAULT}) =>
 								X } </td>
 						</tr>
 						<tr>
 							<td>associative<sub>k</sub>, k &gt; 0</td>
 							<td>::=</td>
-							<td>Assoc<sub>k</sub>(structure<sub>&le; k-1</sub>)</td>
+							<td>TypeAssoc<sub>k</sub>(structure<sub>&le; k-1</sub>)</td>
 						</tr>
 						<tr>
 							<td>associative-tree<sub>0</sub></td>
@@ -589,7 +589,7 @@
 						<tr>
 							<td>associative-tree<sub>k</sub>, k &gt; 0</td>
 							<td>::=</td>
-							<td>Assoc<sub>k</sub>(associative-tree<sub>&le; k-1</sub>)</td>
+							<td>TypeAssoc<sub>k</sub>(associative-tree<sub>&le; k-1</sub>)</td>
 						</tr>
 						<tr>
 							<td>Seq(X)</td>
@@ -697,13 +697,13 @@
 						<tr>
 							<td>store<sub>k</sub>, k &ge; 2</td>
 							<td>::&lt;</td>
-							<td> (Assoc<sub>k</sub>(repository<sub>k-1</sub>) x
+							<td> (TypeAssoc<sub>k</sub>(repository<sub>k-1</sub>) x
 									Seq<sup>+</sup>(solitary-association-tree<sub>k</sub>) )</td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>::&lt;</td>
-							<td>Ver<sub>k</sub>(Assoc<sub>k</sub>(repository<sub>k-1</sub>),
+							<td>Ver<sub>k</sub>(TypeAssoc<sub>k</sub>(repository<sub>k-1</sub>),
 									associative-tree<sub>k-1</sub>)</td>
 						</tr>
 						<tr>
@@ -739,7 +739,7 @@
 						<li>For every n in <a>names</a>(DS), <a>content</a>(n, DS) is an
 								<a>associative tree</a> of order k-1 or less.</li>
 					</ul>
-					<p class="note">If DS = <a>Associative<sub>k</sub></a>(N, M), then DS is an
+					<p class="note">If DS = <a>Associative-INIT<sub>k</sub></a>(N, M), then DS is an
 						associative tree iff k=0 or codom(M) &sub; associative-tree<sub>&le;
 							k-1</sub></p>
 					<p class="note">Every RDF Graph is a <a>zeroth-order associative tree</a>, and
@@ -768,7 +768,7 @@
 						<li><dfn>isTree</dfn>(E) is true if E is an <a>associative tree</a>;
 							otherwise it is false.</li>
 					</ul>
-					<p class="note">The constructor <a>Associative<sub>k</sub></a> defined for
+					<p class="note">The constructor <a>Associative-INIT<sub>k</sub></a> defined for
 						general <a>associative data structures</a> works as well for <a>associative
 							trees</a> of arbitrary order.</p>
 					<p>If N is a set of names and DS is a <a>k-th order associative tree</a>, then
@@ -1685,13 +1685,13 @@
 					<p>The value of <a>TSGraph</a> is defined in terms of other operations in the
 						following cases.</p>
 					<ul>
-						<li>TSGraph(G0, {n p t.}) = Associative<sub>1</sub>(G<sub>meta</sub>, {b},
+						<li>TSGraph(G0, {n p t.}) = Associative-INIT<sub>1</sub>(G<sub>meta</sub>, {b},
 							{b => D0}) </li>
-						<li>TSGraph(G0, {n p t.}, G1) = Associative<sub>2</sub>(G<sub>meta</sub>,
+						<li>TSGraph(G0, {n p t.}, G1) = Associative-INIT<sub>2</sub>(G<sub>meta</sub>,
 							{b}, {b => D1}) </li>
 						<li>where b is a fresh blank node and </li>
 						<li>D0 = Tree-UNION(G0, {n p t.})</li>
-						<li>D1 = Associative<sub>1</sub>(Tree-UNION(G0, {n p t.}), {n}, {n => G1} ) </li>
+						<li>D1 = Associative-INIT<sub>1</sub>(Tree-UNION(G0, {n p t.}), {n}, {n => G1} ) </li>
 						<li>G<sub>meta</sub> = { b rsp:usesTimestampPredicate p}</li>
 						<li>with the requirement that G0 contain no triples using the predicate
 							p.</li>
@@ -1919,7 +1919,7 @@
 								<a>RDF Graphs</a>, then the value of <a>Tree-UNION</a>(DSP, DSP') is
 							the union of the sets of <a>triples</a> in the two <a>graphs</a>. </li>
 						<li>If order(DSP) = order(DSP') = k &gt; 0, then <br /> Tree-UNION(DSP,
-							DSP') = Associative<sub>k</sub>( names(DSP) ∪ names(DSP'), M' ) <br />
+							DSP') = Associative-INIT<sub>k</sub>( names(DSP) ∪ names(DSP'), M' ) <br />
 							where M' = <br /> { DEFAULT => Tree-UNION(defaultPart(DSP),
 							defaultPart(DSP')) } ∪ <br /> { name = > content(name, DSP) | name in
 							names(DSP) - names(DSP')} ∪ <br /> { name = > content(name, DSP') | name
@@ -1927,7 +1927,7 @@
 							content(name, DSP), content(name, DSP')) | name in names(DSP) &amp;
 							names(DSP')} </li>
 						<li>If order(DSP') &lt; order(DSP) = k, then <br /> Tree-UNION(DSP, DSP') =
-							Tree-UNION(DSP', DSP) = Associative<sub>k</sub>( names(DSP) , M' )
+							Tree-UNION(DSP', DSP) = Associative-INIT<sub>k</sub>( names(DSP) , M' )
 							<br /> where M' = M|<sub>names(DSP</sub> &cup; {DEFAULT =>
 							Tree-UNION(defaultPart(DSP), DSP')} </li>
 					</ul>
@@ -1938,7 +1938,7 @@
 							Tree-UNION(S) = ∪<sub>s in S</sub>s. Note that this includes the case S
 							= {}, where Tree-UNION(S) = {}.</li>
 						<li>if order(s) = k &gt; 0 for every s in S, then <br /> Tree-UNION(S) =
-								Associative<sub>k</sub>( result-default, result-names,
+								Associative-INIT<sub>k</sub>( result-default, result-names,
 							result-nameMap ) <br /> where <br /> result-default =
 							Tree-UNION({defaultPart(s)|s in S}) <br /> result-names = ∪<sub>s in
 								S</sub> names(s), <br /> result-nameMap = { n =>
@@ -2041,12 +2041,12 @@
 						<li>If name is in name(DS), and k = order(DS), then OpCreate(DS, name, k) =
 							DS.</li>
 						<li>If k &gt; order(DS), then OpCreate(DS, name, k) =
-								Associative<sub>k</sub>(DS, {name}, {name => {}})</li>
+								Associative-INIT<sub>k</sub>(DS, {name}, {name => {}})</li>
 						<li>If k = order(DS) and name is not in name(DS), then OpCreate(DS, name, k)
-							= Associative<sub>k</sub>(defaultPart(DS), names(DS) ∪ {name},
+							= Associative-INIT<sub>k</sub>(defaultPart(DS), names(DS) ∪ {name},
 							nameMap(DS) ∪ {name => {}}). </li>
 						<li>If k &lt; order(DS) = k', then OpCreate(DS, name, k) =
-								Associative<sub>k'</sub>( OpCreate(defaultPart(DS), name, k),
+								Associative-INIT<sub>k'</sub>( OpCreate(defaultPart(DS), name, k),
 							names(DS), nameMap(DS) ) )</li>
 					</ul>
 				</section>
@@ -2075,10 +2075,10 @@
 					associative tree. </p>
 				<ul>
 					<li>If name is in names(DS), then APPLY(DS, Spec, name) =
-							Associative<sub>order(DS)</sub>( defaultPart(DS), names(DS),
+							Associative-INIT<sub>order(DS)</sub>( defaultPart(DS), names(DS),
 						Delete(nameMap(DS), name) &cup; { name => Spec(content(name, DS))} ) </li>
 					<li>Otherwise, APPLY(DS, Spec, name) = DS.</li>
-					<li>APPLY(DS, Spec) = Associative<sub>order(DS)</sub>( Spec(defaultPart(DS)),
+					<li>APPLY(DS, Spec) = Associative-INIT<sub>order(DS)</sub>( Spec(defaultPart(DS)),
 						names(DS), nameMap(DS) )</li>
 				</ul>
 			</section>
@@ -5067,7 +5067,7 @@ _:b103{
 					<p>ST<sub>FHIR</sub> = Tree-UNION(ST<sub>FHIR, associative</sub>, ST<sub>FHIR,
 							sequential</sub>)</p>
 					<p>where</p>
-					<p>ST<sub>FHIR, associative</sub> = Associative<sub>2</sub>(G<sub>eff</sub>,
+					<p>ST<sub>FHIR, associative</sub> = Associative-INIT<sub>2</sub>(G<sub>eff</sub>,
 						{_:b301}, {_:b301 => R<sub>FHIR</sub>})</p>
 					<p>where G<sub>eff</sub> is the graph containing the single triple</p>
 					<pre>
@@ -5085,8 +5085,8 @@ _:b301 rsp:usesTimestampPredicate obs:effectiveDateTime.
 					<p> ST<sub>2, FHIR</sub> = [_:sv1, [_:b301, G<sub>2, FHIR</sub>, 1], 2]</p>
 					<p> ST<sub>3, FHIR</sub> = [_:sv2, [_:b301, G<sub>3, FHIR</sub>, 1], 2]</p>
 					<p>or generically</p>
-					<p> ST<sub>i, FHIR</sub> = Associative<sub>2</sub>({}, {stver<sub>i</sub>},
-							{stver<sub>i</sub> => Associative<sub>1</sub>({}, {_:b301}, {_:b301 =>
+					<p> ST<sub>i, FHIR</sub> = Associative-INIT<sub>2</sub>({}, {stver<sub>i</sub>},
+							{stver<sub>i</sub> => Associative-INIT<sub>1</sub>({}, {_:b301}, {_:b301 =>
 							G<sub>i, FHIR</sub>})})</p>
 					<p>where stver<sub>1</sub> = _:sv0, stver<sub>2</sub> = _:sv1, stver<sub>3</sub>
 						= _:sv2.</p>
