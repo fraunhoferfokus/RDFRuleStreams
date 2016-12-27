@@ -513,8 +513,9 @@
 						Update Operation, and the extension of the <a>pattern</a> syntax to express
 							<a>k-th order patterns</a>, including k-th order "solitary-association"
 						patterns.</aside>
-					<p>The following table summarizes datatypes. The rows using "::=" provide a definition of the datatype as a composition.
-					The rows using "::&lt;" provide a compositional supertype of that datatype.</p>
+					<p>The following table summarizes datatypes. The rows using "::=" provide a
+						definition of the datatype as a composition. The rows using "::&lt;" provide
+						a compositional supertype of that datatype.</p>
 					<table style="font: monospace;">
 						<tr>
 							<th><div style="width: 12em">type</div></th>
@@ -540,6 +541,12 @@
 							<td>X<sup>+</sup></td>
 							<td>::=</td>
 							<td>non-empty finite sequences of X</td>
+						</tr>
+						<tr>
+							<td>℘℘(X)</td>
+							<td>::=</td>
+							<td>set of all partial permutations of X, i.e. set of all ordered
+								subsets of X</td>
 						</tr>
 						<tr>
 							<td>1</td>
@@ -643,16 +650,14 @@
 						<tr>
 							<td>Ver<sub>k</sub>(X, Y), k &gt; 0</td>
 							<td>::&lt;</td>
-							<td>[Nat, [2<sup>RDF-Name</sup>, Total-Order(RDF-Name)],
-								Partial:(RDF-Name => Y &cup; {ASSOC} => X)]</td>
+							<td>[Nat, ℘℘(RDF-Name), Partial:(RDF-Name => Y &cup; {ASSOC} => X)]</td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>::=</td>
-							<td>{<a>Versioned<sub>k</sub></a>([N, &le;<sub>N</sub>], M) | N &sube;
-								RDF-Name, cardinality(N) > 0, &le; &in; TotalOrder(N), M:
-									N|<sub>Y</sub> &cup; {ASSOC} => X) where M(x) = M(y), x &lt; y
-								implies there is some z &in; N, x &lt; z &lt; y}</td>
+							<td>{<a>Versioned<sub>k</sub></a>(NI, M) | NI &in; ℘℘(RDF-Name), M:
+									NI|<sub>Y</sub> &cup; {ASSOC} => X) where M(x) = M(y), x &lt; y
+								&in; NI implies there is some z &in; NI, x &lt; z &lt; y}</td>
 						</tr>
 						<tr>
 							<td>sequence<sub>&le; k</sub>, k &ge; 0</td>
