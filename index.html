@@ -3167,10 +3167,9 @@ _:b7 obs:effectiveDateTime
 					</aside>
 					<aside class="ednote">
 						<p>Because of the redundancy that appears in the above table, a better
-							identity pattern for second order stores might be @@@something like the
-							following, except this is not quite right.</p>
+							identity pattern for second order stores is developed incrementally
+							below. First we consider the following pattern.</p>
 						<pre>
-{ version ?sv {graph ?r {?s ?p ?o} } union {DEFAULT {?s ?p ?o} } } union
 {repo ?r {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
 {DEFAULT {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
 { version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
@@ -3178,8 +3177,9 @@ _:b7 obs:effectiveDateTime
 { version ?sv {graph ?r {?sx ?px ?ox} } . 	 
    repo ?r {version ?rv {?sx ?px ?ox} }  }
 </pre>
-						<p>Applied with SELECt ?s ?p ?o ?rv ?r ?sv to
-							<a>Store<sub>FHIR-hr</sub></a>, the result is the following.</p>
+						<p>Applied with SELECT ?s ?p ?o ?rv ?r ?sv to
+							<a>Store<sub>FHIR-hr</sub></a>, the following solution mappings match
+							this pattern.</p>
 						<div>
 							<table>
 								<thead>
@@ -3550,115 +3550,29 @@ _:b7 obs:effectiveDateTime
 						the timestamp triple. This would capture the missing information as to which
 						triple goes with which stream.</p>
 					<aside class="ednote">
-						<p>There is a problem with the "store identity pattern" presented in the
-							previous note. While the solution mappings that are presented in the
-							table do satisfy the pattern and show the <i>intended</i> query results,
-							the actual query generates a few more solution mappings that are not
-							desired.</p>
-						<div>
-							<table>
-								<thead>
-									<tr>
-										<td>?s</td>
-										<td>?p</td>
-										<td>?o</td>
-										<td>?rv</td>
-										<td>?r</td>
-										<td>?sv</td>
-										<td>i</td>
-										<td>j</td>
-										<td>k</td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td>_:fhir-hr-g2</td>
-										<td>_:fhir-hr</td>
-										<td>_:strst1</td>
-										<td></td>
-										<td></td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td>_:fhir-hr-g3</td>
-										<td>_:fhir-hr</td>
-										<td>_:strst1</td>
-										<td></td>
-										<td></td>
-										<td>1</td>
-									</tr>
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td>_:fhir-hr-g1</td>
-										<td>_:fhir-hr</td>
-										<td>_:strst2</td>
-										<td></td>
-										<td></td>
-										<td>2</td>
-									</tr>
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td>_:fhir-hr-g3</td>
-										<td>_:fhir-hr</td>
-										<td>_:strst2</td>
-										<td></td>
-										<td></td>
-										<td>2</td>
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>_:fhir-hr-g2</td>
-											<td>_:fhir-hr</td>
-											<td>_:strst3</td>
-											<td></td>
-											<td></td>
-											<td>3</td>
-										</tr>
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>_:fhir-hr-g3</td>
-											<td>_:fhir-hr</td>
-											<td>_:strst3</td>
-											<td></td>
-											<td></td>
-											<td>3</td>
-										</tr>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<p>These solution mappings arise because certain triples appear in all
-							observations. E.g.</p>
-						<pre style="margin-top:0; margin-bottom:0">_:b1 a fhir:Observation ;
-		obs:code sct:36407505 ;
-		obs:device lr:sensor1234 ;
-		obs:subject lr:patientA ;
-</pre>
-						<p>So instead of, say, this pattern:</p>
+						<p>There is a problem with the above attempt at a "store identity pattern"
+							presented in the previous note when applied to a general RDF stream.
+							Extra mappings may appear associating store and repository versions if a
+							triple appears in more than one stream element.</p>
+						<p>This would lead to a match for the following part of the p/attern:</p>
 						<pre>
 { version ?sv {DEFAULT {?sx ?px ?ox} } . 	 
 DEFAULT {version ?rv {?sx ?px ?ox} }  } 
 </pre>
-						<p>We need a pattern that finds the store versions where <em>all</em> of the
+						<p>However, we don't want this match to be considered a solution unless
+								<em>all</em> of the triples in the repository version are also in the
+							store version.</p>
+						<p>So, we need a pattern that finds the store versions that checks whether all of the
 							triples in the store version that are associated with a particular
 							repository match the triples in a particular version of that repository.
 							This can be done with aggregation as follows.</p>
 					</aside>
 					<aside class="example"
 						title="Pattern for Matching All Triples in a Repository Version">
+						<p>We first consider the default repository of the store. We require that
+							the count of triples that occur in both a repository version and a store
+							version (with the appropriate graph name) is equal to the count of the
+							triples in the repository version.</p>
 						<pre>
 SELECT ?sv ?rv
 WHERE {
@@ -3699,22 +3613,28 @@ WHERE {
 					<aside class="example">
 						<p>The improved store identity pattern, as described in the previous
 							example, will produce only the results shown in the table when applied
-							to the FHIR-hr stream. However, this happens only because there are no
-							stream elements that recur within the stream, with the exception of
-							differing timestamp triple. For example, suppose that the repository
-							holding that stream had been defined exactly as above with the exception
-							that the third stream element was a repitition of the first stream
-							element except for the value of the timestamp.</p>
+							to the FHIR-hr stream represented as a second-order store. However, this
+							happens only because there are no stream elements that recur within the
+							stream with the exception of differing timestamp triple. For example,
+							suppose that the repository holding that stream had been defined exactly
+							as above with the exception that the third stream element was a
+							repitition of the first stream element except for the value of the
+							timestamp. (Admittedly unrealistic in this example, but could reasonably
+							occur if the stream is designed to choose from a predefined set of
+							observations.)</p>
 						<p><a>Repo<sub>FHIR-hr</sub></a> =
 									<a>Append2Repository</a><sub>1</sub>(<a>Repo<sub>2,
 									FHIR-hr</sub></a>, _:fhir-hr-g3, G<sub>1, FHIR-hr</sub>) </p>
 						<p>This problematic case does not arise if there are constraints that forbid
 							such recurrence of stream elements, e.g. the graph name of the
-							timestamped graph is constrained to only appear once in each stream.</p>
+							timestamped graph is constrained to only to be used, as a graph name,
+							once in each stream.</p>
 					</aside>
 				</section>
 				<section>
 					<h4>Second-Order Repository of FHIR Heartrate Observations</h4>
+					<p>To resolve the issue of identifying timestamp triples mentioned above, we now
+						explore the use of higher-order structures.</p>
 					<p>The construction of a second-order repository is similar to what was done
 						above. The only difference is the subscript on the constructors or append
 						functions that indicates the order.</p>
@@ -3741,8 +3661,10 @@ WHERE {
 				</section>
 				<section>
 					<h4>Third-Order Store of FHIR Heartrate Observations</h4>
-					<p>The primary difference in the third-order store construction is that the
-						repository name needs to be attached to the time-stamp triple. </p>
+					<p>The primary difference in the third-order store construction that follows is
+						that the repository name is attached to each timestamp triple. The timestamp
+						triple is still encapsulated within the default repository as in the
+						second-order store above. </p>
 					<aside class="example"
 						title="Third-Order Store holding an RDF Stream of FHIR Heartrate Observations">
 						<p><dfn>Store<sub>FHIR-hr-2</sub></dfn> = <a>Store</a><sub>3</sub>(RN, R,
@@ -3784,10 +3706,11 @@ WHERE {
 								TS<sub>2, FHIR-hr</sub>)</p>
 						<p>NTS<sub>3, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
 								TS<sub>3, FHIR-hr</sub>)</p>
+						<p>The third-order store identity pattern is as follows.</p>
 						<pre>
-{ version ?sv {graph ?r {?s ?p ?o} } union {DEFAULT {?s ?p ?o} } } union
-{repo ?r {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
-{DEFAULT {version ?rv {?s ?p ?o} } union {ASSOC {?s ?p ?o} } } union
+{repo ?r {version ?rv {graph ?g {?s ?p ?o} union {?s ?p ?o}} } union {ASSOC {graph ?g {?s ?p ?o} union {?s ?p ?o}} } 
+} union
+{DEFAULT {version ?rv {graph ?g {?s ?p ?o} union {?s ?p ?o}} } union {ASSOC {graph ?g {?s ?p ?o} union {?s ?p ?o}} } } union
 SELECT ?sv ?rv
 WHERE {
 	SELECT (COUNT(CONCAT(?s, ?p, ?o) AS ?count) ?sv ?rv
