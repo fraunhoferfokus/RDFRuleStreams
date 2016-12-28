@@ -6393,7 +6393,7 @@ We write
 						</tr>
 						<tr>
 							<td>content</td>
-							<td>[<a>RDF-Name</a>,<a>associative-data-structure<sub>k</sub></a>, k
+							<td>[<a>RDF-Name</a>,<a>associative-data-structure<sub>k</sub></a>] k
 								&gt; 0</td>
 							<td><a>data-structure<sub>k-1</sub></a></td>
 						</tr>
@@ -6403,14 +6403,79 @@ We write
 							<td><a>data-structure</a></td>
 						</tr>
 						<tr>
-							<td>Operator</td>
-							<td>Signature</td>
-							<td>Result Type</td>
+							<td><a>isSequence</a></td>
+							<td>*</td>
+							<td>Boolean</td>
 						</tr>
 						<tr>
-							<td>Operator</td>
-							<td>Signature</td>
-							<td>Result Type</td>
+							<td><a>isMemberOf</a></td>
+							<td><a>data-structure</a>, <a>data-sequence</a></td>
+							<td>Boolean</td>
+						</tr>
+						<tr>
+							<td><a>previousTo</a></td>
+							<td>[<a>data-structure</a>, <a>data-structure</a>;
+								<a>data-sequence</a>]</td>
+							<td>Boolean</td>
+						</tr>
+						<tr>
+							<td><a>follows</a></td>
+							<td>[<a>data-structure</a>, <a>data-structure</a>;
+								<a>data-sequence</a>]</td>
+							<td>Boolean</td>
+						</tr>
+						<tr>
+							<td><a>hasLeast</a></td>
+							<td><a>data-sequence</a></td>
+							<td>Boolean</td>
+						</tr>
+						<tr>
+							<td><a>hasGreatest</a></td>
+							<td><a>data-sequence</a></td>
+							<td>Boolean</td>
+						</tr>
+						<tr>
+							<td><a>least</a>(DSQ)</td>
+							<td><a>data-sequence</a> where <a>hasLeast</a>(DSQ) = True</td>
+							<td><a>data-structure</a></td>
+						</tr>
+						<tr>
+							<td><a>greatest</a>(DSQ)</td>
+							<td><a>data-sequence</a>  where <a>hasGreatest</a>(DSQ) = True</td>
+							<td><a>data-structure</a></td>
+						</tr>
+						<tr>
+							<td><a>isLeastOf</a></td>
+							<td>[<a>data-structure</a>, <a>data-sequence</a>]</td>
+							<td>Boolean</td>
+						</tr>
+						<tr>
+							<td><a>isGreatestOf</a>(DST, DSQ)</td>
+							<td>[<a>data-structure</a>, <a>data-sequence</a>]</td>
+							<td>Boolean</td>
+						</tr>
+						<tr>
+							<td><a>predecessor</a>(DST; DSQ)</td>
+							<td>[<a>data-structure</a>, <a>data-sequence</a>] where isLeastOf(DST,
+								DSQ) = False</td>
+							<td><a>data-structure</a></td>
+						</tr>
+						<tr>
+							<td><a>successor</a>(DST; DSQ)</td>
+							<td>[<a>data-structure</a>; <a>data-sequence</a>] where
+								isGreatestOf(DST, DSQ) = False</td>
+							<td><a>data-structure</a></td>
+						</tr>
+						<tr>
+							<td><a>Cons</a>(DST, DSQ)</td>
+							<td>[<a>data-structure</a>, <a>data-sequence</a>] where
+									<a>hasGreatest</a>(DSQ) = True </td>
+							<td><a>data-sequence</a></td>
+						</tr>
+						<tr>
+							<td><a>Seq</a><sub>X</sub>(Index, M)</td>
+							<td>[2<sup>Z</sup>, Index => X]</td>
+							<td>℘℘(X)</td>
 						</tr>
 						<tr>
 							<td>Operator</td>
