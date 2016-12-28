@@ -6318,12 +6318,110 @@ We write
 				<table>
 					<thead>
 						<tr>
+							<th>Operator</th>
+							<th>Signature</th>
+							<th>Result Type</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><a>Associative-INIT<sub>k</sub></a>(N, M), k &gt; 0</td>
+							<td>[2<sup><a>RDF-Name</a></sup> - <a>1</a>, <a>Ext-DEFAULT</a>(N) =>
+										<a>data-structure<sub>&le; k-1</sub></a>]</td>
+							<td><a>associative-data-structure<sub>k</sub></a></td>
+						</tr>
+						<tr>
+							<td><a>Associative-INIT<sub>0</sub></a>(N, M)</td>
+							<td>[{}, {DEFAULT} => <a>RDF-Graph</a></td>
+							<td><a>associative-data-structure<sub>0</sub></a></td>
+						</tr>
+						<tr>
+							<td><a>order</a></td>
+							<td><a>data-structure<sub>k</sub></a></td>
+							<td><a>Z<sup>*</sup></a></td>
+						</tr>
+						<tr>
+							<td><a>names</a></td>
+							<td><a>associative-data-structure<sub>k</sub></a></td>
+							<td>2<sup><a>RDF-Name</a></sup> - <a>1</a></td>
+						</tr>
+						<tr>
+							<td><a>nameMap</a></td>
+							<td><a>associative-data-structure<sub>k</sub></a>, k &gt; 0</td>
+							<td><a>Partial</a>:<a>Ext-DEFAULT</a>(2<sup><a>RDF-Name</a></sup> -
+									<a>1</a>) => <a>data-structure<sub>&le; k-1</sub></a></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><a>associative-data-structure<sub>k</sub></a>, k = 0</td>
+							<td>{DEFAULT} => <a>RDF-Graph</a></td>
+						</tr>
+						<tr>
+							<td>defaultPart</td>
+							<td><a>associative-data-structure<sub>k</sub></a>, k &gt; 0</td>
+							<td><a>data-structure</a><sub>&le; k-1</sub></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><a>associative-data-structure<sub>k</sub></a>, k = 0</td>
+							<td><a>associative-data-structure<sub>0</sub></a></td>
+						</tr>
+						<tr>
+							<td><a>Solitary<sub>k</sub></a></td>
+							<td>[<a>RDF-Name</a>, <a>data-structure</a><sub>k-1</sub>]</td>
+							<td><a>solitary-associative-data-structure<sub>k</sub></a></td>
+						</tr>
+						<tr>
+							<td>namedPart</td>
+							<td><a>associative-data-structure<sub>k</sub></a>, k &gt; 0</td>
+							<td><a>associative-data-structure</a><sub>k</sub></td>
+						</tr>
+						<tr>
+							<td>isAssociative</td>
+							<td>*</td>
+							<td>Boolean</td>
+						</tr>
+						<tr>
+							<td>isSolitary</td>
+							<td><a>associative-data-structure<sub>k</sub></a>, k &gt; 0</td>
+							<td>Boolean</td>
+						</tr>
+						<tr>
+							<td>name</td>
+							<td><a>solitary-association<sub>k</sub></a></td>
+							<td>RDF-Name</td>
+						</tr>
+						<tr>
+							<td>content</td>
+							<td>[<a>RDF-Name</a>,<a>associative-data-structure<sub>k</sub></a>, k
+								&gt; 0</td>
+							<td><a>data-structure<sub>k-1</sub></a></td>
+						</tr>
+						<tr>
+							<td>content</td>
+							<td><a>solitary-association</a></td>
+							<td><a>data-structure</a></td>
+						</tr>
+						<tr>
 							<td>Operator</td>
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
-					</thead>
-					<tbody>
+						<tr>
+							<td>Operator</td>
+							<td>Signature</td>
+							<td>Result Type</td>
+						</tr>
+						<tr>
+							<td>Operator</td>
+							<td>Signature</td>
+							<td>Result Type</td>
+						</tr>
+						<tr>
+							<td>Operator</td>
+							<td>Signature</td>
+							<td>Result Type</td>
+						</tr>
 						<tr>
 							<td>Operator</td>
 							<td>Signature</td>
