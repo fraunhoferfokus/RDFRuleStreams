@@ -1563,12 +1563,12 @@
 						<li>An optional RDF graph which is the content of the named graph of the
 							timestamped graph.</li>
 					</ol>
-					<p>The value of <a>TSGraph</a> is defined in terms of other operations in the
+					<p>The value of <a>TSGraph-NEW</a> is defined in terms of other operations in the
 						following cases.</p>
 					<ul>
-						<li>TSGraph(G0, {n p t.}) = Associative-NEW<sub>1</sub>(G<sub>meta</sub>,
+						<li>TSGraph-NEW(G0, {n p t.}) = Associative-NEW<sub>1</sub>(G<sub>meta</sub>,
 							{b}, {b => D0}) </li>
-						<li>TSGraph(G0, {n p t.}, G1) =
+						<li>TSGraph-NEW(G0, {n p t.}, G1) =
 								Associative-NEW<sub>2</sub>(G<sub>meta</sub>, {b}, {b => D1}) </li>
 						<li>where b is a fresh blank node and </li>
 						<li>D0 = Tree-UNION(G0, {n p t.})</li>
@@ -1597,7 +1597,7 @@
 							follows. </p>
 						<p> Suppose the stream consists of the timestamped graphs in the sequence
 								[TSG<sub>i</sub>] for i in an ordered set <i>I</i> where </p>
-						<p>TSG<sub>i</sub> = TSGraph(G0<sub>i</sub>, {n<sub>i</sub> p<sub>i</sub>
+						<p>TSG<sub>i</sub> = TSGraph-NEW(G0<sub>i</sub>, {n<sub>i</sub> p<sub>i</sub>
 								t<sub>i</sub>.}).</p>
 						<p>Let S<sub>i</sub> be the stream emulation up to index i, using repository
 							name rn. Then</p>
@@ -2259,13 +2259,13 @@ _:b7 obs:effectiveDateTime
 					<p>We can also use basic operations to build this finite repository, as
 						follows.</p>
 					<aside class="example" title="Repository Built with Basic Operations">
-						<p>we first initialize the repository with <a>Repository-NEWIAL</a></p>
+						<p>we first initialize the repository with <a>Repository-INITIAL</a></p>
 						<p class="ednote">We need to define this basic operation as
-								<dfn>Repository-NEWIAL</dfn><sub>k</sub>(ATD, name, ATN) =
+								<dfn>Repository-INITIAL</dfn><sub>k</sub>(ATD, name, ATN) =
 									<a>Versioned-NEW<sub>k</sub></a>([{name}, {}], {name => ATN,
 								<a>DEFAULT</a> => ATD})</p>
 						<p><dfn>Repo<sub>1, FHIR-hr</sub></dfn> =
-								<a>Repository-NEWIAL</a><sub>1</sub>({}, _:fhir-hr-g1, G<sub>1,
+								<a>Repository-INITIAL</a><sub>1</sub>({}, _:fhir-hr-g1, G<sub>1,
 								FHIR-hr</sub>) </p>
 						<p>Then we use <a>Append2Repository</a><sub>1</sub> twice to add the later
 							versions,</p>
@@ -2492,7 +2492,7 @@ _:b7 obs:effectiveDateTime
 								<a>Append2Repository</a><sub>1</sub>(<a>Repo<sub>1,
 								FHIR-ts</sub></a>, _:fhir-hr-ts2, TS<sub>2, FHIR-hr</sub>)</p>
 						<p><dfn>Repo<sub>1, FHIR-ts</sub></dfn> = =
-								<a>Repository-NEWIAL</a><sub>1</sub>(_:fhir-hr-ts1, TS<sub>1,
+								<a>Repository-INITIAL</a><sub>1</sub>(_:fhir-hr-ts1, TS<sub>1,
 								FHIR-hr</sub>)</p>
 					</aside>
 					<aside class="example" title="Table of Query Results From Store">
@@ -3713,7 +3713,7 @@ WHERE {
 					<aside class="example"
 						title="Second-Order Repository Built with Basic Operations">
 						<p><dfn>Repo<sub>1, FHIR-hr-2</sub></dfn> =
-								<a>Repository-NEWIAL</a><sub>2</sub>({}, _:fhir-hr-g1, G<sub>1,
+								<a>Repository-INITIAL</a><sub>2</sub>({}, _:fhir-hr-g1, G<sub>1,
 								FHIR-hr</sub>) </p>
 						<p><dfn>Repo<sub>2, FHIR-hr-2</sub></dfn> =
 								<a>Append2Repository</a><sub>2</sub>(<a>Repo<sub>1,
@@ -3761,7 +3761,7 @@ WHERE {
 								<a>Append2Repository</a><sub>2</sub>(<a>Repo<sub>1,
 								FHIR-ts-2</sub></a>, _:fhir-hr-ts2, NTS<sub>2, FHIR-hr</sub>)</p>
 						<p><dfn>Repo<sub>1, FHIR-ts-2</sub></dfn> = =
-								<a>Repository-NEWIAL</a><sub>2</sub>(_:fhir-hr-ts1, NTS<sub>1,
+								<a>Repository-INITIAL</a><sub>2</sub>(_:fhir-hr-ts1, NTS<sub>1,
 								FHIR-hr</sub>)</p>
 						<p>and</p>
 						<p>NTS<sub>1, FHIR-hr</sub> = <a>Solitary-NEW</a><sub>1</sub>( _:fhir-hr-2,
@@ -4262,7 +4262,7 @@ WHERE {
 						<p>and where G'<sub>i, FHIR-hr</sub> = G<sub>i, FHIR-hr</sub> &cup;
 								TS<sub>i, FHIR-hr</sub>, i = 1, 2, 3</p>
 						<p><dfn>Repo<sub>1, FHIR-hr-3</sub></dfn> =
-								<a>Repository-NEWIAL</a><sub>3</sub>({}, _:fhir-hr-g1, G'<sub>1,
+								<a>Repository-INITIAL</a><sub>3</sub>({}, _:fhir-hr-g1, G'<sub>1,
 								FHIR-hr</sub>) </p>
 						<p><dfn>Repo<sub>2, FHIR-hr-3</sub></dfn> =
 								<a>Append2Repository</a><sub>3</sub>(<a>Repo<sub>1,
@@ -4278,7 +4278,7 @@ WHERE {
 								<a>Append2Repository</a><sub>2</sub>(<a>Repo<sub>1,
 								FHIR-ts-3</sub></a>, _:fhir-hr-ts2, TSP<sub>2, FHIR-hr</sub>)</p>
 						<p><dfn>Repo<sub>1, FHIR-ts-3</sub></dfn> = =
-								<a>Repository-NEWIAL</a><sub>2</sub>(_:fhir-hr-ts1, TSP<sub>1,
+								<a>Repository-INITIAL</a><sub>2</sub>(_:fhir-hr-ts1, TSP<sub>1,
 								FHIR-hr</sub>)</p>
 						<p>and</p>
 						<p>TSP<sub>1, FHIR-hr</sub> is</p>
@@ -4838,11 +4838,11 @@ _:b2 lr:unit "bpm"^^xsd:string ;
 					<pre>
 _:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^xsd:dateTimeStamp
 </pre>
-					<p>We construct a timestamped graph with the constructor <a>TSGraph</a></p>
-					<p>TSG<sub>1, FHIR</sub> = <a>TSGraph</a>(TS<sub>1, FHIR</sub>, G'<sub>1,
+					<p>We construct a timestamped graph with the constructor <a>TSGraph-NEW</a></p>
+					<p>TSG<sub>1, FHIR</sub> = <a>TSGraph-NEW</a>(TS<sub>1, FHIR</sub>, G'<sub>1,
 							FHIR</sub>)</p>
 					<p>Similarly,</p>
-					<p>TSG<sub>i, FHIR</sub> = TSGraph(TS<sub>i, FHIR</sub>, G'<sub>i,
+					<p>TSG<sub>i, FHIR</sub> = TSGraph-NEW(TS<sub>i, FHIR</sub>, G'<sub>i,
 						FHIR</sub>)</p>
 					<p>The RDF stream can be abstractly constructed from its component timestamped
 						graphs using basic operations:</p>
@@ -5219,7 +5219,7 @@ _:b6 {
 					<p>S<sub>prov</sub> = [TSG<sub>i,prov</sub>]<sub>i=1, 2, 3</sub></p>
 					<p>A representation of the first element of the stream is a timestamped graph as
 						follows.</p>
-					<p>TSG<sub>i,prov</sub> = TSGraph(, D'<sub>i, prov</sub>)</p> where D'<sub>i,
+					<p>TSG<sub>i,prov</sub> = TSGraph-NEW(, D'<sub>i, prov</sub>)</p> where D'<sub>i,
 						prov</sub> is like D<sub>i, prov</sub> except it is missing the timestamp
 					triple. <p>D'<sub>i, prov</sub> = Tree-DIFF(D<sub>i, prov</sub>, TS<sub>i,
 							prov</sub>) </p> where TS<sub>1, prov</sub> is <pre>
@@ -6561,16 +6561,31 @@ We write
 							<td>Result Type</td>
 						</tr>
 						<tr>
-							<td><a>Repository-NEWIAL</a></td>
+							<td><a>Repository-INITIAL</a></td>
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
 					</tbody>
 					<tbody>
 						<tr>
+							<td><a>Store-NEW</a>(RN, RM, SI, M)</td>
+							<td>					<ol>
+								<li>The non-empty set RN of repository names.</li>
+								<li>The mapping RM from RN<sub>ext</sub> = RN &cup; {<a>DEFAULT</a>} to
+									(k-1)-th order repositories.</li>
+								<li>The non-empty ordered set SI = [SV, &le;<sub>SV</sub>] of store version
+									names.</li>
+								<li>For each name n in RN<sub>ext</sub>, a monotonic partial function
+									M<sub>n</sub> from an interval of SI onto the <a>version names</a>
+									of the associated repository, <a>repository(n; STR)</a>. (The mapping
+									M<sub><a>DEFAULT</a></sub> is total.) </li>
+							</ol></td>
+							<td><a>store<sub>k</sub></a></td>
+						</tr>
+						<tr>
 							<td><a>Append2Store</a></td>
 							<td>Signature</td>
-							<td>Result Type</td>
+							<td><a>store<sub>k</sub></a></td>
 						</tr>
 						<tr>
 							<td><a>Ext-ASSOC</a></td>
@@ -6584,18 +6599,18 @@ We write
 						</tr>
 						<tr>
 							<td><a>namePairs</a></td>
-							<td>Signature</td>
+							<td><a>store<sub>k</sub></a></td>
 							<td>Result Type</td>
 						</tr>
 						<tr>
 							<td><a>StoreTransformation</a></td>
 							<td>Signature</td>
-							<td>Result Type</td>
+							<td><a>store<sub>k</sub></a></td>
 						</tr>
 						<tr>
 							<td><a>Subsample</a></td>
 							<td>Signature</td>
-							<td>Result Type</td>
+							<td><a>store<sub>k</sub></a></td>
 						</tr>
 						<tr>
 							<td><a>Sequential-UNION</a></td>
@@ -6635,7 +6650,7 @@ We write
 					</tbody>
 					<tbody>
 						<tr>
-							<td><a>TSGraph</a></td>
+							<td><a>TSGraph-NEW</a></td>
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
