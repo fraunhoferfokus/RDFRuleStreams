@@ -445,10 +445,10 @@
 						M]. </p>
 					<p>Further, let G be an RDF Graph, N= {}, and M= {<a>DEFAULT</a>=>G}). We define
 								<dfn>Associative-NEW<sub>0</sub></dfn>(N, M) = G.</p>
-					<p class="note">The functions <a>Associative-NEW<sub>k</sub></a>, k &ge; 0,
-						thus acts as constructors for <a>associative data structures</a>. The
-						constraints are that <a>cardinality</a>(N) &gt; 0 if k &gt;0 and
-							<a>cardinality</a>(N)=0 if k = 0, while M:(N &cup; {<a>DEFAULT</a>}) =>
+					<p class="note">The functions <a>Associative-NEW<sub>k</sub></a>, k &ge; 0, thus
+						acts as constructors for <a>associative data structures</a>. The constraints
+						are that <a>cardinality</a>(N) &gt; 0 if k &gt;0 and <a>cardinality</a>(N)=0
+						if k = 0, while M:(N &cup; {<a>DEFAULT</a>}) =>
 								<a>structure<sub>&le;k-1</sub></a> if k&gt; 0 while
 							M:{<a>DEFAULT</a>} => RDF-Graph if k=0.</p>
 					<p>The order of an <a>associative data structure</a> ADST =
@@ -495,14 +495,14 @@
 							&gt; 0, can be used to create a <a>solitary association</a> as
 							follows.</p>
 						<p>Let DST be <a>data structure</a> of order k-1 or less, and let SO =
-								Associative-NEW<sub>k</sub>({n}, {n => DST, <a>DEFAULT</a> => {}
-							}). Then <a>order</a>(SO) = k, names(SO) = {n}, and defaultPart(SO) =
-							{}. Therefore by definition, SO is a <a>solitary association</a>.</p>
+								Associative-NEW<sub>k</sub>({n}, {n => DST, <a>DEFAULT</a> => {} }).
+							Then <a>order</a>(SO) = k, names(SO) = {n}, and defaultPart(SO) = {}.
+							Therefore by definition, SO is a <a>solitary association</a>.</p>
 					</aside>
 					<p>We define a specialized constructor for solitary associations,</p>
 					<p><dfn data-lt="Solitary">Solitary-NEW<sub>k</sub></dfn>(n, DST) =
-								<a>Associative-NEW<sub>k</sub></a>({n}, {n => DST, <a>DEFAULT</a>
-						=> {} }), k &gt; 0 where order(DST) &lt; k.</p>
+								<a>Associative-NEW<sub>k</sub></a>({n}, {n => DST, <a>DEFAULT</a> =>
+						{} }), k &gt; 0 where order(DST) &lt; k.</p>
 					<p>The <dfn>named part</dfn> of a k-th order <a>associative data structure</a>
 						ADST of order k &ge; 1, denoted <dfn>namedPart</dfn>(ADST), is the <a>k-th
 							order associative data structure</a> given by
@@ -521,8 +521,8 @@
 							is equal to its named part.</p>
 						<p>SO = <a>namedPart</a>(SO)</p>
 					</aside>
-					<p>Let ADST = <a>Associative-NEW<sub>k</sub></a>(N, M) be an <a>associative
-							data structure</a> and E be an arbitrary entity. </p>
+					<p>Let ADST = <a>Associative-NEW<sub>k</sub></a>(N, M) be an <a>associative data
+							structure</a> and E be an arbitrary entity. </p>
 					<ul>
 						<li><dfn>isAssociative</dfn>(E) is true if E is a <a>associative data
 								structure</a>; otherwise it is false.</li>
@@ -668,6 +668,11 @@
 							Cons(OpInsertData(P', {}, greatest(GS'), GS'), GS').</p>
 						<p>Note that by the definition of OpInsertData in [[!SPARQL11-Update]], any
 							blank node appearing in P' that also appears in P must be renamed.</p>
+						<p class="ednote">There is a need for a similar operator that does not
+							perform renaming, for those cases where the data being inserted is
+							consider to lie on the same <a>RDF Surface</a> as the structure it is
+							being inserted into. This need should be address in SPARQL-Update,
+							rather than this document.</p>
 					</aside>
 					<p class="ednote">Add to table of structural inferences: rdfsq:isMemberOf,
 						rdfsq:previousTo, rdfsq:follows, rdfsq:hasLeast, rdfsq:hasGreatest,
@@ -745,8 +750,8 @@
 					<li>For every n in <a>names</a>(AT), <a>content</a>(n, AT) is an <a>associative
 							tree</a> of order k-1 or less.</li>
 				</ul>
-				<p class="note">If ADST = <a>Associative-NEW<sub>k</sub></a>(N, M), then ADSTS is
-					an associative tree iff k=0 and codom(M) &sub; associative-tree<sub>0</sub> or
+				<p class="note">If ADST = <a>Associative-NEW<sub>k</sub></a>(N, M), then ADSTS is an
+					associative tree iff k=0 and codom(M) &sub; associative-tree<sub>0</sub> or
 					codom(M) &sub; associative-tree<sub>&le; k-1</sub></p>
 				<p class="note">Every RDF Graph is a <a>zeroth-order associative tree</a>, and every
 					zeroth-order associative tree is an RDF Graph.</p>
@@ -946,8 +951,8 @@
 						repository plays the role of background knowledge, which is unioned with
 						every snapshot prior to query.</p>
 					<p>We define a Repository Constructor as a basic operation
-								<dfn>Repository-NEW<sub>k</sub></dfn>, k = 1, 2, ..., that takes
-						the following arguments.</p>
+								<dfn>Repository-NEW<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
+						following arguments.</p>
 					<!--
 					<ol>
 						<li>The <a>associative tree</a> of order k-1 or less that is the associative
@@ -973,8 +978,8 @@
 								<a>Versioned-NEW<sub>k</sub></a> with respect to the mapping in the
 						second argument, which must have a codomain that is <a>associative trees</a>
 						of order k-1 or less.</p>
-					<p class="note">The <a>Versioned-NEW</a> constructor ensures that the
-						repository <i>revisions</i> are non-vacuous.</p>
+					<p class="note">The <a>Versioned-NEW</a> constructor ensures that the repository
+							<i>revisions</i> are non-vacuous.</p>
 					<p>We further define a basic operation <dfn>Append2Repository</dfn> as
 						follows.</p>
 					<p>The arguments of <a>Append2Repository</a><sub>k</sub>, k = 1, 2, ..., are</p>
@@ -1115,8 +1120,8 @@
 						</ul>
 					</p>
 					<p>We define a constructor <dfn data-lt="constructor Store"
-								>Store-NEW<sub>k</sub></dfn> for <a>k-th order stores</a>, k = 2,
-						3, ..., with the following arguments.</p>
+								>Store-NEW<sub>k</sub></dfn> for <a>k-th order stores</a>, k = 2, 3,
+						..., with the following arguments.</p>
 					<ol>
 						<li>The non-empty set RN of repository names.</li>
 						<li>The mapping RM from RN<sub>ext</sub> = RN &cup; {<a>DEFAULT</a>} to
@@ -1134,8 +1139,8 @@
 					<p>where </p>
 					<p> M'(stver) = Tree-UNION({RP<sub>n</sub>(stver) | n &in; RN<sub>ext</sub>})
 						for stver &in; SI, where </p>
-					<p> RP<sub>n</sub>(stver) = <a>Solitary-NEW</a>(n, content( M<sub>n</sub>(stver);
-						RM(n) ) if n &in; RN while </p>
+					<p> RP<sub>n</sub>(stver) = <a>Solitary-NEW</a>(n, content(
+						M<sub>n</sub>(stver); RM(n) ) if n &in; RN while </p>
 					<p> RP<sub><a>DEFAULT</a></sub>(stver) = content(
 						M<sub><a>DEFAULT</a></sub>(stver); RM(<a>DEFAULT</a>) ) and </p>
 					<p> M'(ASSOC) = <a>Tree-UNION</a>( RM( RN<sub>ext</sub> ) ). </p>
@@ -1162,11 +1167,11 @@
 						n &in; RN<sub>ext</sub>} ) </p>
 					<p>where PM(n) is the permutation of <a>versionNames</a>(RM(n)) defined by the
 						mapping M<sub>n</sub>.</p>
-					<p class="ednote">In this extended signature of <a>Store-NEW</a>, there needs
-						to be a constraint on the mapping M so that it does define a permutation of
-						the repository versions. E.g. This can take the form of a required
-						decomposition into a monotonic partial mapping M' (as before) composed with
-						a permutation PM of the repository version names (M = PM o M').</p>
+					<p class="ednote">In this extended signature of <a>Store-NEW</a>, there needs to
+						be a constraint on the mapping M so that it does define a permutation of the
+						repository versions. E.g. This can take the form of a required decomposition
+						into a monotonic partial mapping M' (as before) composed with a permutation
+						PM of the repository version names (M = PM o M').</p>
 					<p>That is, if VI' = codom(PM(n)), then <a>isPreviousTo</a>(M(sn1), M(sn2); VI')
 						iff <a>isPreviousTo</a>(sn1, sn2; SI)</p>
 					<p class="ednote">The function <a>repository</a> that retrieves repositories
@@ -1351,8 +1356,8 @@
 								repositories are reduced (by the constructor) to eliminate such
 								revisions.</p>
 							<p>Similarly, store <i>revisions</i> cannot be vacuous, and the
-										<a>Store-NEW<sub>k</sub></a> constructor is defined in a
-								way that handles this. See <a>Versioned-NEW<sub>k</sub></a> for
+										<a>Store-NEW<sub>k</sub></a> constructor is defined in a way
+								that handles this. See <a>Versioned-NEW<sub>k</sub></a> for
 								details.</p>
 						</aside>
 						<aside class="example" title="Identity Transformation">
@@ -1563,11 +1568,11 @@
 						<li>An optional RDF graph which is the content of the named graph of the
 							timestamped graph.</li>
 					</ol>
-					<p>The value of <a>TSGraph-NEW</a> is defined in terms of other operations in the
-						following cases.</p>
+					<p>The value of <a>TSGraph-NEW</a> is defined in terms of other operations in
+						the following cases.</p>
 					<ul>
-						<li>TSGraph-NEW(G0, {n p t.}) = Associative-NEW<sub>1</sub>(G<sub>meta</sub>,
-							{b}, {b => D0}) </li>
+						<li>TSGraph-NEW(G0, {n p t.}) =
+							Associative-NEW<sub>1</sub>(G<sub>meta</sub>, {b}, {b => D0}) </li>
 						<li>TSGraph-NEW(G0, {n p t.}, G1) =
 								Associative-NEW<sub>2</sub>(G<sub>meta</sub>, {b}, {b => D1}) </li>
 						<li>where b is a fresh blank node and </li>
@@ -1597,8 +1602,8 @@
 							follows. </p>
 						<p> Suppose the stream consists of the timestamped graphs in the sequence
 								[TSG<sub>i</sub>] for i in an ordered set <i>I</i> where </p>
-						<p>TSG<sub>i</sub> = TSGraph-NEW(G0<sub>i</sub>, {n<sub>i</sub> p<sub>i</sub>
-								t<sub>i</sub>.}).</p>
+						<p>TSG<sub>i</sub> = TSGraph-NEW(G0<sub>i</sub>, {n<sub>i</sub>
+								p<sub>i</sub> t<sub>i</sub>.}).</p>
 						<p>Let S<sub>i</sub> be the stream emulation up to index i, using repository
 							name rn. Then</p>
 						<p>S<sub>i+1</sub> = <a>Append2Store</a><sub>2</sub>(STR, sv<sub>i+1</sub>,
@@ -2461,8 +2466,7 @@ _:b7 obs:effectiveDateTime
 						statement appears in the default part of the store version contents. </p>
 					<aside class="example"
 						title="Store holding an RDF Stream of FHIR Heartrate Observations">
-						<p>We first use the <a>Store-NEW<sub>k</sub></a> constructor as
-							follows.</p>
+						<p>We first use the <a>Store-NEW<sub>k</sub></a> constructor as follows.</p>
 						<p><dfn>Store<sub>FHIR-hr</sub></dfn> = <a>Store-NEW</a><sub>2</sub>(RN, R,
 							SI, M) where</p>
 						<ul>
@@ -4843,7 +4847,7 @@ _:b1 obs:effectiveDateTime "2015-01-01T12:00:00Z"^^xsd:dateTimeStamp
 							FHIR</sub>)</p>
 					<p>Similarly,</p>
 					<p>TSG<sub>i, FHIR</sub> = TSGraph-NEW(TS<sub>i, FHIR</sub>, G'<sub>i,
-						FHIR</sub>)</p>
+							FHIR</sub>)</p>
 					<p>The RDF stream can be abstractly constructed from its component timestamped
 						graphs using basic operations:</p>
 					<p>S<sub>FHIR</sub> = Cons(TSG<sub>3, FHIR</sub>, Cons(TSG<sub>2, FHIR</sub>,
@@ -4951,7 +4955,7 @@ _:b103{
 							STR<sub>FHIR, sequential</sub>)</p>
 					<p>where</p>
 					<p>STR<sub>FHIR, associative</sub> =
-							Associative-NEW<sub>2</sub>(G<sub>eff</sub>, {_:b301}, {_:b301 =>
+						Associative-NEW<sub>2</sub>(G<sub>eff</sub>, {_:b301}, {_:b301 =>
 							R<sub>FHIR</sub>})</p>
 					<p>where G<sub>eff</sub> is the graph containing the single triple</p>
 					<pre>
@@ -4970,15 +4974,15 @@ _:b301 rsp:usesTimestampPredicate obs:effectiveDateTime.
 					<p> STR<sub>2, FHIR</sub> = [_:sv1, [_:b301, G<sub>2, FHIR</sub>, 1], 2]</p>
 					<p> STR<sub>3, FHIR</sub> = [_:sv2, [_:b301, G<sub>3, FHIR</sub>, 1], 2]</p>
 					<p>or generically</p>
-					<p> STR<sub>i, FHIR</sub> = Associative-NEW<sub>2</sub>({},
-						{stver<sub>i</sub>}, {stver<sub>i</sub> => Associative-NEW<sub>1</sub>({},
-						{_:b301}, {_:b301 => G<sub>i, FHIR</sub>})})</p>
+					<p> STR<sub>i, FHIR</sub> = Associative-NEW<sub>2</sub>({}, {stver<sub>i</sub>},
+							{stver<sub>i</sub> => Associative-NEW<sub>1</sub>({}, {_:b301}, {_:b301
+						=> G<sub>i, FHIR</sub>})})</p>
 					<p>where stver<sub>1</sub> = _:sv0, stver<sub>2</sub> = _:sv1, stver<sub>3</sub>
 						= _:sv2.</p>
 					<p>To construct a store in this fashion, it is necessary to ensure
 						synchronization of the store and repository versions manually. A more
 						reliable method is to use the store constructor
-							<a>Store-NEW<sub>k</sub></a>.</p>
+						<a>Store-NEW<sub>k</sub></a>.</p>
 				</aside>
 			</section>
 			<section id="fhir-motion">
@@ -5219,10 +5223,10 @@ _:b6 {
 					<p>S<sub>prov</sub> = [TSG<sub>i,prov</sub>]<sub>i=1, 2, 3</sub></p>
 					<p>A representation of the first element of the stream is a timestamped graph as
 						follows.</p>
-					<p>TSG<sub>i,prov</sub> = TSGraph-NEW(, D'<sub>i, prov</sub>)</p> where D'<sub>i,
-						prov</sub> is like D<sub>i, prov</sub> except it is missing the timestamp
-					triple. <p>D'<sub>i, prov</sub> = Tree-DIFF(D<sub>i, prov</sub>, TS<sub>i,
-							prov</sub>) </p> where TS<sub>1, prov</sub> is <pre>
+					<p>TSG<sub>i,prov</sub> = TSGraph-NEW(, D'<sub>i, prov</sub>)</p> where
+						D'<sub>i, prov</sub> is like D<sub>i, prov</sub> except it is missing the
+					timestamp triple. <p>D'<sub>i, prov</sub> = Tree-DIFF(D<sub>i, prov</sub>,
+							TS<sub>i, prov</sub>) </p> where TS<sub>1, prov</sub> is <pre>
 @prefix prov: &lt;http://www.w3.org/ns/prov#&gt; .
 
 _:b0 
@@ -6216,12 +6220,12 @@ We write
 						<td>non-empty finite sequences of X</td>
 					</tr>
 					<tr>
-						<td><dfn>>℘</dfn>(X)</td>
+						<td><dfn>℘</dfn>(X)</td>
 						<td>::=</td>
 						<td>set of all permutations of X</td>
 					</tr>
 					<tr>
-						<td><dfn>>℘℘</dfn>(X)</td>
+						<td><dfn>℘℘</dfn>(X)</td>
 						<td>::=</td>
 						<td>set of all partial permutations of X, i.e. set of all totally-ordered
 							subsets of X</td>
@@ -6569,17 +6573,19 @@ We write
 					<tbody>
 						<tr>
 							<td><a>Store-NEW</a>(RN, RM, SI, M)</td>
-							<td>					<ol>
-								<li>The non-empty set RN of repository names.</li>
-								<li>The mapping RM from RN<sub>ext</sub> = RN &cup; {<a>DEFAULT</a>} to
-									(k-1)-th order repositories.</li>
-								<li>The non-empty ordered set SI = [SV, &le;<sub>SV</sub>] of store version
-									names.</li>
-								<li>For each name n in RN<sub>ext</sub>, a monotonic partial function
-									M<sub>n</sub> from an interval of SI onto the <a>version names</a>
-									of the associated repository, <a>repository(n; STR)</a>. (The mapping
-									M<sub><a>DEFAULT</a></sub> is total.) </li>
-							</ol></td>
+							<td>
+								<ol>
+									<li>The non-empty set RN of repository names.</li>
+									<li>The mapping RM from RN<sub>ext</sub> = RN &cup;
+											{<a>DEFAULT</a>} to (k-1)-th order repositories.</li>
+									<li>The non-empty ordered set SI = [SV, &le;<sub>SV</sub>] of
+										store version names.</li>
+									<li>For each name n in RN<sub>ext</sub>, a monotonic partial
+										function M<sub>n</sub> from an interval of SI onto the
+											<a>version names</a> of the associated repository,
+											<a>repository(n; STR)</a>. (The mapping
+												M<sub><a>DEFAULT</a></sub> is total.) </li>
+								</ol></td>
 							<td><a>store<sub>k</sub></a></td>
 						</tr>
 						<tr>
