@@ -500,7 +500,7 @@
 							{}. Therefore by definition, SO is a <a>solitary association</a>.</p>
 					</aside>
 					<p>We define a specialized constructor for solitary associations,</p>
-					<p><dfn data-lt="Solitary">Solitary<sub>k</sub></dfn>(n, DST) =
+					<p><dfn data-lt="Solitary">Solitary-NEW<sub>k</sub></dfn>(n, DST) =
 								<a>Associative-INIT<sub>k</sub></a>({n}, {n => DST, <a>DEFAULT</a>
 						=> {} }), k &gt; 0 where order(DST) &lt; k.</p>
 					<p>The <dfn>named part</dfn> of a k-th order <a>associative data structure</a>
@@ -896,7 +896,7 @@
 					<p><a>Versioned-INIT</a><sub>k</sub>(VI, M) = [ M(ASSOC) , <a>Seq</a>( VI', M' )
 						]</p>
 					<p>where VI = [VN, &le;<sub>VN</sub>], </p>
-					<p>M'(n) = <a>Solitary<sub>k</sub></a>(n, M(n)) for n &in; VI, and</p>
+					<p>M'(n) = <a>Solitary-NEW<sub>k</sub></a>(n, M(n)) for n &in; VI, and</p>
 					<p>VI' = [VN', &le;<sub>VN</sub>] where VN' = {n &in; VN | <a>hasNext</a>(n; VI)
 						= False or M(n) &ne; M(<a>next</a>(n; VI))}</p>
 					<p class="note">The constructor <a>Versioned-INIT<sub>k</sub></a> ensures that
@@ -1134,7 +1134,7 @@
 					<p>where </p>
 					<p> M'(stver) = Tree-UNION({RP<sub>n</sub>(stver) | n &in; RN<sub>ext</sub>})
 						for stver &in; SI, where </p>
-					<p> RP<sub>n</sub>(stver) = <a>Solitary</a>(n, content( M<sub>n</sub>(stver);
+					<p> RP<sub>n</sub>(stver) = <a>Solitary-NEW</a>(n, content( M<sub>n</sub>(stver);
 						RM(n) ) if n &in; RN while </p>
 					<p> RP<sub><a>DEFAULT</a></sub>(stver) = content(
 						M<sub><a>DEFAULT</a></sub>(stver); RM(<a>DEFAULT</a>) ) and </p>
@@ -3764,11 +3764,11 @@ WHERE {
 								<a>Repository-INITIAL</a><sub>2</sub>(_:fhir-hr-ts1, NTS<sub>1,
 								FHIR-hr</sub>)</p>
 						<p>and</p>
-						<p>NTS<sub>1, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
+						<p>NTS<sub>1, FHIR-hr</sub> = <a>Solitary-NEW</a><sub>1</sub>( _:fhir-hr-2,
 								TS<sub>1, FHIR-hr</sub>)</p>
-						<p>NTS<sub>2, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
+						<p>NTS<sub>2, FHIR-hr</sub> = <a>Solitary-NEW</a><sub>1</sub>( _:fhir-hr-2,
 								TS<sub>2, FHIR-hr</sub>)</p>
-						<p>NTS<sub>3, FHIR-hr</sub> = <a>Solitary</a><sub>1</sub>( _:fhir-hr-2,
+						<p>NTS<sub>3, FHIR-hr</sub> = <a>Solitary-NEW</a><sub>1</sub>( _:fhir-hr-2,
 								TS<sub>3, FHIR-hr</sub>)</p>
 						<p>The third-order store identity pattern is as follows.</p>
 						<p class="ednote">This pattern has not been fully checked for syntax
