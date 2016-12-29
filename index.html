@@ -1153,18 +1153,30 @@
 						perspectives. For example, streams with multiple temporal characteristics
 						may be represented by repositories that differ primarily in regard to
 						version order, rather than version content. For this purpose, we extend the
-						constructor <a>Store-INIT<sub>k</sub></a> so that the mapping from store versions to
-						repository versions is not required to be monotonic. The constructed store
-						will hold a different repository than the constructor input, and this
-						reordered repository can be lazily materialized.</p>
-					<p>The only difference in the definition of <a>Store-INIT</a> is in the
-						semantics as follows.</p>
-					<p> M'(ASSOC) = <a>Tree-UNION</a><sub>n &in; RN<sub>ext</sub></sub>(
-							<a>Versioned-PERMUTE</a>( RM(n) , PM(n) ) ) </p>
+						constructor <a>Store-INIT<sub>k</sub></a> so that the mapping from store
+						versions to repository versions is not required to be monotonic. The
+						constructed store will hold a different repository than the constructor
+						input, and this reordered repository can be lazily materialized.</p>
+					<p>The only difference in the semantics of <a>Store-INIT</a> is as follows.</p>
+					<p> M'(ASSOC) = <a>Tree-UNION</a>({ <a>Versioned-PERMUTE</a>( RM(n) , PM(n) ) |
+						n &in; RN<sub>ext</sub>} ) </p>
 					<p>where PM(n) is the permutation of <a>versionNames</a>(RM(n)) defined by the
-						mapping M.</p>
+						mapping M<sub>n</sub>.</p>
+					<p class="ednote">In this extended signature of <a>Store-INIT</a>, there needs
+						to be a constraint on the mapping M so that it does define a permutation of
+						the repository versions. E.g. This can take the form of a required
+						decomposition into a monotonic partial mapping M' (as before) composed with
+						a permutation PM of the repository version names (M = PM o M').</p>
 					<p>That is, if VI' = codom(PM(n)), then <a>isPreviousTo</a>(M(sn1), M(sn2); VI')
 						iff <a>isPreviousTo</a>(sn1, sn2; SI)</p>
+					<p class="ednote">The function <a>repository</a> that retrieves repositories
+						from the store must return the permuted repository so that the consistency
+						requirements are satisfied. An implementation may also provide access to the
+						original repository from which the store was constructed, so that the
+						laziness of repository construction can be perpetuated. However, this should
+						be considered an implementation detail. In particular, when comparing two
+						stores for syntactic equality, only the permuted repositories should be
+						considered, not the original repositories.</p>
 					<p>In addition to constructing a store in its entirety with
 								<a>Store-INIT<sub>k</sub></a>, we define a basic operation
 							<dfn>Append2Store</dfn> which creates a new store by adding a version to
