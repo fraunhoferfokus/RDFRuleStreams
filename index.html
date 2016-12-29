@@ -257,9 +257,11 @@
 					<img src="datastructure-and-existing-associative-types.svg" alt="" width="400" />
 					<figcaption>The top type <a>k-th order data structure</a> may be decomposed into
 						three disjoint parts: <a>k-th order associative data structures</a>, <a>k-th
-							order data sequences</a>, and multivalent k-th order data structures,
-						i.e. those k-th order data structures having both an <a>associative part</a>
-						and a <a>sequential part</a>. The existing type of RDF graph is subsumed by
+							order data sequences</a>, and <dfn>multivalent k-th order data
+							structures</dfn>, (with type symbol
+								<dfn>multivalent-structure<sub>k</sub></dfn>, k &ge; 0) i.e. those
+						k-th order data structures having both an <a>associative part</a> and a
+							<a>sequential part</a>. The existing type of RDF graph is subsumed by
 						the <a>associative data structure</a> type, and more particularly, is equal
 						to the type of <a>zeroth order associative trees</a>. RDF Datasets are not
 						directly represented in this type system, but are emulated by certain
@@ -551,10 +553,32 @@
 			</section>
 			<section id="def-data-sequences-structures">
 				<h3>RDF Data Sequences and Structures</h3>
+				<p>The new datatypes introduced in this section, summarized in the following table,
+					are collections that may have a part that is an <a>associative data
+						structure</a>, and may also have a part that has a sequential nature.</p>
+				<div>
+					<table>
+						<thead data-include="table-head-datatype.html" data-include-sync="true"></thead>
+						<tbody data-include="sequence-datatype.html" data-include-sync="true"></tbody>
+						<tbody data-include="structure-datatype.html" data-include-sync="true"
+						></tbody>
+					</table>
+				</div>
+				<p>The new operators introduced in this section are summarized in the following
+					table.</p>
+				<div>
+					<table>
+						<thead data-include="table-head-syntax.html" data-include-sync="true"></thead>
+						<tbody data-include="sequence-syntax.html" data-include-sync="true"></tbody>
+						<tbody data-include="structure-syntax.html" data-include-sync="true"
+						></tbody>
+					</table>
+				</div>
 				<section id="def-data-sequences">
 					<h4>RDF Data Sequences</h4>
 					<p>An <dfn data-lt="RDF Data Sequences|Data Sequence|Data Sequences">RDF Data
-							Sequence</dfn> is a <a>sequence</a> of <a>data structures</a>.</p>
+							Sequence</dfn> (with type symbol <dfn>data-sequence</dfn>) is a
+							<a>sequence</a> of <a>data structures</a>.</p>
 					<p>In this document, we use the term <dfn>sequence</dfn> in the sense of a
 						totally-ordered set (in mathematics, called a chain) that can be strictly
 						monotonically mapped onto the integers. I.e., it is isomorphic, as a poset,
@@ -622,6 +646,11 @@
 							from the values of the corresonding functions on the index. E.g., if i
 							&in; Index and E = M(i), then successor(E; Seq-NEW(Index, M)) =
 							M(successor(i; Index)). </li>
+						<li><dfn>TypeSeq</dfn>(X) is a type constructor for sequences whose elements
+							are of type X, including empty, finite, semi-infinite, and bi-infinite
+							sequences </li>
+						<li>Similarly, <dfn>TypeSeq<sup>+</sup></dfn>(X) is a type constructor for
+							non-empty sequences whose elements are of type X. </li>
 					</ul>
 					<!--
 						<li>To iterate over general sequences, let <dfn>next</dfn>(i; Index) have
@@ -688,12 +717,20 @@
 						active semantics). If the sequence is a named sequence, then whether it is
 						appropriate to use that name to materialize such statements depends on the
 						active semantics.</p>
+					<p>We define a type symbol <dfn>data-sequence<sub>k</sub></dfn> for <a>data
+							sequences</a> where the maximum order of the elements is k. Similarly,
+								<dfn>data-sequence<sub>&le; k</sub></dfn> is the type of <a>data
+							sequences</a> whose elements are k or less, and
+								<dfn>data-sequence<sub>fin</sub></dfn> is the type of <a>data
+							sequences</a> whose elements have bounded order.</p>
 				</section>
 				<section id="def-k-th-order-data-structure">
 					<h4>k-th Order RDF Data Structure</h4>
 					<p>A <dfn
 							data-lt="k-th Order RDF Data Structures|k-th Order Data Structure|k-th Order Data Structures|Data Structure|Data Structures"
-							>k-th Order RDF Data Structure</dfn> is defined by cases as follows. </p>
+							>k-th Order RDF Data Structure</dfn> (with type symbol
+								<dfn>structure<sub>k</sub></dfn>, k &ge; 0) is defined by cases as
+						follows. </p>
 					<p>A k-th order RDF data structure DST is a collection of k-th order associative
 						data structures </p>
 					<ul>
@@ -733,6 +770,10 @@
 						data structures where <a>hasAssociative</a> is true according to the
 						following example: <a>names</a>(DST) =
 						<a>names</a>(<a>associativePart</a>(DST)), and so on.</p>
+					<p>The type consisting of all data structure of order k or less is given the
+						type symbol <dfn>structure<sub>&le; k</sub></dfn>, k &ge; 0, while the type
+						of all data structure with finite order has the type symbol
+								<dfn>structure<sub>fin</sub></dfn>.</p>
 				</section>
 			</section>
 			<section id="def-kth-order-associative tree">
@@ -1986,7 +2027,7 @@
 					store, we extend the <a>Apply</a> Operation, defined above for <a>k-th order
 						associative trees</a> and Update Operation specifications, to <a>stores</a>
 					and Revise Operation specifications on repositories (only for unnested Revise). </p>
-				<p>Application of a Revise operation to a structure without a terminal version is 
+				<p>Application of a Revise operation to a structure without a terminal version is
 					undefined. </p>
 			</section>
 			<!--
@@ -6261,67 +6302,9 @@ We write
 							<a>ssociative-tree<sub>i</sub></a>a</td>
 					</tr>
 				</tbody>
-				<tbody>
-					<tr>
-						<td><dfn>TypeSeq</dfn>(X)</td>
-						<td>::=</td>
-						<td>X<sup>*</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
-								X<sup>Z</sup> (i.e. finite, semi-infinite, and bi-infinite sequences
-							of X's)</td>
-					</tr>
-					<tr>
-						<td><dfn>TypeSeq<sup>+</sup></dfn>(X)</td>
-						<td>::=</td>
-						<td>X<sup>+</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
-								X<sup>Z</sup> (i.e. non-empty finite, semi-infinite, and bi-infinite
-							sequences of X's)</td>
-					</tr>
-					<tr>
-						<td><dfn>data-sequence</dfn></td>
-						<td>::=</td>
-						<td><a>TypeSeq</a>(structure)</td>
-					</tr>
-					<tr>
-						<td><dfn>data-sequence<sub>k</sub></dfn></td>
-						<td>::=</td>
-						<td>{x &in; <a>TypeSeq</a><sup>+</sup>(structure) | order(x) = k}</td>
-					</tr>
-					<tr>
-						<td><dfn>data-sequence<sub>&le; k</sub></dfn>, k &ge; 0</td>
-						<td>::=</td>
-						<td>&cup;<sub>i &le; k</sub>
-							<a>data-sequence<sub>i</sub></a></td>
-					</tr>
-				</tbody>
-				<tbody>
-					<tr>
-						<td><dfn>multivalent-structure<sub>k</sub></dfn>, k &ge; 0</td>
-						<td>::=</td>
-						<td> (<a>associative<sub>&le; k</sub></a> x
-							<a>data-sequence<sub>k</sub></a>) &cup; (associative<sub>k</sub> x
-								sequence<sub>&le; k</sub>)</td>
-					</tr>
-				</tbody>
-				<tbody>
-					<tr>
-						<td><dfn>structure<sub>k</sub></dfn>, k &ge; 0</td>
-						<td>::=</td>
-						<td><a>associative<sub>k</sub></a> &cup; <a>data-sequence<sub>k</sub></a>
-							&cup; <a>multivalent-structure<sub>k</sub></a></td>
-					</tr>
-					<tr>
-						<td><dfn>structure<sub>&le; k</sub></dfn>, k &ge; 0</td>
-						<td>::=</td>
-						<td>&cup;<sub>i &le; k</sub>
-							<a>structure<sub>i</sub></a></td>
-					</tr>
-					<tr>
-						<td><dfn>structure</dfn></td>
-						<td>::=</td>
-						<td>&cup;<sub>k &ge; 0</sub>
-							<a>structure<sub>k</sub></a></td>
-					</tr>
-				</tbody>
+				<tbody data-include="sequence-datatype.html" data-include-sync="true"></tbody>
+				<tbody data-include="structure-datatype.html" data-include-sync="true"></tbody>
+
 				<tbody>
 					<tr>
 						<td><dfn>TypeVer<sub>k</sub></dfn>(X, Y), k &gt; 0</td>
@@ -6406,128 +6389,10 @@ We write
 					<thead data-include="table-head-syntax.html" data-include-sync="true"></thead>
 					<tbody data-include="associative-syntax.html" data-include-sync="true"></tbody>
 					<tbody data-include="solitary-syntax.html" data-include-sync="true"></tbody>
-					<tbody>
-						<tr>
-							<td><a>isSequence</a></td>
-							<td>*</td>
-							<td>Boolean</td>
-						</tr>
-						<tr>
-							<td><a>isMemberOf</a></td>
-							<td><a>structure</a>, <a>data-sequence</a></td>
-							<td>Boolean</td>
-						</tr>
-						<tr>
-							<td><a>previousTo</a></td>
-							<td>[<a>structure</a>, <a>structure</a>; <a>data-sequence</a>]</td>
-							<td>Boolean</td>
-						</tr>
-						<tr>
-							<td><a>follows</a></td>
-							<td>[<a>structure</a>, <a>structure</a>; <a>data-sequence</a>]</td>
-							<td>Boolean</td>
-						</tr>
-						<tr>
-							<td><a>hasLeast</a></td>
-							<td><a>data-sequence</a></td>
-							<td>Boolean</td>
-						</tr>
-						<tr>
-							<td><a>hasGreatest</a></td>
-							<td><a>data-sequence</a></td>
-							<td>Boolean</td>
-						</tr>
-						<tr>
-							<td><a>least</a>(DSQ)</td>
-							<td><a>data-sequence</a> where <a>hasLeast</a>(DSQ) = True</td>
-							<td><a>structure</a></td>
-						</tr>
-						<tr>
-							<td><a>greatest</a>(DSQ)</td>
-							<td><a>data-sequence</a> where <a>hasGreatest</a>(DSQ) = True</td>
-							<td><a>structure</a></td>
-						</tr>
-						<tr>
-							<td><a>isLeastOf</a></td>
-							<td>[<a>structure</a>, <a>data-sequence</a>]</td>
-							<td>Boolean</td>
-						</tr>
-						<tr>
-							<td><a>isGreatestOf</a>(DST, DSQ)</td>
-							<td>[<a>structure</a>, <a>data-sequence</a>]</td>
-							<td>Boolean</td>
-						</tr>
-						<tr>
-							<td><a>predecessor</a>(DST; DSQ)</td>
-							<td>[<a>structure</a>, <a>data-sequence</a>] where <a>isLeastOf</a>(DST,
-								DSQ) = False</td>
-							<td><a>structure</a></td>
-						</tr>
-						<tr>
-							<td><a>successor</a>(DST; DSQ)</td>
-							<td>[<a>structure</a>; <a>data-sequence</a>] where
-								<a>isGreatestOf</a>(DST, DSQ) = False</td>
-							<td><a>structure</a></td>
-						</tr>
-						<tr>
-							<td><a>Cons</a>(DST, DSQ)</td>
-							<td>[<a>structure</a>, <a>data-sequence</a>] where
-								<a>hasGreatest</a>(DSQ) = True </td>
-							<td><a>data-sequence</a></td>
-						</tr>
-						<tr>
-							<td><a>Seq-NEW</a><sub>X</sub>(Index, M)</td>
-							<td>[2<sup>Z</sup>, Index => X] where M is 1-1</td>
-							<td>℘℘(X)</td>
-						</tr>
-						<tr>
-							<td><a>exceptGreatest</a></td>
-							<td><a>data-sequence</a></td>
-							<td><a>data-sequence</a></td>
-						</tr>
-						<tr>
-							<td><a>Revise</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>terminated</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>Chain</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-					</tbody>
-					<tbody>
-						<tr>
-							<td><a>isDataStructure</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>hasAssociative</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>hasSequential</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>associativePart</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>sequentialPart</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-					</tbody>
+					<tbody data-include="sequence-syntax.html" data-include-sync="true"></tbody>
+					<tbody data-include="structure-syntax.html" data-include-sync="true"></tbody>
+
+
 					<tbody>
 						<tr>
 							<td><a>isTree</a></td>

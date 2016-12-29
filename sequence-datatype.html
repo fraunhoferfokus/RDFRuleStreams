@@ -1,0 +1,35 @@
+    <tr>
+        <td><a>TypeSeq</a>(X)</td>
+        <td>::=</td>
+        <td>X<sup>*</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
+            X<sup>Z</sup> (i.e. finite, semi-infinite, and bi-infinite sequences
+            of X's)</td>
+    </tr>
+    <tr>
+        <td><a>TypeSeq<sup>+</sup></a>(X)</td>
+        <td>::=</td>
+        <td>X<sup>+</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
+            X<sup>Z</sup> (i.e. non-empty finite, semi-infinite, and bi-infinite
+            sequences of X's)</td>
+    </tr>
+    <tr>
+        <td><a>data-sequence</a></td>
+        <td>::=</td>
+        <td><a>TypeSeq</a>(structure)</td>
+    </tr>
+    <tr>
+        <td><a>data-sequence<sub>k</sub></a></td>
+        <td>::=</td>
+        <td>{x &in; <a>TypeSeq</a><sup>+</sup>(structure) | order(x) = k}</td>
+    </tr>
+    <tr>
+        <td><a>data-sequence<sub>&le; k</sub></a>, k &ge; 0</td>
+        <td>::=</td>
+        <td>&cup;<sub>i &le; k</sub>
+            <a>data-sequence<sub>i</sub></a></td>
+    </tr>
+<tr>
+    <td><a>data-sequence<sub>fin</sub></a></td>
+    <td>::=</td>
+    <td>&cup;<sub>k &ge; 0</sub><a>data-sequence<sub>k</sub></a></td>
+</tr>
