@@ -1,0 +1,31 @@
+<tr>
+    <td><a>associative<sub>0</sub></a></td>
+    <td>::=</td>
+    <td>RDF Graph</td>
+</tr>
+<tr>
+    <td><a>TypeAssoc</a><sub>k</sub>(X), k &ge; 0</td>
+    <td>::&lt;</td>
+    <td>[Nat, 2<sup>RDF-Name</sup>, Partial:(RDF-Name &cup;
+        {<a>DEFAULT</a>}) => X]</td>
+</tr>
+<tr>
+    <td></td>
+    <td>::=</td>
+    <td>{<a>Associative-INIT<sub>k</sub></a>(N, M) | N &sube; RDF-Name,
+        <br/><a>cardinality</a>(N) &ge; min(1, k), 
+        <br/>M: (N &cup;
+        {<a>DEFAULT</a>}) => X } </td>
+</tr>
+<tr>
+    <td><a>associative<sub>k</sub></a>, k &gt; 0</td>
+    <td>::=</td>
+    <td>TypeAssoc<sub>k</sub>(structure<sub>&le; k-1</sub>)</td>
+</tr>
+<tr>
+    <td><a>associative<sub>&le; k</sub></a>, k &ge; 0</td>
+    <td>::=</td>
+    <td>&cup;<sub>i &le; k</sub>
+        <a>associative<sub>i</sub></a></td>
+</tr>
+</tbody>

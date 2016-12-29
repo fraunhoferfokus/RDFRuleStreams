@@ -392,8 +392,30 @@
 			</section>
 			<section id="def-associative">
 				<h3>Associative Data Structures</h3>
+				<p>The new datatypes introduced in this section, summarized in the following table,
+					are associative collections, where the association key is of type
+						<a>RDF-Name</a>. These datatypes generalize <a>RDF Datasets</a>, which are
+					associative collections of <a>RDF Graphs</a>, by allowing the key value type to
+					be a more complex <a>data structure</a>. </p>
+				<div>
+					<table>
+						<thead data-include="table-head-datatype.html" data-include-sync="true"></thead>
+						<tbody data-include="associative-datatype.html" data-include-sync="true"></tbody>
+						<tbody data-include="solitary-association-datatype.html"
+							data-include-sync="true"></tbody>
+					</table>
+				</div>
+				<p>The new operators introduced in this section are summarized in the following
+					table.</p>
+				<div>
+					<table>
+						<thead data-include="table-head-syntax.html" data-include-sync="true"></thead>
+						<tbody data-include="associative-syntax.html" data-include-sync="true"></tbody>
+						<tbody data-include="solitary-syntax.html" data-include-sync="true"></tbody>
+					</table>
+				</div>
 				<section id="def-rdf-dataset">
-					<h3>RDF Dataset</h3>
+					<h4>RDF Dataset</h4>
 					<p>Recall that an <a>RDF Dataset</a> is a collection of <a>RDF graphs</a>, and
 						comprises:</p>
 					<ul>
@@ -406,10 +428,12 @@
 					<h4>k-th Order Associative RDF Data Structures</h4>
 					<p>A <dfn
 							data-lt="k-th order associative RDF data structures|k-th order associative data structure|k-th order associative data structures|associative data structure|associative data structures"
-							>k-th order associative RDF data structure</dfn> is a <a>k-th order data
-							structure</a> that is defined inductively as follows.</p>
+							>k-th order associative RDF data structure</dfn> (with type symbol
+								<dfn>associative<sub>k</sub></dfn>, k &ge; 0) is a <a>k-th order
+							data structure</a> that is defined inductively as follows.</p>
 					<ul>
-						<li>A <dfn>zeroth-order associative data structure</dfn> is an RDF Graph. </li>
+						<li>A <dfn>zeroth-order associative data structure</dfn> (with type symbol
+									<dfn>associative<sub>0</sub></dfn>) is an RDF Graph. </li>
 						<li>A k-th order associative data structure, k &ge; 1, is specified by the
 							tuple [k, N, M] where N is a non-empty subset of RDF-Name, and M is a
 							mapping from N &cup; {DEFAULT} to <a>data structures</a> of order k-1 or
@@ -461,10 +485,12 @@
 						<a>defaultPart</a>(ADST) = <a>nameMap</a>(ADST)(<a>DEFAULT</a>).</p>
 					<p class="note">The default part of a <a>zeroth-order associative data
 							structure</a> is itself; defaultPart(ADST) = ADST. </p>
-					<p>A <dfn>solitary association</dfn> is an <a>associative data structure</a>
-						where its set of nonreserved names contains exactly one name and the default
-						part is empty. That is, <a>cardinality</a>(<a>names</a>(SO)) = 1 and
-							<a>defaultPart</a>(SO) = {}.</p>
+					<p>A <dfn>solitary association</dfn> (with type symbol
+								<dfn>solitary-association<sub>k</sub></dfn>) is an <a>associative
+							data structure</a> where its set of nonreserved names contains exactly
+						one name and the default part is empty. That is,
+							<a>cardinality</a>(<a>names</a>(SO)) = 1 and <a>defaultPart</a>(SO) =
+						{}.</p>
 					<aside class="example"><p>The constructor <a>Associative-INIT<sub>k</sub></a>, k
 							&gt; 0, can be used to create a <a>solitary association</a> as
 							follows.</p>
@@ -525,217 +551,201 @@
 						definition of the datatype as a composition. The rows using "::&lt;" provide
 						a compositional supertype of that datatype.</p>
 					<table style="font: monospace;">
-						<tr>
-							<th><div style="width: 12em">type</div></th>
-							<td></td>
-							<th>definition</th>
-						</tr>
-						<tr>
-							<td><dfn>Nat</dfn></td>
-							<td>::=</td>
-							<td>set of Natural Numbers</td>
-						</tr>
-						<tr>
-							<td>2<sup>X</sup></td>
-							<td>::=</td>
-							<td>set of subsets of X</td>
-						</tr>
-						<tr>
-							<td>X<sup>*</sup></td>
-							<td>::=</td>
-							<td>finite sequences of X, including the empty sequence</td>
-						</tr>
-						<tr>
-							<td>X<sup>+</sup></td>
-							<td>::=</td>
-							<td>non-empty finite sequences of X</td>
-						</tr>
-						<tr>
-							<td><dfn>>℘℘</dfn>(X)</td>
-							<td>::=</td>
-							<td>set of all partial permutations of X, i.e. set of all
-								totally-ordered subsets of X</td>
-						</tr>
-						<tr>
-							<td><dfn>1</dfn></td>
-							<td>::=</td>
-							<td>{{}}</td>
-						</tr>
-						<tr>
-							<td><dfn>Partial</dfn>:X=>Y</td>
-							<td>::=</td>
-							<td>partial functions from X to Y</td>
-						</tr>
-						<tr>
-							<td><dfn>associative<sub>0</sub></dfn></td>
-							<td>::=</td>
-							<td>RDF Graph</td>
-						</tr>
-						<tr>
-							<td>TypeAssoc<sub>k</sub>(X), k &ge; 0</td>
-							<td>::&lt;</td>
-							<td>[Nat, 2<sup>RDF-Name</sup>, Partial:(RDF-Name &cup;
-								{<a>DEFAULT</a>}) => X]</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>::=</td>
-							<td>{<a>Associative-INIT<sub>k</sub></a>(N, M) | N &sube; RDF-Name,
-									<a>cardinality</a>(N) &ge; min(1, k), M: (N &cup;
-									{<a>DEFAULT</a>}) => X } </td>
-						</tr>
-						<tr>
-							<td><dfn>associative<sub>k</sub></dfn>, k &gt; 0</td>
-							<td>::=</td>
-							<td>TypeAssoc<sub>k</sub>(structure<sub>&le; k-1</sub>)</td>
-						</tr>
-						<tr>
-							<td>associative-tree<sub>0</sub></td>
-							<td>::=</td>
-							<td>RDF Graph</td>
-						</tr>
-						<tr>
-							<td>associative-tree<sub>k</sub>, k &gt; 0</td>
-							<td>::=</td>
-							<td>TypeAssoc<sub>k</sub>(associative-tree<sub>&le; k-1</sub>)</td>
-						</tr>
-						<tr>
-							<td><dfn>TypeSeq</dfn>(X)</td>
-							<td>::=</td>
-							<td>X<sup>*</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
-									X<sup>Z</sup> (i.e. finite, semi-infinite, and bi-infinite
-								sequences of X's)</td>
-						</tr>
-						<tr>
-							<td><dfn>TypeSeq<sup>+</sup></dfn>(X)</td>
-							<td>::=</td>
-							<td>X<sup>+</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
-									X<sup>Z</sup> (i.e. non-empty finite, semi-infinite, and
-								bi-infinite sequences of X's)</td>
-						</tr>
-						<tr>
-							<td><dfn>data-sequence</dfn></td>
-							<td>::=</td>
-							<td><a>TypeSeq</a>(structure)</td>
-						</tr>
-						<tr>
-							<td><dfn>data-sequence<sub>k</sub></dfn></td>
-							<td>::=</td>
-							<td>{x &in; <a>TypeSeq</a><sup>+</sup>(structure) | order(x) = k}</td>
-						</tr>
-						<tr>
-							<td><dfn>multivalent-structure<sub>k</sub></dfn>, k &ge; 0</td>
-							<td>::=</td>
-							<td> (<a>associative<sub>&le; k</sub></a> x
-									<a>data-sequence<sub>k</sub></a>) &cup; (associative<sub>k</sub>
-								x sequence<sub>&le; k</sub>)</td>
-						</tr>
-						<tr>
-							<td><dfn>structure<sub>k</sub></dfn>, k &ge; 0</td>
-							<td>::=</td>
-							<td><a>associative<sub>k</sub></a> &cup;
-									<a>data-sequence<sub>k</sub></a> &cup;
-										<a>multivalent-structure<sub>k</sub></a></td>
-						</tr>
-						<tr>
-							<td><dfn>structure<sub>&le; k</sub></dfn>, k &ge; 0</td>
-							<td>::=</td>
-							<td>&cup;<sub>i &le; k</sub>
-								<a>structure<sub>i</sub></a></td>
-						</tr>
-						<tr>
-							<td><dfn>structure</dfn></td>
-							<td>::=</td>
-							<td>&cup;<sub>k &ge; 0</sub>
-								<a>structure<sub>k</sub></a></td>
-						</tr>
-						<tr>
-							<td><dfn>associative<sub>&le; k</sub></dfn>, k &ge; 0</td>
-							<td>::=</td>
-							<td>&cup;<sub>i &le; k</sub>
-								<a>associative<sub>i</sub></a></td>
-						</tr>
-						<tr>
-							<td><dfn>associative-tree<sub>&le; k</sub></dfn>, k &ge; 0</td>
-							<td>::=</td>
-							<td>&cup;<sub>i &le; k</sub>
-								<a>ssociative-tree<sub>i</sub></a>a</td>
-						</tr>
-						<tr>
-							<td><dfn>Ver<sub>k</sub></dfn>(X, Y), k &gt; 0</td>
-							<td>::&lt;</td>
-							<td>[<a>Nat</a>, <a>℘℘</a>(RDF-Name), <a>Partial</a>:(RDF-Name => Y
-								&cup; {<a>ASSOC</a>} => X)]</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>::=</td>
-							<td>{<a>Versioned-INIT<sub>k</sub></a>(NI, M) | NI &in;
-								<a>℘℘</a>(RDF-Name), M: NI|<sub>Y</sub> &cup; {<a>ASSOC</a>} => X)
-								where M(x) = M(y), x &lt; y &in; NI implies there is some z &in; NI,
-								x &lt; z &lt; y}</td>
-						</tr>
-						<tr>
-							<td><dfn>data-sequence<sub>&le; k</sub></dfn>, k &ge; 0</td>
-							<td>::=</td>
-							<td>&cup;<sub>i &le; k</sub>
-								<a>data-sequence<sub>i</sub></a></td>
-						</tr>
-						<tr>
-							<td><dfn>solitary-association<sub>k</sub></dfn>, k &gt; 0</td>
-							<td>::=</td>
-							<td>{x &in; <a>associative<sub>k</sub></a> |
-									<a>cardinality</a>(<a>names</a>(x)) = 1 and
-								<a>defaultPart</a>(x) = {}}</td>
-						</tr>
-						<tr>
-							<td><dfn>solitary-association-tree<sub>k</sub></dfn>, k &gt; 0</td>
-							<td>::=</td>
-							<td><a>solitary-association<sub>k</sub></a> &cap;
-										<a>associative-tree<sub>k</sub></a></td>
-						</tr>
-						<tr>
-							<td><dfn>versioned<sub>k</sub></dfn>, k &ge; 1</td>
-							<td>::=</td>
-							<td><a>Ver<sub>k</sub></a>(<a>structure<sub>&le; k</sub></a>,
-										<a>structure<sub>&le; k-1</sub></a>)</td>
-						</tr>
-						<tr>
-							<td><dfn>repository<sub>k</sub></dfn>, k &ge; 1</td>
-							<td>::&lt;</td>
-							<td>
-								<a>associative-tree<sub>&le; k-1</sub></a> x
-									<a>TypeSeq<sup>+</sup></a>(<a>solitary-association-tree<sub>k</sub></a>)
-							</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>::=</td>
-							<td><a>Ver<sub>k</sub></a>(<a>associative-tree<sub>&le; k-1</sub></a>,
-										<a>associative-tree<sub>&le; k-1</sub></a>)</td>
-						</tr>
-						<tr>
-							<td><dfn>store<sub>k</sub></dfn>, k &ge; 2</td>
-							<td>::&lt;</td>
-							<td> (<a>TypeAssoc<sub>k</sub></a>(<a>repository<sub>k-1</sub></a>) x
-										<a>TypeSeq<sup>+</sup></a>(<a>solitary-association-tree<sub>k</sub></a>)
-								)</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>::&lt;</td>
-							<td><a>Ver<sub>k</sub></a>(<a>TypeAssoc<sub>k</sub></a>(<a>repository<sub>k-1</sub></a>),
-										<a>associative-tree<sub>k-1</sub></a>)</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>::=</td>
-							<td>{<a>Store-INIT<sub>k</sub></a>(RN, RM, SI, M) | RN &in;
-									2<sup>RDF-Name</sup> - 1, RM: RN<sub>ext</sub> =>
-										<a>repository<sub>k-1</sub></a>, @@@plus other requirement
-								on SI and M as given in the definition of
-									<a>Store-INIT<sub>k</sub></a>}</td>
-						</tr>
+						<thead data-include="table-head-datatype.html" data-include-sync="true"></thead>
+						<tbody>
+							<tr>
+								<td><dfn>Nat</dfn></td>
+								<td>::=</td>
+								<td>set of Natural Numbers</td>
+							</tr>
+							<tr>
+								<td>2<sup>X</sup></td>
+								<td>::=</td>
+								<td>set of subsets of X</td>
+							</tr>
+							<tr>
+								<td>X<sup>*</sup></td>
+								<td>::=</td>
+								<td>finite sequences of X, including the empty sequence</td>
+							</tr>
+							<tr>
+								<td>X<sup>+</sup></td>
+								<td>::=</td>
+								<td>non-empty finite sequences of X</td>
+							</tr>
+							<tr>
+								<td><dfn>>℘℘</dfn>(X)</td>
+								<td>::=</td>
+								<td>set of all partial permutations of X, i.e. set of all
+									totally-ordered subsets of X</td>
+							</tr>
+							<tr>
+								<td><dfn>1</dfn></td>
+								<td>::=</td>
+								<td>{{}}</td>
+							</tr>
+							<tr>
+								<td><dfn>Partial</dfn>:X=>Y</td>
+								<td>::=</td>
+								<td>partial functions from X to Y</td>
+							</tr>
+						</tbody>
+						<tbody data-include="associative-datatype.html" data-include-sync="true"></tbody>
+						<tbody data-include="solitary-association-datatype.html"
+							data-include-sync="true"></tbody>
+						<tbody>
+							<tr>
+								<td>associative-tree<sub>0</sub></td>
+								<td>::=</td>
+								<td>RDF Graph</td>
+							</tr>
+							<tr>
+								<td>associative-tree<sub>k</sub>, k &gt; 0</td>
+								<td>::=</td>
+								<td>TypeAssoc<sub>k</sub>(associative-tree<sub>&le; k-1</sub>)</td>
+							</tr>
+							<tr>
+								<td><dfn>associative-tree<sub>&le; k</sub></dfn>, k &ge; 0</td>
+								<td>::=</td>
+								<td>&cup;<sub>i &le; k</sub>
+									<a>ssociative-tree<sub>i</sub></a>a</td>
+							</tr>
+						</tbody>
+						<tbody>
+							<tr>
+								<td><dfn>TypeSeq</dfn>(X)</td>
+								<td>::=</td>
+								<td>X<sup>*</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
+										X<sup>Z</sup> (i.e. finite, semi-infinite, and bi-infinite
+									sequences of X's)</td>
+							</tr>
+							<tr>
+								<td><dfn>TypeSeq<sup>+</sup></dfn>(X)</td>
+								<td>::=</td>
+								<td>X<sup>+</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
+										X<sup>Z</sup> (i.e. non-empty finite, semi-infinite, and
+									bi-infinite sequences of X's)</td>
+							</tr>
+							<tr>
+								<td><dfn>data-sequence</dfn></td>
+								<td>::=</td>
+								<td><a>TypeSeq</a>(structure)</td>
+							</tr>
+							<tr>
+								<td><dfn>data-sequence<sub>k</sub></dfn></td>
+								<td>::=</td>
+								<td>{x &in; <a>TypeSeq</a><sup>+</sup>(structure) | order(x) =
+									k}</td>
+							</tr>
+							<tr>
+								<td><dfn>data-sequence<sub>&le; k</sub></dfn>, k &ge; 0</td>
+								<td>::=</td>
+								<td>&cup;<sub>i &le; k</sub>
+									<a>data-sequence<sub>i</sub></a></td>
+							</tr>
+						</tbody>
+						<tbody>
+							<tr>
+								<td><dfn>multivalent-structure<sub>k</sub></dfn>, k &ge; 0</td>
+								<td>::=</td>
+								<td> (<a>associative<sub>&le; k</sub></a> x
+											<a>data-sequence<sub>k</sub></a>) &cup;
+										(associative<sub>k</sub> x sequence<sub>&le; k</sub>)</td>
+							</tr>
+						</tbody>
+						<tbody>
+							<tr>
+								<td><dfn>structure<sub>k</sub></dfn>, k &ge; 0</td>
+								<td>::=</td>
+								<td><a>associative<sub>k</sub></a> &cup;
+											<a>data-sequence<sub>k</sub></a> &cup;
+											<a>multivalent-structure<sub>k</sub></a></td>
+							</tr>
+							<tr>
+								<td><dfn>structure<sub>&le; k</sub></dfn>, k &ge; 0</td>
+								<td>::=</td>
+								<td>&cup;<sub>i &le; k</sub>
+									<a>structure<sub>i</sub></a></td>
+							</tr>
+							<tr>
+								<td><dfn>structure</dfn></td>
+								<td>::=</td>
+								<td>&cup;<sub>k &ge; 0</sub>
+									<a>structure<sub>k</sub></a></td>
+							</tr>
+						</tbody>
+						<tbody>
+							<tr>
+								<td><dfn>Ver<sub>k</sub></dfn>(X, Y), k &gt; 0</td>
+								<td>::&lt;</td>
+								<td>[<a>Nat</a>, <a>℘℘</a>(RDF-Name), <a>Partial</a>:(RDF-Name => Y
+									&cup; {<a>ASSOC</a>} => X)]</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>::=</td>
+								<td>{<a>Versioned-INIT<sub>k</sub></a>(NI, M) | NI &in;
+									<a>℘℘</a>(RDF-Name), M: NI|<sub>Y</sub> &cup; {<a>ASSOC</a>} =>
+									X) where M(x) = M(y), x &lt; y &in; NI implies there is some z
+									&in; NI, x &lt; z &lt; y}</td>
+							</tr>
+							<tr>
+								<td><dfn>versioned<sub>k</sub></dfn>, k &ge; 1</td>
+								<td>::=</td>
+								<td><a>Ver<sub>k</sub></a>(<a>structure<sub>&le; k</sub></a>,
+											<a>structure<sub>&le; k-1</sub></a>)</td>
+							</tr>
+						</tbody>
+						<tbody>
+							<tr>
+								<td><dfn>solitary-association-tree<sub>k</sub></dfn>, k &gt; 0</td>
+								<td>::=</td>
+								<td><a>solitary-association<sub>k</sub></a> &cap;
+											<a>associative-tree<sub>k</sub></a></td>
+							</tr>
+						</tbody>
+						<tbody>
+							<tr>
+								<td><dfn>repository<sub>k</sub></dfn>, k &ge; 1</td>
+								<td>::&lt;</td>
+								<td>
+									<a>associative-tree<sub>&le; k-1</sub></a> x
+											<a>TypeSeq<sup>+</sup></a>(<a>solitary-association-tree<sub>k</sub></a>)
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>::=</td>
+								<td><a>Ver<sub>k</sub></a>(<a>associative-tree<sub>&le;
+										k-1</sub></a>, <a>associative-tree<sub>&le;
+									k-1</sub></a>)</td>
+							</tr>
+						</tbody>
+						<tbody>
+							<tr>
+								<td><dfn>store<sub>k</sub></dfn>, k &ge; 2</td>
+								<td>::&lt;</td>
+								<td> (<a>TypeAssoc<sub>k</sub></a>(<a>repository<sub>k-1</sub></a>)
+									x
+											<a>TypeSeq<sup>+</sup></a>(<a>solitary-association-tree<sub>k</sub></a>)
+									)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>::&lt;</td>
+								<td><a>Ver<sub>k</sub></a>(<a>TypeAssoc<sub>k</sub></a>(<a>repository<sub>k-1</sub></a>),
+											<a>associative-tree<sub>k-1</sub></a>)</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>::=</td>
+								<td>{<a>Store-INIT<sub>k</sub></a>(RN, RM, SI, M) | RN &in;
+										2<sup>RDF-Name</sup> - 1, RM: RN<sub>ext</sub> =>
+											<a>repository<sub>k-1</sub></a>, @@@plus other
+									requirement on SI and M as given in the definition of
+											<a>Store-INIT<sub>k</sub></a>}</td>
+							</tr>
+						</tbody>
 						<!-- Not done yet
 						<tr>
 							<td>stream<sub>i</sub></td>
@@ -6282,7 +6292,7 @@ We write
 						<tr>
 							<td>RM</td>
 							<td>mapping with dom(M) &sube; RDF-Name and codom &sube;
-									<a>TypeRepository</a></td>
+									repository</td>
 						</tr>
 						<tr>
 							<td>NM</td>
@@ -6342,91 +6352,10 @@ We write
 			<h4>Summary of Operator Syntax</h4>
 			<div>
 				<table>
-					<thead>
-						<tr>
-							<th>Operator</th>
-							<th>Signature</th>
-							<th>Result Type</th>
-						</tr>
-					</thead>
+					<thead data-include="table-head-syntax.html" data-include-sync="true"></thead>
+					<tbody data-include="associative-syntax.html" data-include-sync="true"></tbody>
+					<tbody data-include="solitary-syntax.html" data-include-sync="true"></tbody>
 					<tbody>
-						<tr>
-							<td><a>Associative-INIT<sub>k</sub></a>(N, M), k &gt; 0</td>
-							<td>[2<sup><a>RDF-Name</a></sup> - <a>1</a>, <a>Ext-DEFAULT</a>(N) =>
-										<a>structure<sub>&le; k-1</sub></a>]</td>
-							<td><a>associative<sub>k</sub></a></td>
-						</tr>
-						<tr>
-							<td><a>Associative-INIT<sub>0</sub></a>(N, M)</td>
-							<td>[{}, {<a>DEFAULT</a>} => <a>RDF-Graph</a></td>
-							<td><a>associative<sub>0</sub></a></td>
-						</tr>
-						<tr>
-							<td><a>order</a></td>
-							<td><a>structure<sub>k</sub></a></td>
-							<td><a>Z<sup>*</sup></a></td>
-						</tr>
-						<tr>
-							<td><a>names</a></td>
-							<td><a>associative<sub>k</sub></a></td>
-							<td>2<sup><a>RDF-Name</a></sup> - <a>1</a></td>
-						</tr>
-						<tr>
-							<td><a>nameMap</a></td>
-							<td><a>associative<sub>k</sub></a>, k &gt; 0</td>
-							<td><a>Partial</a>:<a>Ext-DEFAULT</a>(2<sup><a>RDF-Name</a></sup> -
-									<a>1</a>) => <a>structure<sub>&le; k-1</sub></a></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td><a>associative<sub>k</sub></a>, k = 0</td>
-							<td>{<a>DEFAULT</a>} => <a>RDF-Graph</a></td>
-						</tr>
-						<tr>
-							<td><a>defaultPart</a></td>
-							<td><a>associative<sub>k</sub></a>, k &gt; 0</td>
-							<td><a>structure<sub>&le; k-1</sub></a></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td><a>associative<sub>k</sub></a>, k = 0</td>
-							<td><a>associative<sub>0</sub></a></td>
-						</tr>
-						<tr>
-							<td><a>Solitary<sub>k</sub></a></td>
-							<td>[<a>RDF-Name</a>, <a>structure</a><sub>k-1</sub>]</td>
-							<td><a>solitary-association<sub>k</sub></a></td>
-						</tr>
-						<tr>
-							<td><a>namedPart</a></td>
-							<td><a>associative<sub>k</sub></a>, k &gt; 0</td>
-							<td><a>associative<sub>k</sub></a></td>
-						</tr>
-						<tr>
-							<td><a>isAssociative</a></td>
-							<td>*</td>
-							<td>Boolean</td>
-						</tr>
-						<tr>
-							<td><a>isSolitary</a></td>
-							<td><a>associative<sub>k</sub></a>, k &gt; 0</td>
-							<td>Boolean</td>
-						</tr>
-						<tr>
-							<td><a>name</a></td>
-							<td><a>solitary-association<sub>k</sub></a></td>
-							<td>RDF-Name</td>
-						</tr>
-						<tr>
-							<td><a>content</a></td>
-							<td>[<a>RDF-Name</a>,<a>associative<sub>k</sub></a>] k &gt; 0</td>
-							<td><a>structure<sub>k-1</sub></a></td>
-						</tr>
-						<tr>
-							<td><a>content</a></td>
-							<td><a>solitary-association</a></td>
-							<td><a>structure</a></td>
-						</tr>
 						<tr>
 							<td><a>isSequence</a></td>
 							<td>*</td>
@@ -6516,6 +6445,13 @@ We write
 							<td>Result Type</td>
 						</tr>
 						<tr>
+							<td><a>Chain</a></td>
+							<td>Signature</td>
+							<td>Result Type</td>
+						</tr>
+					</tbody>
+					<tbody>
+						<tr>
 							<td><a>isDataStructure</a></td>
 							<td>Signature</td>
 							<td>Result Type</td>
@@ -6540,16 +6476,22 @@ We write
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
+					</tbody>
+					<tbody>
 						<tr>
 							<td><a>isTree</a></td>
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
+					</tbody>
+					<tbody>
 						<tr>
 							<td><a>content-UNION</a></td>
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
+					</tbody>
+					<tbody>
 						<tr>
 							<td><a>isVersionOf</a></td>
 							<td>Signature</td>
@@ -6625,6 +6567,8 @@ We write
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
+					</tbody>
+					<tbody>
 						<tr>
 							<td><a>Repository-INIT</a></td>
 							<td>Signature</td>
@@ -6645,6 +6589,13 @@ We write
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
+						<tr>
+							<td><a>Repository-INITIAL</a></td>
+							<td>Signature</td>
+							<td>Result Type</td>
+						</tr>
+					</tbody>
+					<tbody>
 						<tr>
 							<td><a>Append2Store</a></td>
 							<td>Signature</td>
@@ -6710,6 +6661,8 @@ We write
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
+					</tbody>
+					<tbody>
 						<tr>
 							<td><a>TSGraph</a></td>
 							<td>Signature</td>
@@ -6720,18 +6673,10 @@ We write
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
+					</tbody>
+					<tbody>
 						<tr>
 							<td><a>Tree-UNION</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>Chain</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>Repository-INITIAL</a></td>
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
