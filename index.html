@@ -547,213 +547,6 @@
 						Update Operation, and the extension of the <a>pattern</a> syntax to express
 							<a>k-th order patterns</a>, including k-th order "solitary-association"
 						patterns.</aside>
-					<p>The following table summarizes datatypes. The rows using "::=" provide a
-						definition of the datatype as a composition. The rows using "::&lt;" provide
-						a compositional supertype of that datatype.</p>
-					<table style="font: monospace;">
-						<thead data-include="table-head-datatype.html" data-include-sync="true"></thead>
-						<tbody>
-							<tr>
-								<td><dfn>Nat</dfn></td>
-								<td>::=</td>
-								<td>set of Natural Numbers</td>
-							</tr>
-							<tr>
-								<td>2<sup>X</sup></td>
-								<td>::=</td>
-								<td>set of subsets of X</td>
-							</tr>
-							<tr>
-								<td>X<sup>*</sup></td>
-								<td>::=</td>
-								<td>finite sequences of X, including the empty sequence</td>
-							</tr>
-							<tr>
-								<td>X<sup>+</sup></td>
-								<td>::=</td>
-								<td>non-empty finite sequences of X</td>
-							</tr>
-							<tr>
-								<td><dfn>>℘℘</dfn>(X)</td>
-								<td>::=</td>
-								<td>set of all partial permutations of X, i.e. set of all
-									totally-ordered subsets of X</td>
-							</tr>
-							<tr>
-								<td><dfn>1</dfn></td>
-								<td>::=</td>
-								<td>{{}}</td>
-							</tr>
-							<tr>
-								<td><dfn>Partial</dfn>:X=>Y</td>
-								<td>::=</td>
-								<td>partial functions from X to Y</td>
-							</tr>
-						</tbody>
-						<tbody data-include="associative-datatype.html" data-include-sync="true"></tbody>
-						<tbody data-include="solitary-association-datatype.html"
-							data-include-sync="true"></tbody>
-						<tbody>
-							<tr>
-								<td>associative-tree<sub>0</sub></td>
-								<td>::=</td>
-								<td>RDF Graph</td>
-							</tr>
-							<tr>
-								<td>associative-tree<sub>k</sub>, k &gt; 0</td>
-								<td>::=</td>
-								<td>TypeAssoc<sub>k</sub>(associative-tree<sub>&le; k-1</sub>)</td>
-							</tr>
-							<tr>
-								<td><dfn>associative-tree<sub>&le; k</sub></dfn>, k &ge; 0</td>
-								<td>::=</td>
-								<td>&cup;<sub>i &le; k</sub>
-									<a>ssociative-tree<sub>i</sub></a>a</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td><dfn>TypeSeq</dfn>(X)</td>
-								<td>::=</td>
-								<td>X<sup>*</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
-										X<sup>Z</sup> (i.e. finite, semi-infinite, and bi-infinite
-									sequences of X's)</td>
-							</tr>
-							<tr>
-								<td><dfn>TypeSeq<sup>+</sup></dfn>(X)</td>
-								<td>::=</td>
-								<td>X<sup>+</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
-										X<sup>Z</sup> (i.e. non-empty finite, semi-infinite, and
-									bi-infinite sequences of X's)</td>
-							</tr>
-							<tr>
-								<td><dfn>data-sequence</dfn></td>
-								<td>::=</td>
-								<td><a>TypeSeq</a>(structure)</td>
-							</tr>
-							<tr>
-								<td><dfn>data-sequence<sub>k</sub></dfn></td>
-								<td>::=</td>
-								<td>{x &in; <a>TypeSeq</a><sup>+</sup>(structure) | order(x) =
-									k}</td>
-							</tr>
-							<tr>
-								<td><dfn>data-sequence<sub>&le; k</sub></dfn>, k &ge; 0</td>
-								<td>::=</td>
-								<td>&cup;<sub>i &le; k</sub>
-									<a>data-sequence<sub>i</sub></a></td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td><dfn>multivalent-structure<sub>k</sub></dfn>, k &ge; 0</td>
-								<td>::=</td>
-								<td> (<a>associative<sub>&le; k</sub></a> x
-											<a>data-sequence<sub>k</sub></a>) &cup;
-										(associative<sub>k</sub> x sequence<sub>&le; k</sub>)</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td><dfn>structure<sub>k</sub></dfn>, k &ge; 0</td>
-								<td>::=</td>
-								<td><a>associative<sub>k</sub></a> &cup;
-											<a>data-sequence<sub>k</sub></a> &cup;
-											<a>multivalent-structure<sub>k</sub></a></td>
-							</tr>
-							<tr>
-								<td><dfn>structure<sub>&le; k</sub></dfn>, k &ge; 0</td>
-								<td>::=</td>
-								<td>&cup;<sub>i &le; k</sub>
-									<a>structure<sub>i</sub></a></td>
-							</tr>
-							<tr>
-								<td><dfn>structure</dfn></td>
-								<td>::=</td>
-								<td>&cup;<sub>k &ge; 0</sub>
-									<a>structure<sub>k</sub></a></td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td><dfn>Ver<sub>k</sub></dfn>(X, Y), k &gt; 0</td>
-								<td>::&lt;</td>
-								<td>[<a>Nat</a>, <a>℘℘</a>(RDF-Name), <a>Partial</a>:(RDF-Name => Y
-									&cup; {<a>ASSOC</a>} => X)]</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td>::=</td>
-								<td>{<a>Versioned-INIT<sub>k</sub></a>(NI, M) | NI &in;
-									<a>℘℘</a>(RDF-Name), M: NI|<sub>Y</sub> &cup; {<a>ASSOC</a>} =>
-									X) where M(x) = M(y), x &lt; y &in; NI implies there is some z
-									&in; NI, x &lt; z &lt; y}</td>
-							</tr>
-							<tr>
-								<td><dfn>versioned<sub>k</sub></dfn>, k &ge; 1</td>
-								<td>::=</td>
-								<td><a>Ver<sub>k</sub></a>(<a>structure<sub>&le; k</sub></a>,
-											<a>structure<sub>&le; k-1</sub></a>)</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td><dfn>solitary-association-tree<sub>k</sub></dfn>, k &gt; 0</td>
-								<td>::=</td>
-								<td><a>solitary-association<sub>k</sub></a> &cap;
-											<a>associative-tree<sub>k</sub></a></td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td><dfn>repository<sub>k</sub></dfn>, k &ge; 1</td>
-								<td>::&lt;</td>
-								<td>
-									<a>associative-tree<sub>&le; k-1</sub></a> x
-											<a>TypeSeq<sup>+</sup></a>(<a>solitary-association-tree<sub>k</sub></a>)
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td>::=</td>
-								<td><a>Ver<sub>k</sub></a>(<a>associative-tree<sub>&le;
-										k-1</sub></a>, <a>associative-tree<sub>&le;
-									k-1</sub></a>)</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td><dfn>store<sub>k</sub></dfn>, k &ge; 2</td>
-								<td>::&lt;</td>
-								<td> (<a>TypeAssoc<sub>k</sub></a>(<a>repository<sub>k-1</sub></a>)
-									x
-											<a>TypeSeq<sup>+</sup></a>(<a>solitary-association-tree<sub>k</sub></a>)
-									)</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td>::&lt;</td>
-								<td><a>Ver<sub>k</sub></a>(<a>TypeAssoc<sub>k</sub></a>(<a>repository<sub>k-1</sub></a>),
-											<a>associative-tree<sub>k-1</sub></a>)</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td>::=</td>
-								<td>{<a>Store-INIT<sub>k</sub></a>(RN, RM, SI, M) | RN &in;
-										2<sup>RDF-Name</sup> - 1, RM: RN<sub>ext</sub> =>
-											<a>repository<sub>k-1</sub></a>, @@@plus other
-									requirement on SI and M as given in the definition of
-											<a>Store-INIT<sub>k</sub></a>}</td>
-							</tr>
-						</tbody>
-						<!-- Not done yet
-						<tr>
-							<td>stream<sub>i</sub></td>
-							<td>::=</td>
-							<td>?</td>
-						</tr>
-						-->
-					</table>
 				</section>
 			</section>
 			<section id="def-data-sequences-structures">
@@ -1006,20 +799,16 @@
 							RDF multivalent data structure</a> that meets the following
 						requirements. </p>
 					<ul>
-						<li>Let SQ = sequentialPart(VDST) with Index = <a>index</a>(SQ) and SQ =
-								<a>indexMap</a>(SQ).</li>
-						<li>Each element SQ(i) for i &in; Index is a <a>solitary association</a>.
-							These elements are called <dfn>versions</dfn> of the versioned
-							structure.</li>
-						<li>If i &ne; j &in; Index, then name(SQ(i)) &ne; name(SQ(j)). The names are
-							called the <dfn>version names</dfn> of the structure and they form an
-							ordered set, with the order consistent with the sequence order.</li>
-						<li>If j = <a>next</a>(i; Index), then content(SQ(j)) &ne; t(SQ(i))</li>
+						<li>Let DSQ = sequentialPart(VDST).</li>
+						<li>Each element DST of DSQ is a <a>solitary association</a>. These elements
+							are called <dfn>versions</dfn> of the versioned structure.</li>
+						<li>The names of the sequence elements are unique. I.e., if DST &ne; DST'
+							are both members of DSQ, then name(DSQ) = name(DSQ') iff DSQ = DSQ'. The names
+							are called the <dfn>version names</dfn> of the structure and they form
+							an ordered set, with the order consistent with the sequence order.</li>
+						<li>If DST' = <a>successor</a>(DST; DSQ), then content(DST') &ne;
+							content(DST). That is, the content of adjacent versions is distinct.</li>
 					</ul>
-					<p class="ednote">There is a problem of non-determinism with the functions
-							<a>index</a> and <a>indexMap</a>. It would be better to use other
-						sequence iterator functions above. This is the only place in the draft where
-							<a>index</a> and <a>indexMap</a> are used.</p>
 					<p class="note">The sequence corresponds to a mapping from the <a>version
 							names</a> to the contents of the <a>versions</a>. Further, the contents
 						of adjacent versions are distinct; this means each step in the sequence
@@ -1111,6 +900,24 @@
 					<p class="note">The constructor <a>Versioned-INIT<sub>k</sub></a> ensures that
 						revisions are not vacuous by reducing the ordered set of version names as
 						needed.</p>
+					<aside class="example">
+						<p>An important usecase is to view versioned structures from different
+							ordering perspectives. For example, streams with multiple temporal
+							characteristics may be represented by repositories that differ primarily
+							in regard to version order, rather than version content. In this
+							example, we illustrate the use the functions defined above to describe a
+							re-ordering of versions. </p>
+						<p>Let VDST = <a>Versioned-INIT<sub>k</sub></a>(VI, M), where VI = [VN,
+								&le;<sub>VI</sub>].</p>
+						<p>Let PM be a bijection from VN to itself. The mapping PM defines a
+							totally-ordered set VI' = [VN, &le;<sub>VI'</sub>] where
+								PM(x)&le;<sub>VI'</sub>PM(y) iff x&le;<sub>VI</sub>y </p>
+						<p>We define an operator <dfn>Versioned-PERMUTE</dfn>(VDST, PM) with
+							signature [<a>versioned</a><sub>k</sub>, VN => VN] =>
+								<a>versioned</a><sub>k</sub></p>
+						<p>with semantics <a>Versioned-PERMUTE</a>(VDST, PM) = Versioned-INIT(VI',
+							M).</p>
+					</aside>
 				</section>
 				<section id="def-kth-order-rdf-repository">
 					<h4>k-th Order RDF Repositories</h4>
@@ -1135,17 +942,19 @@
 					<p class="ednote">To be clarified in Eval section: The associative part of the
 						repository plays the role of background knowledge, which is unioned with
 						every snapshot prior to query.</p>
-					<p>We define a Repository Constuctor as a basic operation
+					<p>We define a Repository Constructor as a basic operation
 								<dfn>Repository-INIT<sub>k</sub></dfn>, k = 1, 2, ..., that takes
 						the following arguments.</p>
+					<!--
 					<ol>
 						<li>The <a>associative tree</a> of order k-1 or less that is the associative
-							part of the repository, or the reserved word NONE, indicating the
+							part of the repository, or the reserved word <a>NONE</a>, indicating the
 							repository has no associative part.</li>
 						<li>The ordered set of version names of the repository. </li>
 						<li>The mapping from the set of version names to <a>associative trees</a> of
 							order k-1 or less that defines the versions of the repository. </li>
 					</ol>
+					-->
 					<ol>
 						<li>The ordered set VI = [VN, &le;<sub>VN</sub>] of version names of the
 							repository. </li>
@@ -1326,7 +1135,7 @@
 						RM(n) ) if n &in; RN while </p>
 					<p> RP<sub><a>DEFAULT</a></sub>(stver) = content(
 						M<sub><a>DEFAULT</a></sub>(stver); RM(<a>DEFAULT</a>) ) and </p>
-					<p> M'(ASSOC) = Tree-UNION( RM( RN<sub>ext</sub> ) ). </p>
+					<p> M'(ASSOC) = <a>Tree-UNION</a>( RM( RN<sub>ext</sub> ) ). </p>
 					<aside class="note">
 						<p>If STR = <a>Store-INIT<sub>k</sub></a>(RN, RM, SI, M), then</p>
 						<ul>
@@ -1337,6 +1146,14 @@
 									RN<sub>ext</sub> ) ).</li>
 						</ul>
 					</aside>
+					<p>An important usecase is to view repositories from different ordering
+						perspectives. For example, streams with multiple temporal characteristics
+						may be represented by repositories that differ primarily in regard to
+						version order, rather than version content. For this purpose, we extend the
+						constructor <a>Store-INIT</a> so that the mapping from store versions to
+						repository versions is not required to be monotonic. The constructed store
+						will hold a different repository than the constructor input, and this
+						reordered repository can be lazily materialized.</p>
 					<p>In addition to constructing a store in its entirety with
 								<a>Store-INIT<sub>k</sub></a>, we define a basic operation
 							<dfn>Append2Store</dfn> which creates a new store by adding a version to
@@ -6291,8 +6108,7 @@ We write
 						</tr>
 						<tr>
 							<td>RM</td>
-							<td>mapping with dom(M) &sube; RDF-Name and codom &sube;
-									repository</td>
+							<td>mapping with dom(M) &sube; RDF-Name and codom &sube; repository</td>
 						</tr>
 						<tr>
 							<td>NM</td>
@@ -6347,6 +6163,209 @@ We write
 					</tbody>
 				</table>
 			</div>
+		</section>
+		<section>
+			<h3>Summary of Datatypes</h3>
+			<p>The following table summarizes datatypes. The rows using "::=" provide a definition
+				of the datatype as a composition. The rows using "::&lt;" provide a compositional
+				supertype of that datatype.</p>
+			<table style="font: monospace;">
+				<thead data-include="table-head-datatype.html" data-include-sync="true"></thead>
+				<tbody>
+					<tr>
+						<td><dfn>Nat</dfn></td>
+						<td>::=</td>
+						<td>set of Natural Numbers</td>
+					</tr>
+					<tr>
+						<td>2<sup>X</sup></td>
+						<td>::=</td>
+						<td>set of subsets of X</td>
+					</tr>
+					<tr>
+						<td>X<sup>*</sup></td>
+						<td>::=</td>
+						<td>finite sequences of X, including the empty sequence</td>
+					</tr>
+					<tr>
+						<td>X<sup>+</sup></td>
+						<td>::=</td>
+						<td>non-empty finite sequences of X</td>
+					</tr>
+					<tr>
+						<td><dfn>>℘℘</dfn>(X)</td>
+						<td>::=</td>
+						<td>set of all partial permutations of X, i.e. set of all totally-ordered
+							subsets of X</td>
+					</tr>
+					<tr>
+						<td><dfn>1</dfn></td>
+						<td>::=</td>
+						<td>{{}}</td>
+					</tr>
+					<tr>
+						<td><dfn>Partial</dfn>:X=>Y</td>
+						<td>::=</td>
+						<td>partial functions from X to Y</td>
+					</tr>
+				</tbody>
+				<tbody data-include="associative-datatype.html" data-include-sync="true"></tbody>
+				<tbody data-include="solitary-association-datatype.html" data-include-sync="true"></tbody>
+				<tbody>
+					<tr>
+						<td>associative-tree<sub>0</sub></td>
+						<td>::=</td>
+						<td>RDF Graph</td>
+					</tr>
+					<tr>
+						<td>associative-tree<sub>k</sub>, k &gt; 0</td>
+						<td>::=</td>
+						<td>TypeAssoc<sub>k</sub>(associative-tree<sub>&le; k-1</sub>)</td>
+					</tr>
+					<tr>
+						<td><dfn>associative-tree<sub>&le; k</sub></dfn>, k &ge; 0</td>
+						<td>::=</td>
+						<td>&cup;<sub>i &le; k</sub>
+							<a>ssociative-tree<sub>i</sub></a>a</td>
+					</tr>
+				</tbody>
+				<tbody>
+					<tr>
+						<td><dfn>TypeSeq</dfn>(X)</td>
+						<td>::=</td>
+						<td>X<sup>*</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
+								X<sup>Z</sup> (i.e. finite, semi-infinite, and bi-infinite sequences
+							of X's)</td>
+					</tr>
+					<tr>
+						<td><dfn>TypeSeq<sup>+</sup></dfn>(X)</td>
+						<td>::=</td>
+						<td>X<sup>+</sup> &cup; X<sup>Nat</sup> &cup; X<sup>-Nat</sup> &cup;
+								X<sup>Z</sup> (i.e. non-empty finite, semi-infinite, and bi-infinite
+							sequences of X's)</td>
+					</tr>
+					<tr>
+						<td><dfn>data-sequence</dfn></td>
+						<td>::=</td>
+						<td><a>TypeSeq</a>(structure)</td>
+					</tr>
+					<tr>
+						<td><dfn>data-sequence<sub>k</sub></dfn></td>
+						<td>::=</td>
+						<td>{x &in; <a>TypeSeq</a><sup>+</sup>(structure) | order(x) = k}</td>
+					</tr>
+					<tr>
+						<td><dfn>data-sequence<sub>&le; k</sub></dfn>, k &ge; 0</td>
+						<td>::=</td>
+						<td>&cup;<sub>i &le; k</sub>
+							<a>data-sequence<sub>i</sub></a></td>
+					</tr>
+				</tbody>
+				<tbody>
+					<tr>
+						<td><dfn>multivalent-structure<sub>k</sub></dfn>, k &ge; 0</td>
+						<td>::=</td>
+						<td> (<a>associative<sub>&le; k</sub></a> x
+							<a>data-sequence<sub>k</sub></a>) &cup; (associative<sub>k</sub> x
+								sequence<sub>&le; k</sub>)</td>
+					</tr>
+				</tbody>
+				<tbody>
+					<tr>
+						<td><dfn>structure<sub>k</sub></dfn>, k &ge; 0</td>
+						<td>::=</td>
+						<td><a>associative<sub>k</sub></a> &cup; <a>data-sequence<sub>k</sub></a>
+							&cup; <a>multivalent-structure<sub>k</sub></a></td>
+					</tr>
+					<tr>
+						<td><dfn>structure<sub>&le; k</sub></dfn>, k &ge; 0</td>
+						<td>::=</td>
+						<td>&cup;<sub>i &le; k</sub>
+							<a>structure<sub>i</sub></a></td>
+					</tr>
+					<tr>
+						<td><dfn>structure</dfn></td>
+						<td>::=</td>
+						<td>&cup;<sub>k &ge; 0</sub>
+							<a>structure<sub>k</sub></a></td>
+					</tr>
+				</tbody>
+				<tbody>
+					<tr>
+						<td><dfn>Ver<sub>k</sub></dfn>(X, Y), k &gt; 0</td>
+						<td>::&lt;</td>
+						<td>[<a>Nat</a>, <a>℘℘</a>(RDF-Name), <a>Partial</a>:(RDF-Name => Y &cup;
+								{<a>ASSOC</a>} => X)]</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>::=</td>
+						<td>{<a>Versioned-INIT<sub>k</sub></a>(NI, M) | NI &in; <a>℘℘</a>(RDF-Name),
+							M: NI|<sub>Y</sub> &cup; {<a>ASSOC</a>} => X) where M(x) = M(y), x &lt;
+							y &in; NI implies there is some z &in; NI, x &lt; z &lt; y}</td>
+					</tr>
+					<tr>
+						<td><dfn data-lt="versioned">versioned<sub>k</sub></dfn>, k &ge; 1</td>
+						<td>::=</td>
+						<td><a>Ver<sub>k</sub></a>(<a>structure<sub>&le; k</sub></a>,
+									<a>structure<sub>&le; k-1</sub></a>)</td>
+					</tr>
+				</tbody>
+				<tbody>
+					<tr>
+						<td><dfn>solitary-association-tree<sub>k</sub></dfn>, k &gt; 0</td>
+						<td>::=</td>
+						<td><a>solitary-association<sub>k</sub></a> &cap;
+									<a>associative-tree<sub>k</sub></a></td>
+					</tr>
+				</tbody>
+				<tbody>
+					<tr>
+						<td><dfn>repository<sub>k</sub></dfn>, k &ge; 1</td>
+						<td>::&lt;</td>
+						<td>
+							<a>associative-tree<sub>&le; k-1</sub></a> x
+									<a>TypeSeq<sup>+</sup></a>(<a>solitary-association-tree<sub>k</sub></a>)
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>::=</td>
+						<td><a>Ver<sub>k</sub></a>(<a>associative-tree<sub>&le; k-1</sub></a>,
+									<a>associative-tree<sub>&le; k-1</sub></a>)</td>
+					</tr>
+				</tbody>
+				<tbody>
+					<tr>
+						<td><dfn>store<sub>k</sub></dfn>, k &ge; 2</td>
+						<td>::&lt;</td>
+						<td> (<a>TypeAssoc<sub>k</sub></a>(<a>repository<sub>k-1</sub></a>) x
+									<a>TypeSeq<sup>+</sup></a>(<a>solitary-association-tree<sub>k</sub></a>)
+							)</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>::&lt;</td>
+						<td><a>Ver<sub>k</sub></a>(<a>TypeAssoc<sub>k</sub></a>(<a>repository<sub>k-1</sub></a>),
+									<a>associative-tree<sub>k-1</sub></a>)</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>::=</td>
+						<td>{<a>Store-INIT<sub>k</sub></a>(RN, RM, SI, M) | RN &in;
+								2<sup>RDF-Name</sup> - 1, RM: RN<sub>ext</sub> =>
+									<a>repository<sub>k-1</sub></a>, @@@plus other requirement on SI
+							and M as given in the definition of <a>Store-INIT<sub>k</sub></a>}</td>
+					</tr>
+				</tbody>
+				<!-- Not done yet
+						<tr>
+							<td>stream<sub>i</sub></td>
+							<td>::=</td>
+							<td>?</td>
+						</tr>
+						-->
+			</table>
 		</section>
 		<section id="sec-operator-syntax-summary">
 			<h4>Summary of Operator Syntax</h4>
@@ -6491,83 +6510,7 @@ We write
 							<td>Result Type</td>
 						</tr>
 					</tbody>
-					<tbody>
-						<tr>
-							<td><a>isVersionOf</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>isPreviousVersionTo</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>hasInitialVersion</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>initialVersionOf</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>precedingVerions</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>hasTerminalVersion</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>terminalVersionOf</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>succeedingVersion</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>revises</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>versionNames</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>isVersionNameOf</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>versionContent</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>hasNext</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>next</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>Versioned-INIT</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-					</tbody>
+					<tbody data-include="versioned-syntax.html" data-include-sync="true"></tbody>
 					<tbody>
 						<tr>
 							<td><a>Repository-INIT</a></td>

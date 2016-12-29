@@ -1,0 +1,80 @@
+<tr>
+    <td><a>isVersionOf</a></td>
+    <td>[* , <a>versioned</a>]</td>
+    <td>Boolean</td>
+</tr>
+<tr>
+    <td><a>isPreviousVersionTo</a></td>
+    <td>[<a>structure</a>, <a>structure</a>; <a>versioned</a>]</td>
+    <td>Boolean</td>
+</tr>
+<tr>
+    <td><a>hasInitialVersion</a></td>
+    <td><a>versioned</a></td>
+    <td>Boolean</td>
+</tr>
+<tr>
+    <td><a>initialVersionOf</a></td>
+    <td><a>versioned</a></td>
+    <td><a>structure</a></td>
+</tr>
+<tr>
+    <td><a>precedingVersion</a></td>
+    <td><a>versioned</a></td>
+    <td><a>structure</a></td>
+</tr>
+<tr>
+    <td><a>hasTerminalVersion</a></td>
+    <td><a>versioned</a></td>
+    <td>Boolean</td>
+</tr>
+<tr>
+    <td><a>terminalVersionOf</a></td>
+    <td>[<a>structure</a> , <a>versioned</a>]</td>
+    <td>Boolean</td>
+</tr>
+<tr>
+    <td><a>succeedingVersion</a></td>
+    <td>[<a>structure</a> ; <a>versioned</a>]</td>
+    <td>Result Type</td>
+</tr>
+<tr>
+    <td><a>revises</a></td>
+    <td>[<a>structure</a> , <a>structure</a>;<a>versioned</a>]</td>
+    <td>Boolean</td>
+</tr>
+<tr>
+    <td><a>versionNames</a></td>
+    <td> <a>versioned</a></td>
+    <td>2<sup>RDF-Name</sup> - <a>1</a></td>
+</tr>
+<tr>
+    <td><a>isVersionNameOf</a></td>
+    <td>[RDF-Name, <a>versioned</a>]</td>
+    <td>Boolean</td>
+</tr>
+<tr>
+    <td><a>versionContent</a></td>
+    <td>[RDF-Name; <a>versioned</a>]</td>
+    <td><a>structure</a></td>
+</tr>
+<tr>
+    <td><a>hasNext</a></td>
+    <td>[<a>RDF-Name</a> ; <a>versioned</a>]</td>
+    <td>Boolean</td>
+</tr>
+<tr>
+    <td><a>next</a></td>
+    <td>[<a>RDF-Name</a> ; <a>versioned</a>]</td>
+    <td><a>RDF-Name</a></td>
+</tr>
+<tr>
+    <td><a>Versioned-INIT</a><sub>k</sub></td>
+    <td>Signature</td>
+    <td><a>versioned</a><sub>k</sub></td>
+</tr>
+<tr>
+    <td><a>Versioned-PERMUTE</a>(VDST, VI)</td>
+    <td>[<a>versioned</a><sub>k</sub>, VN => VN] where <br/>k = <a>order</a>(VDST),<br/> VN = <a>members</a>(VI)</td>
+    <td><a>versioned</a><sub>k</sub></td>
+</tr>
