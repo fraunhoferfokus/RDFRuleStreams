@@ -1,86 +1,142 @@
-<tr>
-    <td><a>Store-NEW</a>(RN, RM, SI, M)</td>
-    <td>
-        <ol>
-            <li>The non-empty set RN of repository names.</li>
-            <li>The mapping RM from RN<sub>ext</sub> = RN &cup;
-                {<a>DEFAULT</a>} to (k-1)-th order repositories.</li>
-            <li>The non-empty ordered set SI = [SV, &le;<sub>SV</sub>] of
-                store version names.</li>
-            <li>For each name n in RN<sub>ext</sub>, a monotonic partial
-                function M<sub>n</sub> from an interval of SI onto the
-                <a>version names</a> of the associated repository,
-                <a>repositoryOf</a>(n, STR). (The mapping
-                M<sub><a>DEFAULT</a></sub> is total.) </li>
-        </ol></td>
-    <td><a>store<sub>k</sub></a></td>
-</tr>
-<tr>
-    <td><a>Append2Store</a></td>
-    <td>Signature</td>
-    <td><a>store<sub>k</sub></a></td>
-</tr>
-<tr>
-    <td><a>Ext-ASSOC</a></td>
-    <td><a>℘℘</a>(<a>RDF Name</a>) -<a>1</a></td>
-    <td>{{ASSOC} &cup; VI| VI &in; <a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>}</td>
-</tr>
-<tr>
-    <td><a>Ext-DEFAULT</a></td>
-    <td>2<sup><a>RDF Name</a></sup></td>
-    <td>{{DEFAULT} &cup; N| N &in; 2<sup><a>RDF Name</a></sup></td>
-</tr>
-<tr>
-    <td><a>namePairs</a></td>
-    <td><a>store<sub>k</sub></a></td>
-    <td>2<sup>[[<a>RDF Name</a>, <a>RDF Name</a>], [<a>RDF Name</a>, <a>RDF Name</a>]]</sup></td>
-</tr>
-<tr>
-    <td><a>StoreTransformation</a>(STR, SI, RP, RV, M, Rel<sub>data</sub>)</td>
-    <td>[<a>store<sub>k</sub></a>,<br/>
-        <a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>, <br/>
-        2<sup><a>RDF Name</a></sup> -<a>1</a>, <br/>
-        <a>Ext-DEFAULT</a>(RP) => (<a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>), <br/>
-        <a>Ext-DEFAULT</a>(RP) => Partial:SI => (℘℘</a>(<a>RDF Name</a>) -<a>1</a>), <br/>
-        2<sup>[[<a>RDF Name</a>, <a>RDF Name</a>], [<a>RDF Name</a>, <a>RDF Name</a>]]</sup>
-        ]</td>
-    <td><a>store<sub>k</sub></a></td>
-</tr>
-<tr>
-    <td><a>Subsample</a></td>
-    <td>[<a>store<sub>k</sub></a>,<br/>
-        <a>Ext-DEFAULT</a>(RP) => (<a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>)
-        ]
-    </td>
-    <td><a>store<sub>k</sub></a></td>
-</tr>
-<tr>
-    <td><a>Sequential-UNION</a>(STR, R, r', RV'(r'))</td>
-    <td>[<a>store<sub>k</sub></a>,<br/>
-        <a>2<sup><a>Ext-DEFAULT<a>(repositoryNames</a>(STR))</sup>- <a>1</a>,<br/>
-            2<sup><a>RDF Name</a></sup>,<br/>
-            <a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>
-        ]
-    </td>
-    <td><a>store<sub>k</sub></a></td>
-</tr>
-<tr>
-    <td><a>Rename</a></td>
-    <td>Signature</td>
-    <td>Result Type</td>
-</tr>
-<tr>
-    <td><a>Comb</a></td>
-    <td>Signature</td>
-    <td>Result Type</td>
-</tr>
-<tr>
-    <td><a>Window</a></td>
-    <td>Signature</td>
-    <td>Result Type</td>
-</tr>
-<tr>
-    <td><a>Repository-EXTRACT</a></td>
-    <td>Signature</td>
-    <td>Result Type</td>
-</tr>
+<tbody>
+    <tr>
+        <td><a>Store-NEW</a>(RN, RM, SI, M)</td>
+        <td>
+            <ol>
+                <li>The non-empty set RN of repository names.</li>
+                <li>The mapping RM from RN<sub>ext</sub> = RN &cup; {<a>DEFAULT</a>} to (k-1)-th
+                    order repositories.</li>
+                <li>The non-empty ordered set SI = [SV, &le;<sub>SV</sub>] of store version
+                    names.</li>
+                <li>For each name n in RN<sub>ext</sub>, a monotonic partial function M<sub>n</sub>
+                    from an interval of SI onto the <a>version names</a> of the associated
+                    repository, <a>repositoryOf</a>(n, STR). (The mapping M<sub><a>DEFAULT</a></sub>
+                    is total.) </li>
+            </ol>
+        </td>
+        <td>
+            <a>store<sub>k</sub></a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a>repositoryNames</a>
+        </td>
+        <td>
+            <a>store<sub>k</sub></a>
+        </td>
+        <td>2<sup>RDF Name</sup></td>
+    </tr>
+    <tr>
+        <td><a>repositoryMap</a>(STR)</td>
+        <td>
+            <a>store<sub>k</sub></a>
+        </td>
+        <td><a>Ext-DEFAULT</a>(<a>repositoryNames</a>(STR)) => <a>repository</a><sub>k-1</sub></td>
+    </tr>
+    <tr>
+        <td><a>versionNameMap</a>(STR)</td>
+        <td>
+            <a>store<sub>k</sub></a>
+        </td>
+        <td><a>repositoryNames</a> =>
+            ( <a>versionNames</a>(STR) => 
+            <a>℘℘</a>(<a>RDF Name</a>) -<a>1</a> )    
+        </td>
+    </tr>
+    <tr>
+        <td><a>Append2Store</a>(STR, MA, MR )</td>
+        <td>[<a>store<sub>k</sub></a>,<br/>
+            <a>RDF Name</a>,<br/> (<a>Ext-DEFAULT</a>(<a>repositoryNames</a>(STR))) =>
+                <a>solitary-association-tree</a><sub>&le; <a>order</a>(STR) - 1</sub>,<br/>
+                    2<sup><a>RDF Name</a></sup> => <a>repository</a><sub><a>order</a>(STR) -
+            1</sub>,<br/> 2<sup><a>repositoryNames</a>(STR)</sup> ]</td>
+        <td>
+            <a>store<sub>k</sub></a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a>Ext-ASSOC</a>
+        </td>
+        <td><a>℘℘</a>(<a>RDF Name</a>) -<a>1</a></td>
+        <td>{{ASSOC} &cup; VI| VI &in; <a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>}</td>
+    </tr>
+    <tr>
+        <td>
+            <a>Ext-DEFAULT</a>
+        </td>
+        <td>2<sup><a>RDF Name</a></sup></td>
+        <td>{{DEFAULT} &cup; N| N &in; 2<sup><a>RDF Name</a></sup></td>
+    </tr>
+    <tr>
+        <td>
+            <a>namePairs</a>
+        </td>
+        <td>
+            <a>store<sub>k</sub></a>
+        </td>
+        <td>2<sup>[[<a>RDF Name</a>, <a>RDF Name</a>], [<a>RDF Name</a>, <a>RDF
+            Name</a>]]</sup></td>
+    </tr>
+    <tr>
+        <td><a>StoreTransformation</a>(STR, SI, RP, RV, M, Rel<sub>data</sub>)</td>
+        <td>[<a>store<sub>k</sub></a>,<br/>
+            <a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>, <br/> 2<sup><a>RDF Name</a></sup> -<a>1</a>, <br/>
+            <a>Ext-DEFAULT</a>(RP) => (<a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>), <br/>
+            <a>Ext-DEFAULT</a>(RP) => Partial:SI => (<a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>), <br/>
+                    2<sup>[[<a>RDF Name</a>, <a>RDF Name</a>], [<a>RDF Name</a>, <a>RDF
+                Name</a>]]</sup> ]</td>
+        <td>
+            <a>store<sub>k</sub></a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a>Subsample</a>
+        </td>
+        <td>[<a>store<sub>k</sub></a>,<br/>
+            <a>Ext-DEFAULT</a>(RP) => (<a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>) ] </td>
+        <td>
+            <a>store<sub>k</sub></a>
+        </td>
+    </tr>
+    <tr>
+        <td><a>Sequential-UNION</a>(STR, R, r', RV'(r'))</td>
+        <td>[<a>store<sub>k</sub></a>,<br/>
+                2<sup><a>Ext-DEFAULT</a>(<a>repositoryNames</a>(STR))</sup>- <a>1</a>,<br/>
+                    2<sup><a>RDF Name</a></sup>,<br/>
+            <a>℘℘</a>(<a>RDF Name</a>) -<a>1</a> ] </td>
+        <td>
+            <a>store<sub>k</sub></a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a>Rename</a>
+        </td>
+        <td>Signature</td>
+        <td>Result Type</td>
+    </tr>
+    <tr>
+        <td>
+            <a>Comb</a>
+        </td>
+        <td>Signature</td>
+        <td>Result Type</td>
+    </tr>
+    <tr>
+        <td>
+            <a>Window</a>
+        </td>
+        <td>Signature</td>
+        <td>Result Type</td>
+    </tr>
+    <tr>
+        <td>
+            <a>Repository-EXTRACT</a>
+        </td>
+        <td>Signature</td>
+        <td>Result Type</td>
+    </tr>
+</tbody>
