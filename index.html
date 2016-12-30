@@ -1426,28 +1426,27 @@
 								<a>Ext-ASSOC</a>(<a>versionNames</a>(STR)) and repo is in
 								<a>names</a>(<a>versionContent</a>(stver; STR).</p>
 						<p>We define a basic operation <dfn>StoreTransformation</dfn><sub>k</sub>
-							with range being <a>stores</a> of order k or less. The input
-							arguments of <a>StoreTransformation</a><sub>k</sub> are as follows. </p>
+							with range being <a>stores</a> of order k or less. The input arguments
+							of <a>StoreTransformation</a><sub>k</sub> are as follows. </p>
 						<ol>
 							<li>The input <a>store</a> STR of order k or less. Let SI =
-								<a>versionNames</a>(STR), SI<sub>ext</sub>= <a>Ext-ASSOC</a>(SI), RP
-								= names(associativePart(STR)), and RP<sub>ext</sub> =
-								Ext-DEFAULT(RP). Let NP = <a>namePairs</a>(STR), and RV(n) =
-									<a>versionNames</a>(content(n, STR)). <br /> Note: SI is the
-								ordered set of store version names of the input store, while RP is
-								the set of repository names of the input store. NP is the set of
-								pairs of names - the first name being a store version name and the
-								second name being the name of a repositry present in that store
-								version. RV(n) is the ordered set of version names of the repository
-								with name n.</li>
-							<li>An ordered set SI' of version names of the output
-								store. Let SI'<sub>ext</sub> = <a>Ext-ASSOC</a>(SI').</li>
-							<li>A set RP' of repository names of the output store.
-								Let RP'<sub>ext</sub> = Ext-DEFAULT(RP')</li>
-							<li>For each name n in RP'<sub>ext</sub>, an ordered set RV'(n)
-								of version names of the corresponding output named
-								or default repository. Let RV'(n)<sub>ext</sub> =
-								Ext-ASSOC(RV'(n)).</li>
+									<a>versionNames</a>(STR), SI<sub>ext</sub>=
+								<a>Ext-ASSOC</a>(SI), RP = names(associativePart(STR)), and
+									RP<sub>ext</sub> = Ext-DEFAULT(RP). Let NP =
+								<a>namePairs</a>(STR), and RV(n) = <a>versionNames</a>(content(n,
+								STR)). <br /> Note: SI is the ordered set of store version names of
+								the input store, while RP is the set of repository names of the
+								input store. NP is the set of pairs of names - the first name being
+								a store version name and the second name being the name of a
+								repositry present in that store version. RV(n) is the ordered set of
+								version names of the repository with name n.</li>
+							<li>An ordered set SI' of version names of the output store. Let
+									SI'<sub>ext</sub> = <a>Ext-ASSOC</a>(SI').</li>
+							<li>A set RP' of repository names of the output store. Let
+									RP'<sub>ext</sub> = Ext-DEFAULT(RP')</li>
+							<li>For each name n in RP'<sub>ext</sub>, an ordered set RV'(n) of
+								version names of the corresponding output named or default
+								repository. Let RV'(n)<sub>ext</sub> = Ext-ASSOC(RV'(n)).</li>
 							<li>A partial mapping M'<sub>n</sub>, for each name n in
 									RP'<sub>ext</sub> from an interval of SI' onto RV'(n). Let NP' =
 								{[m, n] | n in RP'<sub>ext</sub>, m in dom(M'<sub>n</sub>) }, the
@@ -1540,24 +1539,29 @@
 								defined above.</li>
 						</aside>
 						<aside class="example" title="Sequential Union of Two Repositories">
-							<p>The output store is equal to the input store except for the
-								sequential union of two named repositories into a new named
-								repository when the following hold.</p>
+							<p>In this example, the output store is equal to the input store except
+								for the sequential union of a set of store repositories into a new
+								named repository. The versions of the selected repositories that are
+								associated with a common store version are unioned to become a
+								version of the new repository, associated with the same store
+								version. </p>
 							<ul>
-								<li>RP' = (RP ∪ {r'}) - {r1, r2} where r1, r2 are the names of the
-									repositories that are unioned, and r' is the (new) name of the
-									result of the union.</li>
+								<li>UN &sube; RP be the names of the repositories of STR that are to
+									be unioned,</li>
+								<li>r' is the (new) name of the result of the union,</li>
+								<li>RP' = (RP ∪ {r'}) - UN </li>
 								<li>SI' = SI</li>
-								<li>RV'(n) = RV(n) for every n in RP<sub>ext</sub> - {r1, r2}</li>
-								<li>if n is in RP - {r1, r2}, then [[m, n], [m', n']] belongs to
+								<li>RV'(n) = RV(n) for every n in RP<sub>ext</sub> - UN</li>
+								<li>RV'(r') = RV<sub>new</sub></li>
+								<li>if n is in RP - UN, then [[m, n], [m', n']] belongs to
 										Rel<sub>data</sub> iff m' = m and n' = n.</li>
-								<li>if n is in {r1, r2}, then [[m, n], [m', n']] belongs to
+								<li>if n is in UN, then [[m, n], [m', n']] belongs to
 										Rel<sub>data</sub> iff n' = r', [m, n] is in NP, and m' = m
 									. </li>
 								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
-										RP'<sub>ext</sub> - {r1, r2}.</li>
+										RP'<sub>ext</sub> - UN.</li>
 							</ul>
-							<p>Let <dfn>Sequential-UNION</dfn>(STR, R, r', RV'(r')) =
+							<p>Let <dfn>Sequential-UNION</dfn>(STR, UN, r', RV<sub>new</sub>) =
 									<a>StoreTransformation</a><sub>k</sub>(STR, SI, RP', RV',
 									Rel<sub>data</sub>, M') with RP', RP', Rel<sub>data</sub> and M'
 								as defined above. </p>
@@ -6539,86 +6543,7 @@ We write
 							<td>Result Type</td>
 						</tr>
 					</tbody>
-					<tbody>
-						<tr>
-							<td><a>Store-NEW</a>(RN, RM, SI, M)</td>
-							<td>
-								<ol>
-									<li>The non-empty set RN of repository names.</li>
-									<li>The mapping RM from RN<sub>ext</sub> = RN &cup;
-											{<a>DEFAULT</a>} to (k-1)-th order repositories.</li>
-									<li>The non-empty ordered set SI = [SV, &le;<sub>SV</sub>] of
-										store version names.</li>
-									<li>For each name n in RN<sub>ext</sub>, a monotonic partial
-										function M<sub>n</sub> from an interval of SI onto the
-											<a>version names</a> of the associated repository,
-											<a>repositoryOf</a>(n, STR). (The mapping
-												M<sub><a>DEFAULT</a></sub> is total.) </li>
-								</ol></td>
-							<td><a>store<sub>k</sub></a></td>
-						</tr>
-						<tr>
-							<td><a>Append2Store</a></td>
-							<td>Signature</td>
-							<td><a>store<sub>k</sub></a></td>
-						</tr>
-						<tr>
-							<td><a>Ext-ASSOC</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>Ext-DEFAULT</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>namePairs</a></td>
-							<td><a>store<sub>k</sub></a></td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>StoreTransformation</a>(STR, SI, RP, RV, M, Rel<sub>data</sub>)</td>
-							<td>[<a>store<sub>k</sub></a>,<br/>
-								<a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>, <br/>
-								2<sup><a>RDF Name</a></sup> -<a>1</a>, <br/>
-								<a>Ext-DEFAULT</a>(RP) => (<a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>), <br/>
-								<a>Ext-DEFAULT</a>(RP) => Partial:SI => (℘℘</a>(<a>RDF Name</a>) -<a>1</a>), <br/>
-								2<sup>[[<a>RDF Name</a>, <a>RDF Name</a>], [<a>RDF Name</a>, <a>RDF Name</a>]]</sup>
-								]</td>
-							<td><a>store<sub>k</sub></a></td>
-						</tr>
-						<tr>
-							<td><a>Subsample</a></td>
-							<td>Signature</td>
-							<td><a>store<sub>k</sub></a></td>
-						</tr>
-						<tr>
-							<td><a>Sequential-UNION</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>Rename</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>Comb</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>Window</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>Repository-EXTRACT</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-					</tbody>
+					<tbody data-include="store-syntax.html" data-include-sync="true"></tbody>
 					<tbody>
 						<tr>
 							<td><a>TSGraph-NEW</a></td>
