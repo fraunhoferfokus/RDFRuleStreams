@@ -1012,10 +1012,10 @@
 						of adjacent versions are distinct; this means each step in the sequence
 						corresponds to a non-vacuous <i>revision</i> of a <a>data structure</a> of
 						order k-1 or less.</p>
-					<p>Let VS be a <a>k-th order versioned data structure</a>.</p>
-					<p>Each element of the sequential part of VS is called a <dfn>version</dfn> of
-						VS. The function <dfn>isVersionOf</dfn>(U, VS) is defined for all entities
-						U, and is true exactly when <a>isMemberOf</a>(U, <a>sequentialPart</a>(VS))
+					<p>Let VDST be a <a>k-th order versioned data structure</a>.</p>
+					<p>Each element of the sequential part of VDST is called a <dfn>version</dfn> of
+						VDST. The function <dfn>isVersionOf</dfn>(U, VDST) is defined for all entities
+						U, and is true exactly when <a>isMemberOf</a>(U, <a>sequentialPart</a>(VDST))
 						is true. </p>
 					<p class="ednote">As written, a <a>version</a> is a solitary association. It may
 						seem more intuitive to refer to the content of that solitary association as
@@ -1024,30 +1024,30 @@
 						the version, then it would not be clear which of these versions we were
 						referring to.</p>
 					<p>We say a version U is a <dfn>previous version</dfn> of version V in the
-						context of VS if <a>previousTo</a>(U, V; <a>sequentialPart</a>(VS)) is true,
+						context of VDST if <a>previousTo</a>(U, V; <a>sequentialPart</a>(VDST)) is true,
 						and similarly V is called a <dfn>following version</dfn> of U in the context
 						of the versioned structure. The function <dfn>isPreviousVersionTo</dfn>(U,
-						V; VS) is defined whenever U and V are versions of VS (<a>isVersionOf</a>(U,
-						VS) = <a>isVersionOf</a>(V, VS) = true), and has the value
-						<a>previousTo</a>(U, V; <a>sequentialPart</a>(VS)); otherwise, it is
+						V; VDST) is defined whenever U and V are versions of VDST (<a>isVersionOf</a>(U,
+						VDST) = <a>isVersionOf</a>(V, VDST) = true), and has the value
+						<a>previousTo</a>(U, V; <a>sequentialPart</a>(VDST)); otherwise, it is
 						undefined.</p>
 					<p>An <dfn>initial version</dfn> of a versioned structure is a version that does
 						not have a previous version. A versioned structure MAY have an initial
 						version.</p>
-					<p> The function <dfn>hasInitialVersion</dfn>(VS) is defined and has the value
-						of <a>hasLeast</a>(<a>sequentialPart</a>(VS)). </p>
+					<p> The function <dfn>hasInitialVersion</dfn>(VDST) is defined and has the value
+						of <a>hasLeast</a>(<a>sequentialPart</a>(VDST)). </p>
 					<p class="note">If the sequential part of a versioned structure has an initial
 						version, then it is unique, due to the order being total; further, it is a
 						minimal element of the sequential part. </p>
-					<p>If VS has an initial version, then the function
-						<dfn>initialVersionOf</dfn>(VS) = <a>least</a>(<a>sequentialPart</a>(VS)) is
+					<p>If VDST has an initial version, then the function
+						<dfn>initialVersionOf</dfn>(VDST) = <a>least</a>(<a>sequentialPart</a>(VDST)) is
 						defined.</p>
-					<p>If V is a version of VS that is not an initial version, then we define the
-							<dfn>preceding version</dfn> of V in the context of VS to be the
+					<p>If V is a version of VDST that is not an initial version, then we define the
+							<dfn>preceding version</dfn> of V in the context of VDST to be the
 							<a>predecessor</a> of version V in the sequential part of versioned
-						structure VS. The function <dfn>precedingVersion</dfn>(V; VS) =
-							<a>predecessor</a>(V; <a>sequentialPart</a>(VS)) is defined for all
-						non-intial versions V of VS; otherwise, it is undefined. </p>
+						structure VDST. The function <dfn>precedingVersion</dfn>(V; VDST) =
+							<a>predecessor</a>(V; <a>sequentialPart</a>(VDST)) is defined for all
+						non-intial versions V of VDST; otherwise, it is undefined. </p>
 					<p>Similarly, we define the concepts of <dfn>terminal version</dfn>,
 							<dfn>succeeding version</dfn>, and functions
 							<dfn>hasTerminalVersion</dfn>, <dfn>terminalVersionOf</dfn>, and
@@ -1058,29 +1058,29 @@
 						version name in the same versioned structure, so the preceding version of
 						that content would not be uniquely defined.</p>
 					<p>We say that each non-initial version <dfn>revises</dfn> its preceding
-						version. We define <dfn>revises(U, V; VS)</dfn> for all versions U and V of
-						VS, with the value true whenever V=<a>precedingVersion</a>(U; VS);
+						version. We define <dfn>revises(U, V; VDST)</dfn> for all versions U and V of
+						VDST, with the value true whenever V=<a>precedingVersion</a>(U; VDST);
 						otherwise, it is false. </p>
 					<p class="note">Because of the requirement for total order in the sequential
 						part, version structures do not branch.</p>
 					<p> The sequential part MAY be finite, semi-infinite, or bi-infinite.</p>
-					<p>The ordered set of version names of a versioned structure VS is denoted by
-							<dfn>versionNames</dfn>(VS). </p>
-					<p>The function <dfn>isVersionNameOf</dfn>(n, VS) is true if n is a member of
-							<a>versionNames</a>(VS); otherwise, it is false.</p>
-					<p>The function <dfn>versionContent</dfn>(n; VS) is defined provided
-							<a>isVersionNameOf</a>(n, VS) is true, with value being the element (a
-						named k-th order associative tree) of the sequential part of VS having name
+					<p>The ordered set of version names of a versioned structure VDST is denoted by
+							<dfn>versionNames</dfn>(VDST). </p>
+					<p>The function <dfn>isVersionNameOf</dfn>(n, VDST) is true if n is a member of
+							<a>versionNames</a>(VDST); otherwise, it is false.</p>
+					<p>The function <dfn>versionContent</dfn>(n; VDST) is defined provided
+							<a>isVersionNameOf</a>(n, VDST) is true, with value being the element (a
+						named k-th order associative tree) of the sequential part of VDST having name
 						n. Otherwise, the function is undefined.</p>
-					<p>The function <dfn>versionMap</dfn>(VS) has the value of the mapping from the
+					<p>The function <dfn>versionMap</dfn>(VDST) has the value of the mapping from the
 						set of version names to the corresponding values of
 						<a>versionContent</a>.</p>
-					<p>The function <dfn>hasNext</dfn>(n; VS) = <a>hasNext</a>(n;
-							<a>versionNames</a>(VS)) is true iff n is the name of a non-terminal
-							<a>version</a> of VS</p>
-					<p>The function <dfn data-lt="next">next(n; VS)</dfn> is defined provided
-							<a>hasNext</a>(n; VS) is true, and has the value <a>next</a>(n;
-							<a>versionNames</a>(VS)).</p>
+					<p>The function <dfn>hasNext</dfn>(n; VDST) = <a>hasNext</a>(n;
+							<a>versionNames</a>(VDST)) is true iff n is the name of a non-terminal
+							<a>version</a> of VDST</p>
+					<p>The function <dfn data-lt="next">next(n; VDST)</dfn> is defined provided
+							<a>hasNext</a>(n; VDST) is true, and has the value <a>next</a>(n;
+							<a>versionNames</a>(VDST)).</p>
 					<p>We define a constuctor of <a>versioned data structures</a> as a basic
 						operation <dfn data-lt="Versioned-NEW">Versioned-NEW<sub>k</sub></dfn>, k =
 						1, 2, ..., that takes the following arguments.</p>
