@@ -166,7 +166,19 @@
 			<p>Thirdly, we introduce specializations of the versioned structures, progressing from
 				repositories and stores to data models for RDF streams. </p>
 			<p>Finally we describe the semantics of operations on this data model to capture,
-				represent, and produce RDF streams.</p>
+				represent, and produce RDF streams. In particular, We accommodates two styles of
+				concrete representation:</p>
+			<ul>
+				<li>A syntactic style that uses reserved words to modify data structures, e.g. by
+					casting to different types, extracting substructures or applying window
+					operations.</li>
+				<li>A semantic style that uses naming conventions within the IRI, e.g. with query
+					strings, to indicate such modifications of the data structures.</li>
+			</ul>
+			<p> In either case, it is necessary that the transformation to the abstract algebra does
+				not depend on any details of the IRI; i.e., IRIs are still opaque. However, it is
+				acceptable, even typical, that the <em>semantics</em> of the abstract operations
+				depend on the datatype of the arguments. </p>
 		</section>
 		<section id="basics">
 			<h2>The Basics</h2>
@@ -461,8 +473,8 @@
 				<p>The new datatypes introduced in this section, summarized in the following table,
 					are associative collections, where the association key is of type <a>RDF
 						Name</a>. These datatypes generalize <a>RDF Datasets</a>, which are
-					associative collections of <a>RDF Graphs</a>, by allowing the key value type to
-					be a more complex <a>data structure</a>. </p>
+					associative collections of <a>RDF Graphs</a>, by allowing the value type (in
+					key-value pairs) to be a more complex <a>data structure</a>. </p>
 				<div>
 					<table>
 						<thead data-include="table-head-datatype.html" data-include-sync="true"></thead>
@@ -1875,7 +1887,8 @@
 					<p>In the syntactic approach, abstract algebra operations are employed to
 						express these transformations and associate them with variables or names,
 						with a syntactic transformation to and from the concrete syntax.
-						<!--The motivation for the syntactic approach is to allow the same capability for transformation as the semantic approach in regard to external and legacy sources.-->
+						<!--The motivation for the syntactic approach is to allow the same capability 
+							for transformation as the semantic approach in regard to external and legacy sources.-->
 					</p>
 				</section>
 			</section>
