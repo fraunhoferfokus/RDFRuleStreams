@@ -1190,7 +1190,7 @@
 					<p>The semantics are</p>
 					<p><a>Append2Repository</a><sub>k</sub>(R, name, AT) =
 								<a>Repository-NEW<sub>k</sub></a>(VI', M') where</p>
-					<p>VI = <a>versionNames</a>(R) and VI' = <a>Cons</a>(VI, name),</p>
+					<p>VI = <a>versionNames</a>(R) and VI' = <a>Cons</a>(name, VI),</p>
 					<p>M = <a>versionMap</a>(R) and M' = M &cup; {name => AT}</p>
 					<p>assuming name &notin; <a>versionNames</a>(R).</p>
 					<p class="ednote">Need to define <a>Cons</a> for terminated totally-ordered
