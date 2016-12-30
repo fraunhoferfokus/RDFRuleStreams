@@ -154,11 +154,11 @@
 			<p>The abstract goal is to provide a data model and the related semantics to describe
 				RDF stream processing in terms of operations on hierarchical data structures with
 				named versions.</p>
-			<p>We first describe model components for associative (named) constructs build on 
-			        existing data structure types, as descibed in Table A, to generalize
-				RDF datasets. If the named graphs of RDF datasets are considered statements within a
-				context, then the higher-order associative data structures provide a means to handle
-				multi-faceted and nested contexts.</p>
+			<p>We first describe model components for associative (named) constructs build on
+				existing data structure types, as descibed in Table A, to generalize RDF datasets.
+				If the named graphs of RDF datasets are considered statements within a context, then
+				the higher-order associative data structures provide a means to handle multi-faceted
+				and nested contexts.</p>
 			<p>We then develop model components for sequential constructs, to represent temporality
 				as well as other linear aspects. A special case of these sequential data structures
 				is the versioned data structure, which is similar to the associative data structure,
@@ -1419,16 +1419,17 @@
 								&le;<sub>SV</sub>]. For a set S of names, let
 							<dfn>Ext-DEFAULT</dfn>(S) = S ∪ {<a>DEFAULT</a>}.</p>
 						<p>For store STR, let <dfn>namePairs</dfn>(STR) be a subset of
-								<a>Ext-ASSOC</a>(<a>versionNames</a>(STR)) x
-								<span style="white-space: nowrap;"><a>Ext-DEFAULT</a></span>(<a>names</a>(<a>associativePart</a>(STR))) such
-							that [stver, repo] is in NP provided stver is a member of
+								<a>Ext-ASSOC</a>(<a>versionNames</a>(STR)) x <span
+								style="white-space: nowrap;"
+								><a>Ext-DEFAULT</a></span>(<a>names</a>(<a>associativePart</a>(STR)))
+							such that [stver, repo] is in NP provided stver is a member of
 								<a>Ext-ASSOC</a>(<a>versionNames</a>(STR)) and repo is in
 								<a>names</a>(<a>versionContent</a>(stver; STR).</p>
 						<p>We define a basic operation <dfn>StoreTransformation</dfn><sub>k</sub>
-							with domain and range being <a>stores</a> of order k or less. The input
+							with range being <a>stores</a> of order k or less. The input
 							arguments of <a>StoreTransformation</a><sub>k</sub> are as follows. </p>
 						<ol>
-							<li>The input store STR of order k or less. Let SI =
+							<li>The input <a>store</a> STR of order k or less. Let SI =
 								<a>versionNames</a>(STR), SI<sub>ext</sub>= <a>Ext-ASSOC</a>(SI), RP
 								= names(associativePart(STR)), and RP<sub>ext</sub> =
 								Ext-DEFAULT(RP). Let NP = <a>namePairs</a>(STR), and RV(n) =
@@ -1439,15 +1440,15 @@
 								second name being the name of a repositry present in that store
 								version. RV(n) is the ordered set of version names of the repository
 								with name n.</li>
-							<li>An ordered set SI', possibly empty, of version names of the output
+							<li>An ordered set SI' of version names of the output
 								store. Let SI'<sub>ext</sub> = <a>Ext-ASSOC</a>(SI').</li>
-							<li>A set RP', possibly empty, of repository names of the output store.
+							<li>A set RP' of repository names of the output store.
 								Let RP'<sub>ext</sub> = Ext-DEFAULT(RP')</li>
-							<li>For each name n in RP'<sub>ext</sub>, an ordered set RV'(n),
-								possibly empty, of version names of the corresponding output named
+							<li>For each name n in RP'<sub>ext</sub>, an ordered set RV'(n)
+								of version names of the corresponding output named
 								or default repository. Let RV'(n)<sub>ext</sub> =
 								Ext-ASSOC(RV'(n)).</li>
-							<li>A monotonic partial mapping M'<sub>n</sub>, for each name n in
+							<li>A partial mapping M'<sub>n</sub>, for each name n in
 									RP'<sub>ext</sub> from an interval of SI' onto RV'(n). Let NP' =
 								{[m, n] | n in RP'<sub>ext</sub>, m in dom(M'<sub>n</sub>) }, the
 								set of <a>namePairs</a> of the output store.</li>
@@ -1584,9 +1585,9 @@
 							<p> Let <dfn data-lt="Comb">Comb<sub>p</sub></dfn>(A, a) select from a
 								totally-ordered set A containing element a the elements of A that
 								are offset, with respect to order, an integer multiple of p from
-								element a. That is, elements b such that there are
-							        <span style="white-space: nowrap;">exactly k * (p)
-								elements c with a &lt; c &le; b or b &lt; c &le; a</span>. </p>
+								element a. That is, elements b such that there are <span
+									style="white-space: nowrap;">exactly k * (p) elements c with a
+									&lt; c &le; b or b &lt; c &le; a</span>. </p>
 							<p>Let <dfn data-lt="Interval">Interval<sub>n</sub></dfn>(A) be the
 								ordered set of all intervals of length n in A, with order by minimal
 								element, and Interval<sub>n</sub>(A, a) be the interval of length n
@@ -1609,10 +1610,10 @@
 									Interval<sub>p</sub>(RV<sub>n</sub>, v') where v =
 								M<sub>n</sub>(m), v' = M<sub>n</sub>(m'). </p>
 							<p>Let <dfn>Window</dfn>(STR, n, p, q, rv0) =
-									<a>StoreTransformation</a><sub>k</sub>( STR, RV'<sub>n</sub>,
-								{n}, {<a>DEFAULT</a>->{}, n=>RV'<sub>n</sub>}, {<a>DEFAULT</a>=>{},
-								n=> <i>IDM</i><sub>n</sub>}, WindowRel<sub>q, p</sub>(STR, {n}, {n
-								=> rv0})) where</p>
+									<a>StoreTransformation</a><sub>k</sub>( STR, {n},
+									RV'<sub>n</sub>, {<a>DEFAULT</a>->{}, n=>RV'<sub>n</sub>},
+									{<a>DEFAULT</a>=>{}, n=> <i>IDM</i><sub>n</sub>},
+									WindowRel<sub>q, p</sub>(STR, {n}, {n => rv0})) where</p>
 							<ul>
 								<li>RV'<sub>n</sub> = Comb<sub>q</sub>(RV<sub>n</sub>,
 										v0<sub>n</sub>)</li>
@@ -6577,8 +6578,14 @@ We write
 							<td>Result Type</td>
 						</tr>
 						<tr>
-							<td><a>StoreTransformation</a></td>
-							<td>Signature</td>
+							<td><a>StoreTransformation</a>(STR, SI, RP, RV, M, Rel<sub>data</sub>)</td>
+							<td>[<a>store<sub>k</sub></a>,<br/>
+								<a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>, <br/>
+								2<sup><a>RDF Name</a></sup> -<a>1</a>, <br/>
+								<a>Ext-DEFAULT</a>(RP) => (<a>℘℘</a>(<a>RDF Name</a>) -<a>1</a>), <br/>
+								<a>Ext-DEFAULT</a>(RP) => Partial:SI => (℘℘</a>(<a>RDF Name</a>) -<a>1</a>), <br/>
+								2<sup>[[<a>RDF Name</a>, <a>RDF Name</a>], [<a>RDF Name</a>, <a>RDF Name</a>]]</sup>
+								]</td>
 							<td><a>store<sub>k</sub></a></td>
 						</tr>
 						<tr>
