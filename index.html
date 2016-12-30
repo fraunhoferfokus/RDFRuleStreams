@@ -154,7 +154,8 @@
 			<p>The abstract goal is to provide a data model and the related semantics to describe
 				RDF stream processing in terms of operations on hierarchical data structures with
 				named versions.</p>
-			<p>We first describe model components for associative (named) constructs that generalize
+			<p>We first describe model components for associative (named) constructs build on 
+			        existing data structure types, as descibed in Table A, to generalize
 				RDF datasets. If the named graphs of RDF datasets are considered statements within a
 				context, then the higher-order associative data structures provide a means to handle
 				multi-faceted and nested contexts.</p>
@@ -517,7 +518,7 @@
 							mapping from N &cup; {DEFAULT} to <a>data structures</a> of order k-1 or
 							less. </li>
 					</ul>
-					<p>The type symbole for associative structures of order k or less is
+					<p>The type symbol for associative structures of order k or less is
 								<dfn>associative<sub>&le; k</sub></dfn></p>
 					<p><dfn>DEFAULT</dfn> is a reserved name used to streamline the definitions.</p>
 					<p>We denote by <dfn data-lt="Associative-NEW"
@@ -880,7 +881,7 @@
 					<li>For every n in <a>names</a>(AT), <a>content</a>(n, AT) is an <a>associative
 							tree</a> of order k-1 or less.</li>
 				</ul>
-				<p class="note">If ADST = <a>Associative-NEW<sub>k</sub></a>(N, M), then ADSTS is an
+				<p class="note">If ADST = <a>Associative-NEW<sub>k</sub></a>(N, M), then ADST is an
 					associative tree iff k=0 and codom(M) &sub; associative-tree<sub>0</sub> or
 					codom(M) &sub; associative-tree<sub>&le; k-1</sub></p>
 				<p class="note">Every RDF Graph is a <dfn data-lt="zeroth-order associative trees"
@@ -1107,7 +1108,7 @@
 								<a>associative trees</a> of order k-1 or less that specifies the
 							sequential and associative part of the repository. </li>
 					</ol>
-					<p>The semantics of the <a>Repository-NEW<sub>k</sub></a> constructuor are as
+					<p>The semantics of the <a>Repository-NEW<sub>k</sub></a> constructor are as
 						follows.</p>
 					<p><a>Repository-NEW<sub>k</sub></a>(VI, M) =
 						<a>Versioned-NEW<sub>k</sub></a>(VI, M)</p>
@@ -1419,7 +1420,7 @@
 							<dfn>Ext-DEFAULT</dfn>(S) = S ∪ {<a>DEFAULT</a>}.</p>
 						<p>For store STR, let <dfn>namePairs</dfn>(STR) be a subset of
 								<a>Ext-ASSOC</a>(<a>versionNames</a>(STR)) x
-								<a>Ext-DEFAULT</a>(<a>names</a>(<a>associativePart</a>(STR))) such
+								<span style="white-space: nowrap;"><a>Ext-DEFAULT</a></span>(<a>names</a>(<a>associativePart</a>(STR))) such
 							that [stver, repo] is in NP provided stver is a member of
 								<a>Ext-ASSOC</a>(<a>versionNames</a>(STR)) and repo is in
 								<a>names</a>(<a>versionContent</a>(stver; STR).</p>
@@ -1512,7 +1513,7 @@
 									mapping in the input store.</li>
 							</ul>
 							<p>That is,</p>
-							<p>STR = StoreTransformation<sub>k</sub>(STR, RP, SI, RV,
+							<p>STR = StoreTransformation<sub>k</sub>(STR, SI, RP, RV,
 									IDR<sub>NP</sub>, M ) where k = order(STR), RP =
 								names(associativePart(STR)), SI = versionNames(STR), RV = { n =>
 									RV<sub>n</sub> | n is in RP and RV<sub>n</sub> = versionNames(
@@ -1533,7 +1534,7 @@
 										M'<sub>n</sub>(m') = M<sub>n</sub>(m) } </li>
 							</ul>
 							<li>Let <dfn>Subsample</dfn>(STR, RV') =
-									<a>StoreTransformation</a><sub>k</sub>(STR, RP, SI, RV',
+									<a>StoreTransformation</a><sub>k</sub>(STR, SI, RP, RV',
 									Rel<sub>data</sub>, M') with Rel<sub>data</sub> and M' as
 								defined above.</li>
 						</aside>
@@ -1556,7 +1557,7 @@
 										RP'<sub>ext</sub> - {r1, r2}.</li>
 							</ul>
 							<p>Let <dfn>Sequential-UNION</dfn>(STR, R, r', RV'(r')) =
-									<a>StoreTransformation</a><sub>k</sub>(STR, RP', SI, RV',
+									<a>StoreTransformation</a><sub>k</sub>(STR, SI, RP', RV',
 									Rel<sub>data</sub>, M') with RP', RP', Rel<sub>data</sub> and M'
 								as defined above. </p>
 						</aside>
@@ -1583,8 +1584,9 @@
 							<p> Let <dfn data-lt="Comb">Comb<sub>p</sub></dfn>(A, a) select from a
 								totally-ordered set A containing element a the elements of A that
 								are offset, with respect to order, an integer multiple of p from
-								element a. That is, elements b such that there are exactly k * (p)
-								elements c with a &lt; c &le; b or b &lt; c &le; a. </p>
+								element a. That is, elements b such that there are
+							        <span style="white-space: nowrap;">exactly k * (p)
+								elements c with a &lt; c &le; b or b &lt; c &le; a</span>. </p>
 							<p>Let <dfn data-lt="Interval">Interval<sub>n</sub></dfn>(A) be the
 								ordered set of all intervals of length n in A, with order by minimal
 								element, and Interval<sub>n</sub>(A, a) be the interval of length n
@@ -1901,6 +1903,12 @@
 					<ul>
 						<li>On the domain RDF Dataset x RDF Dataset, the range is RDF Dataset.</li>
 					</ul>
+					<p>The Dataset-UNION operation constructs a new <a>RDF Dataset</a> from two
+						existing <a>RDF Datasets</a> by forming the union of the <a>default
+							graphs</a>, and taking the union of the sets of <a>named graphs</a>,
+						with the exception that if the sets of graph names of the two <a>RDF
+							Datasets</a> have a non-empty intersection, the <a>graphs</a> with names
+						in that intersection must be combined by set union. </p>
 					<p>The semantics of <a>Dataset-UNION</a> is defined in [[!SPARQL11-Update]] as
 						follows.</p>
 					<p> Let DS={DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and DS' =
@@ -1921,12 +1929,6 @@
 					</ul>
 					<p>where union between <a>graphs</a> is defined as set-union of <a>triples</a>
 						in those <a>graphs</a>.</p>
-					<p>The Dataset-UNION operation constructs a new <a>RDF Dataset</a> from two
-						existing <a>RDF Datasets</a> by forming the union of the <a>default
-							graphs</a>, and taking the union of the sets of <a>named graphs</a>,
-						with the exception that if the sets of graph names of the two <a>RDF
-							Datasets</a> have a non-empty intersection, the <a>graphs</a> with names
-						in that intersection must be combined by set union. </p>
 					<p> We define <dfn>Tree-UNION</dfn> as an extension of the Dataset-UNION
 						operation to <a>k-th Order associative trees</a>. </p>
 					<ul>
@@ -6201,7 +6203,7 @@ We write
 			</div>
 		</section>
 		<section id="sec-meta-variables">
-			<h4>Metavariable Convetions</h4>
+			<h4>Metavariable Conventions</h4>
 			<div>
 				<table>
 					<thead>
