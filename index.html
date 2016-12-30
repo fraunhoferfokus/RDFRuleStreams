@@ -151,6 +151,22 @@
 		<!-- INTRODUCTION -->
 		<section class="informative" id="intro">
 			<h2>Introduction</h2>
+			<p>The abstract goal is to provide a data model and the related semantics to describe
+				RDF stream processing in terms of operations on hierarchical data structures with
+				named versions.</p>
+			<p>We first describe model components for associative (named) constructs that generalize
+				RDF datasets. If the named graphs of RDF datasets are considered statements within a
+				context, then the higher-order associative data structures provide a means to handle
+				multi-faceted and nested contexts.</p>
+			<p>We then develop model components for sequential constructs, to represent temporality
+				as well as other linear aspects. A special case of these sequential data structures
+				is the versioned data structure, which is similar to the associative data structure,
+				but with the extra feature that the outermost names, the version names, are totally
+				ordered.</p>
+			<p>Thirdly, we introduce specializations of the versioned structures, progressing from
+				repositories and stores to data models for RDF streams. </p>
+			<p>Finally we describe the semantics of operations on this data model to capture,
+				represent, and produce RDF streams.</p>
 		</section>
 		<section id="basics">
 			<h2>The Basics</h2>
@@ -417,8 +433,8 @@
 								<td><b>Definition</b></td>
 							</tr>
 							<tr>
-								<td><dfn data-lt="timestamp predicate">RDF Stream timestamp predicate
-								</dfn></td>
+								<td><dfn data-lt="timestamp predicate">RDF Stream timestamp
+										predicate </dfn></td>
 								<td><b>Reference</b></td>
 								<td><b>Definition</b></td>
 							</tr>
