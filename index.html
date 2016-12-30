@@ -390,6 +390,11 @@
 								</td>
 							</tr>
 							<tr>
+								<td><dfn>Graph Store</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b></td>
+							</tr>
+							<tr>
 								<td><dfn data-lt="IRI|IRIs">Internationalized Resource
 										Identifier</dfn></td>
 								<td><b>Reference</b></td>
@@ -403,6 +408,17 @@
 							<tr>
 								<td><dfn data-lt="literal|literals|RDF Literals">RDF
 									Literal</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b></td>
+							</tr>
+							<tr>
+								<td><dfn data-lt="Update Operations">Update Operation</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b></td>
+							</tr>
+							<tr>
+								<td><dfn data-lt="timestamp predicate">RDF Stream timestamp predicate
+								</dfn></td>
 								<td><b>Reference</b></td>
 								<td><b>Definition</b></td>
 							</tr>
@@ -484,11 +500,11 @@
 					<p class="note">The functions <a>Associative-NEW<sub>k</sub></a>, k &ge; 0, thus
 						acts as constructors for <a>associative data structures</a>. The constraints
 						are that <a>cardinality</a>(N) &gt; 0 if k &gt;0 and <a>cardinality</a>(N)=0
-						if k = 0, while M:(N &cup; {<a>DEFAULT</a>}) => <a>structure<sub>&le;
-								k-1</sub></a> if k&gt; 0 while M:{<a>DEFAULT</a>} => RDF Graph if
-						k=0.</p>
-					<p><dfn>TypeAssoc</dfn>(X) is a type constructor for associative data structures
-						whose values (in key-value pairs) are of type X.</p>
+						if k = 0, while M:(N &cup; {<a>DEFAULT</a>}) => structure<sub>&le; k-1</sub>
+						if k&gt; 0 while M:{<a>DEFAULT</a>} => RDF Graph if k=0.</p>
+					<p><dfn data-lt="TypeAssoc">TypeAssoc<sub>k</sub></dfn>(X) is a type constructor
+						for k-th order associative structures whose values (in key-value pairs) are
+						of type X.</p>
 					<p>The order of an <a>associative data structure</a> ADST =
 							<a>Associative-NEW</a><sub>k</sub>(N, M) is denoted
 						<dfn>order</dfn>(ADST) and has value order(ADST) = k.</p>
@@ -568,8 +584,8 @@
 								association</a>. </li>
 						<li>If <a>isSolitary</a>(ADST) is true, then <dfn>name</dfn>(ADST) is the
 							one element of names(ADST). That is, names(ADST) = {name(ADST)}</li>
-						<li>For every name n, we define the <dfn data-lt="content">content for
-								n</dfn> in an <a>associative data structure</a> ADST, denoted
+						<li>For every name n, we define the <dfn data-lt="contents|content">content
+								for n</dfn> in an <a>associative data structure</a> ADST, denoted
 								<dfn>content(n, ADST)</dfn>, as follows. <ul>
 								<li>If n is a member of names(ADST), then content(n, ADST) =
 										<a>nameMap</a>(ADST)(n);</li>
@@ -615,13 +631,13 @@
 					<p>An <dfn data-lt="RDF Data Sequences|Data Sequence|Data Sequences">RDF Data
 							Sequence</dfn> (with type symbol <dfn>data-sequence</dfn>) is a
 							<a>sequence</a> of <a>data structures</a>.</p>
-					<p>In this document, we use the term <dfn>sequence</dfn> in the sense of a
-						totally-ordered set (in mathematics, called a chain) that can be strictly
-						monotonically mapped onto the integers. I.e., it is isomorphic, as a poset,
-						to a subset of the integers. A sequence may be finite, or infinite. If
-						infinite, the set MAY or MAY NOT have a least element, and MAY or MAY NOT
-						have a greatest element. If a sequence has neither least nor greatest
-						element, then it is said to be <dfn>bi-infinite</dfn>.</p>
+					<p>In this document, we use the term <dfn data-lt="sequences">sequence</dfn> in
+						the sense of a totally-ordered set (in mathematics, called a chain) that can
+						be strictly monotonically mapped onto the integers. I.e., it is isomorphic,
+						as a poset, to a subset of the integers. A sequence may be finite, or
+						infinite. If infinite, the set MAY or MAY NOT have a least element, and MAY
+						or MAY NOT have a greatest element. If a sequence has neither least nor
+						greatest element, then it is said to be <dfn>bi-infinite</dfn>.</p>
 					<p>We define a number of syntactic operations on <a>sequences</a> as follows.
 						Let SQ be a <a>sequence</a>. </p>
 					<ul>
@@ -698,7 +714,7 @@
 						<li>To iterate over general sequences, let <dfn>next</dfn>(i; Index) have
 							the value of the next greater element of the totally-ordered set Index,
 							provided i &in; Index and i is not the greatest element of Index. </li>
-						<li>If SQ = <a>Seq</a>(Index, M), we define <dfn>next(i; SQ)</dfn> =
+						<li>If SQ = <a>Seq-NEW</a>(Index, M), we define <dfn>next(i; SQ)</dfn> =
 								SQ(<a>next</a>(i; Index)).</li>
 						<li>The function <dfn>index</dfn>(SQ) returns an index for the constructed
 							sequence that is compatible with the corresponding mapping
@@ -826,7 +842,9 @@
 					RDF Streams and make it a type, then we could call it an RDF Stream Store.</p>
 				<p>A <dfn
 						data-lt="k-th Order RDF Associative Trees|k-th Order Associative Tree|k-th Order Associative Trees|Associative Tree|Associative Trees"
-						>k-th Order RDF Associative Tree</dfn> is a <a>k-th order associative data
+						>k-th Order RDF Associative Tree</dfn> (with type symbol <dfn
+						data-lt="associative-tree|associative-trees"
+						>associative-tree<sub>k</sub></dfn>) is a <a>k-th order associative data
 						structure</a> AT with the following properties. </p>
 				<ul>
 					<li><a>defaultPart</a>(AT) is an <a>associative tree</a> of order j or less,
@@ -840,8 +858,10 @@
 				<p class="note">Every RDF Graph is a <dfn data-lt="zeroth-order associative trees"
 						>zeroth-order associative tree</dfn>, and every zeroth-order associative
 					tree is an RDF Graph.</p>
-				<p>A k-th order <dfn>solitary association tree</dfn> is a k-th order <a>associative
-						tree</a> that is also a <a>solitary association</a>.</p>
+				<p>A <dfn>k-th order solitary-association-tree</dfn> (with type symbol <dfn
+						data-lt="solitary-association-tree|solitary-association-trees"
+							>solitary-association-tree<sub>k</sub></dfn>) is a k-th order
+						<a>associative tree</a> that is also a <a>solitary association</a>.</p>
 				<p class="example">A named graph may be emulated as a first-order
 						<a>solitary-association-tree</a>.</p>
 				<p class="note"> Hereafter in this document, <a>solitary-association-tree</a>,
@@ -965,6 +985,9 @@
 							<a>isVersionNameOf</a>(n, VS) is true, with value being the element (a
 						named k-th order associative tree) of the sequential part of VS having name
 						n. Otherwise, the function is undefined.</p>
+					<p>The function <dfn>versionMap</dfn>(VS) has the value of the mapping from the
+						set of version names to the corresponding values of
+						<a>versionContent</a>.</p>
 					<p>The function <dfn>hasNext</dfn>(n; VS) = <a>hasNext</a>(n;
 							<a>versionNames</a>(VS)) is true iff n is the name of a non-terminal
 							<a>version</a> of VS</p>
@@ -984,8 +1007,8 @@
 							definitions.</li>
 					</ol>
 					<p>The semantics are as follows.</p>
-					<p><a>Versioned-NEW</a><sub>k</sub>(VI, M) = [ M(ASSOC) , <a>Seq</a>( VI', M' )
-						]</p>
+					<p><a>Versioned-NEW</a><sub>k</sub>(VI, M) = [ M(ASSOC) , <a>Seq-NEW</a>( VI',
+						M' ) ]</p>
 					<p>where VI = [VN, &le;<sub>VN</sub>], </p>
 					<p>M'(n) = <a>Solitary-NEW<sub>k</sub></a>(n, M(n)) for n &in; VI, and</p>
 					<p>VI' = [VN', &le;<sub>VN</sub>] where VN' = {n &in; VN | <a>hasNext</a>(n; VI)
@@ -1119,8 +1142,8 @@
 					<p>A <dfn
 							data-lt="k-th Order Solitary Repository Associations|Solitary Repository Association|Solitary Repository Associations"
 							>k-th Order Solitary Repository Association</dfn> is a k-th order
-							<a>solitary association</a> whose content is a <a>(k-1)-th order
-							repository</a>. </p>
+							<a>solitary association</a> whose content is a (k-1)-th order
+							<a>repository</a>. </p>
 					<p class="ednote">To be clarified in the section on the extension of Eval on
 						Solitary Repository Associations: Under the provenance entailment regime a
 							<a>Solitary Repository Association</a> has additional entailments that
@@ -1170,8 +1193,8 @@
 								the <dfn>repository names of the store</dfn>, denoted
 									<dfn>repositoryNames</dfn>(STR). </li>
 							<li>For each name n &in; repositoryNames(STR), the corresonding content
-									<a>content(n, A)</a> is a (k+1)-th order repository, denoted
-									<dfn>repository(n, STR)</dfn>, called the <dfn>repository for
+									<a>content</a>(n, A) is a (k+1)-th order repository, denoted
+									<dfn>repositoryOf</dfn>(n, STR), called the <dfn>repository for
 									name n of the store</dfn> STR. </li>
 							<li>Further, the repositories and versions of the store satisfy the
 								following consistency requirements.</li>
@@ -1216,7 +1239,7 @@
 							names.</li>
 						<li>For each name n in RN<sub>ext</sub>, a monotonic partial function
 								M<sub>n</sub> from an interval of SI onto the <a>version names</a>
-							of the associated repository, <a>repository(n; STR)</a>. (The mapping
+							of the associated repository, <a>repositoryOf</a>(n, STR). (The mapping
 									M<sub><a>DEFAULT</a></sub> is total.) </li>
 					</ol>
 					<p>The semantics of <a>Store-NEW<sub>k</sub></a> is defined as follows.</p>
@@ -1627,7 +1650,7 @@
 						repository versions. However, the contents and order of repository versions
 						is not lost; this information is preserved in the sequential part of the
 						store, and can be recovered using the <a>Restrict</a> operation.</p>
-					<p class="ednote">Restrict operator needs to be (re)-defined.</p>
+					<p class="ednote"><dfn>Restrict</dfn> operator needs to be (re)-defined.</p>
 					<p>Many <a>k-th order repositories</a> can be converted into a <a>k-th order
 							store</a> by supplying (or minting) the additional version names
 						necessary to generate (k-1)-th order repositories corresponding to the
@@ -4357,9 +4380,9 @@ WHERE {
 						<p><dfn>Repo<sub>2, FHIR-hr-3</sub></dfn> =
 								<a>Append2Repository</a><sub>3</sub>(<a>Repo<sub>1,
 								FHIR-hr-3</sub></a>, _:fhir-hr-g2, G'<sub>2, FHIR-hr</sub>) </p>
-						<p><a>Repo<sub>FHIR-hr-3</sub></a> =
-									<a>Append2Repository</a><sub>3</sub>(<a>Repo<sub>2,
-									FHIR-hr-3</sub></a>, _:fhir-hr-g3, G'<sub>3, FHIR-hr</sub>) </p>
+						<p><dfn>Repo<sub>FHIR-hr-3</sub></dfn> =
+								<a>Append2Repository</a><sub>3</sub>(<a>Repo<sub>2,
+								FHIR-hr-3</sub></a>, _:fhir-hr-g3, G'<sub>3, FHIR-hr</sub>) </p>
 						<p>as well as</p>
 						<p><dfn>Repo<sub>FHIR-ts-3</sub></dfn> =
 								<a>Append2Repository</a><sub>2</sub>(<a>Repo<sub>2,
@@ -6349,7 +6372,7 @@ We write
 						<td><dfn>associative-tree<sub>&le; k</sub></dfn>, k &ge; 0</td>
 						<td>::=</td>
 						<td>&cup;<sub>i &le; k</sub>
-							<a>ssociative-tree<sub>i</sub></a>a</td>
+							<a>associative-tree</a><sub>i</sub></td>
 					</tr>
 				</tbody>
 				<tbody data-include="sequence-datatype.html" data-include-sync="true"></tbody>
@@ -6373,12 +6396,12 @@ We write
 						<td><dfn data-lt="versioned">versioned<sub>k</sub></dfn>, k &ge; 1</td>
 						<td>::=</td>
 						<td><a>TypeVer<sub>k</sub></a>(<a>structure<sub>&le; k</sub></a>,
-									<a>structure<sub>&le; k-1</sub></a>)</td>
+								structure<sub>&le; k-1</sub>)</td>
 					</tr>
 				</tbody>
 				<tbody>
 					<tr>
-						<td><dfn>solitary-association-tree<sub>k</sub></dfn>, k &gt; 0</td>
+						<td><a>solitary-association-tree<sub>k</sub></a>, k &gt; 0</td>
 						<td>::=</td>
 						<td><a>solitary-association<sub>k</sub></a> &cap;
 									<a>associative-tree<sub>k</sub></a></td>
@@ -6388,39 +6411,38 @@ We write
 					<tr>
 						<td><dfn>repository<sub>k</sub></dfn>, k &ge; 1</td>
 						<td>::&lt;</td>
-						<td>
-							<a>associative-tree<sub>&le; k-1</sub></a> x
+						<td> associative-tree<sub>&le; k-1</sub> x
 									<a>TypeSeq<sup>+</sup></a>(<a>solitary-association-tree<sub>k</sub></a>)
 						</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>::=</td>
-						<td><a>TypeVer<sub>k</sub></a>(<a>associative-tree<sub>&le; k-1</sub></a>,
-									<a>associative-tree<sub>&le; k-1</sub></a>)</td>
+						<td><a>TypeVer<sub>k</sub></a>(associative-tree<sub>&le; k-1</sub>,
+								associative-tree<sub>&le; k-1</sub>)</td>
 					</tr>
 				</tbody>
 				<tbody>
 					<tr>
 						<td><dfn>store<sub>k</sub></dfn>, k &ge; 2</td>
 						<td>::&lt;</td>
-						<td> (<a>TypeAssoc<sub>k</sub></a>(<a>repository<sub>k-1</sub></a>) x
+						<td> (<a>TypeAssoc<sub>k</sub></a>(repository<sub>k-1</sub>) x
 									<a>TypeSeq<sup>+</sup></a>(<a>solitary-association-tree<sub>k</sub></a>)
 							)</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>::&lt;</td>
-						<td><a>TypeVer<sub>k</sub></a>(<a>TypeAssoc<sub>k</sub></a>(<a>repository<sub>k-1</sub></a>),
-									<a>associative-tree<sub>k-1</sub></a>)</td>
+						<td><a>TypeVer<sub>k</sub></a>(<a>TypeAssoc<sub>k</sub></a>(repository<sub>k-1</sub>),
+								associative-tree<sub>k-1</sub>)</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>::=</td>
 						<td>{<a>Store-NEW<sub>k</sub></a>(RN, RM, SI, M) | RN &in; 2<sup>RDF
-								Name</sup> - 1, RM: RN<sub>ext</sub> =>
-								<a>repository<sub>k-1</sub></a>, @@@plus other requirement on SI and
-							M as given in the definition of <a>Store-NEW<sub>k</sub></a>}</td>
+								Name</sup> - 1, RM: RN<sub>ext</sub> => repository<sub>k-1</sub>,
+							@@@plus other requirement on SI and M as given in the definition of
+									<a>Store-NEW<sub>k</sub></a>}</td>
 					</tr>
 				</tbody>
 				<!-- Not done yet
@@ -6475,7 +6497,7 @@ We write
 							<td>Result Type</td>
 						</tr>
 						<tr>
-							<td><a>repository(n, STR)</a></td>
+							<td><a>repositoryOf</a>(n, STR)</td>
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
@@ -6498,7 +6520,7 @@ We write
 									<li>For each name n in RN<sub>ext</sub>, a monotonic partial
 										function M<sub>n</sub> from an interval of SI onto the
 											<a>version names</a> of the associated repository,
-											<a>repository(n; STR)</a>. (The mapping
+											<a>repositoryOf</a>(n, STR). (The mapping
 												M<sub><a>DEFAULT</a></sub> is total.) </li>
 								</ol></td>
 							<td><a>store<sub>k</sub></a></td>
