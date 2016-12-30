@@ -296,7 +296,7 @@
 								structure|multivalent data
 								structures"
 							>multivalent k-th order RDF data structures</dfn>, (with type symbol
-								<dfn>multivalent-structure<sub>k</sub></dfn>, k &ge; 0) i.e. those
+								<dfn data-lt="multivalent">multivalent-structure<sub>k</sub></dfn>, k &ge; 0) i.e. those
 						k-th order data structures having both an <a>associative part</a> and a
 							<a>sequential part</a>. The existing type of RDF graph is subsumed by
 						the <a>associative data structure</a> type, and more particularly, is equal
@@ -536,13 +536,13 @@
 					<p>A <dfn
 							data-lt="k-th order associative RDF data structures|k-th order associative data structure|k-th order associative data structures|associative data structure|associative data structures"
 							>k-th order associative RDF data structure</dfn> (with type symbol
-								<dfn>associative<sub>k</sub></dfn>, k &ge; 0) is a <a>k-th order
+								<dfn data-lt="associative">associative<sub>k</sub></dfn>, k &ge; 0) is a <a>k-th order
 							data structure</a> that is defined inductively as follows.</p>
 					<ul>
 						<li>A <dfn>zeroth-order associative data structure</dfn> (with type symbol
 									<dfn>associative<sub>0</sub></dfn>) is an RDF Graph. </li>
 						<li>A k-th order associative data structure, k &ge; 1, is specified by the
-							tuple [k, N, M] where N is a non-empty subset of RDF Name, and M is a
+							tuple [k, N, DSTM] where N is a non-empty subset of <a>RDF Name</a>, and DSTM is a
 							mapping from N &cup; {DEFAULT} to <a>data structures</a> of order k-1 or
 							less. </li>
 					</ul>
@@ -550,27 +550,27 @@
 								<dfn>associative<sub>&le; k</sub></dfn></p>
 					<p><dfn>DEFAULT</dfn> is a reserved name used to streamline the definitions.</p>
 					<p>We denote by <dfn data-lt="Associative-NEW"
-						>Associative-NEW<sub>k</sub></dfn>(N, M), k &gt; 0, the associative data
-						structure specified by the tuple [k, N, M]. </p>
-					<p>Further, let G be an RDF Graph, N= {}, and M= {<a>DEFAULT</a>=>G}). We define
-								<dfn>Associative-NEW<sub>0</sub></dfn>(N, M) = G.</p>
+						>Associative-NEW<sub>k</sub></dfn>(N, DSTM), k &gt; 0, the associative data
+						structure specified by the tuple [k, N, DSTM]. </p>
+					<p>Further, let G be an RDF Graph, N= {}, and DSTM= {<a>DEFAULT</a>=>G}). We define
+								<dfn>Associative-NEW<sub>0</sub></dfn>(N, DSTM) = G.</p>
 					<p class="note">The functions <a>Associative-NEW<sub>k</sub></a>, k &ge; 0, thus
 						acts as constructors for <a>associative data structures</a>. The constraints
 						are that <a>cardinality</a>(N) &gt; 0 if k &gt;0 and <a>cardinality</a>(N)=0
-						if k = 0, while M:(N &cup; {<a>DEFAULT</a>}) => structure<sub>&le; k-1</sub>
-						if k&gt; 0 while M:{<a>DEFAULT</a>} => RDF Graph if k=0.</p>
+						if k = 0, while DSTM:(N &cup; {<a>DEFAULT</a>}) => structure<sub>&le; k-1</sub>
+						if k&gt; 0 while DSTM:{<a>DEFAULT</a>} => RDF Graph if k=0.</p>
 					<p><dfn data-lt="TypeAssoc">TypeAssoc<sub>k</sub></dfn>(X) is a type constructor
 						for k-th order associative structures whose values (in key-value pairs) are
 						of type X.</p>
 					<p>The order of an <a>associative data structure</a> ADST =
-							<a>Associative-NEW</a><sub>k</sub>(N, M) is denoted
+							<a>Associative-NEW</a><sub>k</sub>(N, DSTM) is denoted
 						<dfn>order</dfn>(ADST) and has value <a>order</a>(ADST) = k.</p>
 					<p>The set of non-reserved names of an <a>associative data structure</a> ADST =
-							<a>Associative-NEW</a><sub>k</sub>(N, M) is denoted
+							<a>Associative-NEW</a><sub>k</sub>(N, DSTM) is denoted
 						<dfn>names</dfn>(ADST) and has value <a>names</a>(ADST) = N.</p>
 					<p>The name mapping of an <a>associative data structure</a> ADST =
-							<a>Associative-NEW</a><sub>k</sub>(N, M) is denoted
-						<dfn>nameMap</dfn>(ADST) and has value <a>nameMap</a>(ADST) = M.</p>
+							<a>Associative-NEW</a><sub>k</sub>(N, DSTM) is denoted
+						<dfn>nameMap</dfn>(ADST) and has value <a>nameMap</a>(ADST) = DSTM.</p>
 					<p>A number of convenience functions on <a>associative data structures</a> may
 						be defined in terms of the basic functions <a>order</a>, <a>names</a>, and
 							<a>nameMap</a>, and the constructor
@@ -585,7 +585,7 @@
 						<li>M|<sub> -S</sub> = {n => M(n) | n &in; <a>dom</a>(M) - S} denotes the
 								restriction of a mapping M to the complement of set S. </li>
 						<li>A mapping is treated as set of key-value pairs, so the usual set
-							operations, e.g union and diff, can be applied to mappings.</li>
+							operations, e.g union ( &cup; ), intersection ( &cap; ), and diff ( - ), can be applied to mappings.</li>
 						<li>The cardinality of a set is the value of the function
 								<dfn>cardinality</dfn>.</li>
 					</ul>
@@ -599,7 +599,7 @@
 					<p class="note">The default part of a <a>zeroth-order associative data
 							structure</a> is itself; <a>defaultPart</a>(ADST) = ADST. </p>
 					<p>A <dfn>solitary association</dfn> (with type symbol
-								<dfn>solitary-association<sub>k</sub></dfn>) is an <a>associative
+								<dfn data-lt="solitary-association">solitary-association<sub>k</sub></dfn>) is an <a>associative
 							data structure</a> where its set of nonreserved names contains exactly
 						one name and the default part is empty. That is,
 							<a>cardinality</a>(<a>names</a>(SO)) = 1 and <a>defaultPart</a>(SO) =
@@ -636,7 +636,7 @@
 							is equal to its named part.</p>
 						<p>SO = <a>namedPart</a>(SO)</p>
 					</aside>
-					<p>Let ADST = <a>Associative-NEW<sub>k</sub></a>(N, M) be an <a>associative data
+					<p>Let ADST = <a>Associative-NEW<sub>k</sub></a>(N, DSTM) be an <a>associative data
 							structure</a> and E be an arbitrary entity. </p>
 					<ul>
 						<li><dfn>isAssociative</dfn>(E) is true if E is a <a>associative data
@@ -929,9 +929,9 @@
 					<li>For every n in <a>names</a>(AT), <a>content</a>(n, AT) is an <a>associative
 							tree</a> of order k-1 or less.</li>
 				</ul>
-				<p class="note">If ADST = <a>Associative-NEW<sub>k</sub></a>(N, M), then ADST is an
-					associative tree iff k=0 and <a>codom</a>(M) &sub; associative-tree<sub>0</sub>
-					or <a>codom</a>(M) &sub; associative-tree<sub>&le; k-1</sub></p>
+				<p class="note">If ADST = <a>Associative-NEW<sub>k</sub></a>(N, DSTM), then ADST is an
+					associative tree iff k=0 and <a>codom</a>(DSTM) &sub; associative-tree<sub>0</sub>
+					or <a>codom</a>(DSTM) &sub; associative-tree<sub>&le; k-1</sub></p>
 				<p class="note">Every RDF Graph is a <dfn data-lt="zeroth-order associative trees"
 						>zeroth-order associative tree</dfn>, and every zeroth-order associative
 					tree is an RDF Graph.</p>
@@ -1087,19 +1087,19 @@
 					<ol>
 						<li>The ordered set VI = [VN, &le;<sub>VN</sub>] of version names of the
 							data structure. </li>
-						<li>The mapping M from the set VN<sub>ext</sub> = VN &cup; {ASSOC} to
+						<li>The mapping DSTM from the set VN<sub>ext</sub> = VN &cup; {ASSOC} to
 								<a>data structures</a> of order k-1 or less that specifies the
 							sequential and associative part of the data structure. </li>
 						<li><dfn>ASSOC</dfn> is a reserved name used to streamline the
 							definitions.</li>
 					</ol>
 					<p>The semantics are as follows.</p>
-					<p><a>Versioned-NEW</a><sub>k</sub>(VI, M) = [ M(ASSOC) , <a>Seq-NEW</a>( VI',
-						M' ) ]</p>
+					<p><a>Versioned-NEW</a><sub>k</sub>(VI, DSTM) = [ DSTM(ASSOC) , <a>Seq-NEW</a>( VI',
+						DSTM' ) ]</p>
 					<p>where VI = [VN, &le;<sub>VN</sub>], </p>
-					<p>M'(n) = <a>Solitary-NEW<sub>k</sub></a>(n, M(n)) for n &in; VI, and</p>
+					<p>DSTM'(n) = <a>Solitary-NEW<sub>k</sub></a>(n, DSTM(n)) for n &in; VI, and</p>
 					<p>VI' = [VN', &le;<sub>VN</sub>] where VN' = {n &in; VN | <a>hasNext</a>(n; VI)
-						= False or M(n) &ne; M(<a>next</a>(n; VI))}</p>
+						= False or DSTM(n) &ne; DSTM(<a>next</a>(n; VI))}</p>
 					<p class="note">The constructor <a>Versioned-NEW<sub>k</sub></a> ensures that
 						revisions are not vacuous by reducing the ordered set of version names as
 						needed.</p>
@@ -1110,7 +1110,7 @@
 							in regard to version order, rather than version content. In this
 							example, we illustrate the use the functions defined above to describe a
 							re-ordering of versions. </p>
-						<p>Let VDST = <a>Versioned-NEW<sub>k</sub></a>(VI, M), where VI = [VN,
+						<p>Let VDST = <a>Versioned-NEW<sub>k</sub></a>(VI, DSTM), where VI = [VN,
 								&le;<sub>VI</sub>].</p>
 						<p>Let PM be a bijection from VN to itself. The mapping PM, called a
 							permutation of VI, defines a totally-ordered set VI' = [VN,
@@ -1120,7 +1120,7 @@
 							signature [<a>versioned</a><sub>k</sub>, ℘(<a>versionNames</a>(VDST))]
 							=> <a>versioned</a><sub>k</sub></p>
 						<p>with semantics <a>Versioned-PERMUTE</a>(VDST, PM) = Versioned-NEW(VI',
-							M).</p>
+							DSTM).</p>
 					</aside>
 				</section>
 				<section id="def-kth-order-rdf-repository">
@@ -1162,14 +1162,14 @@
 					<ol>
 						<li>The ordered set VI = [VN, &le;<sub>VN</sub>] of version names of the
 							repository. </li>
-						<li>The mapping M from the set VN<sub>ext</sub> = VN &cup; {ASSOC} to
+						<li>The mapping ATM from the set VN<sub>ext</sub> = VN &cup; {ASSOC} to
 								<a>associative trees</a> of order k-1 or less that specifies the
 							sequential and associative part of the repository. </li>
 					</ol>
 					<p>The semantics of the <a>Repository-NEW<sub>k</sub></a> constructor are as
 						follows.</p>
-					<p><a>Repository-NEW<sub>k</sub></a>(VI, M) =
-						<a>Versioned-NEW<sub>k</sub></a>(VI, M)</p>
+					<p><a>Repository-NEW<sub>k</sub></a>(VI, ATM) =
+						<a>Versioned-NEW<sub>k</sub></a>(VI, ATM)</p>
 					<p class="note"><a>Repository-NEW<sub>k</sub></a> is simply a restriction of
 								<a>Versioned-NEW<sub>k</sub></a> with respect to the mapping in the
 						second argument, which must have a codomain that is <a>associative trees</a>
@@ -1189,9 +1189,9 @@
 					</ol>
 					<p>The semantics are</p>
 					<p><a>Append2Repository</a><sub>k</sub>(R, name, AT) =
-								<a>Repository-NEW<sub>k</sub></a>(VI', M') where</p>
+								<a>Repository-NEW<sub>k</sub></a>(VI', ATM') where</p>
 					<p>VI = <a>versionNames</a>(R) and VI' = <a>Cons</a>(name, VI),</p>
-					<p>M = <a>versionMap</a>(R) and M' = M &cup; {name => AT}</p>
+					<p>ATM = <a>versionMap</a>(R) and ATM' = ATM &cup; {name => AT}</p>
 					<p>assuming name &notin; <a>versionNames</a>(R).</p>
 					<p class="ednote">Need to define <a>Cons</a> for terminated totally-ordered
 						sets.</p>
@@ -1301,29 +1301,29 @@
 								following consistency requirements.</li>
 							<ul>
 								<li>For every repository name n in <a>repositoryNames</a>(STR),
-									there is a monotonic partial mapping M<sub>n</sub> from
+									there is a monotonic partial mapping NM<sub>n</sub> from
 										<a>versionNames</a>(STR) onto <a>versionNames</a>(
 										<a>repository</a>(n, STR)); that is, from version names of
 									the store to version names of the repository for name n of the
 									store STR with the following properties. <ul>
-										<li>The domain of M<sub>n</sub>, <a>dom</a>(M<sub>n</sub>),
+										<li>The domain of NM<sub>n</sub>, <a>dom</a>(NM<sub>n</sub>),
 											is an interval in the ordered set
 											<a>versionNames</a>(STR).</li>
-										<li>If stver is in <a>dom</a>(M<sub>repname</sub>), let
-											repver = M<sub>repname</sub>(stver). Then <br />
+										<li>If stver is in <a>dom</a>(NM<sub>repname</sub>), let
+											repver = NM<sub>repname</sub>(stver). Then <br />
 											<a>content</a>(repname; <a>versionContent</a>(stver;
 											STR)) = <a>versionContent</a>(repver;
 											<a>repository</a>(repname; STR)) </li>
 									</ul> We define a function <dfn>versionNameMap</dfn>(STR) which
-									extracts these mapping from the store STR. I.e.,
-										<a>versionNameMap</a>(STR)(n) = M<sub>n</sub>. </li>
-								<li>There is a monotonic (total) mapping M<sub><a>DEFAULT</a></sub>
+									extracts these mappings from the store STR. I.e.,
+										<a>versionNameMap</a>(STR)(n) = NM<sub>n</sub>. </li>
+								<li>There is a monotonic (total) mapping NM<sub><a>DEFAULT</a></sub>
 									from <a>versionNames</a>(STR) onto version names of the default
 									repository; that is, <a>versionNames</a>(
 										<a>repositoryMap</a>(STR)(<a>DEFAULT</a>) with the following
 									properties <ul>
 										<li>If stver in <a>versionNames</a>(STR), let repver =
-												M<sub><a>DEFAULT</a></sub>(stver). Then <br />
+												NM<sub><a>DEFAULT</a></sub>(stver). Then <br />
 											<a>defaultPart</a>(<a>versionContent</a>(stver; STR)) =
 												<a>versionContent</a>(repver;
 												<a>repositoryMap</a>(STR)(<a>DEFAULT</a>) ) </li>
@@ -1342,29 +1342,29 @@
 						<li>The non-empty ordered set SI = [SV, &le;<sub>SV</sub>] of store version
 							names.</li>
 						<li>For each name n in RN<sub>ext</sub>, a monotonic partial function
-								M<sub>n</sub> from an interval of SI onto the <a>version names</a>
+								NM<sub>n</sub> from an interval of SI onto the <a>version names</a>
 							of the associated repository, <a>versionNames</a>(
-							<a>repositoryMap</a>(STR)(n) ). (The mapping M<sub><a>DEFAULT</a></sub>
+							<a>repositoryMap</a>(STR)(n) ). (The mapping NM<sub><a>DEFAULT</a></sub>
 							is total.) </li>
 					</ol>
 					<p>The semantics of <a>Store-NEW<sub>k</sub></a> is defined as follows.</p>
-					<p><a>Store-NEW<sub>k</sub></a>(RN, RM, SI, M) =
-							<a>Versioned-NEW<sub>k</sub></a>(SI, M')</p>
+					<p><a>Store-NEW<sub>k</sub></a>(RN, RM, SI, NM) =
+							<a>Versioned-NEW<sub>k</sub></a>(SI, NM')</p>
 					<p>where </p>
-					<p> M'(stver) = <a>Tree-UNION</a>({RP<sub>n</sub>(stver) | n &in;
+					<p> NM'(stver) = <a>Tree-UNION</a>({RP<sub>n</sub>(stver) | n &in;
 							RN<sub>ext</sub>}) for stver &in; SI, where </p>
 					<p> RP<sub>n</sub>(stver) = <a>Solitary-NEW</a>(n, <a>content</a>(
-						M<sub>n</sub>(stver); RM(n) ) if n &in; RN while </p>
+						NM<sub>n</sub>(stver); RM(n) ) if n &in; RN while </p>
 					<p> RP<sub><a>DEFAULT</a></sub>(stver) = <a>content</a>(
-							M<sub><a>DEFAULT</a></sub>(stver); RM(<a>DEFAULT</a>) ) and </p>
-					<p> M'(ASSOC) = <a>Tree-UNION</a>( RM( RN<sub>ext</sub> ) ). </p>
+							NM<sub><a>DEFAULT</a></sub>(stver); RM(<a>DEFAULT</a>) ) and </p>
+					<p> NM'(ASSOC) = <a>Tree-UNION</a>( RM( RN<sub>ext</sub> ) ). </p>
 					<aside class="note">
-						<p>If STR = <a>Store-NEW<sub>k</sub></a>(RN, RM, SI, M), then</p>
+						<p>If STR = <a>Store-NEW<sub>k</sub></a>(RN, RM, SI, NM), then</p>
 						<ul>
 							<li><a>repositoryNames</a>(STR) = RN.</li>
 							<li><a>repository</a>(n; STR) = RM(n) for n &in; RN<sub>ext</sub>.</li>
 							<li><a>versionNames</a>(STR) = SI.</li>
-							<li><a>associativePart</a>(STR) = M'(ASSOC) = <a>Tree-UNION</a>( RM(
+							<li><a>associativePart</a>(STR) = NM'(ASSOC) = <a>Tree-UNION</a>( RM(
 									RN<sub>ext</sub> ) ).</li>
 						</ul>
 					</aside>
@@ -1377,16 +1377,16 @@
 						constructed store will hold a different repository than the constructor
 						input, and this reordered repository can be lazily materialized.</p>
 					<p>The only difference in the semantics of <a>Store-NEW</a> is as follows.</p>
-					<p> M'(ASSOC) = <a>Tree-UNION</a>({ <a>Versioned-PERMUTE</a>( RM(n) , PM(n) ) |
+					<p> NM'(ASSOC) = <a>Tree-UNION</a>({ <a>Versioned-PERMUTE</a>( RM(n) , PM(n) ) |
 						n &in; RN<sub>ext</sub>} ) </p>
 					<p>where PM(n) is the permutation of <a>versionNames</a>(RM(n)) defined by the
-						mapping M<sub>n</sub>.</p>
+						mapping NM<sub>n</sub>.</p>
 					<p class="ednote">In this extended signature of <a>Store-NEW</a>, there needs to
-						be a constraint on the mapping M so that it does define a permutation of the
+						be a constraint on the mapping NM so that it does define a permutation of the
 						repository versions. E.g. This can take the form of a required decomposition
-						into a monotonic partial mapping M' (as before) composed with a permutation
-						PM of the repository version names (M = PM o M').</p>
-					<p>That is, if VI' = <a>codom</a>(PM(n)), then <a>previousTo</a>(M(sn1), M(sn2);
+						into a monotonic partial mapping NM' (as before) composed with a permutation
+						PM of the repository version names (NM = PM o NM').</p>
+					<p>That is, if VI' = <a>codom</a>(PM(n)), then <a>previousTo</a>(NM(sn1), NM(sn2);
 						VI') iff <a>previousTo</a>(sn1, sn2; SI)</p>
 					<p class="ednote">The function <a>repository</a> that retrieves repositories
 						from the store must return the permuted repository so that the consistency
@@ -1402,17 +1402,17 @@
 						the input store. <a>Append2Store</a> does not change the associative part of
 						a store, and it specifies the new store version through new versions of its
 						repositories.</p>
-					<p>The arguments of <a>Append2Store</a><sub>k</sub>(STR, svn, AM, RM, DN)
+					<p>The arguments of <a>Append2Store</a><sub>k</sub>(STR, svn, ATM, RM, DN)
 						are</p>
 					<ol>
 						<li>The k-th order input store STR to be modified, with RN =
 								<a>repositoryNames</a>(STR), RM = <a>repositoryMap</a>(STR), SI =
-								<a>versionNames</a>(STR), M = <a>versionMap</a>(STR). </li>
+								<a>versionNames</a>(STR), NM = <a>versionMap</a>(STR). </li>
 						<li>The new store version name svn, which must be distinct from previous
 							store version names (svn &notin; SI).</li>
 						<li>A specification of new versions for repositories of the input store via
-							a mapping AM from a subset of the extended repository names of the input
-							store ( <a>dom</a>(AM) &sube; <a>Ext-DEFAULT</a>(STR) ) to
+							a mapping ATM from a subset of the extended repository names of the input
+							store ( <a>dom</a>(ATM) &sube; <a>Ext-DEFAULT</a>(STR) ) to
 								<a>solitary-association-trees</a> of order (k-1) or less, where the
 							name of the solitary association is new as a version name for that
 							repository.</li>
@@ -1422,7 +1422,7 @@
 							store. </li>
 						<li>A set DN of zero or more repository names of the input store that are to
 							be dropped. This set MUST be disjoint from the repository names in the
-							domain of AM.</li>
+							domain of ATM.</li>
 					</ol>
 					<p>An <a>Append2Store</a> operation cannot be vacuous; it must append to at
 						least one repository (default or named) of the input store, or add at least
@@ -1432,13 +1432,13 @@
 							<a>Append2Repository</a> basic operations, according to the following
 						cases.</p>
 					<ol>
-						<li>For each n in the domain of AM, let RM'(n) =
-							<a>Append2Repository</a>(RM(n), AM(n) ); otherwise RM'(n) = RM(n) =</li>
+						<li>For each n in the domain of ATM, let RM'(n) =
+							<a>Append2Repository</a>(RM(n), ATM(n) ); otherwise RM'(n) = RM(n) =</li>
 						<li>@@@</li>
 
 					</ol>
-					<p><a>Append2store</a><sub>k</sub>(STR, svn, AM, RM, DN) =
-							<a>Store-NEW</a><sub>k</sub>(RN', RM', SI', M')</p>
+					<p><a>Append2store</a><sub>k</sub>(STR, svn, ATM, RM, DN) =
+							<a>Store-NEW</a><sub>k</sub>(RN', RM', SI', NM')</p>
 					<!--
 					<p>Given the sequence of store versions (i.e. the sequential part of the store) and
 						the mappings from store version names to repository version names, we can
@@ -1528,9 +1528,9 @@
 							<li>For each name n in RP'<sub>ext</sub>, an ordered set RV'(n) of
 								version names of the corresponding output named or default
 								repository. Let RV'(n)<sub>ext</sub> = Ext-ASSOC(RV'(n)).</li>
-							<li>A partial mapping M'<sub>n</sub>, for each name n in
+							<li>A partial mapping NM'<sub>n</sub>, for each name n in
 									RP'<sub>ext</sub> from an interval of SI' onto RV'(n). Let NP' =
-								{[m, n] | n in RP'<sub>ext</sub>, m in <a>dom</a>(M'<sub>n</sub>) },
+								{[m, n] | n in RP'<sub>ext</sub>, m in <a>dom</a>(NM'<sub>n</sub>) },
 								the set of <a>namePairs</a> of the output store.</li>
 							<li>A relation Rel<sub>data</sub> on NP x NP'. This relation describes
 								the subsampling, duplication, and rearrangment of associative trees
@@ -1540,31 +1540,31 @@
 						<p>There are certain additional constraints on the arguments or output of
 								<a>StoreTransformation</a>, as follows.</p>
 						<ul>
-							<li>M'<sub><a>DEFAULT</a></sub> is a total mapping on SI'.</li>
+							<li>NM'<sub><a>DEFAULT</a></sub> is a total mapping on SI'.</li>
 						</ul>
 						<p>The semantics of <a>StoreTransformation</a><sub>k</sub> is defined as
-							follows. For (input) store (STR, SI', RP', RV', M', Rel<sub>data</sub>),
+							follows. For input (STR, SI', RP', RV', NM', Rel<sub>data</sub>),
 							let</p>
 						<ul>
 							<li>AT<sub>m, n</sub> = <a>content</a>(n, <a>versionContent</a>(m, STR))
 								for each [m, n] in NP. </li>
 							<li> AT'<sub>p', n'</sub> = <a>Tree-UNION</a>({AT<sub>m, n</sub> | [ [m,
-								n], [m', n']] in Rel<sub>data</sub>, M'<sub>n'</sub>(m') = p'})</li>
+								n], [m', n']] in Rel<sub>data</sub>, NM'<sub>n'</sub>(m') = p'})</li>
 							<li>R'<sub>n'</sub> = <a>Repository-NEW</a><sub>k-1</sub>(
 									AT'<sub>ASSOC, n'</sub>, RV'(n'), { p' => AT'<sub>p',n'</sub> |
 								p' in RV'(n') } ), for n' in RP'<sub>ext</sub></li>
-							<li>M'' is the mapping M' composed with the version name substitution
+							<li>NM'' is the mapping NM' composed with the version name substitution
 								arising from the reconciliation of vacuous revisions in the
 								construction of repositories R'.</li>
 						</ul>
 						<p>Then the value of <a>StoreTransformation</a><sub>k</sub>(STR, SI', RP',
-							RV', M', Rel<sub>data</sub>) is equal to the value of the constructor
+							RV', NM', Rel<sub>data</sub>) is equal to the value of the constructor
 								<a>Store-NEW</a><sub>k</sub> with the following arguments.</p>
 						<ol>
 							<li>RP'</li>
 							<li>{n' => R'<sub>n'</sub> | n' in RP'<sub>ext</sub>}</li>
 							<li>SI'</li>
-							<li>M''|<sub>RP'<sub>ext</sub></sub></li>
+							<li>NM''|<sub>RP'<sub>ext</sub></sub></li>
 						</ol>
 						<aside class="note">
 							<p>Repository <i>revisions</i> cannot be vacuous (i.e. the content of
@@ -1589,17 +1589,17 @@
 								<li>Rel<sub>data</sub> is the identity relation on NP x NP, denoted
 										<i>IDR</i><sub>NP</sub>
 								</li>
-								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
-										RP'<sub>ext</sub>, where M<sub>n</sub> is the corresponding
+								<li>NM'<sub>n</sub> = NM<sub>n</sub>, for each name n in
+										RP'<sub>ext</sub>, where NM<sub>n</sub> is the corresponding
 									mapping in the input store.</li>
 							</ul>
 							<p>That is,</p>
 							<p>STR = StoreTransformation<sub>k</sub>(STR, SI, RP, RV,
-									IDR<sub>NP</sub>, M ) where k =<a>order</a>(STR), RP =
+									IDR<sub>NP</sub>, NM ) where k =<a>order</a>(STR), RP =
 									<a>names</a>(<a>associativePart</a>(STR)), SI =
 									<a>versionNames</a>(STR), RV = { n => RV<sub>n</sub> | n is in
 								RP and RV<sub>n</sub> = <a>versionNames</a>( <a>content</a>(n,
-									<a>associativePart</a>(STR) ) }, NP = <a>namePairs</a>(STR), M =
+									<a>associativePart</a>(STR) ) }, NP = <a>namePairs</a>(STR), NM =
 									<a>versionNameMap</a>(STR).</p>
 						</aside>
 						<aside class="example" title="Subsampling a Store">
@@ -1610,14 +1610,14 @@
 								<li>RP' = RP</li>
 								<li>SI' = SI</li>
 								<li>RV'(n) is a subset of RV(n) for every n in RP<sub>ext</sub></li>
-								<li>M'<sub>n</sub>(m') = max( { p | m &le; m' and p =
-									M<sub>n</sub>(m) is in RV'(n) } ).</li>
+								<li>NM'<sub>n</sub>(m') = max( { p | m &le; m' and p =
+									NM<sub>n</sub>(m) is in RV'(n) } ).</li>
 								<li> Rel<sub>data</sub> = {[[m', n], [m, n]] | [m, n] is in NP and
-										M'<sub>n</sub>(m') = M<sub>n</sub>(m) } </li>
+										NM'<sub>n</sub>(m') = NM<sub>n</sub>(m) } </li>
 							</ul>
 							<li>Let <dfn>Subsample</dfn>(STR, RV') =
 									<a>StoreTransformation</a><sub>k</sub>(STR, SI, RP, RV',
-									Rel<sub>data</sub>, M') with Rel<sub>data</sub> and M' as
+									Rel<sub>data</sub>, NM') with Rel<sub>data</sub> and NM' as
 								defined above.</li>
 						</aside>
 						<aside class="example" title="Sequential Union of Two Repositories">
@@ -1640,12 +1640,12 @@
 								<li>if n is in UN, then [[m, n], [m', n']] belongs to
 										Rel<sub>data</sub> iff n' = r', [m, n] is in NP, and m' = m
 									. </li>
-								<li>M'<sub>n</sub> = M<sub>n</sub>, for each name n in
+								<li>NM'<sub>n</sub> = NM<sub>n</sub>, for each name n in
 										RP'<sub>ext</sub> - UN.</li>
 							</ul>
 							<p>Let <dfn>Sequential-UNION</dfn>(STR, UN, r', RV<sub>new</sub>) =
 									<a>StoreTransformation</a><sub>k</sub>(STR, SI, RP', RV',
-									Rel<sub>data</sub>, M') with RP', RP', Rel<sub>data</sub> and M'
+									Rel<sub>data</sub>, NM') with RP', RP', Rel<sub>data</sub> and NM'
 								as defined above. </p>
 						</aside>
 						<aside class="example" id="ex-rename" title="Renaming Operation">
@@ -1660,7 +1660,7 @@
 								order assertions were materialized and subject to substitution.</p>
 							<p><dfn data-lt="Rename">Rename(STR, <a>Subst</a>)</dfn> =
 										<a>Store-NEW<sub>k</sub></a>( <a>Subst</a>(RP),
-								<a>Subst</a>(R), <a>Subst</a>(SI), <a>Subst</a>(M)) where
+								<a>Subst</a>(R), <a>Subst</a>(SI), <a>Subst</a>(NM)) where
 									<dfn>Subst</dfn> is a name substitution mapping.</p>
 							<p>The name-substituted store will entail a substituted version of the
 								entailments of the original store in simple and structural
@@ -1695,7 +1695,7 @@
 								if [m, n] is in NP, n is in N = dom v0, v' is in RV'<sub>n</sub> =
 									Comb<sub>q</sub>(RV<sub>n</sub>, v0<sub>n</sub>), v is in
 									Interval<sub>p</sub>(RV<sub>n</sub>, v') where v =
-								M<sub>n</sub>(m), v' = M<sub>n</sub>(m'). </p>
+								NM<sub>n</sub>(m), v' = NM<sub>n</sub>(m'). </p>
 							<p>Let <dfn>Window</dfn>(STR, n, p, q, rv0) =
 									<a>StoreTransformation</a><sub>k</sub>( STR, {n},
 									RV'<sub>n</sub>, {<a>DEFAULT</a>->{}, n=>RV'<sub>n</sub>},
@@ -1718,13 +1718,13 @@
 								set of repository names N, returning a substore that contains only
 								repositories whose names are in N.</p>
 							<p>Repository-EXTRACT<sub>k</sub>(STR, N) =
-									<a>StoreTransformation</a><sub>k</sub>(STR, SI, RP', RV', M',
+									<a>StoreTransformation</a><sub>k</sub>(STR, SI, RP', RV', NM',
 									Rel<sub>data</sub>) </p>
 							<p>where</p>
 							<ul>
 								<li>RP' = RP &cap; N </li>
 								<li>RV' is the restriction of RV to RP'</li>
-								<li>M' is the restriction of M to RP'<sub>ext</sub></li>
+								<li>NM' is the restriction of NM to RP'<sub>ext</sub></li>
 							</ul>
 						</aside>
 					</section>
@@ -2052,7 +2052,7 @@
 							the union of the sets of <a>triples</a> in the two <a>graphs</a>. </li>
 						<li>If <a>order</a>(DSP) =<a>order</a>(DSP') = k &gt; 0, then <br />
 							<a>Tree-UNION</a>(DSP, DSP') = Associative-NEW<sub>k</sub>(
-							<a>names</a>(DSP) ∪ <a>names</a>(DSP'), M' ) <br /> where M' = <br /> {
+							<a>names</a>(DSP) ∪ <a>names</a>(DSP'), NM' ) <br /> where NM' = <br /> {
 								<a>DEFAULT</a> => <a>Tree-UNION</a>(<a>defaultPart</a>(DSP),
 								<a>defaultPart</a>(DSP')) } ∪ <br /> { name = > <a>content</a>(name,
 							DSP) | name in <a>names</a>(DSP) - <a>names</a>(DSP')} ∪ <br /> { name =
@@ -2062,8 +2062,8 @@
 								<a>names</a>(DSP) &amp; <a>names</a>(DSP')} </li>
 						<li>If <a>order</a>(DSP') &lt;<a>order</a>(DSP) = k, then <br />
 							<a>Tree-UNION</a>(DSP, DSP') = <a>Tree-UNION</a>(DSP', DSP) =
-								Associative-NEW<sub>k</sub>( <a>names</a>(DSP) , M' ) <br /> where
-							M' = M|<sub><a>names</a>(DSP</sub> &cup; {<a>DEFAULT</a> =>
+								Associative-NEW<sub>k</sub>( <a>names</a>(DSP) , NM' ) <br /> where
+							NM' = NM|<sub><a>names</a>(DSP</sub> &cup; {<a>DEFAULT</a> =>
 								<a>Tree-UNION</a>(<a>defaultPart</a>(DSP), DSP')} </li>
 					</ul>
 					<p>In the case of a single argument S that is a set of <a>associative trees</a>
@@ -2722,7 +2722,7 @@ _:b7 obs:effectiveDateTime
 						title="Store holding an RDF Stream of FHIR Heartrate Observations">
 						<p>We first use the <a>Store-NEW<sub>k</sub></a> constructor as follows.</p>
 						<p><dfn>Store<sub>FHIR-hr</sub></dfn> = <a>Store-NEW</a><sub>2</sub>(RN, R,
-							SI, M) where</p>
+							SI, NM) where</p>
 						<ul>
 							<li>RN = {_:fhir-hr} (the set of repository names)</li>
 							<li>R<sub>_:fhir-hr</sub> = <a>Repo<sub>FHIR-hr</sub></a> (the "named"
@@ -2733,11 +2733,11 @@ _:b7 obs:effectiveDateTime
 								timestamped graphs)</li>
 							<li>SI = <a>Chain</a>([_:strst1, _:strst2, _:strst3]) (the ordered set
 								of store version names)</li>
-							<li>M<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1, _:strst2 =>
+							<li>NM<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1, _:strst2 =>
 								_:fhir-hr-g2, _:strst3 => _:fhir-hr-g3} (the mapping from store
 								version names to repository version names, for the "named"
 								repository)</li>
-							<li>M<sub><a>DEFAULT</a></sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2 =>
+							<li>NM<sub><a>DEFAULT</a></sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2 =>
 								_:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3} (the mapping from store
 								version names to repository version names, for the default
 								repository)</li>
@@ -3964,8 +3964,8 @@ WHERE {
 						title="Second-Order Repository of FHIR Heartrate Observations">
 						<p><dfn>Repo<sub>FHIR-hr-2</sub></dfn> =
 								<a>Versioned-NEW</a><sub>2</sub>(VI<sub>FHIR-hr</sub>,
-								M<sub>FHIR-hr</sub>)</p>
-						<p>where VI<sub>FHIR-hr</sub> and M<sub>FHIR-hr</sub> are the same as
+								NM<sub>FHIR-hr</sub>)</p>
+						<p>where VI<sub>FHIR-hr</sub> and NM<sub>FHIR-hr</sub> are the same as
 							before.</p>
 					</aside>
 					<aside class="example"
@@ -3990,7 +3990,7 @@ WHERE {
 					<aside class="example"
 						title="Third-Order Store holding an RDF Stream of FHIR Heartrate Observations">
 						<p><dfn>Store<sub>FHIR-hr-2</sub></dfn> = <a>Store-NEW</a><sub>3</sub>(RN,
-							R, SI, M) where</p>
+							R, SI, NM) where</p>
 						<ul>
 							<li>RN = {_:fhir-hr} (the set of repository names)</li>
 							<li>R<sub>_:fhir-hr</sub> = <a>Repo<sub>FHIR-hr-2</sub></a> (the "named"
@@ -4002,11 +4002,11 @@ WHERE {
 								associated with.</li>
 							<li>SI = <a>Chain</a>([_:strst1, _:strst2, _:strst3]) (the ordered set
 								of store version names)</li>
-							<li>M<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1, _:strst2 =>
+							<li>NM<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1, _:strst2 =>
 								_:fhir-hr-g2, _:strst3 => _:fhir-hr-g3} (the mapping from store
 								version names to repository version names, for the "named"
 								repository)</li>
-							<li>M<sub><a>DEFAULT</a></sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2 =>
+							<li>NM<sub><a>DEFAULT</a></sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2 =>
 								_:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3} (the mapping from store
 								version names to repository version names, for the default
 								repository)</li>
@@ -4497,7 +4497,7 @@ WHERE {
 					<aside class="example"
 						title="Third-Order Store holding an RDF Stream of FHIR Heartrate Observations - Alternate">
 						<p><dfn>Store<sub>FHIR-hr-3</sub></dfn> = <a>Store-NEW</a><sub>3</sub>(RN,
-							R, SI, M) where</p>
+							R, SI, NM) where</p>
 						<ul>
 							<li>RN = {_:fhir-hr} (the set of repository names)</li>
 							<li>R<sub>_:fhir-hr</sub> = <a>Repo<sub>FHIR-hr-3</sub></a> (the "named"
@@ -4508,11 +4508,11 @@ WHERE {
 								timestamp predicate for each repository.</li>
 							<li>SI = <a>Chain</a>([_:strst1, _:strst2, _:strst3]) (the ordered set
 								of store version names)</li>
-							<li>M<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1, _:strst2 =>
+							<li>NM<sub>_:fhir-hr</sub> = {_:strst1 => _:fhir-hr-g1, _:strst2 =>
 								_:fhir-hr-g2, _:strst3 => _:fhir-hr-g3} (the mapping from store
 								version names to repository version names, for the "named"
 								repository)</li>
-							<li>M<sub>DEFAULT</sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2 =>
+							<li>NM<sub>DEFAULT</sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2 =>
 								_:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3} (the mapping from store
 								version names to repository version names, for the default
 								repository)</li>
@@ -5351,13 +5351,13 @@ _:rn2 rsp:usesTimestampPredicate obs:effectiveDateTime.
 							names. <ul>
 								<li>The repository R<sub>FHIR</sub> (named _:rn1 in this store) has
 									version names {_:b101, _:b102, _:b103}. For this repository, we
-									assign to _:rn1 the mapping M<sub>_:rn1</sub> = {_:sv0 =>
+									assign to _:rn1 the mapping NM<sub>_:rn1</sub> = {_:sv0 =>
 									_:b101, _:sv1 => _:b102, _:sv2 => _:b103}. Notice that the
 									domain is a proper interval subset of the set of store version
 									names.</li>
 								<li>The repository R<sub>FHIR-m</sub> (named _:rn2 in this store)
 									has version names {_:m101, _:m102, _:m103}. For this repository,
-									we assign to _:rn2 the mapping M<sub>_:rn2</sub> = {_:sv0 =>
+									we assign to _:rn2 the mapping NM<sub>_:rn2</sub> = {_:sv0 =>
 									_:m101, _:sv1 => _:m101, _:sv2 => _:m102, _:sv3 => _:m103}.
 									Notice that the domain of this mapping is the full set of store
 									version names.</li>
@@ -6328,107 +6328,7 @@ We write
 		</section>
 		<section id="sec-meta-variables">
 			<h4>Metavariable Conventions</h4>
-			<div>
-				<table>
-					<thead>
-						<tr>
-							<th>Metavariable</th>
-							<th>Type</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>E</td>
-							<td>general entity</td>
-						</tr>
-						<tr>
-							<td>DST</td>
-							<td>data structure</td>
-						</tr>
-						<tr>
-							<td>DS</td>
-							<td>RDF Dataset</td>
-						</tr>
-						<tr>
-							<td>DSQ</td>
-							<td>data sequence</td>
-						</tr>
-						<tr>
-							<td>SQ</td>
-							<td>general sequence</td>
-						</tr>
-						<tr>
-							<td>MDST</td>
-							<td>multivalent data structure</td>
-						</tr>
-						<tr>
-							<td>VDST</td>
-							<td>versioned data structure</td>
-						</tr>
-						<tr>
-							<td>ADST</td>
-							<td>associative data structure</td>
-						</tr>
-						<tr>
-							<td>AT</td>
-							<td>associative tree</td>
-						</tr>
-						<tr>
-							<td>SO</td>
-							<td>solitary association</td>
-						</tr>
-						<tr>
-							<td>SOT</td>
-							<td>solitary-association-tree</td>
-						</tr>
-						<tr>
-							<td>R</td>
-							<td>repository</td>
-						</tr>
-						<tr>
-							<td>STR</td>
-							<td>store</td>
-						</tr>
-						<tr>
-							<td>n or name</td>
-							<td>RDF Name</td>
-						</tr>
-						<tr>
-							<td>M</td>
-							<td>mapping</td>
-						</tr>
-						<tr>
-							<td>RM</td>
-							<td>mapping with <a>dom</a>(M) &sube; RDF Name and codom &sube;
-								repository</td>
-						</tr>
-						<tr>
-							<td>NM</td>
-							<td>mapping with <a>dom</a>(M) and <a>codom</a>(M) &sube; RDF Name</td>
-						</tr>
-						<tr>
-							<td>VI, SI</td>
-							<td>totally-ordered sets, with order e.g. &le;<sub>VI</sub></td>
-						</tr>
-						<tr>
-							<td>G</td>
-							<td>RDF Graph</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+			<div data-include="metavariable-datatype.html" data-include-replace="true" data-include-sync="true"></div>
 		</section>
 		<section id="sec-reserved-names">
 			<h4>Reserved Names</h4>
@@ -6538,14 +6438,14 @@ We write
 					<tr>
 						<td><dfn>TypeVer<sub>k</sub></dfn>(X, Y), k &gt; 0</td>
 						<td>::&lt;</td>
-						<td>[<a>Nat</a>, <a>℘℘</a>(RDF Name), <a>Partial</a>:(RDF Name => Y &cup;
+						<td>[<a>Nat</a>, <a>℘℘</a>(<a>RDF Name</a>), <a>Partial</a>:(<a>RDF Name</a> => Y &cup;
 								{<a>ASSOC</a>} => X)]</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>::=</td>
-						<td>{<a>Versioned-NEW<sub>k</sub></a>(NI, M) | NI &in; <a>℘℘</a>(RDF Name),
-							M: NI|<sub>Y</sub> &cup; {<a>ASSOC</a>} => X) where M(x) = M(y), x &lt;
+						<td>{<a>Versioned-NEW<sub>k</sub></a>(NI, DSTM) | NI &in; <a>℘℘</a>(<a>RDF Name</a>),
+							DSTM: NI|<sub>Y</sub> &cup; {<a>ASSOC</a>} => X) where DSTM(x) = DSTM(y), x &lt;
 							y &in; NI implies there is some z &in; NI, x &lt; z &lt; y}</td>
 					</tr>
 					<tr>
@@ -6595,9 +6495,9 @@ We write
 					<tr>
 						<td></td>
 						<td>::=</td>
-						<td>{<a>Store-NEW<sub>k</sub></a>(RN, RM, SI, M) | RN &in; 2<sup>RDF
+						<td>{<a>Store-NEW<sub>k</sub></a>(RN, RM, SI, NM) | RN &in; 2<sup>RDF
 								Name</sup> - 1, RM: RN<sub>ext</sub> => repository<sub>k-1</sub>,
-							@@@plus other requirement on SI and M as given in the definition of
+							@@@plus other requirement on SI and NM as given in the definition of
 									<a>Store-NEW<sub>k</sub></a>}</td>
 					</tr>
 				</tbody>
