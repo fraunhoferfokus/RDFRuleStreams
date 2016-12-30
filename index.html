@@ -2045,45 +2045,45 @@
 							trees</a>.</li>
 					</ul>
 					<p>The semantics of <a>Tree-UNION</a> is defined by cases as follows.</p>
-					<p>In the case of two arguments DSP, DSP':</p>
+					<p>In the case of two arguments AT, AT':</p>
 					<ul>
-						<li>If DSP and DSP' are both zeroth-order <a>associative trees</a>, i.e.,
-								<a>RDF Graphs</a>, then the value of <a>Tree-UNION</a>(DSP, DSP') is
+						<li>If AT and AT' are both zeroth-order <a>associative trees</a>, i.e.,
+								<a>RDF Graphs</a>, then the value of <a>Tree-UNION</a>(AT, AT') is
 							the union of the sets of <a>triples</a> in the two <a>graphs</a>. </li>
-						<li>If <a>order</a>(DSP) =<a>order</a>(DSP') = k &gt; 0, then <br />
-							<a>Tree-UNION</a>(DSP, DSP') = Associative-NEW<sub>k</sub>(
-							<a>names</a>(DSP) ∪ <a>names</a>(DSP'), NM' ) <br /> where NM' = <br /> {
-								<a>DEFAULT</a> => <a>Tree-UNION</a>(<a>defaultPart</a>(DSP),
-								<a>defaultPart</a>(DSP')) } ∪ <br /> { name = > <a>content</a>(name,
-							DSP) | name in <a>names</a>(DSP) - <a>names</a>(DSP')} ∪ <br /> { name =
-							> <a>content</a>(name, DSP') | name in <a>names</a>(DSP') -
-							<a>names</a>(DSP)} ∪ <br /> { name = > <a>Tree-UNION</a>(
-							<a>content</a>(name, DSP), <a>content</a>(name, DSP')) | name in
-								<a>names</a>(DSP) &amp; <a>names</a>(DSP')} </li>
-						<li>If <a>order</a>(DSP') &lt;<a>order</a>(DSP) = k, then <br />
-							<a>Tree-UNION</a>(DSP, DSP') = <a>Tree-UNION</a>(DSP', DSP) =
-								Associative-NEW<sub>k</sub>( <a>names</a>(DSP) , NM' ) <br /> where
-							NM' = NM|<sub><a>names</a>(DSP</sub> &cup; {<a>DEFAULT</a> =>
-								<a>Tree-UNION</a>(<a>defaultPart</a>(DSP), DSP')} </li>
+						<li>If <a>order</a>(AT) =<a>order</a>(AT') = k &gt; 0, then <br />
+							<a>Tree-UNION</a>(AT, AT') = Associative-NEW<sub>k</sub>(
+							<a>names</a>(AT) ∪ <a>names</a>(AT'), ATM' ) <br /> where ATM' = <br /> {
+								<a>DEFAULT</a> => <a>Tree-UNION</a>(<a>defaultPart</a>(AT),
+								<a>defaultPart</a>(AT')) } ∪ <br /> { n => <a>content</a>(n,
+							AT) | n in <a>names</a>(AT) - <a>names</a>(AT')} ∪ <br /> { n =
+							> <a>content</a>(n, AT') | n in <a>names</a>(AT') -
+							<a>names</a>(AT)} ∪ <br /> { n => <a>Tree-UNION</a>(
+							<a>content</a>(n, AT), <a>content</a>(n, AT')) | n in
+								<a>names</a>(AT) &amp; <a>names</a>(AT')} </li>
+						<li>If <a>order</a>(AT') &lt;<a>order</a>(AT) = k, then <br />
+							<a>Tree-UNION</a>(AT, AT') = <a>Tree-UNION</a>(AT', AT) =
+								Associative-NEW<sub>k</sub>( <a>names</a>(AT) , ATM' ) <br /> where
+							ATM' = ATM|<sub><a>names</a>(AT)</sub> &cup; {<a>DEFAULT</a> =>
+								<a>Tree-UNION</a>(<a>defaultPart</a>(AT), AT')} </li>
 					</ul>
-					<p>In the case of a single argument S that is a set of <a>associative trees</a>
+					<p>In the case of a single argument ATS that is a set of <a>associative trees</a>
 						of order k or less, the value is defined inductively as follows.</p>
 					<ul>
-						<li>if <a>order</a>(s) = 0 for every s in S (i.e. s is an <a>RDF graph</a>),
-							then <a>Tree-UNION</a>(S) = ∪<sub>s in S</sub>s. Note that this includes
-							the case S = {}, where <a>Tree-UNION</a>(S) = {}.</li>
-						<li>if <a>order</a>(s) = k &gt; 0 for every s in S, then <br />
-							<a>Tree-UNION</a>(S) = Associative-NEW<sub>k</sub>( result-default,
+						<li>if <a>order</a>(ast) = 0 for every ast in ATS (i.e. ast is an <a>RDF graph</a>),
+							then <a>Tree-UNION</a>(ATS) = ∪ ATS. Note that this includes
+							the case ATS = {}, where <a>Tree-UNION</a>(ATS) = {}.</li>
+						<li>if <a>order</a>(ast) = k &gt; 0 for every ast in ATS, then <br />
+							<a>Tree-UNION</a>(ATS) = Associative-NEW<sub>k</sub>( result-default,
 							result-names, result-nameMap ) <br /> where <br /> result-default =
-								<a>Tree-UNION</a>({<a>defaultPart</a>(s)|s in S}) <br />
-							result-names = ∪<sub>s in S</sub>
-							<a>names</a>(s), <br /> result-nameMap = { n =>
-								<a>Tree-UNION</a>({<a>content</a>(n, s)|<sub>s in S</sub>}) | n in
+								<a>Tree-UNION</a>({<a>defaultPart</a>(ast) | ast in ATS}) <br />
+							result-names = ∪<sub>ast in ATS</sub>
+							<a>names</a>(ast), <br /> result-nameMap = { n =>
+								<a>Tree-UNION</a>({<a>content</a>(n, ast)|<sub>ast in ATS</sub>}) | n in
 							result-names} </li>
-						<li> if max({ <a>order</a>(s)|s in S}) = k &gt; 0, let S<sub>k</sub> be the
-							subset of S containing all members of S having order k. Then
-							Tree-UNION(S) = <a>Tree-UNION</a>( <a>Tree-UNION</a>(S -S<sub>k</sub>),
-								<a>Tree-UNION</a>(S<sub>k</sub>)) </li>
+						<li> if max({ <a>order</a>(ast)| ast in ATS}) = k &gt; 0, let ATS<sub>k</sub> be the
+							subset of ATS containing all members of ATS having order k. Then
+							Tree-UNION(ATS) = <a>Tree-UNION</a>( <a>Tree-UNION</a>(ATS -ATS<sub>k</sub>),
+								<a>Tree-UNION</a>(ATS<sub>k</sub>)) </li>
 					</ul>
 					<p class="ednote"> It is possible to informally apply the Tree-UNION operation
 						to pairs of <a>repositories</a> or <a>stores</a> by first applying a
