@@ -257,13 +257,21 @@
 					<img src="datastructure-and-existing-associative-types.svg" alt="" width="400" />
 					<figcaption>The top type <a>k-th order data structure</a> may be decomposed into
 						three disjoint parts: <a>k-th order associative data structures</a>, <a>k-th
-							order data sequences</a>, and <dfn>multivalent k-th order data
-							structures</dfn>, (with type symbol
+							order data sequences</a>, and <dfn
+							data-lt="k-th order RDF multivalent data
+								structure|k-th order RDF multivalent data
+								structures|multivalent k-th order RDF data
+								structure|multivalent k-th order data
+								structures|multivalent k-th order data
+								structure|multivalent data
+								structure|multivalent data
+								structures"
+							>multivalent k-th order RDF data structures</dfn>, (with type symbol
 								<dfn>multivalent-structure<sub>k</sub></dfn>, k &ge; 0) i.e. those
 						k-th order data structures having both an <a>associative part</a> and a
 							<a>sequential part</a>. The existing type of RDF graph is subsumed by
 						the <a>associative data structure</a> type, and more particularly, is equal
-						to the type of <a>zeroth order associative trees</a>. RDF Datasets are not
+						to the type of <a>zeroth-order associative trees</a>. RDF Datasets are not
 						directly represented in this type system, but are emulated by certain
 						associative trees of order 1 or less. The <a>repository</a> and <a>store</a>
 						types are subsumed by the <a>multivalent data structure</a> type.
@@ -369,10 +377,34 @@
 								</td>
 							</tr>
 							<tr>
-								<td><dfn>RDF Surface (sensu Pat Hayes)</dfn></td>
+								<td><dfn data-lt="RDF Names">RDF Name</dfn></td>
 								<td><b>Reference</b></td>
 								<td><b>Definition</b>
 								</td>
+							</tr>
+							<tr>
+								<td><dfn data-lt="RDF Surface">RDF Surface (sensu Pat
+									Hayes)</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b>
+								</td>
+							</tr>
+							<tr>
+								<td><dfn data-lt="IRI|IRIs">Internationalized Resource
+										Identifier</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b></td>
+							</tr>
+							<tr>
+								<td><dfn data-lt="blank nodes">blank node</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b></td>
+							</tr>
+							<tr>
+								<td><dfn data-lt="literal|literals|RDF Literals">RDF
+									Literal</dfn></td>
+								<td><b>Reference</b></td>
+								<td><b>Definition</b></td>
 							</tr>
 						</tbody>
 					</table>
@@ -395,8 +427,8 @@
 			<section id="def-associative">
 				<h3>Associative Data Structures</h3>
 				<p>The new datatypes introduced in this section, summarized in the following table,
-					are associative collections, where the association key is of type
-						<a>RDF-Name</a>. These datatypes generalize <a>RDF Datasets</a>, which are
+					are associative collections, where the association key is of type <a>RDF
+						Name</a>. These datatypes generalize <a>RDF Datasets</a>, which are
 					associative collections of <a>RDF Graphs</a>, by allowing the key value type to
 					be a more complex <a>data structure</a>. </p>
 				<div>
@@ -437,22 +469,26 @@
 						<li>A <dfn>zeroth-order associative data structure</dfn> (with type symbol
 									<dfn>associative<sub>0</sub></dfn>) is an RDF Graph. </li>
 						<li>A k-th order associative data structure, k &ge; 1, is specified by the
-							tuple [k, N, M] where N is a non-empty subset of RDF-Name, and M is a
+							tuple [k, N, M] where N is a non-empty subset of RDF Name, and M is a
 							mapping from N &cup; {DEFAULT} to <a>data structures</a> of order k-1 or
 							less. </li>
 					</ul>
+					<p>The type symbole for associative structures of order k or less is
+								<dfn>associative<sub>&le; k</sub></dfn></p>
 					<p><dfn>DEFAULT</dfn> is a reserved name used to streamline the definitions.</p>
-					<p>We denote by <dfn data-lt="Associative">Associative-NEW<sub>k</sub></dfn>(N,
-						M), k &gt; 0, the associative data structure specified by the tuple [k, N,
-						M]. </p>
+					<p>We denote by <dfn data-lt="Associative-NEW"
+						>Associative-NEW<sub>k</sub></dfn>(N, M), k &gt; 0, the associative data
+						structure specified by the tuple [k, N, M]. </p>
 					<p>Further, let G be an RDF Graph, N= {}, and M= {<a>DEFAULT</a>=>G}). We define
 								<dfn>Associative-NEW<sub>0</sub></dfn>(N, M) = G.</p>
 					<p class="note">The functions <a>Associative-NEW<sub>k</sub></a>, k &ge; 0, thus
 						acts as constructors for <a>associative data structures</a>. The constraints
 						are that <a>cardinality</a>(N) &gt; 0 if k &gt;0 and <a>cardinality</a>(N)=0
-						if k = 0, while M:(N &cup; {<a>DEFAULT</a>}) =>
-								<a>structure<sub>&le;k-1</sub></a> if k&gt; 0 while
-							M:{<a>DEFAULT</a>} => RDF-Graph if k=0.</p>
+						if k = 0, while M:(N &cup; {<a>DEFAULT</a>}) => <a>structure<sub>&le;
+								k-1</sub></a> if k&gt; 0 while M:{<a>DEFAULT</a>} => RDF Graph if
+						k=0.</p>
+					<p><dfn>TypeAssoc</dfn>(X) is a type constructor for associative data structures
+						whose values (in key-value pairs) are of type X.</p>
 					<p>The order of an <a>associative data structure</a> ADST =
 							<a>Associative-NEW</a><sub>k</sub>(N, M) is denoted
 						<dfn>order</dfn>(ADST) and has value order(ADST) = k.</p>
@@ -502,7 +538,7 @@
 							Therefore by definition, SO is a <a>solitary association</a>.</p>
 					</aside>
 					<p>We define a specialized constructor for solitary associations,</p>
-					<p><dfn data-lt="Solitary">Solitary-NEW<sub>k</sub></dfn>(n, DST) =
+					<p><dfn data-lt="Solitary-NEW">Solitary-NEW<sub>k</sub></dfn>(n, DST) =
 								<a>Associative-NEW<sub>k</sub></a>({n}, {n => DST, <a>DEFAULT</a> =>
 						{} }), k &gt; 0 where order(DST) &lt; k.</p>
 					<p>The <dfn>named part</dfn> of a k-th order <a>associative data structure</a>
@@ -591,8 +627,10 @@
 					<ul>
 						<li><dfn>isSequence</dfn>(E) is true if E is a <a>sequence</a>; otherwise it
 							is false.</li>
-						<li>If E is an element of SQ, then <dfn>isMemberOf</dfn>(E, SQ) is true;
-							otherwise, it is false.</li>
+						<li>If SQ is a sequence of type X and E is an arbitrary entity of type X,
+							then <dfn>isMemberOf</dfn>(E, SQ) is true; otherwise, it is false.</li>
+						<li>If SQ is a <a>sequence</a> of type X, then <dfn>members</dfn>(SQ) is the
+							set of elements of SQ. </li>
 						<li>If E and E' are two elements of SQ, then <dfn>previousTo</dfn>(E, E';
 							SQ) is defined; otherwise it is undefined. It has the value true if E
 							&lt; E' in the context of SQ, and has the value false if E &gt;= E' in
@@ -612,7 +650,8 @@
 							is undefined. </li>
 						<li>If <a>least</a>(SQ) = E, then <dfn>isLeastOf</dfn>(E, SQ) has value
 							true, and otherwise false. </li>
-						<li>If <a>greatest</a>(SQ) = E, then <dfn>isGreatestOf</dfn>(E, SQ) has
+						<li>Let SQ is a sequence of type X and be E is an arbitrary entity of type
+							X. If <a>greatest</a>(SQ) = E, then <dfn>isGreatestOf</dfn>(E, SQ) has
 							value true, and otherwise false. </li>
 						<li>If <a>isLeastOf</a>(E, DSG) is false, then <dfn>predecessor</dfn>(E; SQ)
 							is defined, and has the value of the unique <a>predecessor</a> of E in
@@ -669,7 +708,7 @@
 					<p class="ednote">There is a non-determinism issue regarding <a>index</a> and
 							<a>indexMap</a>.</p>
 -->
-					<aside class="example"> Let DSQ be a <a>data-sequence. </a>In the case that
+					<aside class="example"> Let DSQ be a <a>data-sequence</a>. In the case that
 							<a>hasGreatest</a>(DSQ) is true, then <p> Cons( greatest(DSQ),
 							exceptGreatest(DSQ) ) = DSQ.</p>
 					</aside>
@@ -768,7 +807,8 @@
 						part, then sequentialPart(DSQ) = DSQ; in this case, the data structure is a
 							<a>data sequence</a>. In particular, it is a sequence of k-th order
 							<a>associative data structures</a>. We define this special case of
-							<a>data sequence</a> to be a <dfn>k-th order data sequence</dfn>.</p>
+							<a>data sequence</a> to be a <dfn data-lt="k-th order data sequences"
+							>k-th order data sequence</dfn>.</p>
 					<p>We extend the functions defined earlier on associative data structures to
 						data structures where <a>hasAssociative</a> is true according to the
 						following example: <a>names</a>(DST) =
@@ -797,8 +837,9 @@
 				<p class="note">If ADST = <a>Associative-NEW<sub>k</sub></a>(N, M), then ADSTS is an
 					associative tree iff k=0 and codom(M) &sub; associative-tree<sub>0</sub> or
 					codom(M) &sub; associative-tree<sub>&le; k-1</sub></p>
-				<p class="note">Every RDF Graph is a <a>zeroth-order associative tree</a>, and every
-					zeroth-order associative tree is an RDF Graph.</p>
+				<p class="note">Every RDF Graph is a <dfn data-lt="zeroth-order associative trees"
+						>zeroth-order associative tree</dfn>, and every zeroth-order associative
+					tree is an RDF Graph.</p>
 				<p>A k-th order <dfn>solitary association tree</dfn> is a k-th order <a>associative
 						tree</a> that is also a <a>solitary association</a>.</p>
 				<p class="example">A named graph may be emulated as a first-order
@@ -886,7 +927,7 @@
 					<p>An <dfn>initial version</dfn> of a versioned structure is a version that does
 						not have a previous version. A versioned structure MAY have an initial
 						version.</p>
-					<p> The function <dfn>hasInitialVersion(VS)</dfn> is defined and has the value
+					<p> The function <dfn>hasInitialVersion</dfn>(VS) is defined and has the value
 						of <a>hasLeast</a>(<a>sequentialPart</a>(VS)). </p>
 					<p class="note">If the sequential part of a versioned structure has an initial
 						version, then it is unique, due to the order being total; further, it is a
@@ -927,11 +968,12 @@
 					<p>The function <dfn>hasNext</dfn>(n; VS) = <a>hasNext</a>(n;
 							<a>versionNames</a>(VS)) is true iff n is the name of a non-terminal
 							<a>version</a> of VS</p>
-					<p>The function <dfn>next(n; VS)</dfn> is defined provided <a>hasNext</a>(n; VS)
-						is true, and has the value <a>next</a>(n; versionNames(VS)).</p>
+					<p>The function <dfn data-lt="next">next(n; VS)</dfn> is defined provided
+							<a>hasNext</a>(n; VS) is true, and has the value <a>next</a>(n;
+						versionNames(VS)).</p>
 					<p>We define a constuctor of <a>versioned data structures</a> as a basic
-						operation <dfn>Versioned-NEW<sub>k</sub></dfn>, k = 1, 2, ..., that takes
-						the following arguments.</p>
+						operation <dfn data-lt="Versioned-NEW">Versioned-NEW<sub>k</sub></dfn>, k =
+						1, 2, ..., that takes the following arguments.</p>
 					<ol>
 						<li>The ordered set VI = [VN, &le;<sub>VN</sub>] of version names of the
 							data structure. </li>
@@ -994,9 +1036,9 @@
 					<p class="ednote">To be clarified in Eval section: The associative part of the
 						repository plays the role of background knowledge, which is unioned with
 						every snapshot prior to query.</p>
-					<p>We define a Repository Constructor as a basic operation
-								<dfn>Repository-NEW<sub>k</sub></dfn>, k = 1, 2, ..., that takes the
-						following arguments.</p>
+					<p>We define a Repository Constructor as a basic operation <dfn
+							data-lt="Repository-NEW">Repository-NEW<sub>k</sub></dfn>, k = 1, 2,
+						..., that takes the following arguments.</p>
 					<!--
 					<ol>
 						<li>The <a>associative tree</a> of order k-1 or less that is the associative
@@ -1163,7 +1205,7 @@
 							</ul>
 						</ul>
 					</p>
-					<p>We define a constructor <dfn data-lt="constructor Store"
+					<p>We define a constructor <dfn data-lt="constructor Store|Store-NEW"
 								>Store-NEW<sub>k</sub></dfn> for <a>k-th order stores</a>, k = 2, 3,
 						..., with the following arguments.</p>
 					<ol>
@@ -1216,8 +1258,8 @@
 						repository versions. E.g. This can take the form of a required decomposition
 						into a monotonic partial mapping M' (as before) composed with a permutation
 						PM of the repository version names (M = PM o M').</p>
-					<p>That is, if VI' = codom(PM(n)), then <a>isPreviousTo</a>(M(sn1), M(sn2); VI')
-						iff <a>isPreviousTo</a>(sn1, sn2; SI)</p>
+					<p>That is, if VI' = codom(PM(n)), then <a>previousTo</a>(M(sn1), M(sn2); VI')
+						iff <a>previousTo</a>(sn1, sn2; SI)</p>
 					<p class="ednote">The function <a>repository</a> that retrieves repositories
 						from the store must return the permuted repository so that the consistency
 						requirements are satisfied. An implementation may also provide access to the
@@ -1477,8 +1519,8 @@
 									<a>DEFAULT</a> or ASSOC.</p>
 							<p>Substitutions into an ordered set preserve the order, e.g as if the
 								order assertions were materialized and subject to substitution.</p>
-							<p><dfn>Rename(STR, Subst)</dfn> =
-								<a>Store-NEW<sub>k</sub></a>(Subst(RP), Subst(R), Subst(SI),
+							<p><dfn data-lt="Rename">Rename(STR, Subst)</dfn> =
+										<a>Store-NEW<sub>k</sub></a>(Subst(RP), Subst(R), Subst(SI),
 								Subst(M)) where Subst is a name substitution mapping.</p>
 							<p>The name-substituted store will entail a substituted version of the
 								entailments of the original store in simple and structural
@@ -1487,18 +1529,18 @@
 						<aside class="example" id="ex-window" title="Count-Based Window Operation">
 							<p> We define some auxiliary functions to assist with count-based window
 								operations. </p>
-							<p> Let <dfn>Comb<sub>p</sub></dfn>(A, a) select from a totally-ordered
-								set A containing element a the elements of A that are offset, with
-								respect to order, an integer multiple of p from element a. That is,
-								elements b such that there are exactly k * (p) elements c with a
-								&lt; c &le; b or b &lt; c &le; a. </p>
-							<p>Let Interval<sub>n</sub>(A) be the ordered set of all intervals of
-								length n in A, with order by minimal element, and
-									Interval<sub>n</sub>(A, a) be the interval of length n in A
-								whose minimal element is a.</p>
-							<p>Let Floor<sub>n</sub>(A, a) = { m' => m | m' is in
-									Interval<sub>n</sub>(A, m) and m is in Comb<sub>n</sub>(A, a)
-								}</p>
+							<p> Let <dfn data-lt="Comb">Comb<sub>p</sub></dfn>(A, a) select from a
+								totally-ordered set A containing element a the elements of A that
+								are offset, with respect to order, an integer multiple of p from
+								element a. That is, elements b such that there are exactly k * (p)
+								elements c with a &lt; c &le; b or b &lt; c &le; a. </p>
+							<p>Let <dfn data-lt="Interval">Interval<sub>n</sub></dfn>(A) be the
+								ordered set of all intervals of length n in A, with order by minimal
+								element, and Interval<sub>n</sub>(A, a) be the interval of length n
+								in A whose minimal element is a.</p>
+							<p>Let <dfn data-lt="Floor">Floor<sub>n</sub></dfn>(A, a) = { m' => m |
+								m' is in <a>Interval</a><sub>n</sub>(A, m) and m is in
+									<a>Comb</a><sub>n</sub>(A, a) }</p>
 							<!--
 							<p>We define a basic operation <dfn>Window</dfn><sub>n, p</sub>(A, a) =
 									Comb<sub>p</sub>( Interval<sub>n</sub>(A),
@@ -1612,8 +1654,8 @@
 						<li>An optional RDF graph which is the content of the named graph of the
 							timestamped graph.</li>
 					</ol>
-					<p>The value of <a>TSGraph-NEW</a> is defined in terms of other operations in
-						the following cases.</p>
+					<p>The value of <dfn>TSGraph-NEW</dfn> is defined in terms of other operations
+						in the following cases.</p>
 					<ul>
 						<li>TSGraph-NEW(G0, {n p t.}) =
 							Associative-NEW<sub>1</sub>(G<sub>meta</sub>, {b}, {b => D0}) </li>
@@ -6171,7 +6213,7 @@ We write
 						</tr>
 						<tr>
 							<td>n or name</td>
-							<td>RDF-Name</td>
+							<td>RDF Name</td>
 						</tr>
 						<tr>
 							<td>M</td>
@@ -6179,11 +6221,11 @@ We write
 						</tr>
 						<tr>
 							<td>RM</td>
-							<td>mapping with dom(M) &sube; RDF-Name and codom &sube; repository</td>
+							<td>mapping with dom(M) &sube; RDF Name and codom &sube; repository</td>
 						</tr>
 						<tr>
 							<td>NM</td>
-							<td>mapping with dom(M) and codom(M) &sube; RDF-Name</td>
+							<td>mapping with dom(M) and codom(M) &sube; RDF Name</td>
 						</tr>
 						<tr>
 							<td>VI, SI</td>
@@ -6249,6 +6291,11 @@ We write
 						<td>set of Natural Numbers</td>
 					</tr>
 					<tr>
+						<td><dfn>Z<sup>*</sup></dfn></td>
+						<td>::=</td>
+						<td>non-negative integers</td>
+					</tr>
+					<tr>
 						<td>2<sup>X</sup></td>
 						<td>::=</td>
 						<td>set of subsets of X</td>
@@ -6312,13 +6359,13 @@ We write
 					<tr>
 						<td><dfn>TypeVer<sub>k</sub></dfn>(X, Y), k &gt; 0</td>
 						<td>::&lt;</td>
-						<td>[<a>Nat</a>, <a>℘℘</a>(RDF-Name), <a>Partial</a>:(RDF-Name => Y &cup;
+						<td>[<a>Nat</a>, <a>℘℘</a>(RDF Name), <a>Partial</a>:(RDF Name => Y &cup;
 								{<a>ASSOC</a>} => X)]</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>::=</td>
-						<td>{<a>Versioned-NEW<sub>k</sub></a>(NI, M) | NI &in; <a>℘℘</a>(RDF-Name),
+						<td>{<a>Versioned-NEW<sub>k</sub></a>(NI, M) | NI &in; <a>℘℘</a>(RDF Name),
 							M: NI|<sub>Y</sub> &cup; {<a>ASSOC</a>} => X) where M(x) = M(y), x &lt;
 							y &in; NI implies there is some z &in; NI, x &lt; z &lt; y}</td>
 					</tr>
@@ -6370,10 +6417,10 @@ We write
 					<tr>
 						<td></td>
 						<td>::=</td>
-						<td>{<a>Store-NEW<sub>k</sub></a>(RN, RM, SI, M) | RN &in;
-								2<sup>RDF-Name</sup> - 1, RM: RN<sub>ext</sub> =>
-									<a>repository<sub>k-1</sub></a>, @@@plus other requirement on SI
-							and M as given in the definition of <a>Store-NEW<sub>k</sub></a>}</td>
+						<td>{<a>Store-NEW<sub>k</sub></a>(RN, RM, SI, M) | RN &in; 2<sup>RDF
+								Name</sup> - 1, RM: RN<sub>ext</sub> =>
+								<a>repository<sub>k-1</sub></a>, @@@plus other requirement on SI and
+							M as given in the definition of <a>Store-NEW<sub>k</sub></a>}</td>
 					</tr>
 				</tbody>
 				<!-- Not done yet
@@ -6508,16 +6555,6 @@ We write
 						</tr>
 						<tr>
 							<td><a>Repository-EXTRACT</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>Restrict-FILTER</a></td>
-							<td>Signature</td>
-							<td>Result Type</td>
-						</tr>
-						<tr>
-							<td><a>Sequence-UNION</a></td>
 							<td>Signature</td>
 							<td>Result Type</td>
 						</tr>
