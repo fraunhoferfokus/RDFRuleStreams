@@ -1531,7 +1531,13 @@
 					<h4>Store Transformations</h4>
 					<section id="def-general-transformation">
 						<h5>General Store Transformation</h5>
-						<p>For an ordered set SI = [SV, &le;<sub>SV</sub>] of names, let
+						<p>We define a basic operation <dfn>StoreTransformation</dfn><sub>k</sub>
+							that takes a <a>store</a> of order k as an input and outputs a
+								<a>store</a> of order k to perform a general restructuring of the
+							content of the input store, including subsampling, duplication, change
+							of context, and reordering. The transformation treats the graphs of the
+							input store as indivisible units, except that union is possible. </p>
+						<p>For an ordered set SI = [SV, &le;<sub>SV</sub>] of <a>RDF Names</a>, let
 								<dfn>Ext-ASSOC</dfn>(S) be the partially ordered set [SV ∪ {ASSOC},
 								&le;<sub>SV</sub>]. For a set S of names, let
 							<dfn>Ext-DEFAULT</dfn>(S) = S ∪ {<a>DEFAULT</a>}.</p>
@@ -1542,14 +1548,12 @@
 							such that [stver, repo] is in NP provided stver is a member of
 								<a>Ext-ASSOC</a>(<a>versionNames</a>(STR)) and repo is in
 								<a>names</a>(<a>versionContent</a>(stver; STR).</p>
-						<p>We define a basic operation <dfn>StoreTransformation</dfn><sub>k</sub>
-							with range being <a>stores</a> of order k or less. The input arguments
-							of <a>StoreTransformation</a><sub>k</sub> are as follows. </p>
+						<p>The input arguments of <a>StoreTransformation</a><sub>k</sub> are as
+							follows. </p>
 						<ol>
-							<li>The input <a>store</a> STR of order k or less. Let SI =
-									<a>versionNames</a>(STR), SI<sub>ext</sub>=
-								<a>Ext-ASSOC</a>(SI), RP =
-								<a>names</a>(<a>associativePart</a>(STR)), and RP<sub>ext</sub> =
+							<li>The input <a>store</a> STR of order k. Let SI =
+								<a>versionNames</a>(STR), SI<sub>ext</sub>= <a>Ext-ASSOC</a>(SI), RP
+								= <a>names</a>(<a>associativePart</a>(STR)), and RP<sub>ext</sub> =
 								Ext-DEFAULT(RP). Let NP = <a>namePairs</a>(STR), and RV(n) =
 									<a>versionNames</a>(<a>content</a>(n, STR)). <br /> Note: SI is
 								the ordered set of store version names of the input store, while RP
