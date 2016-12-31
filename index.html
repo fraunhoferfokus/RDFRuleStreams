@@ -296,15 +296,15 @@
 								structure|multivalent data
 								structures"
 							>multivalent k-th order RDF data structures</dfn>, (with type symbol
-								<dfn data-lt="multivalent">multivalent-structure<sub>k</sub></dfn>, k &ge; 0) i.e. those
-						k-th order data structures having both an <a>associative part</a> and a
-							<a>sequential part</a>. The existing type of RDF graph is subsumed by
-						the <a>associative data structure</a> type, and more particularly, is equal
-						to the type of <a>zeroth-order associative trees</a>. RDF Datasets are not
-						directly represented in this type system, but are emulated by certain
-						associative trees of order 1 or less. The <a>repository</a> and <a>store</a>
-						types are subsumed by the <a>multivalent data structure</a> type.
-					</figcaption>
+							<dfn data-lt="multivalent">multivalent-structure<sub>k</sub></dfn>, k
+						&ge; 0) i.e. those k-th order data structures having both an <a>associative
+							part</a> and a <a>sequential part</a>. The existing type of RDF graph is
+						subsumed by the <a>associative data structure</a> type, and more
+						particularly, is equal to the type of <a>zeroth-order associative trees</a>.
+						RDF Datasets are not directly represented in this type system, but are
+						emulated by certain associative trees of order 1 or less. The
+							<a>repository</a> and <a>store</a> types are subsumed by the
+							<a>multivalent data structure</a> type. </figcaption>
 				</figure>
 			</section>
 			<section id="existing-datastructuretypes">
@@ -535,16 +535,17 @@
 					<h4>k-th Order Associative RDF Data Structures</h4>
 					<p>A <dfn
 							data-lt="k-th order associative RDF data structures|k-th order associative data structure|k-th order associative data structures|associative data structure|associative data structures"
-							>k-th order associative RDF data structure</dfn> (with type symbol
-								<dfn data-lt="associative">associative<sub>k</sub></dfn>, k &ge; 0) is a <a>k-th order
-							data structure</a> that is defined inductively as follows.</p>
+							>k-th order associative RDF data structure</dfn> (with type symbol <dfn
+							data-lt="associative">associative<sub>k</sub></dfn>, k &ge; 0) is a
+							<a>k-th order data structure</a> that is defined inductively as
+						follows.</p>
 					<ul>
 						<li>A <dfn>zeroth-order associative data structure</dfn> (with type symbol
 									<dfn>associative<sub>0</sub></dfn>) is an RDF Graph. </li>
 						<li>A k-th order associative data structure, k &ge; 1, is specified by the
-							tuple [k, N, DSTM] where N is a non-empty subset of <a>RDF Name</a>, and DSTM is a
-							mapping from N &cup; {DEFAULT} to <a>data structures</a> of order k-1 or
-							less. </li>
+							tuple [k, N, DSTM] where N is a non-empty subset of <a>RDF Name</a>, and
+							DSTM is a mapping from N &cup; {DEFAULT} to <a>data structures</a> of
+							order k-1 or less. </li>
 					</ul>
 					<p>The type symbol for associative structures of order k or less is
 								<dfn>associative<sub>&le; k</sub></dfn></p>
@@ -552,13 +553,14 @@
 					<p>We denote by <dfn data-lt="Associative-NEW"
 						>Associative-NEW<sub>k</sub></dfn>(N, DSTM), k &gt; 0, the associative data
 						structure specified by the tuple [k, N, DSTM]. </p>
-					<p>Further, let G be an RDF Graph, N= {}, and DSTM= {<a>DEFAULT</a>=>G}). We define
-								<dfn>Associative-NEW<sub>0</sub></dfn>(N, DSTM) = G.</p>
+					<p>Further, let G be an RDF Graph, N= {}, and DSTM= {<a>DEFAULT</a>=>G}). We
+						define <dfn>Associative-NEW<sub>0</sub></dfn>(N, DSTM) = G.</p>
 					<p class="note">The functions <a>Associative-NEW<sub>k</sub></a>, k &ge; 0, thus
 						acts as constructors for <a>associative data structures</a>. The constraints
 						are that <a>cardinality</a>(N) &gt; 0 if k &gt;0 and <a>cardinality</a>(N)=0
-						if k = 0, while DSTM:(N &cup; {<a>DEFAULT</a>}) => structure<sub>&le; k-1</sub>
-						if k&gt; 0 while DSTM:{<a>DEFAULT</a>} => RDF Graph if k=0.</p>
+						if k = 0, while DSTM:(N &cup; {<a>DEFAULT</a>}) => structure<sub>&le;
+							k-1</sub> if k&gt; 0 while DSTM:{<a>DEFAULT</a>} => RDF Graph if
+						k=0.</p>
 					<p><dfn data-lt="TypeAssoc">TypeAssoc<sub>k</sub></dfn>(X) is a type constructor
 						for k-th order associative structures whose values (in key-value pairs) are
 						of type X.</p>
@@ -570,7 +572,7 @@
 						<dfn>names</dfn>(ADST) and has value <a>names</a>(ADST) = N.</p>
 					<p>The name mapping of an <a>associative data structure</a> ADST =
 							<a>Associative-NEW</a><sub>k</sub>(N, DSTM) is denoted
-						<dfn>nameMap</dfn>(ADST) and has value <a>nameMap</a>(ADST) = DSTM.</p>
+							<dfn>nameMap</dfn>(ADST) and has value <a>nameMap</a>(ADST) = DSTM.</p>
 					<p>A number of convenience functions on <a>associative data structures</a> may
 						be defined in terms of the basic functions <a>order</a>, <a>names</a>, and
 							<a>nameMap</a>, and the constructor
@@ -583,9 +585,10 @@
 						<li>M|<sub>S</sub> = {n => M(n) | n &in; S} denotes the <dfn>restriction of
 								a mapping</dfn> M to a set S &sube; <a>dom</a>(M). </li>
 						<li>M|<sub> -S</sub> = {n => M(n) | n &in; <a>dom</a>(M) - S} denotes the
-								restriction of a mapping M to the complement of set S. </li>
+							restriction of a mapping M to the complement of set S. </li>
 						<li>A mapping is treated as set of key-value pairs, so the usual set
-							operations, e.g union ( &cup; ), intersection ( &cap; ), and diff ( - ), can be applied to mappings.</li>
+							operations, e.g union ( &cup; ), intersection ( &cap; ), and diff ( - ),
+							can be applied to mappings.</li>
 						<li>The cardinality of a set is the value of the function
 								<dfn>cardinality</dfn>.</li>
 					</ul>
@@ -598,10 +601,10 @@
 						<a>defaultPart</a>(ADST) = <a>nameMap</a>(ADST)(<a>DEFAULT</a>).</p>
 					<p class="note">The default part of a <a>zeroth-order associative data
 							structure</a> is itself; <a>defaultPart</a>(ADST) = ADST. </p>
-					<p>A <dfn>solitary association</dfn> (with type symbol
-								<dfn data-lt="solitary-association">solitary-association<sub>k</sub></dfn>) is an <a>associative
-							data structure</a> where its set of nonreserved names contains exactly
-						one name and the default part is empty. That is,
+					<p>A <dfn>solitary association</dfn> (with type symbol <dfn
+							data-lt="solitary-association">solitary-association<sub>k</sub></dfn>)
+						is an <a>associative data structure</a> where its set of nonreserved names
+						contains exactly one name and the default part is empty. That is,
 							<a>cardinality</a>(<a>names</a>(SO)) = 1 and <a>defaultPart</a>(SO) =
 						{}.</p>
 					<aside class="example"><p>The constructor <a>Associative-NEW<sub>k</sub></a>, k
@@ -636,8 +639,8 @@
 							is equal to its named part.</p>
 						<p>SO = <a>namedPart</a>(SO)</p>
 					</aside>
-					<p>Let ADST = <a>Associative-NEW<sub>k</sub></a>(N, DSTM) be an <a>associative data
-							structure</a> and E be an arbitrary entity. </p>
+					<p>Let ADST = <a>Associative-NEW<sub>k</sub></a>(N, DSTM) be an <a>associative
+							data structure</a> and E be an arbitrary entity. </p>
 					<ul>
 						<li><dfn>isAssociative</dfn>(E) is true if E is a <a>associative data
 								structure</a>; otherwise it is false.</li>
@@ -807,15 +810,18 @@
 						operation as an explicit operation acting on a <dfn>terminated data
 							sequence</dfn> (i.e a <a>data sequence</a> where <a>hasGreatest</a> is
 						true) that applies a binary function to the greatest element of the
-						sequence, and to the sequence itself, and <a>Cons</a>es it onto the
+						sequence, and to the sequence itself, and <a>Cons</a>es the result onto the
 						sequence.</p>
+					<p>The semantics of <a>Revise</a> are as follows.</p>
+					<p><a>Revise</a>(DSQ, BPM) = <a>Cons</a>( BPM(<a>greatest</a>(DSQ), DSQ),
+						DSQ)</p>
 					<aside class="example">Consider a Graph Store which has been newly initialized
 						as the empty graph <p>GS = <a>Cons</a>({}, <a>SQ<sub>0</sub></a>)</p>
 						<p>The application of <a>Revise</a> to this graph store with an OpInsertData
 							operation specification as a lambda expression is expressed as follows. </p>
 						<p>GS' = <a>Revise</a>(GS, (λxy.<a>OpInsertData</a>(P, {}, x, y)) ) <br /> =
 								<a>Cons</a>(<a>OpInsertData</a>(P, {}, <a>greatest</a>(GS), GS), GS)
-							<br /> where P is a ground Quadpattern.</p>
+							<br /> where P is a ground Quadpattern (i.e. Quaddata).</p>
 						<p>An additional update to this graph store to insert data according to
 							another ground quadpattern P' would be expressed as follows.</p>
 						<p>GS'' = <a>Revise</a>(GS', (λxy.<a>OpInsertData</a>(P', {}, x, y)) )
@@ -827,7 +833,7 @@
 						<p class="ednote">There is a need for a similar operator that does not
 							perform renaming, for those cases where the data being inserted is
 							consider to lie on the same <a>RDF Surface</a> as the structure it is
-							being inserted into. This need should be address in SPARQL-Update,
+							being inserted into. This need should be address in [[!SPARQL-Update]],
 							rather than this document.</p>
 					</aside>
 					<p class="ednote">Add to table of structural inferences: rdfsq:isMemberOf,
@@ -929,9 +935,10 @@
 					<li>For every n in <a>names</a>(AT), <a>content</a>(n, AT) is an <a>associative
 							tree</a> of order k-1 or less.</li>
 				</ul>
-				<p class="note">If ADST = <a>Associative-NEW<sub>k</sub></a>(N, DSTM), then ADST is an
-					associative tree iff k=0 and <a>codom</a>(DSTM) &sub; associative-tree<sub>0</sub>
-					or <a>codom</a>(DSTM) &sub; associative-tree<sub>&le; k-1</sub></p>
+				<p class="note">If ADST = <a>Associative-NEW<sub>k</sub></a>(N, DSTM), then ADST is
+					an associative tree iff k=0 and <a>codom</a>(DSTM) &sub;
+						associative-tree<sub>0</sub> or <a>codom</a>(DSTM) &sub;
+						associative-tree<sub>&le; k-1</sub></p>
 				<p class="note">Every RDF Graph is a <dfn data-lt="zeroth-order associative trees"
 						>zeroth-order associative tree</dfn>, and every zeroth-order associative
 					tree is an RDF Graph.</p>
@@ -1014,9 +1021,9 @@
 						order k-1 or less.</p>
 					<p>Let VDST be a <a>k-th order versioned data structure</a>.</p>
 					<p>Each element of the sequential part of VDST is called a <dfn>version</dfn> of
-						VDST. The function <dfn>isVersionOf</dfn>(U, VDST) is defined for all entities
-						U, and is true exactly when <a>isMemberOf</a>(U, <a>sequentialPart</a>(VDST))
-						is true. </p>
+						VDST. The function <dfn>isVersionOf</dfn>(U, VDST) is defined for all
+						entities U, and is true exactly when <a>isMemberOf</a>(U,
+							<a>sequentialPart</a>(VDST)) is true. </p>
 					<p class="ednote">As written, a <a>version</a> is a solitary association. It may
 						seem more intuitive to refer to the content of that solitary association as
 						the version. However, it is quite possible for two (non-adjacent) versions
@@ -1024,13 +1031,13 @@
 						the version, then it would not be clear which of these versions we were
 						referring to.</p>
 					<p>We say a version U is a <dfn>previous version</dfn> of version V in the
-						context of VDST if <a>previousTo</a>(U, V; <a>sequentialPart</a>(VDST)) is true,
-						and similarly V is called a <dfn>following version</dfn> of U in the context
-						of the versioned structure. The function <dfn>isPreviousVersionTo</dfn>(U,
-						V; VDST) is defined whenever U and V are versions of VDST (<a>isVersionOf</a>(U,
-						VDST) = <a>isVersionOf</a>(V, VDST) = true), and has the value
-						<a>previousTo</a>(U, V; <a>sequentialPart</a>(VDST)); otherwise, it is
-						undefined.</p>
+						context of VDST if <a>previousTo</a>(U, V; <a>sequentialPart</a>(VDST)) is
+						true, and similarly V is called a <dfn>following version</dfn> of U in the
+						context of the versioned structure. The function
+							<dfn>isPreviousVersionTo</dfn>(U, V; VDST) is defined whenever U and V
+						are versions of VDST (<a>isVersionOf</a>(U, VDST) = <a>isVersionOf</a>(V,
+						VDST) = true), and has the value <a>previousTo</a>(U, V;
+							<a>sequentialPart</a>(VDST)); otherwise, it is undefined.</p>
 					<p>An <dfn>initial version</dfn> of a versioned structure is a version that does
 						not have a previous version. A versioned structure MAY have an initial
 						version.</p>
@@ -1040,8 +1047,8 @@
 						version, then it is unique, due to the order being total; further, it is a
 						minimal element of the sequential part. </p>
 					<p>If VDST has an initial version, then the function
-						<dfn>initialVersionOf</dfn>(VDST) = <a>least</a>(<a>sequentialPart</a>(VDST)) is
-						defined.</p>
+						<dfn>initialVersionOf</dfn>(VDST) =
+						<a>least</a>(<a>sequentialPart</a>(VDST)) is defined.</p>
 					<p>If V is a version of VDST that is not an initial version, then we define the
 							<dfn>preceding version</dfn> of V in the context of VDST to be the
 							<a>predecessor</a> of version V in the sequential part of versioned
@@ -1058,8 +1065,8 @@
 						version name in the same versioned structure, so the preceding version of
 						that content would not be uniquely defined.</p>
 					<p>We say that each non-initial version <dfn>revises</dfn> its preceding
-						version. We define <dfn>revises(U, V; VDST)</dfn> for all versions U and V of
-						VDST, with the value true whenever V=<a>precedingVersion</a>(U; VDST);
+						version. We define <dfn>revises(U, V; VDST)</dfn> for all versions U and V
+						of VDST, with the value true whenever V=<a>precedingVersion</a>(U; VDST);
 						otherwise, it is false. </p>
 					<p class="note">Because of the requirement for total order in the sequential
 						part, version structures do not branch.</p>
@@ -1070,11 +1077,11 @@
 							<a>versionNames</a>(VDST); otherwise, it is false.</p>
 					<p>The function <dfn>versionContent</dfn>(n; VDST) is defined provided
 							<a>isVersionNameOf</a>(n, VDST) is true, with value being the element (a
-						named k-th order associative tree) of the sequential part of VDST having name
-						n. Otherwise, the function is undefined.</p>
-					<p>The function <dfn>versionMap</dfn>(VDST) has the value of the mapping from the
-						set of version names to the corresponding values of
-						<a>versionContent</a>.</p>
+						named k-th order associative tree) of the sequential part of VDST having
+						name n. Otherwise, the function is undefined.</p>
+					<p>The function <dfn>versionMap</dfn>(VDST) has the value of the mapping from
+						the set of version names to the corresponding values of
+							<a>versionContent</a>.</p>
 					<p>The function <dfn>hasNext</dfn>(n; VDST) = <a>hasNext</a>(n;
 							<a>versionNames</a>(VDST)) is true iff n is the name of a non-terminal
 							<a>version</a> of VDST</p>
@@ -1094,8 +1101,8 @@
 							definitions.</li>
 					</ol>
 					<p>The semantics are as follows.</p>
-					<p><a>Versioned-NEW</a><sub>k</sub>(VI, DSTM) = [ DSTM(ASSOC) , <a>Seq-NEW</a>( VI',
-						DSTM' ) ]</p>
+					<p><a>Versioned-NEW</a><sub>k</sub>(VI, DSTM) = [ DSTM(ASSOC) , <a>Seq-NEW</a>(
+						VI', DSTM' ) ]</p>
 					<p>where VI = [VN, &le;<sub>VN</sub>], </p>
 					<p>DSTM'(n) = <a>Solitary-NEW<sub>k</sub></a>(n, DSTM(n)) for n &in; VI, and</p>
 					<p>VI' = [VN', &le;<sub>VN</sub>] where VN' = {n &in; VN | <a>hasNext</a>(n; VI)
@@ -1306,9 +1313,9 @@
 										<a>repository</a>(n, STR)); that is, from version names of
 									the store to version names of the repository for name n of the
 									store STR with the following properties. <ul>
-										<li>The domain of NM<sub>n</sub>, <a>dom</a>(NM<sub>n</sub>),
-											is an interval in the ordered set
-											<a>versionNames</a>(STR).</li>
+										<li>The domain of NM<sub>n</sub>,
+											<a>dom</a>(NM<sub>n</sub>), is an interval in the
+											ordered set <a>versionNames</a>(STR).</li>
 										<li>If stver is in <a>dom</a>(NM<sub>repname</sub>), let
 											repver = NM<sub>repname</sub>(stver). Then <br />
 											<a>content</a>(repname; <a>versionContent</a>(stver;
@@ -1354,7 +1361,7 @@
 					<p> NM'(stver) = <a>Tree-UNION</a>({RP<sub>n</sub>(stver) | n &in;
 							RN<sub>ext</sub>}) for stver &in; SI, where </p>
 					<p> RP<sub>n</sub>(stver) = <a>Solitary-NEW</a>(n, <a>content</a>(
-						NM<sub>n</sub>(stver); RM(n) ) if n &in; RN while </p>
+							NM<sub>n</sub>(stver); RM(n) ) if n &in; RN while </p>
 					<p> RP<sub><a>DEFAULT</a></sub>(stver) = <a>content</a>(
 							NM<sub><a>DEFAULT</a></sub>(stver); RM(<a>DEFAULT</a>) ) and </p>
 					<p> NM'(ASSOC) = <a>Tree-UNION</a>( RM( RN<sub>ext</sub> ) ). </p>
@@ -1382,12 +1389,12 @@
 					<p>where PM(n) is the permutation of <a>versionNames</a>(RM(n)) defined by the
 						mapping NM<sub>n</sub>.</p>
 					<p class="ednote">In this extended signature of <a>Store-NEW</a>, there needs to
-						be a constraint on the mapping NM so that it does define a permutation of the
-						repository versions. E.g. This can take the form of a required decomposition
-						into a monotonic partial mapping NM' (as before) composed with a permutation
-						PM of the repository version names (NM = PM o NM').</p>
-					<p>That is, if VI' = <a>codom</a>(PM(n)), then <a>previousTo</a>(NM(sn1), NM(sn2);
-						VI') iff <a>previousTo</a>(sn1, sn2; SI)</p>
+						be a constraint on the mapping NM so that it does define a permutation of
+						the repository versions. E.g. This can take the form of a required
+						decomposition into a monotonic partial mapping NM' (as before) composed with
+						a permutation PM of the repository version names (NM = PM o NM').</p>
+					<p>That is, if VI' = <a>codom</a>(PM(n)), then <a>previousTo</a>(NM(sn1),
+						NM(sn2); VI') iff <a>previousTo</a>(sn1, sn2; SI)</p>
 					<p class="ednote">The function <a>repository</a> that retrieves repositories
 						from the store must return the permuted repository so that the consistency
 						requirements are satisfied. An implementation may also provide access to the
@@ -1411,8 +1418,8 @@
 						<li>The new store version name svn, which must be distinct from previous
 							store version names (svn &notin; SI).</li>
 						<li>A specification of new versions for repositories of the input store via
-							a mapping ATM from a subset of the extended repository names of the input
-							store ( <a>dom</a>(ATM) &sube; <a>Ext-DEFAULT</a>(STR) ) to
+							a mapping ATM from a subset of the extended repository names of the
+							input store ( <a>dom</a>(ATM) &sube; <a>Ext-DEFAULT</a>(STR) ) to
 								<a>solitary-association-trees</a> of order (k-1) or less, where the
 							name of the solitary association is new as a version name for that
 							repository.</li>
@@ -1433,7 +1440,8 @@
 						cases.</p>
 					<ol>
 						<li>For each n in the domain of ATM, let RM'(n) =
-							<a>Append2Repository</a>(RM(n), ATM(n) ); otherwise RM'(n) = RM(n) =</li>
+							<a>Append2Repository</a>(RM(n), ATM(n) ); otherwise RM'(n) = RM(n)
+							=</li>
 						<li>@@@</li>
 
 					</ol>
@@ -1530,8 +1538,8 @@
 								repository. Let RV'(n)<sub>ext</sub> = Ext-ASSOC(RV'(n)).</li>
 							<li>A partial mapping NM'<sub>n</sub>, for each name n in
 									RP'<sub>ext</sub> from an interval of SI' onto RV'(n). Let NP' =
-								{[m, n] | n in RP'<sub>ext</sub>, m in <a>dom</a>(NM'<sub>n</sub>) },
-								the set of <a>namePairs</a> of the output store.</li>
+								{[m, n] | n in RP'<sub>ext</sub>, m in <a>dom</a>(NM'<sub>n</sub>)
+								}, the set of <a>namePairs</a> of the output store.</li>
 							<li>A relation Rel<sub>data</sub> on NP x NP'. This relation describes
 								the subsampling, duplication, and rearrangment of associative trees
 								from the input store to the output store, possibly including
@@ -1549,7 +1557,8 @@
 							<li>AT<sub>m, n</sub> = <a>content</a>(n, <a>versionContent</a>(m, STR))
 								for each [m, n] in NP. </li>
 							<li> AT'<sub>p', n'</sub> = <a>Tree-UNION</a>({AT<sub>m, n</sub> | [ [m,
-								n], [m', n']] in Rel<sub>data</sub>, NM'<sub>n'</sub>(m') = p'})</li>
+								n], [m', n']] in Rel<sub>data</sub>, NM'<sub>n'</sub>(m') =
+								p'})</li>
 							<li>R'<sub>n'</sub> = <a>Repository-NEW</a><sub>k-1</sub>(
 									AT'<sub>ASSOC, n'</sub>, RV'(n'), { p' => AT'<sub>p',n'</sub> |
 								p' in RV'(n') } ), for n' in RP'<sub>ext</sub></li>
@@ -1599,8 +1608,8 @@
 									<a>names</a>(<a>associativePart</a>(STR)), SI =
 									<a>versionNames</a>(STR), RV = { n => RV<sub>n</sub> | n is in
 								RP and RV<sub>n</sub> = <a>versionNames</a>( <a>content</a>(n,
-									<a>associativePart</a>(STR) ) }, NP = <a>namePairs</a>(STR), NM =
-									<a>versionNameMap</a>(STR).</p>
+									<a>associativePart</a>(STR) ) }, NP = <a>namePairs</a>(STR), NM
+								= <a>versionNameMap</a>(STR).</p>
 						</aside>
 						<aside class="example" title="Subsampling a Store">
 							<p>The output store is equal to the input store except for subsampling
@@ -1611,7 +1620,7 @@
 								<li>SI' = SI</li>
 								<li>RV'(n) is a subset of RV(n) for every n in RP<sub>ext</sub></li>
 								<li>NM'<sub>n</sub>(m') = max( { p | m &le; m' and p =
-									NM<sub>n</sub>(m) is in RV'(n) } ).</li>
+										NM<sub>n</sub>(m) is in RV'(n) } ).</li>
 								<li> Rel<sub>data</sub> = {[[m', n], [m, n]] | [m, n] is in NP and
 										NM'<sub>n</sub>(m') = NM<sub>n</sub>(m) } </li>
 							</ul>
@@ -1645,8 +1654,8 @@
 							</ul>
 							<p>Let <dfn>Sequential-UNION</dfn>(STR, UN, r', RV<sub>new</sub>) =
 									<a>StoreTransformation</a><sub>k</sub>(STR, SI, RP', RV',
-									Rel<sub>data</sub>, NM') with RP', RP', Rel<sub>data</sub> and NM'
-								as defined above. </p>
+									Rel<sub>data</sub>, NM') with RP', RP', Rel<sub>data</sub> and
+								NM' as defined above. </p>
 						</aside>
 						<aside class="example" id="ex-rename" title="Renaming Operation">
 							<p> A new store may be created using a name substitution Subst that maps
@@ -1695,7 +1704,7 @@
 								if [m, n] is in NP, n is in N = dom v0, v' is in RV'<sub>n</sub> =
 									Comb<sub>q</sub>(RV<sub>n</sub>, v0<sub>n</sub>), v is in
 									Interval<sub>p</sub>(RV<sub>n</sub>, v') where v =
-								NM<sub>n</sub>(m), v' = NM<sub>n</sub>(m'). </p>
+									NM<sub>n</sub>(m), v' = NM<sub>n</sub>(m'). </p>
 							<p>Let <dfn>Window</dfn>(STR, n, p, q, rv0) =
 									<a>StoreTransformation</a><sub>k</sub>( STR, {n},
 									RV'<sub>n</sub>, {<a>DEFAULT</a>->{}, n=>RV'<sub>n</sub>},
@@ -1931,7 +1940,9 @@
 				<section id="kth-order-pattern">
 					<h4>k-th Order Pattern</h4>
 					<p>A <dfn data-lt="k-th Order patterns|pattern|patterns">k-th Order
-							pattern</dfn> is @@@ </p>
+							pattern</dfn> (with type symbol <dfn>pattern<sub>k</sub></dfn>) is a
+						generalization of <a>k-th order associative trees</a> using variables as in
+						[[!SPARQL11-Query]].</p>
 				</section>
 			</section>
 		</section>
@@ -2018,8 +2029,8 @@
 					<p> Let DS={DG} union {(iri<sub>i</sub>, G<sub>i</sub>) | 1 ≤ i ≤ n} and DS' =
 						{DG'} union {(iri'<sub>j</sub>, G'<sub>j</sub>) | 1 ≤ j ≤ m} be two RDF
 						Datasets. Let further <a>graphNames</a>(DS) = { iri<sub>i</sub> | 1 ≤ i ≤ n}
-						and <a>graphNames</a>(DS') = {iri'<sub>j</sub> | 1 ≤ j ≤ m}. The <a>Dataset-UNION</a>
-						between DS and DS' is defined as follows: </p>
+						and <a>graphNames</a>(DS') = {iri'<sub>j</sub> | 1 ≤ j ≤ m}. The
+							<a>Dataset-UNION</a> between DS and DS' is defined as follows: </p>
 					<p><a>Dataset-UNION</a>(DS, DS') = {DG union DG'} union {(iri, G) | iri in
 							<a>graphNames</a>(DS) union <a>graphNames</a>(DS')}</p>
 					<p>and G defined as </p>
@@ -2052,37 +2063,38 @@
 							the union of the sets of <a>triples</a> in the two <a>graphs</a>. </li>
 						<li>If <a>order</a>(AT) =<a>order</a>(AT') = k &gt; 0, then <br />
 							<a>Tree-UNION</a>(AT, AT') = Associative-NEW<sub>k</sub>(
-							<a>names</a>(AT) ∪ <a>names</a>(AT'), ATM' ) <br /> where ATM' = <br /> {
-								<a>DEFAULT</a> => <a>Tree-UNION</a>(<a>defaultPart</a>(AT),
-								<a>defaultPart</a>(AT')) } ∪ <br /> { n => <a>content</a>(n,
-							AT) | n in <a>names</a>(AT) - <a>names</a>(AT')} ∪ <br /> { n =
-							> <a>content</a>(n, AT') | n in <a>names</a>(AT') -
-							<a>names</a>(AT)} ∪ <br /> { n => <a>Tree-UNION</a>(
-							<a>content</a>(n, AT), <a>content</a>(n, AT')) | n in
-								<a>names</a>(AT) &amp; <a>names</a>(AT')} </li>
+							<a>names</a>(AT) ∪ <a>names</a>(AT'), ATM' ) <br /> where ATM' = <br />
+							{ <a>DEFAULT</a> => <a>Tree-UNION</a>(<a>defaultPart</a>(AT),
+								<a>defaultPart</a>(AT')) } ∪ <br /> { n => <a>content</a>(n, AT) | n
+							in <a>names</a>(AT) - <a>names</a>(AT')} ∪ <br /> { n = >
+							<a>content</a>(n, AT') | n in <a>names</a>(AT') - <a>names</a>(AT)} ∪
+							<br /> { n => <a>Tree-UNION</a>( <a>content</a>(n, AT),
+							<a>content</a>(n, AT')) | n in <a>names</a>(AT) &amp; <a>names</a>(AT')} </li>
 						<li>If <a>order</a>(AT') &lt;<a>order</a>(AT) = k, then <br />
 							<a>Tree-UNION</a>(AT, AT') = <a>Tree-UNION</a>(AT', AT) =
 								Associative-NEW<sub>k</sub>( <a>names</a>(AT) , ATM' ) <br /> where
 							ATM' = ATM|<sub><a>names</a>(AT)</sub> &cup; {<a>DEFAULT</a> =>
 								<a>Tree-UNION</a>(<a>defaultPart</a>(AT), AT')} </li>
 					</ul>
-					<p>In the case of a single argument ATS that is a set of <a>associative trees</a>
-						of order k or less, the value is defined inductively as follows.</p>
+					<p>In the case of a single argument ATS that is a set of <a>associative
+							trees</a> of order k or less, the value is defined inductively as
+						follows.</p>
 					<ul>
-						<li>if <a>order</a>(ast) = 0 for every ast in ATS (i.e. ast is an <a>RDF graph</a>),
-							then <a>Tree-UNION</a>(ATS) = ∪ ATS. Note that this includes
-							the case ATS = {}, where <a>Tree-UNION</a>(ATS) = {}.</li>
+						<li>if <a>order</a>(ast) = 0 for every ast in ATS (i.e. ast is an <a>RDF
+								graph</a>), then <a>Tree-UNION</a>(ATS) = ∪ ATS. Note that this
+							includes the case ATS = {}, where <a>Tree-UNION</a>(ATS) = {}.</li>
 						<li>if <a>order</a>(ast) = k &gt; 0 for every ast in ATS, then <br />
 							<a>Tree-UNION</a>(ATS) = Associative-NEW<sub>k</sub>( result-default,
 							result-names, result-nameMap ) <br /> where <br /> result-default =
 								<a>Tree-UNION</a>({<a>defaultPart</a>(ast) | ast in ATS}) <br />
 							result-names = ∪<sub>ast in ATS</sub>
 							<a>names</a>(ast), <br /> result-nameMap = { n =>
-								<a>Tree-UNION</a>({<a>content</a>(n, ast)|<sub>ast in ATS</sub>}) | n in
-							result-names} </li>
-						<li> if max({ <a>order</a>(ast)| ast in ATS}) = k &gt; 0, let ATS<sub>k</sub> be the
-							subset of ATS containing all members of ATS having order k. Then
-							Tree-UNION(ATS) = <a>Tree-UNION</a>( <a>Tree-UNION</a>(ATS -ATS<sub>k</sub>),
+								<a>Tree-UNION</a>({<a>content</a>(n, ast)|<sub>ast in ATS</sub>}) |
+							n in result-names} </li>
+						<li> if max({ <a>order</a>(ast)| ast in ATS}) = k &gt; 0, let
+								ATS<sub>k</sub> be the subset of ATS containing all members of ATS
+							having order k. Then Tree-UNION(ATS) = <a>Tree-UNION</a>(
+								<a>Tree-UNION</a>(ATS -ATS<sub>k</sub>),
 								<a>Tree-UNION</a>(ATS<sub>k</sub>)) </li>
 					</ul>
 					<p class="ednote"> It is possible to informally apply the Tree-UNION operation
@@ -2118,7 +2130,7 @@
 					</ul>
 					<p>The semantics of <a>Insert Data</a> is defined in [[!SPARQL11-Update]] as
 						follows.</p>
-					<p><a>OpInsertData</a>(GS, <em>QuadPattern</em>) = <a>Tree-UNION</a>(GS,
+					<p><a>OpInsertData</a>(GS, <em>QuadPattern</em>) = <a>Dataset-UNION</a>(GS,
 							<a>Dataset(</a><em>QuadPattern</em>,{},GS,GS))</p>
 					<p>where {} is the empty solution mapping,</p>
 					<p> GS is an <a>RDF Dataset</a>, and <em>QuadPattern</em> is a ground quad
@@ -2133,13 +2145,18 @@
 						which then is taken as the new state of the Graph Store. </p>
 					<p> We extend the Insert Data operation to <a>k-th order associative trees</a>. </p>
 					<ul>
-						<li>On the domain <a>k-th order associative trees</a> x Ground <a>k-th Order
-								Patterns</a>, the range is <a>k-th order associative trees</a>.</li>
+						<li>On the domain <a>k-th order associative trees</a> x <a>k-th order
+								associative trees</a>, the range is <a>k-th order associative
+								trees</a>.</li>
 					</ul>
 					<p>The extended semantics of <a>Insert Data</a> is defined as follows.</p>
-					<p><dfn>OpInsertData</dfn>(AT, <em>k-Pattern</em>) = <a>Tree-UNION</a>(AT,
-							<a>Dataset(</a><em>k-Pattern</em>,{},AT,AT))</p>
+					<p><dfn>OpInsertData</dfn>(AT, AT') = <a>Tree-UNION</a>(AT, <a>Tree(</a>AT', {},
+						AT, AT))</p>
 					<p>where {} is the empty solution mapping,</p>
+					<p>The function <dfn>Tree(</dfn>) needs to be defined as a generalization of
+							<a>Dataset(</a>). The reason that <a>OpInsertData</a> is not defined
+						directly as <a>Tree-UNION(AT, AT')</a> is because of the requirement that
+						blank nodes be renamed.</p>
 				</section>
 				<section id="def-existing-update-opcreate">
 					<h4>OpCreate</h4>
@@ -2174,21 +2191,23 @@
 					</ul>
 					<p>The extended semantics of <a>OpCreate</a> is defined as follows.</p>
 					<ul>
-						<li><a>OpCreate</a>(AT, name) = <a>OpCreate</a>(AT, name,
-							max(<a>order</a>(AT), 1)).</li>
-						<li>If name is in <a>name</a>(AT), and k =<a>order</a>(AT), then
-								<a>OpCreate</a>(AT, name, k) = AT.</li>
-						<li>If k &gt;<a>order</a>(AT), then <a>OpCreate</a>(AT, name, k) =
-								Associative-NEW<sub>k</sub>(AT, {name}, {name => {}})</li>
-						<li>If k =<a>order</a>(AT) and name is not in <a>name</a>(AT), then
-								<a>OpCreate</a>(AT, name, k) =
+						<li><a>OpCreate</a>(AT, n) = <a>OpCreate</a>(AT, n, max(<a>order</a>(AT),
+							1)).</li>
+						<li>If n is in <a>n</a>(AT), and k =<a>order</a>(AT), then
+							<a>OpCreate</a>(AT, n, k) = AT.</li>
+						<li>If k &gt;<a>order</a>(AT), then <a>OpCreate</a>(AT, n, k) =
+								Associative-NEW<sub>k</sub>(AT, {n}, {n => {}})</li>
+						<li>If k =<a>order</a>(AT) and n is not in <a>names</a>(AT), then
+								<a>OpCreate</a>(AT, n, k) =
 								Associative-NEW<sub>k</sub>(<a>defaultPart</a>(AT), <a>names</a>(AT)
-							∪ {name}, <a>nameMap</a>(AT) ∪ {name => {}}). </li>
-						<li>If k &lt;<a>order</a>(AT) = k', then <a>OpCreate</a>(AT, name, k) =
+							∪ {n}, <a>nameMap</a>(AT) ∪ {n => {}}). </li>
+						<li>If k &lt;<a>order</a>(AT) = k', then <a>OpCreate</a>(AT, n, k) =
 								Associative-NEW<sub>k'</sub>(
-							<a>OpCreate</a>(<a>defaultPart</a>(AT), name, k), <a>names</a>(AT),
+							<a>OpCreate</a>(<a>defaultPart</a>(AT), n, k), <a>names</a>(AT),
 								<a>nameMap</a>(AT) ) )</li>
 					</ul>
+					<p class="ednote">The semantics needs to rewritten to accommodate the revised
+						signature of <a>Associative-INIT</a>.</p>
 				</section>
 				<section>
 					<h4>Other Update Operations</h4>
@@ -2206,21 +2225,20 @@
 					operation, called <dfn>Apply</dfn>, which takes a <a>k-th order associative
 						tree</a> as first argument, an Operation specification (unary function built
 					from Operation name and tuple of arguments with a placehoder in one position) as
-					second argument, and an optional third argument that is an IRI or blank node.
-					The result would be the result of applying that Operation with the appropriate
+					second argument, and an optional third argument that is an <a>RDF Name</a>. The
+					result would be the result of applying that Operation with the appropriate
 					(named or default) (k-1)-th order associative tree replacing the placeholder,
 					and then substituting for the (k-1)-th order associative tree with the operation
 					result within the original <a>k-th order associative tree</a>. If the name is
 					not in the set of database names, then the result would be the original
 					associative tree. </p>
 				<ul>
-					<li>If name is in <a>names</a>(AT), then APPLY(AT, SPM, name) =
-								Associative-NEW<sub><a>order</a>(AT)</sub>( <a>defaultPart</a>(AT),
-							<a>names</a>(AT), <a>nameMap</a>(AT)|<sub>- name</sub> &cup; {
-						name => SPM(<a>content</a>(name, AT))} ) </li>
-					<li>Otherwise, APPLY(AT, SPM, name) = AT.</li>
-					<li>APPLY(AT, SPM) = Associative-NEW<sub><a>order</a>(AT)</sub>(
-							SPM(<a>defaultPart</a>(AT)), <a>names</a>(AT), <a>nameMap</a>(AT) )</li>
+					<li>If n is in <a>Ext-DEFAULT</a>(<a>names</a>(AT)), then APPLY(AT, SPM, n) =
+								Associative-NEW<sub><a>order</a>(AT)</sub>( <a>names</a>(AT),
+							<a>nameMap</a>(AT)|<sub>- n</sub> &cup; { n => SPM(<a>content</a>(n,
+						AT))} ) </li>
+					<li>Otherwise, APPLY(AT, SPM, n) = AT.</li>
+					<li>APPLY(AT, SPM) = APPLY(AT, SPM, <a>DEFAULT</a>)</li>
 				</ul>
 			</section>
 			<section id="def-new-revise-operation">
@@ -2737,8 +2755,8 @@ _:b7 obs:effectiveDateTime
 								_:fhir-hr-g2, _:strst3 => _:fhir-hr-g3} (the mapping from store
 								version names to repository version names, for the "named"
 								repository)</li>
-							<li>NM<sub><a>DEFAULT</a></sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2 =>
-								_:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3} (the mapping from store
+							<li>NM<sub><a>DEFAULT</a></sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2
+								=> _:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3} (the mapping from store
 								version names to repository version names, for the default
 								repository)</li>
 						</ul>
@@ -4006,8 +4024,8 @@ WHERE {
 								_:fhir-hr-g2, _:strst3 => _:fhir-hr-g3} (the mapping from store
 								version names to repository version names, for the "named"
 								repository)</li>
-							<li>NM<sub><a>DEFAULT</a></sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2 =>
-								_:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3} (the mapping from store
+							<li>NM<sub><a>DEFAULT</a></sub> = {_:strst1 => _:fhir-hr-ts1, _:strst2
+								=> _:fhir-hr-ts2, _:strst3 => _:fhir-hr-ts3} (the mapping from store
 								version names to repository version names, for the default
 								repository)</li>
 						</ul>
@@ -5190,7 +5208,7 @@ _:b103{
 					<p>The repository can be abstractly constructed from its component associative
 						trees using basic operations:</p>
 					<p>R<sub>FHIR</sub> = <a>Revise</a>(D<sub>3,FHIR</sub>,
-						<a>Revise</a>(D<sub>2,FHIR</sub>, <a>Revise</a>(D<sub>1,FHIR</sub>,
+							<a>Revise</a>(D<sub>2,FHIR</sub>, <a>Revise</a>(D<sub>1,FHIR</sub>,
 								<a>SQ<sub>0</sub></a>))) </p>
 					<p> Since the sequential part of a repository may be lazily contructed, the
 						repository could be transmitted as a sequence of documents, one for the
@@ -6328,7 +6346,8 @@ We write
 		</section>
 		<section id="sec-meta-variables">
 			<h4>Metavariable Conventions</h4>
-			<div data-include="metavariable-datatype.html" data-include-replace="true" data-include-sync="true"></div>
+			<div data-include="metavariable-datatype.html" data-include-replace="true"
+				data-include-sync="true"></div>
 		</section>
 		<section id="sec-reserved-names">
 			<h4>Reserved Names</h4>
@@ -6438,15 +6457,16 @@ We write
 					<tr>
 						<td><dfn>TypeVer<sub>k</sub></dfn>(X, Y), k &gt; 0</td>
 						<td>::&lt;</td>
-						<td>[<a>Nat</a>, <a>℘℘</a>(<a>RDF Name</a>), <a>Partial</a>:(<a>RDF Name</a> => Y &cup;
-								{<a>ASSOC</a>} => X)]</td>
+						<td>[<a>Nat</a>, <a>℘℘</a>(<a>RDF Name</a>), <a>Partial</a>:(<a>RDF Name</a>
+							=> Y &cup; {<a>ASSOC</a>} => X)]</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>::=</td>
-						<td>{<a>Versioned-NEW<sub>k</sub></a>(NI, DSTM) | NI &in; <a>℘℘</a>(<a>RDF Name</a>),
-							DSTM: NI|<sub>Y</sub> &cup; {<a>ASSOC</a>} => X) where DSTM(x) = DSTM(y), x &lt;
-							y &in; NI implies there is some z &in; NI, x &lt; z &lt; y}</td>
+						<td>{<a>Versioned-NEW<sub>k</sub></a>(NI, DSTM) | NI &in; <a>℘℘</a>(<a>RDF
+								Name</a>), DSTM: NI|<sub>Y</sub> &cup; {<a>ASSOC</a>} => X) where
+							DSTM(x) = DSTM(y), x &lt; y &in; NI implies there is some z &in; NI, x
+							&lt; z &lt; y}</td>
 					</tr>
 					<tr>
 						<td><dfn data-lt="versioned">versioned<sub>k</sub></dfn>, k &ge; 1</td>
