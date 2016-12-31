@@ -294,7 +294,7 @@
 								structures|multivalent k-th order data
 								structure|multivalent data
 								structure|multivalent data
-								structures"
+								structures|multivalent structures|multivalent structure"
 							>multivalent k-th order RDF data structures</dfn>, (with type symbol
 							<dfn data-lt="multivalent">multivalent-structure<sub>k</sub></dfn>, k
 						&ge; 0) i.e. those k-th order data structures having both an <a>associative
@@ -833,8 +833,8 @@
 						<p class="ednote">There is a need for a similar operator that does not
 							perform renaming, for those cases where the data being inserted is
 							consider to lie on the same <a>RDF Surface</a> as the structure it is
-							being inserted into. This need should be address in [[!SPARQL11-Update]],
-							rather than this document.</p>
+							being inserted into. This need should be address in
+							[[!SPARQL11-Update]], rather than this document.</p>
 					</aside>
 					<p class="ednote">Add to table of structural inferences: rdfsq:isMemberOf,
 						rdfsq:previousTo, rdfsq:follows, rdfsq:hasLeast, rdfsq:hasGreatest,
@@ -1383,7 +1383,9 @@
 						constructor <a>Store-NEW<sub>k</sub></a> so that the mapping from store
 						versions to repository versions is not required to be monotonic. The
 						constructed store will hold a different repository than the constructor
-						input, and this reordered repository can be lazily materialized.</p>
+						input, but different only with respect to the order of versions, not their
+						content, and therefore this reordered repository can be lazily
+						materialized.</p>
 					<p>The only difference in the semantics of <a>Store-NEW</a> is as follows.</p>
 					<p> NM'(ASSOC) = <a>Tree-UNION</a>({ <a>Versioned-PERMUTE</a>( RM(n) , PM(n) ) |
 						n &in; RN<sub>ext</sub>} ) </p>
@@ -1437,17 +1439,43 @@
 						one new named repository, or drop at least one named repository. </p>
 					<p>The semantics of <a>Append2Store</a> are defined in terms of the
 								<a>Store-NEW<sub>k</sub></a> constructor and the
-							<a>Append2Repository</a> basic operations, according to the following
-						cases.</p>
-					<ol>
-						<li>For each n in the domain of ATM, let RM'(n) =
-							<a>Append2Repository</a>(RM(n), ATM(n) ); otherwise RM'(n) = RM(n)
-							=</li>
-						<li>@@@</li>
-
-					</ol>
-					<p><a>Append2store</a><sub>k</sub>(STR, svn, ATM, RM, DN) =
+							<a>Append2Repository</a> basic operations. The semantics of
+							<a>Append2Store</a> are as follows.</p>
+					<p><a>Append2store</a><sub>k</sub>(STR, svn, ATM, RM'', DN) =
 							<a>Store-NEW</a><sub>k</sub>(RN', RM', SI', NM')</p>
+					<p>From the input store STR, we have</p>
+					<ol>
+						<li>RN = <a>repositoryNames</a>(STR)</li>
+						<li>RM = <a>repositoryMap</a>(STR)</li>
+						<li>SI = <a>versionNames</a>(STR)</li>
+						<li>NM = <a>versionNameMap</a>(STR)</li>
+					</ol>
+					<p>Let</p>
+					<ul>
+						<li>RN' = RN &cup; <a>dom</a>(RM'')</li>
+						<li>RM' is a mapping defined on RN'.</li>
+						<li>For each n in the domain of ATM, let RM'(n) =
+							<a>Append2Repository</a>(RM(n), ATM(n) ) </li>
+						<li>For each n in the domain of RM'', let RM'(n) = RM''(n).</li>
+						<li>For n in RN - <a>dom</a>(RM) - DN, let RN'(n) = RN(n).</li>
+						<li>For n in DN, let RM'(n) = <a>TerminateRepository</a>(RM(n))</li>
+						<li>SI' = <a>Cons</a>(svn, SI)</li>
+						<li>NM' is a mapping defined on SI'</li>
+						<li>For n in <a>dom</a>(ATM), NM'<sub>n</sub> = NM<sub>n</sub> &cup; {svn =>
+								<a>name</a>(ATM(n))}</li>
+						<li>For n in <a>dom</a>(RM''), NM'<sub>n</sub> = {svn =>
+							<a>versionName</a>(RM''(n))}</li>
+						<li>For n in RN - <a>dom</a>(ATM) - DN, NM' = NM &cup; {svn => NM(
+								<a>greatest</a>(SI) ) }</li>
+
+					</ul>
+					<p class="ednote">Need to define <dfn>TerminateRepository</dfn>(R) =
+							<a>Append2Repository</a>(R,
+							<a>Solitary-NEW</a><sub><a>order</a>(R)</sub>( <a>NIL</a>, {}) </p>
+					<p>where <dfn>NIL</dfn> is a reserved word used to as the version name for a
+						repository that is permanently cleared (i.e. dropped from the store).</p>
+					<p class="ednote">Need to define <dfn>versionName</dfn>(R) for repositories with
+						only one version to return the one member of <a>versionNames</a>(R).</p>
 					<!--
 					<p>Given the sequence of store versions (i.e. the sequential part of the store) and
 						the mappings from store version names to repository version names, we can
@@ -6369,8 +6397,17 @@ We write
 						</tr>
 						<tr>
 							<td>ASSOC</td>
-							<td>Explicit indication that a substructure is in the associative part
-								of a multivalent structure. </td>
+							<td>Explicit indication that a substructure is in the <a>associative
+									part</a> of a <a>multivalent structure</a>. </td>
+						</tr>
+						<tr>
+							<td>NIL</td>
+							<td>Reserved version name used for the empty greatest version of a
+								repository or store that is permanently "cleared", e.g. a repository
+								in a store that has been "dropped". Other version names can be used
+								for empty versions, but these versions may be revised. The operation
+									<a>Append2Repository</a> applied to a repository whose greatest
+								version name is <a>NIL</a> is undefined.</td>
 						</tr>
 					</tbody>
 				</table>
