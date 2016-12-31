@@ -1288,22 +1288,23 @@
 						data structure STR with the following properties. <ul>
 							<li>The ordered set SI = <a>versionNames</a>(STR) contains the
 									<dfn>version names of the store</dfn>.</li>
-							<li>STR has an associative part A = <a>associativePart</a>(STR). </li>
-							<li>The default part of A, <a>defaultPart</a>(A) is a (k+1)-th order
-								repository, called the <dfn>default repository of the store</dfn>,
-								and denoted <a>repositoryOf</a>(<a>DEFAULT</a>, STR).</li>
-							<li>The names of the associative part of the store, <a>names</a>(A) are
-								called the <dfn>repository names of the store</dfn>, denoted
+							<li>STR has an associative part ADST = <a>associativePart</a>(STR). </li>
+							<li>The default part of ADST, <a>defaultPart</a>(ADST) is a (k+1)-th
+								order repository, called the <dfn>default repository of the
+									store</dfn>, and denoted <a>repositoryOf</a>(<a>DEFAULT</a>,
+								STR).</li>
+							<li>The names of the associative part of the store, <a>names</a>(ADST)
+								are called the <dfn>repository names of the store</dfn>, denoted
 									<dfn>repositoryNames</dfn>(STR). </li>
 							<li>For each name n &in; <a>repositoryNames</a>(STR), the corresonding
-								content <a>content</a>(n, A) is a (k+1)-th order repository, denoted
-									<dfn>repositoryOf</dfn>(n, STR), called the <dfn>repository for
-									name n of the store</dfn> STR. </li>
+								content <a>content</a>(n, ADST) is a (k+1)-th order repository,
+								denoted <dfn>repositoryOf</dfn>(n, STR), called the <dfn>repository
+									for name n of the store</dfn> STR. </li>
 							<li>The <dfn>repository map</dfn> of the store, denoted
 									<dfn>repositoryMap</dfn>, is the mapping from the extended set
 								of repository names, <a>Ext-DEFAULT</a>(<a>repositoryNames</a>(STR)
 								) to the corresponding repositories of the store, <a>content</a>(n,
-								A). The value <a>repositoryMap</a>(ST)(n) is called the
+								ADST). The value <a>repositoryMap</a>(ST)(n) is called the
 									<dfn>repository of the store</dfn> STR for name n. </li>
 							<li>Further, the repositories and versions of the store satisfy the
 								following consistency requirements.</li>
@@ -1639,8 +1640,8 @@
 							<p>STR = StoreTransformation<sub>k</sub>(STR, SI, RP, RV,
 									IDR<sub>NP</sub>, NM ) where k =<a>order</a>(STR), RP =
 									<a>names</a>(<a>associativePart</a>(STR)), SI =
-									<a>versionNames</a>(STR), RV = { n => RV<sub>n</sub> | n is in
-								RP and RV<sub>n</sub> = <a>versionNames</a>( <a>content</a>(n,
+									<a>versionNames</a>(STR), RV = { n => RV(n) | n is in RP and
+								RV(n) = <a>versionNames</a>( <a>content</a>(n,
 									<a>associativePart</a>(STR) ) }, NP = <a>namePairs</a>(STR), NM
 								= <a>versionNameMap</a>(STR).</p>
 						</aside>
@@ -1711,45 +1712,56 @@
 						<aside class="example" id="ex-window" title="Count-Based Window Operation">
 							<p> We define some auxiliary functions to assist with count-based window
 								operations. </p>
-							<p> Let <dfn data-lt="Comb">Comb<sub>p</sub></dfn>(A, a) select from a
-								totally-ordered set A containing element a the elements of A that
-								are offset, with respect to order, an integer multiple of p from
-								element a. That is, elements b such that there are <span
-									style="white-space: nowrap;">exactly k * (p) elements c with a
-									&lt; c &le; b or b &lt; c &le; a</span>. </p>
-							<p>Let <dfn data-lt="Interval">Interval<sub>n</sub></dfn>(A) be the
-								ordered set of all intervals of length n in A, with order by minimal
-								element, and Interval<sub>n</sub>(A, a) be the interval of length n
-								in A whose minimal element is a.</p>
-							<p>Let <dfn data-lt="Floor">Floor<sub>n</sub></dfn>(A, a) = { m' => m |
-								m' is in <a>Interval</a><sub>n</sub>(A, m) and m is in
-									<a>Comb</a><sub>n</sub>(A, a) }</p>
+							<p> Let <dfn data-lt="Comb">Comb<sub>p</sub></dfn>(SQ, E) select from a
+								sequence SQ containing element E the elements of SQ that are offset,
+								with respect to order, an integer multiple of p from element E. That
+								is, elements E'' such that there are <span
+									style="white-space: nowrap;">exactly k * (p) elements E' with E
+									&lt; E' &le; E'' or E'' &lt; E' &le; E</span>. </p>
+							<p>Let <dfn data-lt="Interval">Interval<sub>p</sub></dfn>(SQ) be the
+								ordered set of all intervals of length p in SQ, with order by
+								minimal element, and Interval<sub>p</sub>(SQ, E) be the interval of
+								length p in SQ whose minimal element is E.</p>
+							<p>Let <dfn data-lt="Floor">Floor<sub>p</sub></dfn>(SQ, E) = { F' => F |
+								F' is in <a>Interval</a><sub>p</sub>(SQ, F) and F is in
+									<a>Comb</a><sub>p</sub>(SQ, E) }</p>
 							<!--
 							<p>We define a basic operation <dfn>Window</dfn><sub>n, p</sub>(A, a) =
 									Comb<sub>p</sub>( Interval<sub>n</sub>(A),
 								Interval<sub>n</sub>(A, a) ) where n and p are positive integers,
 								and A is a totally-ordered set, and a is an element in A.</p>
 								-->
-							<p>We define WindowRel<sub>q, p</sub>(V, v0) = { [v, v'] | if v' is in
-									Comb<sub>p</sub>(V, v0) and v is in Interval<sub>q</sub>(V, v')
+							<p>The functions <a>Comb</a>, <a>Interval</a> can be used to define
+								window operators on sequences. For example, we define
+									WindowRel<sub>p, q</sub>(SQ, E) = { [F, F'] | if F' is in
+									Comb<sub>q</sub>(SQ, E) and F is in Interval<sub>p</sub>(SQ, F')
 								} </p>
-							<p>Let [[m, n], [m', n]] belong to WindowRel<sub>p, q</sub>(STR, N, v0)
-								if [m, n] is in NP, n is in N = dom v0, v' is in RV'<sub>n</sub> =
-									Comb<sub>q</sub>(RV<sub>n</sub>, v0<sub>n</sub>), v is in
-									Interval<sub>p</sub>(RV<sub>n</sub>, v') where v =
-									NM<sub>n</sub>(m), v' = NM<sub>n</sub>(m'). </p>
-							<p>Let <dfn>Window</dfn>(STR, n, p, q, rv0) =
-									<a>StoreTransformation</a><sub>k</sub>( STR, {n},
-									RV'<sub>n</sub>, {<a>DEFAULT</a>->{}, n=>RV'<sub>n</sub>},
-									{<a>DEFAULT</a>=>{}, n=> <i>IDM</i><sub>n</sub>},
-									WindowRel<sub>q, p</sub>(STR, {n}, {n => rv0})) where</p>
+							<p>A <a>store</a> is a more complex structure than a sequence, due to
+								the synchronization between repository and store version contents.
+								However, the <a>Comb</a> and <a>Interval</a> functions also form the
+								basis of a window operation on stores, as follows.</p>
+							<p>Consider a store STR and let k = <a>order</a>(STR), SI =
+									<a>versionNames</a>(STR), SI<sub>ext</sub>=
+								<a>Ext-ASSOC</a>(SI), RN =
+								<a>names</a>(<a>associativePart</a>(STR)), and RN<sub>ext</sub> =
+								Ext-DEFAULT(RP). Let NP = <a>namePairs</a>(STR), RV(n) =
+									<a>versionNames</a>(<a>content</a>(n, STR)), and NM =
+									<a>versionNameMap</a>(STR).</p>
+							<p>Let [[m, n], [m', n]] belong to WindowRel<sub>p, q</sub>(STR, N,
+									NM<sub>0</sub>) iff [m, n] is in NP, n is in N =
+									<a>dom</a>(NM<sub>0</sub>), v' is in RV'(n) =
+									<a>Comb</a><sub>q</sub>(RV(n), NM<sub>0</sub>(n)), v is in
+									<a>Interval</a><sub>p</sub>(RV(n), v') where v =
+								NM<sub>n</sub>(m), v' = NM<sub>n</sub>(m'). </p>
+							<p>Then we define the basic operation <dfn>Window</dfn>(STR, n, p, q,
+									v<sub>0</sub>) = <a>StoreTransformation</a><sub>k</sub>( STR,
+								{n}, RV'(n), {<a>DEFAULT</a>=>{}, n=>RV'(n)}, {<a>DEFAULT</a>=>{},
+								n=> <i>IDM</i><sub>n</sub>}, WindowRel<sub>p, q</sub>(STR, {n}, {n
+								=> v<sub>0</sub>})) where</p>
 							<ul>
-								<li>RV'<sub>n</sub> = Comb<sub>q</sub>(RV<sub>n</sub>,
-										v0<sub>n</sub>)</li>
-								<li>RV<sub>n</sub> = <a>versionNames</a>(<a>content</a>(n,
-									STR))</li>
-								<li><i>IDM</i><sub>n</sub> is the identity mapping on
-										RV'<sub>n</sub></li>
+								<li>RV'(n) = Comb<sub>q</sub>(RV(n), NM<sub>0</sub>(n))</li>
+								<li>RV(n) = <a>versionNames</a>(<a>content</a>(n, STR))</li>
+								<li><i>IDM</i><sub>n</sub> is the identity mapping on RV'(n)</li>
 							</ul>
 							<p class="ednote">If we use an expression rather than interval of fixed
 								size, we can work towards semantic windowing based on a query of the
