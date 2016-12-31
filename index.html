@@ -833,7 +833,7 @@
 						<p class="ednote">There is a need for a similar operator that does not
 							perform renaming, for those cases where the data being inserted is
 							consider to lie on the same <a>RDF Surface</a> as the structure it is
-							being inserted into. This need should be address in [[!SPARQL-Update]],
+							being inserted into. This need should be address in [[!SPARQL11-Update]],
 							rather than this document.</p>
 					</aside>
 					<p class="ednote">Add to table of structural inferences: rdfsq:isMemberOf,
@@ -2156,7 +2156,7 @@
 					<p>where {} is the empty solution mapping,</p>
 					<p>The function <dfn>Tree(</dfn>) needs to be defined as a generalization of
 							<a>Dataset(</a>). The reason that <a>OpInsertData</a> is not defined
-						directly as <a>Tree-UNION(AT, AT')</a> is because of the requirement that
+						directly as <a>Tree-UNION</a>(AT, AT') is because of the requirement that
 						blank nodes be renamed.</p>
 				</section>
 				<section id="def-existing-update-opcreate">
@@ -2208,7 +2208,7 @@
 								<a>nameMap</a>(AT) ) )</li>
 					</ul>
 					<p class="ednote">The semantics needs to rewritten to accommodate the revised
-						signature of <a>Associative-INIT</a>.</p>
+						signature of <a>Associative-NEW</a>.</p>
 				</section>
 				<section>
 					<h4>Other Update Operations</h4>
