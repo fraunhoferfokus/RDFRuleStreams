@@ -1183,8 +1183,11 @@
 						of order k-1 or less.</p>
 					<p class="note">The <a>Versioned-NEW</a> constructor ensures that the repository
 							<i>revisions</i> are non-vacuous.</p>
-					<p>We further define a basic operation <dfn>Append2Repository</dfn> as
-						follows.</p>
+					<p>In addition to constructing a repository in its entirety with
+								<a>Repository-NEW<sub>k</sub></a>, we define a basic operation
+							<dfn>Append2Repository</dfn> which creates a new repository by adding a
+						version to the input repository. <a>Append2Repository</a> does not change
+						the associative part of a repository.</p>
 					<p>The arguments of <a>Append2Repository</a><sub>k</sub>, k = 1, 2, ..., are</p>
 					<ol>
 						<li>The k-th order input repository, R, to be modified.</li>
@@ -1195,13 +1198,11 @@
 							the new repository version.</li>
 					</ol>
 					<p>The semantics are</p>
-					<p><a>Append2Repository</a><sub>k</sub>(R, name, AT) =
+					<p><a>Append2Repository</a><sub>k</sub>(R, n, AT) =
 								<a>Repository-NEW<sub>k</sub></a>(VI', ATM') where</p>
-					<p>VI = <a>versionNames</a>(R) and VI' = <a>Cons</a>(name, VI),</p>
-					<p>ATM = <a>versionMap</a>(R) and ATM' = ATM &cup; {name => AT}</p>
-					<p>assuming name &notin; <a>versionNames</a>(R).</p>
-					<p class="ednote">Need to define <a>Cons</a> for terminated totally-ordered
-						sets.</p>
+					<p>VI = <a>versionNames</a>(R) and VI' = <a>Cons</a>(n, VI),</p>
+					<p>ATM = <a>versionMap</a>(R) and ATM' = ATM &cup; {n => AT}</p>
+					<p>assuming n &notin; <a>versionNames</a>(R).</p>
 					<p class="ednote">To be clarified in the section on the extension of Eval to
 						repositories: there is an entailment regime, called e.g. "provenance
 						entailment regime", that has additional entailments beyond those of the
